@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/static/css/quotation/quotation.css">
+
+{% endblock head %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="card mt-3">
+        <div class="card-header" style="text-align: center;">
+            <b>Quotation Table</b>
+        </div>
+
+        <form action="" method="POST">
+            {% csrf_token %}
+        <div class="card-body">
+            <div style="display: flex; width: 100%;">
+                <div style="flex-basis: 60%;margin-bottom: 2%;">
+                    <a href="{% url 'CreateNew' %}"><button type="button" class="btn btn-secondary">Create New Quotation</button></a>
+                    <button type="button" class="btn btn-secondary">Edit/Detail</button>
+                    <button type="submit" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
+                    <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create PDF</button></a>
+                </div>
+
+                <!-- <div style="display: flex; flex-basis: 40%; justify-content: right;">
+                  <div id="custom-search-input">
+                      <div class="input-group col-md-3">
+                          <input class="form-control input-lg"/>
+                          <span class="input-group-btn">
+                              <button class="btn btn-info btn-lg" type="button" style="border: none;">
+                                  <i data-feather="search" style="color: white;"></i>
+                              </button>
+                          </span>
+                      </div>
+                  </div>
+                </div> -->
+            </div>
+            
+            <table id="myTable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>No.</th>
+                    <th>Customer</th>
+                    <th>Parts</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Created By</th>
+                    <th>Expired Date</th>
+                    <th>Log</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input class="form-check-input" id="SelectedQuotation" type="radio" name="quotation-1" id="quotation-1"></td>
+                    <td>30</td>
+                    <td>PT. MIKUNI INDONESIA</td>
+                    <td>Frame</td>
+                    <td>50</td>
+                    <td>1000</td>
+                    <td>50000</td>
+                    <td>Clara Tanudy
+                        18-10-2022</td>
+                    <td>01-11-2022</td>
+                    <td>Last modified by Mathew Judianto.
+                        19-10-2022 at 04:46 P.M.</td>
+                    <td><button type="#" class="btn btn-outline-success">Accepted</button></td>
+                </tr>
+            </tbody>
+            </table>
+
+            <input type="hidden" name="QuotationId" id="QuotationId">
+        </div>
+        </form>
+
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block scripts %}
+
+<script>
+    feather.replace()
+</script>
+
+<script>
+  $(document).ready(function () {
+    var table = $('#myTable').DataTable({});
+
+    $('#myTable tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        } else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+
+    $('#DeleteQuotation').click(function () {
+        $('#QuotationId').val(table.row('.selected').data()[1]);
+        // table.row('.selected').remove().draw(false);
+    });
+
+    var data = table.rows().data();
+    let quotationlengh = parseInt(data.length);
+
+    for (let i=0 ; i<quotationlengh ; i++){
+        price = data[i][5];
+        price = currency(price);
+
+        total = parseInt(data[i][6]);
+        total = currency(total);
+
+        data[i][5] = price;
+        data[i][6] = total;
+    }
+
+    $('#myTable').dataTable().fnClearTable();   
+    for (let i=0 ; i<quotationlengh ; i++){
+        $('#myTable').dataTable().fnAddData(data[i]);
+    }
+  });
+</script>
+
+<script>
+    function currency(val){
+        const formatter = new Intl.NumberFormat('id', {style: 'currency', currency: 'idr'});
+        val = formatter.format(val);
+        return val;
+    }
+</script>
+
+{% endblock scripts %}

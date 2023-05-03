@@ -1,0 +1,319 @@
+input{
+    height: 17px;
+    text-align: center;
+}
+
+.card-body{
+    padding: 10px;
+}
+
+body{
+    font-size: 15px;
+}
+
+a{
+    color: black;
+}
+
+input {
+    text-align: center !important;
+}
+
+/* style input setelah hr */
+.inputMd{
+    width: 100px;
+}
+
+/* style input percentase */
+.inputPercentage{
+    width: 45px !important;
+}
+
+.inputSearch{
+    height: 30px !important;
+    margin-right: 1%;
+}
+/* css input table yang ada operation budgetnya */
+.inputS{
+    width: 4vw !important;
+}
+
+.operationInputMd{
+    width: 5.5vw !important;
+}
+
+
+
+
+
+input[type="radio"]{
+    margin-top: -1px;
+    vertical-align: middle;
+}
+
+.row{
+    text-align: center;
+    align-items: center;
+}
+
+.btnsearch{
+    height: 30px !important;
+    display: inline-flex;
+    align-items: center;
+    float: right;
+}
+
+.modal-body{
+    text-align: center !important;
+}
+
+.trash{
+    width: 22px;
+    height: 22px;
+    background-color: transparent;
+    border: none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.btncreate{
+    display: flex;
+    flex-basis: 40%;
+    justify-content: right;
+    margin-top: 3%;
+    margin-bottom: 4%;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.alink{
+    color: black !important;
+}
+
+/* css input modal - modal quotation material */
+.inputt{
+    width: 100px !important;
+}
+
+.inputt1{
+    width: 120px !important;
+}
+
+.imgcalcu{
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.btnsearch2{
+    height: 30px !important;
+    display: inline-flex;
+    align-items: center;
+    float: right;
+    margin-left: 2%;
+}
+
+/* css modal - quotation option *//* untuk button modal */
+.btnsearch1{
+    height: 30px !important;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    margin: 0% 10%;
+    width: 80px;
+    justify-content: center;
+}
+
+/* css modal - board */
+/* kolom input modal board 3 teratas */
+.inputtt{
+    width: 90%;
+}
+
+/* kolom input modal board 3 teratas */
+.inputtt1{
+    width: 60%;
+}
+
+.inputtt2{
+    width: 85%;
+}
+
+.inputtt3{
+    width: 100%; 
+}
+
+.cardmodal{
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.jarak{
+    margin-top: 2%;
+    margin-bottom: 1%;
+}
+
+
+/* Number of preview */
+.inputtt4{
+    width: 80%;
+}
+
+.txtimg{
+    position: relative;
+}
+
+.noInput{
+    background-color: transparent;
+    border: none;
+}
+/* .PreviewContainer{
+    margin-top: 7%;
+}
+
+/* style preview board */
+.angka{
+    position: absolute;
+    left: 160px;
+    top: 107px;
+}
+
+.angka1{
+    position: absolute;
+    left: 160px;
+    top: 187px;
+}
+
+.angka2{
+    position: absolute;
+    left: 70px;
+    top: 150px;
+}
+
+.angka3{
+    position: absolute;
+    left: 246px;
+    top: 150px;
+}
+
+.angka4{
+    position: absolute;
+    left: 259px;
+    top: 210px;
+}
+
+.angka5{
+    position: absolute;
+    left: 70px;
+    top: 70px;
+}
+
+.angka6{
+    position: absolute;
+    left: 250px;
+    top: 155px;
+}
+
+/* style preview bar */
+.space{
+    margin-bottom: 15px;
+}
+
+.imgwidth{
+    max-width: 550px;
+    max-height: 70px;
+    /* box-shadow: 2px 2px 5px #ccc;
+    -moz-box-shadow: 2px 2px 5px #ccc;
+    -webkit-box-shadow: 2px 2px 5px #ccc;
+    -khtml-box-shadow: 2px 2px 5px #ccc; */
+}
+
+.imgwidth1{
+    max-width: 550px;
+    max-height: 70px;
+    margin-top: -48px;
+}
+
+.judul{
+    position: absolute;
+    left: 40px;
+    top: -25px;
+}
+
+.judul1{
+    position: absolute;
+    left: 113px;
+    top: -25px;
+}
+
+.judul2{
+    position: absolute;
+    left: 450px;
+    top: -25px;
+}
+
+.angkaa{
+    position: absolute;
+    left: 40px;
+    top: 75px;
+}
+
+.angkaa1{
+    position: absolute;
+    left: 113px;
+    top: 75px;
+}
+
+.angkaa2{
+    position: absolute;
+    left: 450px;
+    top: 75px;
+}
+ 
+.horizontalline{
+    margin: 2em 0 0 0;
+}
+
+.angkaa3{
+    position: absolute;
+    left: 180px !important;
+    top: -65px;
+}
+
+.angkaa4{
+    position: absolute;
+    left: 325px !important;
+    top: -65px;
+}
+
+.angkaa5{
+    position: absolute;
+    left: 325px !important;
+    /* top: 5px; */
+}
+
+div#BarFromScalePreviewPartScale {
+    position: absolute;
+    left: 180px;
+}
+
+/* calculation number of & scale input style */
+.kolominput{
+    width: 87%;
+}
+
+.kolominput1{
+    width: 65%;
+}
+
+.jarak1{
+    margin-top: 1%;
+}
+
+.jarak2{
+    margin-top: 3%;
+}
+
+

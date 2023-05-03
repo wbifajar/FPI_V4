@@ -1,0 +1,563 @@
+function updateProcessLength(index) {
+  $("#processLength").val(index);
+}
+
+function deleteProcess(rowindex) {
+  // console.log(index);
+  var table = document
+    .getElementById("processTable")
+    .getElementsByTagName("tbody")[0];
+  table.deleteRow(rowindex - 1);
+
+  // remove item from array and fixing the index
+  processList.splice(rowindex - 1, 4);
+  index -= 1;
+  for (var i = 0; i < index; i++) {
+    table.rows[i].cells[0].innerHTML = `<th scope="row">${i + 1}</th>`;
+    table.rows[
+      i
+    ].cells[11].innerHTML = `<td><button type="button" onclick="deleteProcess(${
+      i + 1
+    })" class="trash"><i id="trash-icon"></i></button></td>`;
+    callFeatherIcon();
+  }
+
+  updateProcessLength(index);
+  totalOperations();
+  
+}
+
+function callFeatherIcon() {
+  const trashicon = $("#trash-icon");
+  trashicon.replaceWith(feather.icons["trash-2"].toSvg());
+}
+
+function getProcessData(index) {
+  var data = {
+    opeSum: isNaN(parseInt(document.getElementById(`opeSum-${index}`).value))
+      ? 0
+      : parseInt(document.getElementById(`opeSum-${index}`).value),
+    operationPerOperationBudgetRatio: isNaN(
+      parseFloat(
+        document.getElementById(`operationPerOperationBudgetRatio-${index}`)
+          .value
+      )
+    )
+      ? 0
+      : parseFloat(
+          document.getElementById(`operationPerOperationBudgetRatio-${index}`)
+            .value
+        ),
+    operationPerBudgetRatio: isNaN(
+      parseFloat(
+        document.getElementById(`operationPerBudgetRatio-${index}`).value
+      )
+    )
+      ? 0
+      : parseFloat(
+          document.getElementById(`operationPerBudgetRatio-${index}`).value
+        ),
+    setTime:
+      document.getElementById(`setTime-${index}`).value == ""
+        ? "00:00:00"
+        : document.getElementById(`setTime-${index}`).value,
+    opeTime:
+      document.getElementById(`opeTime-${index}`).value == ""
+        ? "00:00:00"
+        : document.getElementById(`opeTime-${index}`).value,
+    totalOpeTime: document.getElementById(`totalOpeTime-${index}`).value
+      ? "00:00:00"
+      : document.getElementById(`totalOpeTime-${index}`).value,
+    quantityPerMinute: isNaN(
+      parseFloat(document.getElementById(`quantityPerMinute-${index}`).value)
+    )
+      ? 0
+      : parseFloat(document.getElementById(`quantityPerMinute-${index}`).value),
+  };
+
+  return data;
+}
+
+function setProcessData(
+  index,
+  opeSum,
+  operationPerOperationBudgetRatio,
+  operationPerBudgetRatio,
+  setTime,
+  opeTime,
+  totalOpeTime,
+  quantityPerMinute
+) {
+  $(`#opeSum-${index}`).val(opeSum);
+  $(`#operationPerOperationBudgetRatio-${index}`).val(
+    operationPerOperationBudgetRatio
+  );
+  $(`#operationPerBudgetRatio-${index}`).val(operationPerBudgetRatio);
+  $(`#setTime-${index}`).val(setTime);
+  $(`#opeTime-${index}`).val(opeTime);
+  $(`#totalOpeTime-${index}`).val(totalOpeTime);
+  $(`#quantityPerMinute-${index}`).val(quantityPerMinute);
+}
+
+function calculateOperationPerOperationBudgetRatio(opeSum, operationBudget) {
+  var result = (opeSum / operationBudget) * 100;
+  var resultFixed = result.toFixed(2);
+  return resultFixed;
+}
+
+function calculateOpePerBudgetRatio(opeSum, budgetPerUnit) {
+  var result = (opeSum / budgetPerUnit) * 100;
+  var resultFixed = result.toFixed(2);
+  return resultFixed;
+}
+
+function calculateOpeTime(opeSum, procCost) {
+  var result = (opeSum / parseFloat(procCost)) * 60;
+  // setTime = setTime.split(':');
+  // setTime = (+setTime[0]) * 60 * 60 + (+setTime[1]) * 60 + (+setTime[2]);  //convert date time to second
+  // if(setTime != '' && setTime != 0 && setTime != '00:00:00'){
+  //     var result = (opeSum - ((setTime * setCost)/60)*60)/procCost;
+  // } else {
+  //     var result = opeSum / parseFloat(procCost) * 60;
+  //     // if((setTime*setCost)/60 > opeSum ){
+  //     // }
+  // }
+  // console.log("RESULT IN CALCULATE OPE TIME = ", result);
+  var resultFixed = new Date(result * 1000).toISOString().slice(11, 19);
+  return resultFixed;
+}
+
+function convertDateTimeToSeconds(date){
+  var t = date.split(":")
+  var sec = t[0] * 60 * 60 + t[1] * 60 + parseInt(t[2])
+  // console.log(date, "||",  sec);
+  return sec;
+}
+
+function convertSecondsToDateTime(sec){
+  var res = new Date(sec * 1000).toISOString().slice(11, 19);
+  return res;
+}
+
+function calculateTotalOpeTime(opeTime, quantity) {
+  opeTime = opeTime.split(":");
+  opeTime = +opeTime[0] * 60 * 60 + +opeTime[1] * 60 + +opeTime[2]; //convert date time to second
+  var result = opeTime * quantity;
+  var resultFixed = new Date(result * 1000).toISOString().slice(11, 19); //convert second to datetime
+  // console.log('calculate total ope time return : ', resultFixed);
+  
+  return resultFixed;
+}
+
+function calculateQuantityPerMinute(opeTime) {
+  opeTime = opeTime.split(":");
+  opeTime = +opeTime[0] * 60 * 60 + +opeTime[1] * 60 + +opeTime[2]; //convert date time to second
+  if(opeTime == 0){
+    return 0
+  }
+  var result = 60 / opeTime;
+  return result.toFixed(2);
+}
+
+function calculateBySetTime(index) {
+  var processData = getProcessData(index);
+  var data = getData();
+  var process = processList[index - 1];
+
+  
+
+  if (processData.opeSum == "" && processData.opeSum == 0) {
+    console.log('calculatebysettime first condition');
+    var setTimeSec = convertDateTimeToSeconds(processData.setTime)
+    var opeSum = (setTimeSec * process.SettingCost) / 60;
+    $(`#opeSum-${index}`).val(opeSum);
+    var operationPerOperationBudgetRatio =
+      calculateOperationPerOperationBudgetRatio(
+        processData.opeSum,
+        data.operationBudget
+      );
+    var operationPerBudgetRatio = calculateOpePerBudgetRatio(
+      processData.opeSum,
+      data.budgetPerUnit
+    );
+    var opeTime = "00:00:00";
+    var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
+    var quantityPerMinute = calculateQuantityPerMinute(opeTime);
+
+    setProcessData(
+      index,
+      opeSum,
+      operationPerOperationBudgetRatio,
+      operationPerBudgetRatio,
+      processData.setTime,
+      opeTime,
+      totalOpeTime,
+      quantityPerMinute
+    );
+  } else if (processData.opeSum != 0) {
+    console.log('calculatebysettime sec condition');
+    var opeSum = 0;
+
+    var setTimeSec = convertDateTimeToSeconds(processData.setTime)
+    opeSum += (setTimeSec * process.SettingCost) / 60;
+
+    var opeTimeSec = convertDateTimeToSeconds(processData.opeTime)
+    opeSum += ( opeTimeSec * process.ProcessCost) / 60;
+    // console.log(opeSum);
+    $(`#opeSum-${index}`).val(opeSum);
+
+    var operationPerOperationBudgetRatio =
+      calculateOperationPerOperationBudgetRatio(
+        opeSum,
+        data.operationBudget
+      );
+    var operationPerBudgetRatio = calculateOpePerBudgetRatio(
+      opeSum,
+      data.budgetPerUnit
+    );
+    var opeTime = processData.opeTime
+    var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
+    var quantityPerMinute = calculateQuantityPerMinute(opeTime);
+
+    setProcessData(
+      index,
+      opeSum,
+      operationPerOperationBudgetRatio,
+      operationPerBudgetRatio,
+      processData.setTime,
+      opeTime,
+      totalOpeTime,
+      quantityPerMinute
+    );
+
+  }
+
+  totalOperations();
+}
+
+function savePrevValue() {
+  // console.log("Saving value " + $("#opeSum-1").val());
+  $("#opeSum-1").data("val", $("#opeSum-1").val());
+}
+
+function getTotalOpeSumFromSetTimeAndOpeTime(index) {
+  var processData = getProcessData(index);
+  var data = getData();
+  var process = processList[index - 1];
+
+  var opeSum = 0;
+  processData.setTime = processData.setTime.split(":");
+  processData.setTime =
+    +processData.setTime[0] * 60 * 60 +
+    +processData.setTime[1] * 60 +
+    +processData.setTime[2];
+  opeSum += (processData.setTime * process.SettingCost) / 60;
+
+  processData.opeTime = processData.opeTime.split(":");
+  processData.opeTime =
+    +processData.opeTime[0] * 60 * 60 +
+    +processData.opeTime[1] * 60 +
+    +processData.opeTime[2];
+  opeSum += (processData.opeTime * process.ProcessCost) / 60;
+  return opeSum;
+}
+
+function calculateByOpeSum(index) {
+  var processData = getProcessData(index);
+  var data = getData();
+  var process = processList[index - 1];
+
+  var prev = $("#opeSum-" + index).data("val");
+  var curr = $("#opeSum-" + index).val();
+  // console.log( 'prev = ', $('#opeSum-1').data('val') );
+
+  if (processData.setTime != "" && processData.setTime != "00:00:00") {
+    if (curr > prev) {
+      var operationPerOperationBudgetRatio =
+        calculateOperationPerOperationBudgetRatio(
+          curr,
+          data.operationBudget
+        );
+      var operationPerBudgetRatio = calculateOpePerBudgetRatio(
+        processData.opeSum,
+        data.budgetPerUnit
+      );
+      var opeTime = calculateOpeTime(
+        processData.opeSum - prev,
+        process.ProcessCost
+      );
+      var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
+      var quantityPerMinute = calculateQuantityPerMinute(opeTime);
+      // console.log("run", prev - processData.opeSum);
+      console.log("run 1.1");
+    } else if (curr <= prev) {
+      var opeSum =
+        processData.opeSum - (processData.setTime * process.setCost) / 60;
+      var operationPerOperationBudgetRatio =
+        calculateOperationPerOperationBudgetRatio(
+          curr,
+          data.operationBudget
+        );
+      var operationPerBudgetRatio = calculateOpePerBudgetRatio(
+        processData.opeSum,
+        data.budgetPerUnit
+      );
+
+      var f = getTotalOpeSumFromSetTimeAndOpeTime(index);
+      // console.log("rest money = ", f);
+      if (curr - f > 0) {
+        var opeTime = calculateOpeTime(curr - f, process.ProcessCost);
+        var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
+        var quantityPerMinute = calculateQuantityPerMinute(opeTime);
+      } else {
+        var secSetTime = (curr * 60) / process.SettingCost;
+        
+        var setTimeNew = convertSecondsToDateTime(secSetTime);
+        // console.log(secSetTime, hours, mins, sec);
+        var opeTime = "00:00:00";
+        var totalOpeTime = calculateTotalOpeTime("00:00:00", data.quantity);
+        var quantityPerMinute = 0;
+
+        setProcessData(
+          index,
+          processData.opeSum,
+          operationPerOperationBudgetRatio,
+          operationPerBudgetRatio,
+          setTimeNew,
+          opeTime,
+          totalOpeTime,
+          quantityPerMinute
+        );
+        return;
+      }
+
+      console.log("run 1.2");
+    } else if (processData.opeTime == "" || processData.opeTime == "00:00:00") {
+      var operationPerOperationBudgetRatio =
+        calculateOperationPerOperationBudgetRatio(
+          curr,
+          data.operationBudget
+        );
+      var operationPerBudgetRatio = calculateOpePerBudgetRatio(
+        processData.opeSum,
+        data.budgetPerUnit
+      );
+      var opeTime = "00:00:00";
+      var totalOpeTime = "00:00:00";
+      var quantityPerMinute = 0;
+      // console.log("run 1.3");
+    } else {
+      var opeSum =
+        processData.opeSum - (processData.setTime * process.setCost) / 60;
+      var operationPerOperationBudgetRatio =
+        calculateOperationPerOperationBudgetRatio(
+          curr,
+          data.operationBudget
+        );
+      var operationPerBudgetRatio = calculateOpePerBudgetRatio(
+        processData.opeSum,
+        data.budgetPerUnit
+      );
+      var opeTime = calculateOpeTime(opeSum, process.ProcessCost);
+      var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
+      var quantityPerMinute = calculateQuantityPerMinute(opeTime);
+
+      // ope sum - calculate ope sum by settime
+      // lalu hasilnya baru dipake buat ngitung opetime
+      // ambil data opesum sekarang yang sudah diubah oleh settime += calculate opesum by ope time
+    }
+    // console.log('OnChange1 :: oldValue: ' + document.getElementById('opeSum-1').oldValue + ', newValue: ' + index.newValue);
+
+    // console.log("flag 1 = ", processData.setTime);
+  } else {
+    var operationPerOperationBudgetRatio =
+      calculateOperationPerOperationBudgetRatio(
+        curr,
+        data.operationBudget
+      );
+    var operationPerBudgetRatio = calculateOpePerBudgetRatio(
+      processData.opeSum,
+      data.budgetPerUnit
+    );
+    var opeTime = calculateOpeTime(processData.opeSum, process.ProcessCost);
+    var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
+    var quantityPerMinute = calculateQuantityPerMinute(opeTime);
+  }
+  setProcessData(
+    index,
+    processData.opeSum,
+    operationPerOperationBudgetRatio,
+    operationPerBudgetRatio,
+    processData.setTime,
+    opeTime,
+    totalOpeTime,
+    quantityPerMinute
+  );
+  totalOperations();
+  restOperations();
+//  console.log("IN SECOND = ", convertDateTimeToSeconds("12:32:11"));
+}
+
+$("#opeSum-1").change(function () {
+  var prev = $(this).data("val");
+  var current = $(this).val();
+  // console.log("Prev value " + prev);
+  // console.log("New value " + current);
+});
+
+function calculateByOperationPerOperationBudgetRatio(index) {
+  var processData = getProcessData(index);
+  var data = getData();
+
+  var opeSum = Math.round(
+    (processData.operationPerOperationBudgetRatio * data.operationBudget) / 100
+  );
+  $(`#opeSum-${index}`).val(opeSum);
+
+  calculateByOpeSum(index);
+}
+
+function calculateByOperationPerBudgetRatio(index) {
+  var processData = getProcessData(index);
+  var data = getData();
+
+  var opeSum = Math.round(
+    (processData.operationPerBudgetRatio * data.budgetPerUnit) / 100
+  );
+  $(`#opeSum-${index}`).val(opeSum);
+
+  calculateByOpeSum(index);
+}
+
+function calculateByOpeTime(index) {
+  var processData = getProcessData(index);
+  var data = getData();
+
+  // var opeSum = data.opeTime
+  // var opeSum = Math.round(processData.operationPerBudgetRatio * data.budgetPerUnit / 100);
+  // $(`#opeSum-${index}`).val(opeSum);
+  var opeSum = getTotalOpeSumFromSetTimeAndOpeTime(index);
+  // console.log(opeSum);
+  var operationPerOperationBudgetRatio =
+    calculateOperationPerOperationBudgetRatio(opeSum, data.operationBudget);
+  var operationPerBudgetRatio = calculateOpePerBudgetRatio(
+    opeSum,
+    data.budgetPerUnit
+  );
+  var opeTime = processData.opeTime;
+  var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
+  var quantityPerMinute = calculateQuantityPerMinute(opeTime);
+
+  setProcessData(
+    index,
+    opeSum,
+    operationPerOperationBudgetRatio,
+    operationPerBudgetRatio,
+    processData.setTime,
+    opeTime,
+    totalOpeTime,
+    quantityPerMinute
+  );
+  totalOperations();
+  // calculateByOpeSum(index);
+  
+}
+
+function calculateByQuantityPerMin(index){
+  var processData = getProcessData(index);
+  var data = getData();
+
+  
+  var opeTimeSec = 60/processData.quantityPerMinute;
+  var opeTime = new Date(opeTimeSec * 1000).toISOString().slice(11, 19);
+  // console.log( 'quantoty = ', data.quantity);
+  var totalOpeTime = new Date(opeTimeSec * 1000 * data.quantity).toISOString().slice(11, 19);
+  $(`#opeTime-${index}`).val(opeTime);
+  var opeSum = getTotalOpeSumFromSetTimeAndOpeTime(index);
+  var operationPerOperationBudgetRatio = calculateOperationPerOperationBudgetRatio(opeSum, data.operationBudget);
+  var operationPerBudgetRatio = calculateOpePerBudgetRatio(
+    opeSum,
+    data.budgetPerUnit
+    );
+    
+    setProcessData(
+      index,
+      opeSum,
+      operationPerOperationBudgetRatio,
+      operationPerBudgetRatio,
+      processData.setTime,
+      opeTime,
+      totalOpeTime,
+      processData.quantityPerMinute
+    );
+      
+    // console.log('CALCULATE BY QUAN/min', 'OPESUM = ', opeSum);
+}
+
+function totalOperations(){
+
+  var totalOpeSum = 0
+  var totalOpePerOpeBudgetRatio = 0
+  var totalOpePerBudgetRatio = 0
+  var totalSetTime = 0
+  var totalOpeTime  = 0
+  var totalTotalOpeTime = 0
+  var processList = $('#processTable tr');
+  var processLength = processList.length - 2;
+
+  console.log('Proces List = ', processList);
+  console.log(processList.length);
+
+  for (let index = 1; index < processLength; index++) {
+    var elel = $(processList[index]).children() 
+    console.log( elel );
+    // console.log( $(elel[5]).children().val().split('%') );
+    totalOpeSum += parseInt($(elel[4]).children().val())
+    totalOpePerOpeBudgetRatio += parseFloat(  $(elel[5]).children().val().split('%')[0] )
+    totalOpePerBudgetRatio += parseFloat(  $(elel[6]).children().val().split('%')[0] )
+    totalSetTime += parseInt(convertDateTimeToSeconds($(elel[7]).children().val()))
+   
+    console.log ('TOTAL ope = ', totalOpePerOpeBudgetRatio);
+    
+    totalOpeTime += parseInt(convertDateTimeToSeconds($(elel[8]).children().val()))
+    console.log ('TOTAL ope time = ', totalOpeTime);
+    console.log ('TOTAL ope time = ', convertSecondsToDateTime(totalOpeTime));
+    // totalSetTime = new Date(totalSetTime * 1000).toISOString().slice(11, 19);
+
+    totalTotalOpeTime += parseInt(convertDateTimeToSeconds($(elel[9]).children().val()))
+  }
+  
+  
+  $('#totalOpeSum').text(totalOpeSum);
+  $('#totalOpePerOpe').text(totalOpePerOpeBudgetRatio.toFixed(2) + ' %' )
+  $('#totalOpePerBudget').text(totalOpePerBudgetRatio.toFixed(2) + ' %')
+  $('#totalSetTime').text( convertSecondsToDateTime(totalSetTime) );
+  $('#totalOpeTime').text( convertSecondsToDateTime(totalOpeTime) );
+  $('#totalTotalOpeTime').text( convertSecondsToDateTime(totalTotalOpeTime) );
+  restOperations();
+  
+}
+
+function restOperations(){  
+  var totalBudget = $('#totalBudget').val().replaceAll(',', '')
+  var costExcludeOperation = $('#costExcludeOperation').val().replaceAll(',', '')
+  console.log( "costExcludeOperation = ", costExcludeOperation);
+  var costAvailable = parseFloat(totalBudget) - parseFloat(costExcludeOperation)
+  console.log('REST = ', costAvailable);
+  $('#restOpeSum').text(costAvailable);
+
+  var totalOpeSum = $('#totalOpeSum').text()
+  console.log(totalOpeSum);
+  costAvailable = costAvailable - totalOpeSum
+  $('#restOpeSum').text( zeroSeparator(costAvailable));
+
+  var totalOpePerOpe = $('#totalOpePerOpe').text();
+  var restOpePerOpe = 100 - parseFloat(totalOpePerOpe);
+  restOpePerOpe = restOpePerOpe.toFixed(2) + '%';
+  $('#restOpePerOpe').text(restOpePerOpe )
+
+  var totalOpePerBudget = $('#totalOpePerBudget').text();
+  var restOpePerBudget = 100 - parseFloat(totalOpePerBudget);
+  restOpePerBudget = restOpePerBudget.toFixed(2) + '%';
+  $('#restOpePerBudget').text(restOpePerBudget )
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  

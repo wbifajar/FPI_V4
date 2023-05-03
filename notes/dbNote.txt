@@ -1,0 +1,35 @@
+# link figma
+https://www.figma.com/file/olaJQeKZ2SOyZDwTW5WNEM/FPI-System?node-id=0%3A1  # ver 3.0
+
+https://www.figma.com/file/0dvB4Jkxdyf9cINjrMIWnj/Untitled?node-id=0%3A1  # ver 4.0
+
+
+# call function connect
+from quotation.db.databaseConnect import *
+
+connection = connect()
+cursor = connection.cursor(dictionary=True)
+
+# reset auto increment
+ALTER TABLE customer AUTO_INCREMENT = 1;
+ALTER TABLE staff AUTO_INCREMENT = 1;
+ALTER TABLE part AUTO_INCREMENT = 1;
+ALTER TABLE process AUTO_INCREMENT = 1;
+
+# seed data
+insertToTable('staff', '"Mathew Judianto"', connection, cursor)
+insertToTable('staff', '"Clara Tanudy"', connection, cursor)
+insertToTable('staff', '"Bertrand Ferrarri"', connection, cursor)
+
+insertToTable('customer', '"PT. Mikuni Indonesia", "Grogol", "Budi"', connection, cursor)
+insertToTable('customer', '"PT. Miura Indonesia", "Sudirman", "Anton"', connection, cursor)
+insertToTable('customer', '"PT. Muramoto Elektronika Indonesia", "Serpong", "Susi"', connection, cursor)
+for i in range(5):
+  company = "Company" + str(i+1)
+  insertToTable('customer', f'"{company}", "Jakarta", "Mr{i+1}"', connection, cursor)
+
+tableSeed('data.csv', 'part', connection, cursor)
+
+insertToTable('process', '"Programming", 15000, 3000', connection, cursor)
+insertToTable('process', '"Welding", 2500,  2500', connection, cursor)
+insertToTable('process', '"Bending", 3000, 2500', connection, cursor)

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/static/css/base/login.css">
+
+{% endblock head %}
+
+{% block content %}
+
+<div class="container">
+    {% if user.is_authenticated %}
+    <h3> Welcome, {{ user.username }}!</h3>
+    <!-- <div style="line-break: auto;">
+        <button type="button" class="btn btn-secondary btnsearch"><img class="imgunpin" src="{% static 'images/unpin.png' %}">UNPIN</button>    
+    </div> -->
+        
+    <div class="row text-center">
+        <div class="col">
+            <button class="btn btnsearch"><img class="imgunpin" src="{% static 'images/unpin.png' %}"></button>
+            <label for="vehicle1">Quotation</label><br>
+        </div>
+        <div class="col">
+            <button class="btn btnsearch"><img class="imgunpin" src="{% static 'images/unpin.png' %}"></button>
+            <label for="vehicle1">Quotation</label><br>
+        </div>
+        <div class="col">
+            <button class="btn btnsearch"><img class="imgunpin" src="{% static 'images/unpin.png' %}"></button>
+            <label for="vehicle1">Quotation</label><br>
+        </div>
+        <div class="col">
+            <button class="btn btnsearch"><img class="imgunpin" src="{% static 'images/unpin.png' %}"></button>
+            <label for="vehicle1">Quotation</label><br>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
+
+{% block scripts %}
+<script>
+
+</script>
+
+{% endblock scripts %}

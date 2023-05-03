@@ -1,0 +1,144 @@
+CREATE TABLE `staff` (
+  `idStaff` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idStaff`),
+  UNIQUE KEY `idStaff_UNIQUE` (`idStaff`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `customer` (
+  `idCustomer` int NOT NULL AUTO_INCREMENT,
+  `companyName` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `attn` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idCustomer`),
+  UNIQUE KEY `idCustomers_UNIQUE` (`idCustomer`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `material` (
+  `idMaterial` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `spesificGravity` float DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  PRIMARY KEY (`idMaterial`),
+  UNIQUE KEY `idPart_UNIQUE` (`idMaterial`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `process` (
+  `idProcess` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `setCost` int DEFAULT NULL,
+  `procCost` int DEFAULT NULL,
+  PRIMARY KEY (`idProcess`),
+  UNIQUE KEY `idProcess_UNIQUE` (`idProcess`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `quotation` (
+  `idQuotation` int NOT NULL AUTO_INCREMENT,
+  `quoteQty` int DEFAULT NULL,
+  `quotePrice` int DEFAULT NULL,
+  `quoteTot` int DEFAULT NULL,
+  `totMgmtCost` float DEFAULT NULL,
+  `mgmtFeesRate` float DEFAULT NULL,
+  `mgmtCo` float DEFAULT NULL,
+  `mgmtCoP` float DEFAULT NULL,
+  `mtrlCo` float DEFAULT NULL,
+  `mtrlCoRate` float DEFAULT NULL,
+  `mtrlCoSubmit` float DEFAULT NULL,
+  `outCo` float DEFAULT NULL,
+  `outCoRate` float DEFAULT NULL,
+  `outCoSubmit` float DEFAULT NULL,
+  `totalExcludeOpeSum` float DEFAULT NULL,
+  `pranCostWork` float DEFAULT NULL,
+  `totalOpeSum` float DEFAULT NULL,
+  `totalOpeSumP` float DEFAULT NULL,
+  `totStockCost` float DEFAULT NULL,
+  `mgmtCost` float DEFAULT NULL,
+  `stockCost` float DEFAULT NULL,
+  `update` datetime DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `finalPrice` int DEFAULT NULL,
+  `idCustomer` int NOT NULL,
+  `idStaff` int NOT NULL,
+  `idMaterial` int NOT NULL,
+  PRIMARY KEY (`idQuotation`),
+  UNIQUE KEY `idQuotation_UNIQUE` (`idQuotation`),
+  KEY `quotationCustomers_idx` (`idCustomer`),
+  KEY `quotationStaff_idx` (`idStaff`),
+  KEY `quotationPart_idx` (`idMaterial`),
+  CONSTRAINT `quotationCustomers` FOREIGN KEY (`idCustomer`) REFERENCES `customer` (`idCustomer`),
+  CONSTRAINT `quotationPart` FOREIGN KEY (`idMaterial`) REFERENCES `material` (`idMaterial`),
+  CONSTRAINT `quotationStaff` FOREIGN KEY (`idStaff`) REFERENCES `staff` (`idStaff`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `othercontainer` (
+  `idOtherContainer` int NOT NULL AUTO_INCREMENT,
+  `idQuotation` int NOT NULL,
+  PRIMARY KEY (`idOtherContainer`),
+  UNIQUE KEY `idOtherContainer_UNIQUE` (`idOtherContainer`),
+  KEY `otherContainerQuotation_idx` (`idQuotation`),
+  CONSTRAINT `otherContainerQuotation` FOREIGN KEY (`idQuotation`) REFERENCES `quotation` (`idQuotation`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `otherdetail` (
+  `idOtherDetail` int NOT NULL AUTO_INCREMENT,
+  `other` int NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `percent` float DEFAULT NULL,
+  `mergePrice` enum('1','0') DEFAULT NULL,
+  PRIMARY KEY (`idOtherDetail`),
+  UNIQUE KEY `idOtherDetail_UNIQUE` (`idOtherDetail`),
+  KEY `otherDetailOtherContainer_idx` (`other`),
+  CONSTRAINT `otherDetailOtherContainer` FOREIGN KEY (`other`) REFERENCES `othercontainer` (`idOtherContainer`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `processcontainer` (
+  `idProcessContainer` int NOT NULL AUTO_INCREMENT,
+  `quotation` int NOT NULL,
+  `toOpeSum` float DEFAULT NULL,
+  `toPlanOpesumRatio` float DEFAULT NULL,
+  `toQuoteRate` float DEFAULT NULL,
+  `toSetTime` varchar(255) DEFAULT NULL,
+  `toOpeTime` varchar(255) DEFAULT NULL,
+  `toTotalOpeTime` varchar(255) DEFAULT NULL,
+  `resOpeSum` float DEFAULT NULL,
+  `resPlanOpeSumRatio` float DEFAULT NULL,
+  `resQuoteRate` float DEFAULT NULL,
+  PRIMARY KEY (`idProcessContainer`),
+  UNIQUE KEY `idProcessContainer_UNIQUE` (`idProcessContainer`),
+  KEY `prosesContainerQuotation_idx` (`quotation`),
+  CONSTRAINT `prosesContainerQuotation` FOREIGN KEY (`quotation`) REFERENCES `quotation` (`idQuotation`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `processdetail` (
+  `idProcessDetail` int NOT NULL AUTO_INCREMENT,
+  `process` int NOT NULL,
+  `processContainer` int NOT NULL,
+  `opeSum` float DEFAULT NULL,
+  `planOpeSumRatio` float DEFAULT NULL,
+  `quoteRate` float DEFAULT NULL,
+  `setTime` varchar(255) DEFAULT NULL,
+  `opeTime` varchar(255) DEFAULT NULL,
+  `totalOpeTime` varchar(255) DEFAULT NULL,
+  `quantity` float DEFAULT NULL,
+  PRIMARY KEY (`idProcessDetail`),
+  UNIQUE KEY `idProcessDetail_UNIQUE` (`idProcessDetail`),
+  KEY `processDetailProcess_idx` (`process`),
+  KEY `processDetailProcessesContainer_idx` (`processContainer`),
+  CONSTRAINT `processDetailProcess` FOREIGN KEY (`process`) REFERENCES `process` (`idProcess`),
+  CONSTRAINT `processDetailProcessesContainer` FOREIGN KEY (`processContainer`) REFERENCES `processcontainer` (`idProcessContainer`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `pdfdetail` (
+  `idPDFDetail` int NOT NULL AUTO_INCREMENT,
+  `customer` int NOT NULL,
+  `paymentTerms` varchar(255) DEFAULT NULL,
+  `Tax` varchar(255) DEFAULT NULL,
+  `validityOfQuotation` varchar(255) DEFAULT NULL,
+  `adjustment` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idPDFDetail`),
+  UNIQUE KEY `idPDFDetail_UNIQUE` (`idPDFDetail`),
+  KEY `PDFDetailCustomers_idx` (`customer`),
+  CONSTRAINT `PDFDetailCustomers` FOREIGN KEY (`customer`) REFERENCES `customer` (`idCustomer`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+

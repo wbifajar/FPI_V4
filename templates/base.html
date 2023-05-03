@@ -1,0 +1,392 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FPISystem</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/base.css">
+
+    <!-- dataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+      /* width */
+      ::-webkit-scrollbar {
+        width: 10px !important;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+        display: none;
+      }
+      
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #888; 
+        border-radius: 10px;
+        display: none;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+      }
+      body{
+        background-color: #E9ECEF;
+      }
+      
+      .sizefont{
+        font-size: 17px;
+      }
+    </style>
+
+    {% block head %}
+
+    {% endblock %}
+
+  </head>
+  <body>
+    <div class="side-bar p-3" style="width: 310px;">
+      <a href="/" class="sidebar-header d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+        <img src="{% static 'images/logo.png' %}" width="80" height="60" alt="">
+        <div class="side-bar-header-text center-text">
+          <span class="big-text">Walk Brains</span> 
+          <br>
+          <span class="medium-text">FPISystem</span>
+        </div>
+      </a>
+      <div class="scrollable-list">
+        <ul class="list-unstyled ps-0" role="tablist">  
+
+          <!-- home -->
+          <li class="mb-1" >
+            <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text" aria-expanded="false">
+              <a href="" class="link-light text-decoration-none medium-text rounded sizefont">
+                Home
+              </a>
+            </button>  
+          </li>
+
+          <!-- work input -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#workinput-collapse" aria-expanded="false">
+                  Work Input
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <!-- <div class="collapse sidebar-dropdown" id="workinput-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">Overview</a></li>
+                <li><a href="#" class="link-light rounded">Weekly</a></li>
+                <li><a href="#" class="link-light rounded">Monthly</a></li>
+                <li><a href="#" class="link-light rounded">Annually</a></li>
+              </ul>
+            </div> -->
+          </li>
+
+          <!-- parts -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  Parts
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="parts-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New</a></li>
+                <li><a href="#" class="link-light rounded">Processed</a></li>
+                <li><a href="#" class="link-light rounded">Shipped</a></li>
+                <li><a href="#" class="link-light rounded">Returned</a></li>
+              </ul> -->
+            </div>
+          </li>
+
+          <!-- inorder -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#inorder-collapse" aria-expanded="false">
+                  In Order
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="inorder-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New</a></li>
+                <li><a href="#" class="link-light rounded">Processed</a></li>
+                <li><a href="#" class="link-light rounded">Shipped</a></li>
+                <li><a href="#" class="link-light rounded">Returned</a></li>
+              </ul> -->
+            </div>
+          </li>
+
+          <!-- material -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#material-collapse" aria-expanded="false">
+                  Material
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="material-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New</a></li>
+                <li><a href="#" class="link-light rounded">Processed</a></li>
+                <li><a href="#" class="link-light rounded">Shipped</a></li>
+                <li><a href="#" class="link-light rounded">Returned</a></li>
+              </ul> -->
+            </div>
+          </li>
+
+          <!-- out order -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#outorder-collapse" aria-expanded="false">
+                  Out Order
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="outorder-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New</a></li>
+                <li><a href="#" class="link-light rounded">Processed</a></li>
+                <li><a href="#" class="link-light rounded">Shipped</a></li>
+                <li><a href="#" class="link-light rounded">Returned</a></li>
+              </ul> -->
+            </div>
+          </li>
+
+          <!-- factory -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#factory-collapse" aria-expanded="false">
+                  Factory
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="factory-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New</a></li>
+                <li><a href="#" class="link-light rounded">Processed</a></li>
+                <li><a href="#" class="link-light rounded">Shipped</a></li>
+                <li><a href="#" class="link-light rounded">Returned</a></li>
+              </ul> -->
+            </div>
+          </li>
+
+          <!-- office -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#office-collapse" aria-expanded="false">
+                  Office
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="office-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New</a></li>
+                <li><a href="#" class="link-light rounded">Processed</a></li>
+                <li><a href="#" class="link-light rounded">Shipped</a></li>
+                <li><a href="#" class="link-light rounded">Returned</a></li>
+              </ul> -->
+            </div>
+          </li>
+
+          <!-- deposit/payment -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#depositpayment-collapse" aria-expanded="false">
+                  Deposit / Payment
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="depositpayment-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New</a></li>
+                <li><a href="#" class="link-light rounded">Processed</a></li>
+                <li><a href="#" class="link-light rounded">Shipped</a></li>
+                <li><a href="#" class="link-light rounded">Returned</a></li>
+              </ul> -->
+            </div>
+          </li>
+
+          <!-- van -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#van-collapse" aria-expanded="false">
+                  VAN
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="van-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New</a></li>
+                <li><a href="#" class="link-light rounded">Processed</a></li>
+                <li><a href="#" class="link-light rounded">Shipped</a></li>
+                <li><a href="#" class="link-light rounded">Returned</a></li>
+              </ul> -->
+            </div>
+          </li>
+
+          <!-- quotation -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="sidebar-dropdown-button btn btn-toggle align-items-center collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#quotation-collapse" aria-expanded="false">
+                  Quotation
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse sidebar-dropdown" id="quotation-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal small medium-text sizefont">
+                <li class="drop-down-text"><a href="{% url 'Quotation' %}" class="link-light text-decoration-none">Quotation</a></li>
+                <div class="li-line"></div>
+                <li class="drop-down-text"><a href="#" class="link-light text-decoration-none">Assembly Quote</a></li>
+                <div class="li-line"></div>
+                <li class="drop-down-text last-drop-down-text"><a href="#" class="link-light text-decoration-none">Quote Other Item Edit</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <!-- master maintenance -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#mastermaintanance-collapse" aria-expanded="false">
+                  Master Maintanance
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="mastermaintanance-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-4 medium-text">
+                <li><a href="#" class="link-light text-decoration-none rounded">Quotation</a></li>
+                <li><a href="#" class="link-light text-decoration-none rounded">Assembly Quote</a></li>
+                <li><a href="#" class="link-light text-decoration-none rounded">Quote Other Item Edit</a></li>
+              </ul> -->
+            </div>
+          </li>
+
+          <!-- sys environment -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#sysenvironment-collapse" aria-expanded="false">
+                  Sys Environment
+                </button>
+              </div>
+              <div>
+                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="sysenvironment-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-4 medium-text">
+                <li><a href="#" class="link-light text-decoration-none rounded">Quotation</a></li>
+                <li><a href="#" class="link-light text-decoration-none rounded">Assembly Quote</a></li>
+                <li><a href="#" class="link-light text-decoration-none rounded">Quote Other Item Edit</a></li>
+              </ul> -->
+            </div>
+          </li>
+
+          <li class="border-top my-3"></li>
+
+          <!-- account -->
+          <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+              Account
+            </button>
+            
+            <div class="collapse sidebar-dropdown" id="account-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal small medium-text sizefont">
+                <li class="drop-down-text"><a href="{% url 'signup'%}" class="link-light text-decoration-none">Add new admin</a></li>
+                <div class="li-line"></div>
+                <li class="drop-down-text"><a href="{% url 'signout' %}" class="link-light text-decoration-none">Sign Out</a></li>
+                <div class="li-line"></div>
+              </ul>
+            </div>
+            <!-- <div class="collapse" id="account-collapse" >
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New...</a></li>
+                <li><a href="#" class="link-light rounded">Profile</a></li>
+                <li><a href="#" class="link-light rounded">Settings</a></li>
+                <li><a href="#" class="link-light rounded">Sign out</a></li>
+              </ul>
+            </div> -->
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+    {% block content %}
+
+    {% endblock %}
+
+    <script>
+      feather.replace()
+    </script>
+
+    <!-- DataTables   -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.5.0/js/dataTables.select.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+    {% block scripts %}
+
+    {% endblock %}
+  </body>
+</html>
