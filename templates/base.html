@@ -46,6 +46,15 @@
       .sizefont{
         font-size: 17px;
       }
+
+      .inputsidebar{
+        background-color: transparent;
+        border: none;
+        color: white;
+        outline: none;
+        cursor: pointer;
+        text-align: left !important;
+      }
     </style>
 
     {% block head %}
@@ -55,7 +64,7 @@
   </head>
   <body>
     <div class="side-bar p-3" style="width: 310px;">
-      <a href="/" class="sidebar-header d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+      <a href="/home" class="sidebar-header d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
         <img src="{% static 'images/logo.png' %}" width="80" height="60" alt="">
         <div class="side-bar-header-text center-text">
           <span class="big-text">Walk Brains</span> 
@@ -65,26 +74,26 @@
       </a>
       <div class="scrollable-list">
         <ul class="list-unstyled ps-0" role="tablist">  
+          <form method="POST">
+            {% csrf_token %}
 
           <!-- home -->
           <li class="mb-1" >
-            <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text" aria-expanded="false">
-              <a href="" class="link-light text-decoration-none medium-text rounded sizefont">
+            <a href="/home" class="btn btn-toggle align-items-center rounded collapsed white-text medium-text link-light text-decoration-none medium-text rounded sizefont" aria-expanded="false">
                 Home
-              </a>
-            </button>  
+            </a>  
           </li>
 
           <!-- work input -->
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#workinput-collapse" aria-expanded="false">
-                  Work Input
-                </button>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#workinput-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="workinput" name="workinput" value="Work Input" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin" name="button" type="submit" value="workinput-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
             <!-- <div class="collapse sidebar-dropdown" id="workinput-collapse">
@@ -101,12 +110,12 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
-                  Parts
-                </button>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="parts" name="parts" value="Parts" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin" name="button" type="submit" value="parts-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
             <div class="collapse" id="parts-collapse" >
@@ -123,12 +132,12 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#inorder-collapse" aria-expanded="false">
-                  In Order
-                </button>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="inorder" name="inorder" value="In Order" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin" name="button" type="submit" value="inorder-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
             <div class="collapse" id="inorder-collapse" >
@@ -145,15 +154,15 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#material-collapse" aria-expanded="false">
-                  Material
-                </button>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="material1" name="material1" value="Material" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin" name="button" type="submit" value="material1-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
-            <div class="collapse" id="material-collapse" >
+            <div class="collapse" id="material1-collapse" >
               <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                 <li><a href="#" class="link-light rounded">New</a></li>
                 <li><a href="#" class="link-light rounded">Processed</a></li>
@@ -167,12 +176,12 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#outorder-collapse" aria-expanded="false">
-                  Out Order
-                </button>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="outorder" name="outorder" value="Out Order" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin" name="button" type="submit" value="outorder-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
             <div class="collapse" id="outorder-collapse" >
@@ -189,12 +198,12 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#factory-collapse" aria-expanded="false">
-                  Factory
-                </button>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="factory" name="factory" value="Factory" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin" name="button" type="submit" value="factory-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
             <div class="collapse" id="factory-collapse" >
@@ -211,12 +220,12 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#office-collapse" aria-expanded="false">
-                  Office
-                </button>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="office" name="office" value="Office" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin" name="button" type="submit" value="office-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
             <div class="collapse" id="office-collapse" >
@@ -233,12 +242,12 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#depositpayment-collapse" aria-expanded="false">
-                  Deposit / Payment
-                </button>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="depositpayment" name="depositpayment" value="Deposit / Payment" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin" name="button" type="submit" value="depositpayment-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
             <div class="collapse" id="depositpayment-collapse" >
@@ -255,12 +264,12 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#van-collapse" aria-expanded="false">
-                  VAN
-                </button>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="van" name="van" value="Van" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin" name="button" type="submit" value="van-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
             <div class="collapse" id="van-collapse" >
@@ -277,21 +286,31 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="sidebar-dropdown-button btn btn-toggle align-items-center collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#quotation-collapse" aria-expanded="false">
-                  Quotation
-                </button>
+                <a class="sidebar-dropdown-button btn btn-toggle align-items-center collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#quotation-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="Quotation" name="Quotation" value="Quotation" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin btnsearch2" name="button" type="submit" value="Quotation-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
             <div class="collapse sidebar-dropdown" id="quotation-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal small medium-text sizefont">
-                <li class="drop-down-text"><a href="{% url 'Quotation' %}" class="link-light text-decoration-none">Quotation</a></li>
+                <li class="drop-down-text">
+                  <a href="{% url 'Quotation' %}" class="link-light text-decoration-none">
+                    Quotation
+                  </a>
+                </li>
                 <div class="li-line"></div>
-                <li class="drop-down-text"><a href="#" class="link-light text-decoration-none">Assembly Quote</a></li>
+                <li class="drop-down-text">
+                  <a href="#" class="link-light text-decoration-none">
+                    <a href="#" class="link-light text-decoration-none">Assembly Quote</a>
+                  </a>
+                </li>
                 <div class="li-line"></div>
-                <li class="drop-down-text last-drop-down-text"><a href="#" class="link-light text-decoration-none">Quote Other Item Edit</a></li>
+                <li class="drop-down-text last-drop-down-text">
+                  <a href="#" class="link-light text-decoration-none">Quote Other Item Edit</a>
+                </li>
               </ul>
             </div>
           </li>
@@ -300,12 +319,12 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#mastermaintanance-collapse" aria-expanded="false">
-                  Master Maintanance
-                </button>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="mastermaintenance" name="mastermaintenance" value="Master Maintenance" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin" name="button" type="submit" value="mastermaintenance-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
             <div class="collapse" id="mastermaintanance-collapse" >
@@ -321,12 +340,12 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#sysenvironment-collapse" aria-expanded="false">
-                  Sys Environment
-                </button>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="sysenvironment" name="sysenvironment" value="Sys Environment" readonly ><br>
+                </a>
               </div>
               <div>
-                <button class="pin"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+                <button class="pin" name="button" type="submit" value="sysenvironment-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
               </div>
             </div>
             <div class="collapse" id="sysenvironment-collapse" >
@@ -342,9 +361,9 @@
 
           <!-- account -->
           <li class="mb-1">
-            <button class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+            <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
               Account
-            </button>
+            </a>
             
             <div class="collapse sidebar-dropdown" id="account-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal small medium-text sizefont">
@@ -363,10 +382,12 @@
               </ul>
             </div> -->
           </li>
-
+          
+        </form>
         </ul>
       </div>
     </div>
+    
 
     {% block content %}
 
@@ -388,5 +409,6 @@
     {% block scripts %}
 
     {% endblock %}
-  </body>
+  
+</body>
 </html>

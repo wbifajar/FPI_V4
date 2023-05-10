@@ -10,35 +10,43 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/static/css/base/login.css">
 
+
 {% endblock head %}
 
 {% block content %}
 
 <div class="container">
+    
     {% if user.is_authenticated %}
     <h3> Welcome, {{ user.username }}!</h3>
     <!-- <div style="line-break: auto;">
         <button type="button" class="btn btn-secondary btnsearch"><img class="imgunpin" src="{% static 'images/unpin.png' %}">UNPIN</button>    
     </div> -->
         
-    <div class="row text-center">
-        <div class="col">
-            <button class="btn btnsearch"><img class="imgunpin" src="{% static 'images/unpin.png' %}"></button>
-            <label for="vehicle1">Quotation</label><br>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row text-center">
+            {% for i in data%}
+            <div class="col">
+                <div style="display: inline-flex; align-items: center;">
+                    <button class="btn btnsearch" name="button" type="submit" value="deletelist-{{i.idPin}}">
+                        <img class="imgunpin" src="{% static 'images/unpin.png' %}">
+                    </button>
+                    <div class="dropdown">
+                        <a class="btn" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                          {{i.name}}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <li><a class="dropdown-item" href="{{ i.name }}/">{{i.name}}</a></li>
+                          <li><a class="dropdown-item" href="#">Assembly Quote</a></li>
+                          <li><a class="dropdown-item" href="#">Quote Other Item Edit</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
         </div>
-        <div class="col">
-            <button class="btn btnsearch"><img class="imgunpin" src="{% static 'images/unpin.png' %}"></button>
-            <label for="vehicle1">Quotation</label><br>
-        </div>
-        <div class="col">
-            <button class="btn btnsearch"><img class="imgunpin" src="{% static 'images/unpin.png' %}"></button>
-            <label for="vehicle1">Quotation</label><br>
-        </div>
-        <div class="col">
-            <button class="btn btnsearch"><img class="imgunpin" src="{% static 'images/unpin.png' %}"></button>
-            <label for="vehicle1">Quotation</label><br>
-        </div>
-    </div>
+    </form>
 </div>
 {% endif %}
 {% endblock content %}

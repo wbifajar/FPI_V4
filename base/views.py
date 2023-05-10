@@ -6,6 +6,8 @@ from django.contrib.auth import logout
 from django.shortcuts import HttpResponseRedirect
 from django.views.generic import TemplateView, View, FormView, ListView
 
+from quotation.pages.home import *
+
 # from ..databaseConnect import *
 # from django.contrib.auth.views import LoginView
 
@@ -13,8 +15,7 @@ from django.views.generic import TemplateView, View, FormView, ListView
 # class Login(TemplateView):
 #     template_name = 'home.html'
 
-def home(request):
-    return render(request, 'home.html')
+home
 
 def signin(request):
     if request.user.is_authenticated:
