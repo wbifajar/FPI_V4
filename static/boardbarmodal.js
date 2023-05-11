@@ -22,8 +22,8 @@ modal1.addEventListener('show.bs.modal', event => {
 const modal2 = document.getElementById('exampleModal2')
 const modal3 = document.getElementById('exampleModal3')
 
-var boardarr = [[]]
-var bararr = [[]]
+var boardArr = [[]]
+var barArr = [[]]
 
 // find index of material id in array of board input value (if existed) if not return -1
 function findIndexOfMaterialId(arr, num){
@@ -51,53 +51,53 @@ modal2.addEventListener('show.bs.modal', event => {
 
     // when board modal triggered,
     // fill value in board modal if already existed before
-    var index = findIndexOfMaterialId(boardarr, recipient)
+    var index = findIndexOfMaterialId(boardArr, recipient)
     if( index != -1 ){
         console.log('ISII INI MODAL FIELD INPUTNYA', index);
-        $('#BoardMaterialId').val( boardarr[index][1] )
-        $('#BoardMaterialName').val( boardarr[index][2] )
+        $('#BoardMaterialId').val( boardArr[index][1] )
+        $('#BoardMaterialName').val( boardArr[index][2] )
 
-        $("#VerticalScaleMaterial").val( boardarr[index][3] )
-        $("#HorizontalScaleMaterial").val( boardarr[index][4] )
-        $("#ThicknessMaterial").val( boardarr[index][5] )
+        $("#VerticalScaleMaterial").val( boardArr[index][3] )
+        $("#HorizontalScaleMaterial").val( boardArr[index][4] )
+        $("#ThicknessMaterial").val( boardArr[index][5] )
 
-        $("#MaterialSpesificGravity").val( boardarr[index][6] )
-        $("#MaterialPrice").val( boardarr[index][7] )
+        $("#MaterialSpesificGravity").val( boardArr[index][6] )
+        $("#MaterialPrice").val( boardArr[index][7] )
 
         // === FROM NUMBER OF PART =====
-        $("#VerticalScaleFromNumber").val( boardarr[index][8] )
-        $("#HorizontalScaleFromNumber").val( boardarr[index][9] )
+        $("#VerticalScaleFromNumber").val( boardArr[index][8] )
+        $("#HorizontalScaleFromNumber").val( boardArr[index][9] )
 
-        $("#ExposedFromNumber").val( boardarr[index][10] )
-        $("#MarginFromNumber").val( boardarr[index][11] )
+        $("#ExposedFromNumber").val( boardArr[index][10] )
+        $("#MarginFromNumber").val( boardArr[index][11] )
 
-        $('#NumVerFromNumber').val( boardarr[index][12] );
-        $('#NumHorFromNumber').val( boardarr[index][13] );
-        $('#QtyPerSheetFromNumber').val( boardarr[index][14] );
+        $('#NumVerFromNumber').val( boardArr[index][12] );
+        $('#NumHorFromNumber').val( boardArr[index][13] );
+        $('#QtyPerSheetFromNumber').val( boardArr[index][14] );
 
-        $('#WeightFromNumber').val( boardarr[index][15] );
-        $('#QtyFromNumber').val( boardarr[index][16] );
-        $('#WeightPerQtyFromNumber').val( boardarr[index][17] );
+        $('#WeightFromNumber').val( boardArr[index][15] );
+        $('#QtyFromNumber').val( boardArr[index][16] );
+        $('#WeightPerQtyFromNumber').val( boardArr[index][17] );
 
-        $('#PriceFromNumber').val( boardarr[index][18] )
-        $('#WeightFromNumber2').val( boardarr[index][19] );
-        $('#MaterialCostFromNumber').val( boardarr[index][20] );
+        $('#PriceFromNumber').val( boardArr[index][18] )
+        $('#WeightFromNumber2').val( boardArr[index][19] );
+        $('#MaterialCostFromNumber').val( boardArr[index][20] );
         
-        $('#BoldMaterialCostFromNumber').val( boardarr[index][21] );
+        $('#BoldMaterialCostFromNumber').val( boardArr[index][21] );
 
         // === END FROM NUMBER OF PART =====
 
         // ==== FROM PART OF PART =====
-        $("#ExposedFromPart").val(boardarr[index][22])
-        $("#MarginFromPart").val(boardarr[index][23])    
+        $("#ExposedFromPart").val(boardArr[index][22])
+        $("#MarginFromPart").val(boardArr[index][23])    
 
-        $('#WeightFromPart').val(boardarr[index][24]);
+        $('#WeightFromPart').val(boardArr[index][24]);
 
-        $('#PriceFromPart').val(boardarr[index][25]);
-        $('#WeightFromPart2').val(boardarr[index][26]);
-        $('#MaterialCostFromPart').val(boardarr[index][27])
+        $('#PriceFromPart').val(boardArr[index][25]);
+        $('#WeightFromPart2').val(boardArr[index][26]);
+        $('#MaterialCostFromPart').val(boardArr[index][27])
 
-        $('#BoldMaterialCostFromPart').val(boardarr[index][28])
+        $('#BoldMaterialCostFromPart').val(boardArr[index][28])
     }else{
         console.log('ISII INI MODAL FIELD INPUTNYA', index);
         $('#BoardMaterialId').val(  '' )
@@ -146,7 +146,7 @@ modal2.addEventListener('show.bs.modal', event => {
         $('#BoldMaterialCostFromPart').val( '' )
     }
 
-    console.log(boardarr);
+    console.log(boardArr);
 
 })
 
@@ -230,126 +230,144 @@ function updateBoardArray(){
     ]
 
     // kalo belom ada create baru, kalo belom ada update
-    target = findIndexOfMaterialId(boardarr, index)
+    target = findIndexOfMaterialId(boardArr, index)
     if( target == -1 ){
-        boardarr.push(arrBoardInputFieldValue);
+        boardArr.push(arrBoardInputFieldValue);
     }else{
-        boardarr[target] = arrBoardInputFieldValue
+        boardArr[target] = arrBoardInputFieldValue
     }
 
-    console.log(boardarr);
+    console.log(boardArr);
 }
 
 
-// modal3.addEventListener('show.bs.modal', event => {
-//     // Button that triggered the modal
-//     const button = event.relatedTarget
+modal3.addEventListener('show.bs.modal', event => {
+    // Button that triggered the modal
+    const button = event.relatedTarget
 
-//     // id modal board yang akan dibuka oleh button ini
-//     const recipient = button.getAttribute('data-bs-index')
-//     const modalTitle = modal2.querySelector('.modal-title')
+    // id modal board yang akan dibuka oleh button ini
+    const recipient = button.getAttribute('data-bs-index')
+    const modalTitle = modal2.querySelector('.modal-title')
 
-//     modalTitle.textContent = `This is modal with id : ${recipient}`
-//     // set attribute data-bs-index ke modal board yang akan dibuka
-//     $('#bar-modal-content').attr('data-bs-index', recipient);
+    modalTitle.textContent = `This is modal with id : ${recipient}`
+    // set attribute data-bs-index ke modal board yang akan dibuka
+    $('#bar-modal-content').attr('data-bs-index', recipient);
 
-//     // when board modal triggered,
-//     // fill value in board modal if already existed before
-//     var index = findIndexOfMaterialId(bararr, recipient)
-//     if( index != -1 ){
-//         console.log('ISII INI MODAL FIELD INPUTNYA', index);
-//         $('#BarMaterialId').val( boardarr[index][1] )
-//         $('#BarMaterialName').val( boardarr[index][2] )
+    // when board modal triggered,
+    // fill value in bar modal if already existed before
+    var index = findIndexOfMaterialId(barArr, recipient)
+    if( index != -1 ){
+        console.log('ISII INI MODAL FIELD INPUTNYA', index);
+        $('#BarMaterialId').val( barArr[index][1] )
+        $('#BarMaterialName').val( boardArr[index][2] )
 
-//         $("#VerticalScaleMaterial").val( boardarr[index][3] )
-//         $("#HorizontalScaleMaterial").val( boardarr[index][4] )
-//         $("#ThicknessMaterial").val( boardarr[index][5] )
+        $("#BarPartScaleMaterial").val( barArr[index][3] )
+        $("#BarDiameterMaterial").val( barArr[index][4] )
 
-//         $("#MaterialSpesificGravity").val( boardarr[index][6] )
-//         $("#MaterialPrice").val( boardarr[index][7] )
-
-//         // === FROM NUMBER OF PART =====
-//         $("#VerticalScaleFromNumber").val( boardarr[index][8] )
-//         $("#HorizontalScaleFromNumber").val( boardarr[index][9] )
-
-//         $("#ExposedFromNumber").val( boardarr[index][10] )
-//         $("#MarginFromNumber").val( boardarr[index][11] )
-
-//         $('#NumVerFromNumber').val( boardarr[index][12] );
-//         $('#NumHorFromNumber').val( boardarr[index][13] );
-//         $('#QtyPerSheetFromNumber').val( boardarr[index][14] );
-
-//         $('#WeightFromNumber').val( boardarr[index][15] );
-//         $('#QtyFromNumber').val( boardarr[index][16] );
-//         $('#WeightPerQtyFromNumber').val( boardarr[index][17] );
-
-//         $('#PriceFromNumber').val( boardarr[index][18] )
-//         $('#WeightFromNumber2').val( boardarr[index][19] );
-//         $('#MaterialCostFromNumber').val( boardarr[index][20] );
+        $("#BarMaterialSpesificGravity").val( barArr[index][5] )
+        $("#BarMaterialPrice").val( barArr[index][6] )
         
-//         $('#BoldMaterialCostFromNumber').val( boardarr[index][21] );
+        $("BarCalcNumExposed").val( barArr[index][7] )
+        $("BarCalcNumRoundBa").val( barArr[index][8] )
+        $("BarCalcNumEdgeLoss").val( barArr[index][9] )
 
-//         // === END FROM NUMBER OF PART =====
+        $('#BarCalcNumMtrlCost').val( barArr[index][10] );
+        $('#BarCalcNumNum').val( barArr[index][11] );
+        $('#BarCalcNumScla').val( barArr[index][12] );
+        $('#BarCalcNumUsedQty').val( barArr[index][13] );
 
-//         // ==== FROM PART OF PART =====
-//         $("#ExposedFromPart").val(boardarr[index][22])
-//         $("#MarginFromPart").val(boardarr[index][23])    
+        $('#BarCalcNumBoldMaterialCost').val( barArr[index][14] )
 
-//         $('#WeightFromPart').val(boardarr[index][24]);
+        $("BarFromScaleKerfLoss").val( barArr[index][15] )
+        $('#BarFromScaleUsedQty').val( barArr[index][16] );
+        $('#BarFromScaleMaterialCost').val( barArr[index][17] );
+    }else{
+        console.log('ISII INI MODAL FIELD INPUTNYA BAR', index);
+        $('#BarMaterialId').val( '')
+        $('#BarMaterialName').val( '' )
 
-//         $('#PriceFromPart').val(boardarr[index][25]);
-//         $('#WeightFromPart2').val(boardarr[index][26]);
-//         $('#MaterialCostFromPart').val(boardarr[index][27])
+        $("#BarPartScaleMaterial").val( '' )
+        $("#BarDiameterMaterial").val( '' )
 
-//         $('#BoldMaterialCostFromPart').val(boardarr[index][28])
-//     }else{
-//         console.log('ISII INI MODAL FIELD INPUTNYA', index);
-//         $('#BoardMaterialId').val(  '' )
-//         $('#BoardMaterialName').val(  '' )
-
-//         $("#VerticalScaleMaterial").val(  '' )
-//         $("#HorizontalScaleMaterial").val(  '' )
-//         $("#ThicknessMaterial").val(  '' )
-
-//         $("#MaterialSpesificGravity").val(  '' )
-//         $("#MaterialPrice").val(  '' )
-
-//         // === FROM NUMBER OF PART =====
-//         $("#VerticalScaleFromNumber").val(  '' )
-//         $("#HorizontalScaleFromNumber").val(  '' )
-
-//         $("#ExposedFromNumber").val(  ''  )
-//         $("#MarginFromNumber").val(  ''  )
-
-//         $('#NumVerFromNumber').val(  ''  );
-//         $('#NumHorFromNumber').val(  ''  );
-//         $('#QtyPerSheetFromNumber').val(  ''  );
-
-//         $('#WeightFromNumber').val(  ''  );
-//         $('#QtyFromNumber').val(  ''  );
-//         $('#WeightPerQtyFromNumber').val(  ''  );
-
-//         $('#PriceFromNumber').val(  ''  )
-//         $('#WeightFromNumber2').val(  ''  );
-//         $('#MaterialCostFromNumber').val(  ''  );
+        $("#BarMaterialSpesificGravity").val( '' )
+        $("#BarMaterialPrice").val( '' )
         
-//         $('#BoldMaterialCostFromNumber').val(  ''  );
+        $("#BarCalcNumExposed").val( '' )
+        $("#BarCalcNumRoundBa").val( '' )
+        $("#BarCalcNumEdgeLoss").val( '' )
 
-//         // === END FROM NUMBER OF PART =====
+        $('#BarCalcNumMtrlCost').val( '' );
+        $('#BarCalcNumNum').val( '' );
+        $('#BarCalcNumScla').val( '' );
+        $('#BarCalcNumUsedQty').val( '' );
 
-//         // ==== FROM PART OF PART =====
-//         $("#ExposedFromPart").val( '' )
-//         $("#MarginFromPart").val( '' )    
+        $('#BarCalcNumBoldMaterialCost').val( '' )
 
-//         $('#WeightFromPart').val( '' );
+        $("BarFromScaleKerfLoss").val( '' )
+        $('#BarFromScaleUsedQty').val( '' );
+        $('#BarFromScaleMaterialCost').val( '' );
+    }
 
-//         $('#PriceFromPart').val( '' );
-//         $('#WeightFromPart2').val( '' );
-//         $('#MaterialCostFromPart').val( '' )
+    console.log(boardArr);
 
-//         $('#BoldMaterialCostFromPart').val( '' )
-//     }
+})
 
-//     console.log(boardarr);
 
-// })
+function updateBarArray(){
+    var index = $('#bar-modal-content').attr('data-bs-index')
+    var materialid = $('#BarMaterialId').val()
+    var materialname = $('#BarMaterialName').val()
+
+    var bar_partscale = $("#BarPartScaleMaterial").val()
+    var bar_diameter = $("#BarDiameterMaterial").val()
+
+    var bar_specgravity = $("#BarMaterialSpesificGravity").val()
+    var bar_price = $("#BarMaterialPrice").val()
+    
+    var bar_calcnum_exposed =$("#BarCalcNumExposed").val()
+    var bar_calcnum_round_ba =$("#BarCalcNumRoundBa").val()
+    var bar_calcnum_edge_loss =$("#BarCalcNumEdgeLoss").val()
+
+    var bar_material_cost = $('#BarCalcNumMtrlCost').val();
+    var bar_num = $('#BarCalcNumNum').val();
+    var bar_scala = $('#BarCalcNumScla').val();
+    var bar_used_qty = $('#BarCalcNumUsedQty').val();
+
+    var bold_material_cost = $('#BarCalcNumBoldMaterialCost').val()
+
+    var bar_kerf_loss = $("#BarFromScaleKerfLoss").val()
+    var bar_used_qty_from_scale = $('#BarFromScaleUsedQty').val();
+    var bar_from_scale_material_cost = $('#BarFromScaleMaterialCost').val();
+    
+    // ==== END FROM PART OF PART =====
+    var arrBarInputFieldValue = [
+        index,
+        materialid,
+        materialname,
+        bar_partscale,
+        bar_diameter,
+        bar_specgravity,
+        bar_price,
+        bar_calcnum_exposed,
+        bar_calcnum_round_ba,
+        bar_calcnum_edge_loss,
+        bar_material_cost,
+        bar_num,
+        bar_scala,
+        bar_used_qty,
+        bold_material_cost,
+        bar_kerf_loss,
+        bar_used_qty_from_scale,
+        bar_from_scale_material_cost,
+    ]
+
+    // kalo belom ada create baru, kalo belom ada update
+    target = findIndexOfMaterialId(barArr, index)
+    if( target == -1 ){
+        barArr.push(arrBarInputFieldValue);
+    }else{
+        barArr[target] = arrBarInputFieldValue
+    }
+
+    console.log(barArr);
+}

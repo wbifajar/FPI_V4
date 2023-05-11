@@ -769,7 +769,7 @@
                                 </div>
 
                                 <div>
-                                    <button type="button" class="btn btn-secondary btnsearch2">Submit</button>
+                                    <button type="button" class="btn btn-secondary btnsearch2" id="submit-board-cost-from-number">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -885,7 +885,7 @@
                     </div>
 
                     <div>
-                        <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal1">Back</button>
+                        <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal">Back</button>
                     </div>
 
                 </div>
@@ -900,6 +900,7 @@
       <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div class="modal-content">
+            <div class="modal-title"></div>
             <div class="modal-body" id="bar-modal-content">
                 <div class="row">
                     <div class="col">
@@ -1029,7 +1030,7 @@
                                 </div>
 
                                 <div>
-                                    <button type="button" class="btn btn-secondary btnsearch2" >Submit</button>
+                                    <button type="button" class="btn btn-secondary btnsearch2"  >Submit</button>
                                 </div>
 
                             </div>
@@ -1104,7 +1105,7 @@
                 </div>
 
                 <div>
-                    <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal1">Back</button>
+                    <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal">Back</button>
                 </div>
 
 
@@ -1251,6 +1252,7 @@
     function calculateFunctionsBar(){
         calculateNumOfQty();
         calculateFromScale();
+        updateBarArray();
     }
 
     function calculateFromScale(){
@@ -1280,6 +1282,7 @@
         $('#BarFromScalePreviewHalfKerf2').text(half_bar_kerf_loss);
         $('#BarFromScalePreviewDiameter').text(bar_diameter);
         $('#BarFromScalePreviewPartScale').text(bar_partscale);
+        updateBarArray();
     }
 
     function calculateNumOfQty(){
@@ -1330,7 +1333,7 @@
         // $('#BarCalcNumPreviewScla').text(bar_partscale)
         // $('#BarCalcNumPreviewEdgeLoss').text(bar_calcnum_edge_loss)
         // $('#BarCalcNumPreviewRoundBa').text(bar_calcnum_round_ba)
-        
+        updateBarArray();
     }
 
     // ============ BAGIAN BOARD ============
@@ -1629,9 +1632,9 @@
         var cell10 = row.insertCell(9);
 
         cell1.innerHTML = `<th scope="row">${materialIndex}</th>`;
-        cell2.innerHTML = `<td><input type="input" class="inputt" value="${selectedMaterial.idMaterial}"></td>`;
+        cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idMaterial}"></td>`;
         cell3.innerHTML = `<td><input type="input" value="${selectedMaterial.Name}"></td>`;
-        cell4.innerHTML = `<td><input type="input" list="process" class="inputt1"></td>`;
+        cell4.innerHTML = `<td><input type="input" list="process" class="inputt1 material-used-process"></td>`;
         cell5.innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByUsedQuantity(${materialIndex})" name="usedQuantity-${materialIndex}" id="usedQuantity-${materialIndex}"><a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idMaterial}" ><img class="imgcalcu" src="{% static 'images/calculator.png' %}"></a></td>`;
         cell6.innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${materialIndex})" name="materialNumber-${materialIndex}" id="materialNumber-${materialIndex}" value="0"></td>`;
         cell7.innerHTML = `<td>${selectedMaterial.Price}</td>`;
@@ -1756,8 +1759,7 @@
         cell7.innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${index}' onchange="calculateByOperationPerBudgetRatio(${index})" id='operationPerBudgetRatio-${index}'> %</td>`;
         cell8.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateBySetTime(${index})" class="operationInputMd" name='setTime-${index}' id='setTime-${index}'></td>`;
         cell9.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateByOpeTime(${index})" class="operationInputMd" name='opeTime-${index}' id='opeTime-${index}'></td>`;
-        cell10.innerHTML = `<td><input type="text" value="00:00:00" class="operationInputMd" 
-            onchange="calculateTotalOpeTime(${index})" name='totalOpeTime-${index}' id='totalOpeTime-${index}'></td>`;
+        cell10.innerHTML = `<td><input type="text" value="00:00:00" class="operationInputMd" onchange="calculateByTotalOpeTime(${index})" name='totalOpeTime-${index}' id='totalOpeTime-${index}'></td>`;
         cell11.innerHTML = `<td><input type="text" class="inputS" onchange="calculateByQuantityPerMin(${index})" name='quantityPerMinute-${index}' id='quantityPerMinute-${index}'></td>`;
         cell12.innerHTML = `<td><button type="button" onclick="deleteProcess(${index})" class="trash"><i id="trash-icon"></i></button></td>`;
         cell13.innerHTML = `<td><input type="hidden" name='processId-${index}' value='${index}'></td>`;
@@ -1774,6 +1776,7 @@
 
 <script src="{% static '/scripts.js' %}" type=""></script>
 <script src="{% static '/boardbarmodal.js' %}" type=""></script>
+<script src="{% static '/boardSubmitFunction.js' %}" type=""></script>
 
 <!-- others function  -->
 <script>
