@@ -22,8 +22,8 @@ modal1.addEventListener('show.bs.modal', event => {
 const modal2 = document.getElementById('exampleModal2')
 const modal3 = document.getElementById('exampleModal3')
 
-var boardArr = [[]]
-var barArr = [[]]
+var boardArr = []
+var barArr = []
 
 // find index of material id in array of board input value (if existed) if not return -1
 function findIndexOfMaterialId(arr, num){
@@ -247,7 +247,7 @@ modal3.addEventListener('show.bs.modal', event => {
 
     // id modal board yang akan dibuka oleh button ini
     const recipient = button.getAttribute('data-bs-index')
-    const modalTitle = modal2.querySelector('.modal-title')
+    const modalTitle = modal3.querySelector('.modal-title')
 
     modalTitle.textContent = `This is modal with id : ${recipient}`
     // set attribute data-bs-index ke modal board yang akan dibuka

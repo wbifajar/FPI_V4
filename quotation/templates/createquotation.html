@@ -413,12 +413,40 @@
                       </tr>
                     </thead>
                     <tbody>
+                        <th scope="row"></th>
+                        <td>
+                         
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                           
+                        </td>
+                        <td>
+                          
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            <strong>Total</strong>
+                        </td>
+                        <td id="total-material-cost">
+                            0
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                           
+                        </td>
                     </tbody>
                   </table>
             
                   
                   <button type="button" class="btn btn-secondary btnsearch2" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-secondary btnsearch2">Reflect Cost</button>
+                  <button type="button" class="btn btn-secondary btnsearch2" id="reflect-cost-button">Reflect Cost</button>
             </div>
           </div>
         </div>
@@ -902,8 +930,8 @@
       <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div class="modal-content">
-            <div class="modal-title"></div>
-            <div class="modal-body" id="bar-modal-content">
+              <div class="modal-body" id="bar-modal-content">
+                <div class="modal-title"></div>
                 <div class="row">
                     <div class="col">
                         <div class="card">
@@ -1570,139 +1598,21 @@
     
 </script>
 
-<!-- material function -->
+<!-- ========== START MATERIAL FUNCTION ========== -->
 <script>
-    function getMaterialData(materialIndex){
-     
-        var data = {
-            'usedQuantity' : isNaN(parseInt(document.getElementById(`usedQuantity-${materialIndex}`).value)) ? 0 : parseInt(document.getElementById(`usedQuantity-${materialIndex}`).value),
-            'materialNumber' : isNaN(parseInt(document.getElementById(`materialNumber-${materialIndex}`).value)) ? 0 : parseInt(document.getElementById(`materialNumber-${materialIndex}`).value),
-            'materialCost' : isNaN(parseInt(document.getElementById(`materialCost-${materialIndex}`).value)) ? 0 : parseInt(document.getElementById(`materialCost-${materialIndex}`).value),
-        }
 
-        return data;
-    }
-
-    function setMaterialData(materialIndex, usedQuantity, materialNumber, materialCost){
-        $(`#usedQuantity-${materialIndex}`).val(usedQuantity);
-        $(`#materialNumber-${materialIndex}`).val(materialNumber);
-        $(`#materialCost-${materialIndex}`).val(materialCost);
-    }
-    
-    function addMaterial() {
-        // get material name from search input 
-        var materialName = document.getElementById('searchName').value;
-
-        // get material database from py file 
+    // get material database from py file 
+    function getMaterialFromDB(){
         var material = '{{materialjs|safe}}';
         const obj = JSON.parse(material);
-        var selectedMaterial = obj.find(element => element.Name == materialName);
 
-        if(selectedMaterial == undefined){
-            return false;
-        }
-        
-        // check for duplicate material
-        if(Object.entries(materialList).length != 0){
-            var checkName = materialList.find(element => element.Name == materialName);
-            if (checkName == undefined){
-                materialList.push(selectedMaterial);
-            } else {
-                if (checkName.idMaterial == selectedMaterial.idMaterial){
-                    return false;
-                }
-                materialList.push(selectedMaterial);
-            }
-        } else {
-            materialList.push(selectedMaterial);
-        }
-        
-        // alter table to add process 
-        var table = document.getElementById("materialTable").getElementsByTagName('tbody')[0];
-        materialIndex++;
-
-        var row = table.insertRow(-1);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
-        var cell5 = row.insertCell(4);
-        var cell6 = row.insertCell(5);
-        var cell7 = row.insertCell(6);
-        var cell8 = row.insertCell(7);
-        var cell9 = row.insertCell(8);
-        var cell10 = row.insertCell(9);
-
-        cell1.innerHTML = `<th scope="row">${materialIndex}</th>`;
-        cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idMaterial}"></td>`;
-        cell3.innerHTML = `<td><input type="input" value="${selectedMaterial.Name}"></td>`;
-        cell4.innerHTML = `<td><input type="input" list="process" class="inputt1"></td>`;
-        cell5.innerHTML = `<td><input type="input" class="inputt1 material-used-process" onchange="calculateByUsedQuantity(${materialIndex})" name="usedQuantity-${materialIndex}" id="usedQuantity-${materialIndex}"><a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idMaterial}" ><img class="imgcalcu" src="{% static 'images/calculator.png' %}"></a></td>`;
-        cell6.innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${materialIndex})" name="materialNumber-${materialIndex}" id="materialNumber-${materialIndex}" value="0"></td>`;
-        cell7.innerHTML = `<td> <p class="material-price"> ${selectedMaterial.Price} </p> </td>`;
-        cell8.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
-        cell9.innerHTML = `<td><button type="button" onclick="deleteMaterial(${materialIndex})" class="trash"><i data-feather="trash-2"></i></button></td>`;
-        cell10.innerHTML = `<td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idMaterial}'></td>`;
-      
-        callFeatherIcon();
-        updateMaterialLength(index);
-        $('#searchName').val('');
-
-        return false;
+        return obj;
     }
-
-    function updateMaterialLength(index){
-        $('#materialLength').val(index);
-    }
-
-    function deleteMaterial(rowindex){
-        // console.log(index);
-        var table = document.getElementById("materialTable").getElementsByTagName('tbody')[0];
-        table.deleteRow(rowindex-1);
-
-        // remove item from array and fixing the index 
-        materialList.splice(rowindex-1, 4);
-        materialIndex-=1;
-        for(var i=0 ; i<materialIndex ; i++){
-            table.rows[i].cells[0].innerHTML = `<th scope="row">${i+1}</th>`;
-            table.rows[i].cells[8].innerHTML = `<td><button type="button" onclick="deleteMaterial(${i+1})" class="trash"><i id="trash-icon"></i></button></td>`;
-            callFeatherIcon();
-        }
-
-        updateMaterialLength(index);
-    }
-
-    function calculateMaterialCost(usedQuantity, price){
-        var result = usedQuantity * price;
-        return result;
-    }
-
-    function calculateUsedQuantity(number){
-        var result = 1/number;
-        return result;
-    }
-
-    function calculateByUsedQuantity(materialIndex){
-        var data = getMaterialData(materialIndex);
-        var material = materialList[materialIndex-1];
-
-        console.log(material);
-        var materialCost = calculateMaterialCost(data.usedQuantity, material.Price);
-        $(`#materialCost-${materialIndex}`).val(materialCost);
-    }
-
-    function calculateByNumber(number){
-        var data = getMaterialData(number);
-        var material = materialList[materialIndex-1];
-
-        var usedQuantity = calculateUsedQuantity(data.materialNumber);
-        var materialCost = calculateMaterialCost(usedQuantity, material.Price);
-        
-        setMaterialData(materialIndex, usedQuantity, data.materialNumber, materialCost);
-    }
-
 </script>
+
+<script src="{% static '/materialFunction.js' %}" type=""></script>
 <!-- ========== END MATERIAL FUNCTION ========== -->
+
 <!-- process function -->
 <script>
     function addProcess() {
