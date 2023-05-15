@@ -1,7 +1,7 @@
-function updateTotalMaterialCost(){
+function updateTotalMaterialCostOnModal(){
   
     var total = 0
-
+    
     $('table#materialTable > tbody tr').each(function(index, value){
     
         var num = $(value).find('input.material-cost-price').val() 
@@ -12,6 +12,11 @@ function updateTotalMaterialCost(){
             return false;
         }
     });
+
+    if($('table#materialTable > tbody tr').length == 1){
+        total = 0
+    }
+    
     $('#total-material-cost').text(total)
 }
 
@@ -22,7 +27,7 @@ $('#submit-board-cost-from-number').on('click', function(){
     $('table#materialTable > tbody tr').each(function(index, value){
 
         if(material_id == $(value).find('input.material-id').val() ){
-            
+
             $(value).find('input.material-used-process').val(cost_value)
             var price = $(value).find('p.material-price').text()
             $(value).find('input.material-cost-price').val(cost_value * price)
@@ -30,5 +35,5 @@ $('#submit-board-cost-from-number').on('click', function(){
         }
     });
 
-    updateTotalMaterialCost();
+    updateTotalMaterialCostOnModal();
 });

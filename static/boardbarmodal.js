@@ -22,8 +22,7 @@ modal1.addEventListener('show.bs.modal', event => {
 const modal2 = document.getElementById('exampleModal2')
 const modal3 = document.getElementById('exampleModal3')
 
-var boardArr = []
-var barArr = []
+
 
 // find index of material id in array of board input value (if existed) if not return -1
 function findIndexOfMaterialId(arr, num){
@@ -237,6 +236,12 @@ function updateBoardArray(){
         boardArr[target] = arrBoardInputFieldValue
     }
 
+    console.log(boardArr);
+}
+
+//delete board arr by index
+function updateBoardArrayDelete(index){
+    boardArr.splice(index, 1);
     console.log(boardArr);
 }
 

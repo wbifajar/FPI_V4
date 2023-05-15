@@ -184,11 +184,11 @@ function calculateBySetTime(index) {
     $(`#opeSum-${index}`).val(opeSum);
     var operationPerOperationBudgetRatio =
       calculateOperationPerOperationBudgetRatio(
-        processData.opeSum,
+        opeSum,
         data.operationBudget
       );
     var operationPerBudgetRatio = calculateOpePerBudgetRatio(
-      processData.opeSum,
+      opeSum,
       data.budgetPerUnit
     );
     var opeTime = "00:00:00";
@@ -485,9 +485,9 @@ function calculateByQuantityPerMin(index){
 
   
   var opeTimeSec = 60/processData.quantityPerMinute;
-  var opeTime = convertSecondsToDateTime(opeTimeSec * 1000);
+  var opeTime = convertSecondsToDateTime(opeTimeSec);
 //   console.log( 'quantoty = ', data.quantity);
-  var totalOpeTime = convertSecondsToDateTime(opeTimeSec * 1000 * data.quantity);
+  var totalOpeTime = convertSecondsToDateTime(opeTimeSec * data.quantity);
   $(`#opeTime-${index}`).val(opeTime);
   var opeSum = getTotalOpeSumFromSetTimeAndOpeTime(index);
   var operationPerOperationBudgetRatio = calculateOperationPerOperationBudgetRatio(opeSum, data.operationBudget);

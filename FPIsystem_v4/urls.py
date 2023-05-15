@@ -23,6 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
     path('Quotation/', include('quotation.urls')),
+    path('material/', include('material.urls')),
+
     path('signin/',views.signin, name='signin'),
     path('signout/',views.signout, name='signout'),
     path('signup/', include('base.urls')),

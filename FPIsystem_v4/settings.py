@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'base',
     'quotation',
+    'material',
     # Package django-widget-tweaks
     # 'widget_tweaks',
 ]

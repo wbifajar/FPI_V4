@@ -15,6 +15,9 @@ function setMaterialData(materialIndex, usedQuantity, materialNumber, materialCo
     $(`#materialCost-${materialIndex}`).val(materialCost);
 }
 
+var boardArr = []
+var barArr = []
+
 function addMaterial() {
     // get material name from search input 
     var materialName = document.getElementById('searchName').value;
@@ -66,14 +69,21 @@ function addMaterial() {
     cell5.innerHTML = `<td><input type="input" class="inputt1 material-used-process" onchange="calculateByUsedQuantity(${materialIndex})" name="usedQuantity-${materialIndex}" id="usedQuantity-${materialIndex}"><a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idMaterial}" ><img class="imgcalcu" src="/static/images/calculator.png"></a></td>`;
     cell6.innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${materialIndex})" name="materialNumber-${materialIndex}" id="materialNumber-${materialIndex}" value="0"></td>`;
     cell7.innerHTML = `<td> <p class="material-price"> ${selectedMaterial.Price} </p> </td>`;
-    cell8.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
-    cell9.innerHTML = `<td><button type="button" onclick="deleteMaterial(${materialIndex})" class="trash"><i data-feather="trash-2"></i></button></td>`;
+    cell8.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" value=0 name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
+    cell9.innerHTML = `<td><button type="button" onclick="deleteMaterial(${materialIndex});" class="trash"><i id="trash-icon"></i></button></td>`;
     cell10.innerHTML = `<td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idMaterial}'></td>`;
   
     callFeatherIcon();
     updateMaterialLength(index);
     $('#searchName').val('');
 
+    // add array kosong ke board arr array dan bar arr array biar ga error pas di delete
+    boardArr.push([
+        selectedMaterial.idMaterial, '', '', '', '', '', '', '', '', '', '', '', 
+        '', '', '', '', '', '', '', '', '', '', '', '', 
+        '', '', '', '', ''
+    ])
+    console.log(boardArr);
     return false;
 }
 
@@ -96,6 +106,8 @@ function deleteMaterial(rowindex){
     }
 
     updateMaterialLength(index);
+    updateBoardArrayDelete(rowindex - 1);
+    updateTotalMaterialCostOnModal();
 }
 
 function calculateMaterialCost(usedQuantity, price){
@@ -115,7 +127,7 @@ function calculateByUsedQuantity(materialIndex){
     console.log(material);
     var materialCost = calculateMaterialCost(data.usedQuantity, material.Price);
     $(`#materialCost-${materialIndex}`).val(materialCost);
-    updateTotalMaterialCost();
+    updateTotalMaterialCostOnModal();
 }
 
 function calculateByNumber(number){
@@ -131,4 +143,10 @@ function calculateByNumber(number){
 $('#reflect-cost-button').on('click', function(){
     var total = $('#total-material-cost').text()
     $('#materialCost').val(total)
+
+    var materialCostPercentage = $('#materialCostPercentage').val()
+
+    console.log('OTAL MTAERIAL VSOT = ', total * materialCostPercentage / 100 );
+    $('#totalMaterialCost').val(total * materialCostPercentage / 100)
 })
+
