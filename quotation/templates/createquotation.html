@@ -22,7 +22,7 @@
 {% block content %}
 
 <div class="container mt-3" >
-    <form action="" method="POST">
+    <form action="/save-quotation" method="POST">
         {% csrf_token %}
         <!-- bagian paling atas yang tidak bisa ke scroll -->
         <div class="row">
@@ -48,7 +48,7 @@
                                     Quantity
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="quantity" onchange="calculateTotalBudget()">
+                                    <input class="" type="text" id="quantity" onchange="calculateTotalBudget();">
                                 </div>
                             </div>
                     
@@ -375,6 +375,8 @@
             
             <div class="btncreate">
                 <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create</button></a>
+                <input type="submit" value="SAVE">
+                <button type="submit" class="btn btn-primary">Save Quotation</button>
             </div> 
         </div>
 
@@ -1634,11 +1636,11 @@
         cell1.innerHTML = `<th scope="row">${materialIndex}</th>`;
         cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idMaterial}"></td>`;
         cell3.innerHTML = `<td><input type="input" value="${selectedMaterial.Name}"></td>`;
-        cell4.innerHTML = `<td><input type="input" list="process" class="inputt1 material-used-process"></td>`;
-        cell5.innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByUsedQuantity(${materialIndex})" name="usedQuantity-${materialIndex}" id="usedQuantity-${materialIndex}"><a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idMaterial}" ><img class="imgcalcu" src="{% static 'images/calculator.png' %}"></a></td>`;
+        cell4.innerHTML = `<td><input type="input" list="process" class="inputt1"></td>`;
+        cell5.innerHTML = `<td><input type="input" class="inputt1 material-used-process" onchange="calculateByUsedQuantity(${materialIndex})" name="usedQuantity-${materialIndex}" id="usedQuantity-${materialIndex}"><a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idMaterial}" ><img class="imgcalcu" src="{% static 'images/calculator.png' %}"></a></td>`;
         cell6.innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${materialIndex})" name="materialNumber-${materialIndex}" id="materialNumber-${materialIndex}" value="0"></td>`;
-        cell7.innerHTML = `<td>${selectedMaterial.Price}</td>`;
-        cell8.innerHTML = `<td><input type="input" class="inputt1 name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
+        cell7.innerHTML = `<td> <p class="material-price"> ${selectedMaterial.Price} </p> </td>`;
+        cell8.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
         cell9.innerHTML = `<td><button type="button" onclick="deleteMaterial(${materialIndex})" class="trash"><i data-feather="trash-2"></i></button></td>`;
         cell10.innerHTML = `<td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idMaterial}'></td>`;
       
