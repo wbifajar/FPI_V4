@@ -115,6 +115,7 @@ function calculateByUsedQuantity(materialIndex){
     console.log(material);
     var materialCost = calculateMaterialCost(data.usedQuantity, material.Price);
     $(`#materialCost-${materialIndex}`).val(materialCost);
+    updateTotalMaterialCost();
 }
 
 function calculateByNumber(number){
@@ -127,3 +128,7 @@ function calculateByNumber(number){
     setMaterialData(materialIndex, usedQuantity, data.materialNumber, materialCost);
 }
 
+$('#reflect-cost-button').on('click', function(){
+    var total = $('#total-material-cost').text()
+    $('#materialCost').val(total)
+})
