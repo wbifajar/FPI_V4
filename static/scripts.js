@@ -10,7 +10,7 @@ function deleteProcess(rowindex) {
   table.deleteRow(rowindex - 1);
 
   // remove item from array and fixing the index
-  processList.splice(rowindex - 1, 4);
+  processList.splice(rowindex - 1, 1);
   index -= 1;
   for (var i = 0; i < index; i++) {
     table.rows[i].cells[0].innerHTML = `<th scope="row">${i + 1}</th>`;

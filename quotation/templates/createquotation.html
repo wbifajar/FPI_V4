@@ -593,12 +593,12 @@
       <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div class="modal-content">
+            <h3 class="modal-title text-center" style="margin-top: 2%;"></h3>
             <div class="modal-body" id="board-modal-content">
                 <div class="row">
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
-                                <h3 class="modal-title"></h3>
                                 <h6>MATERIAL</h6>
                             <div class="row ">
                                     <div class="col">
@@ -894,11 +894,11 @@
                             </h6>
                             <div class="txtimg">
                                 <img src="{% static 'images/boardmarginnumberof.png' %}">
-                                <div class="angka">80</div>
-                                <div class="angka1">70</div>
-                                <div class="angka2">80</div>
-                                <div class="angka3">90</div>
-                                    <div class="angka4">0</div>
+                                <div class="angka" id="FromNumPreviewMargin1"></div>
+                                <div class="angka1" id="FromNumPreviewHalfMargin1"></div>
+                                <div class="angka2" id="FromNumPreviewHalfMargin2"></div>
+                                <div class="angka3" id="FromNumPreviewMargin2"></div>
+                                    <div class="angka4" id="FromNumPreviewExposed"></div>
                             </div>
                         </div>
                         <div class="col">
@@ -907,8 +907,8 @@
                             </h6>
                             <div class="txtimg">
                                 <img src="{% static 'images/boardmarginscale.png' %}">
-                                <div class="angka5">50</div>
-                                <div class="angka6">0</div>
+                                <div class="angka5" id="FromPartScalePreviewMargin"></div>
+                                <div class="angka6" id="FromPartScalePreviewExposed"></div>
                             </div>
                         </div>
                         
@@ -931,7 +931,7 @@
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div class="modal-content">
               <div class="modal-body" id="bar-modal-content">
-                <div class="modal-title"></div>
+                <h3 class="modal-title text-center" style="margin: 2%;"></h3>
                 <div class="row">
                     <div class="col">
                         <div class="card">
@@ -1252,7 +1252,19 @@
     $("#OutlineScalePart").focus(function(){
         $(this).blur();
     });
-    $("#OutlineScaleDiameter").focus(function(){
+    $("#FromNumPreviewMargin1").focus(function(){
+        $(this).blur();
+    });
+    $("#FromNumPreviewMargin2").focus(function(){
+        $(this).blur();
+    });
+    $("#FromNumPreviewHalfMargin1").focus(function(){
+        $(this).blur();
+    });
+    $("#FromNumPreviewHalfMargin2").focus(function(){
+        $(this).blur();
+    });
+    $("#FromNumPreviewExposed").focus(function(){
         $(this).blur();
     });
 
@@ -1753,7 +1765,7 @@ function deleteOther(rowindex){
     table.deleteRow(rowindex-1);
 
     // remove item from array and fixing the index 
-    othersList.splice(rowindex-1, 2);
+    othersList.splice(rowindex-1, 1);
     othersIndex-=1;
     for(var i=0 ; i<othersIndex ; i++){
         table.rows[i].cells[0].innerHTML = `<th scope="row">${i+1}</th>`;

@@ -28,7 +28,7 @@ const modal3 = document.getElementById('exampleModal3')
 function findIndexOfMaterialId(arr, num){
     for(var i = 0; i < arr.length; i++){
         console.log("ADSADASD = ", arr[i][0], num)
-        if(arr[i][0] === num){
+        if(  arr[i][0] == num){
             console.log("sama = ", arr[i][0], num)
             return i
         }
@@ -51,99 +51,53 @@ modal2.addEventListener('show.bs.modal', event => {
     // when board modal triggered,
     // fill value in board modal if already existed before
     var index = findIndexOfMaterialId(boardArr, recipient)
-    if( index != -1 ){
-        console.log('ISII INI MODAL FIELD INPUTNYA', index);
-        $('#BoardMaterialId').val( boardArr[index][1] )
-        $('#BoardMaterialName').val( boardArr[index][2] )
 
-        $("#VerticalScaleMaterial").val( boardArr[index][3] )
-        $("#HorizontalScaleMaterial").val( boardArr[index][4] )
-        $("#ThicknessMaterial").val( boardArr[index][5] )
+    console.log('ISII INI MODAL FIELD INPUTNYA', index);
+    $('#BoardMaterialId').val( boardArr[index][1] )
+    $('#BoardMaterialName').val( boardArr[index][2] )
 
-        $("#MaterialSpesificGravity").val( boardArr[index][6] )
-        $("#MaterialPrice").val( boardArr[index][7] )
+    $("#VerticalScaleMaterial").val( boardArr[index][3] )
+    $("#HorizontalScaleMaterial").val( boardArr[index][4] )
+    $("#ThicknessMaterial").val( boardArr[index][5] )
 
-        // === FROM NUMBER OF PART =====
-        $("#VerticalScaleFromNumber").val( boardArr[index][8] )
-        $("#HorizontalScaleFromNumber").val( boardArr[index][9] )
+    $("#MaterialSpesificGravity").val( boardArr[index][6] )
+    $("#MaterialPrice").val( boardArr[index][7] )
 
-        $("#ExposedFromNumber").val( boardArr[index][10] )
-        $("#MarginFromNumber").val( boardArr[index][11] )
+    // === FROM NUMBER OF PART =====
+    $("#VerticalScaleFromNumber").val( boardArr[index][8] )
+    $("#HorizontalScaleFromNumber").val( boardArr[index][9] )
 
-        $('#NumVerFromNumber').val( boardArr[index][12] );
-        $('#NumHorFromNumber').val( boardArr[index][13] );
-        $('#QtyPerSheetFromNumber').val( boardArr[index][14] );
+    $("#ExposedFromNumber").val( boardArr[index][10] )
+    $("#MarginFromNumber").val( boardArr[index][11] )
 
-        $('#WeightFromNumber').val( boardArr[index][15] );
-        $('#QtyFromNumber').val( boardArr[index][16] );
-        $('#WeightPerQtyFromNumber').val( boardArr[index][17] );
+    $('#NumVerFromNumber').val( boardArr[index][12] );
+    $('#NumHorFromNumber').val( boardArr[index][13] );
+    $('#QtyPerSheetFromNumber').val( boardArr[index][14] );
 
-        $('#PriceFromNumber').val( boardArr[index][18] )
-        $('#WeightFromNumber2').val( boardArr[index][19] );
-        $('#MaterialCostFromNumber').val( boardArr[index][20] );
-        
-        $('#BoldMaterialCostFromNumber').val( boardArr[index][21] );
+    $('#WeightFromNumber').val( boardArr[index][15] );
+    $('#QtyFromNumber').val( boardArr[index][16] );
+    $('#WeightPerQtyFromNumber').val( boardArr[index][17] );
 
-        // === END FROM NUMBER OF PART =====
+    $('#PriceFromNumber').val( boardArr[index][18] )
+    $('#WeightFromNumber2').val( boardArr[index][19] );
+    $('#MaterialCostFromNumber').val( boardArr[index][20] );
+    
+    $('#BoldMaterialCostFromNumber').val( boardArr[index][21] );
 
-        // ==== FROM PART OF PART =====
-        $("#ExposedFromPart").val(boardArr[index][22])
-        $("#MarginFromPart").val(boardArr[index][23])    
+    // === END FROM NUMBER OF PART =====
 
-        $('#WeightFromPart').val(boardArr[index][24]);
+    // ==== FROM PART OF PART =====
+    $("#ExposedFromPart").val(boardArr[index][22])
+    $("#MarginFromPart").val(boardArr[index][23])    
 
-        $('#PriceFromPart').val(boardArr[index][25]);
-        $('#WeightFromPart2').val(boardArr[index][26]);
-        $('#MaterialCostFromPart').val(boardArr[index][27])
+    $('#WeightFromPart').val(boardArr[index][24]);
 
-        $('#BoldMaterialCostFromPart').val(boardArr[index][28])
-    }else{
-        console.log('ISII INI MODAL FIELD INPUTNYA', index);
-        $('#BoardMaterialId').val(  '' )
-        $('#BoardMaterialName').val(  '' )
+    $('#PriceFromPart').val(boardArr[index][25]);
+    $('#WeightFromPart2').val(boardArr[index][26]);
+    $('#MaterialCostFromPart').val(boardArr[index][27])
 
-        $("#VerticalScaleMaterial").val(  '' )
-        $("#HorizontalScaleMaterial").val(  '' )
-        $("#ThicknessMaterial").val(  '' )
-
-        $("#MaterialSpesificGravity").val(  '' )
-        $("#MaterialPrice").val(  '' )
-
-        // === FROM NUMBER OF PART =====
-        $("#VerticalScaleFromNumber").val(  '' )
-        $("#HorizontalScaleFromNumber").val(  '' )
-
-        $("#ExposedFromNumber").val(  ''  )
-        $("#MarginFromNumber").val(  ''  )
-
-        $('#NumVerFromNumber').val(  ''  );
-        $('#NumHorFromNumber').val(  ''  );
-        $('#QtyPerSheetFromNumber').val(  ''  );
-
-        $('#WeightFromNumber').val(  ''  );
-        $('#QtyFromNumber').val(  ''  );
-        $('#WeightPerQtyFromNumber').val(  ''  );
-
-        $('#PriceFromNumber').val(  ''  )
-        $('#WeightFromNumber2').val(  ''  );
-        $('#MaterialCostFromNumber').val(  ''  );
-        
-        $('#BoldMaterialCostFromNumber').val(  ''  );
-
-        // === END FROM NUMBER OF PART =====
-
-        // ==== FROM PART OF PART =====
-        $("#ExposedFromPart").val( '' )
-        $("#MarginFromPart").val( '' )    
-
-        $('#WeightFromPart').val( '' );
-
-        $('#PriceFromPart').val( '' );
-        $('#WeightFromPart2').val( '' );
-        $('#MaterialCostFromPart').val( '' )
-
-        $('#BoldMaterialCostFromPart').val( '' )
-    }
+    $('#BoldMaterialCostFromPart').val(boardArr[index][28])
+    
 
     console.log(boardArr);
 
@@ -230,11 +184,8 @@ function updateBoardArray(){
 
     // kalo belom ada create baru, kalo belom ada update
     target = findIndexOfMaterialId(boardArr, index)
-    if( target == -1 ){
-        boardArr.push(arrBoardInputFieldValue);
-    }else{
-        boardArr[target] = arrBoardInputFieldValue
-    }
+    boardArr[target] = arrBoardInputFieldValue
+    
 
     console.log(boardArr);
 }
