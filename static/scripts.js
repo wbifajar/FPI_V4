@@ -14,11 +14,8 @@ function deleteProcess(rowindex) {
   index -= 1;
   for (var i = 0; i < index; i++) {
     table.rows[i].cells[0].innerHTML = `<th scope="row">${i + 1}</th>`;
-    table.rows[
-      i
-    ].cells[11].innerHTML = `<td><button type="button" onclick="deleteProcess(${
-      i + 1
-    })" class="trash"><i id="trash-icon"></i></button></td>`;
+    table.rows[i].cells[4].innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${i+1})" name='opeSum-${i+1}' id='opeSum-${i+1}'></td>`;
+    table.rows[i].cells[11].innerHTML = `<td><button type="button" onclick="deleteProcess(${i + 1})" class="trash"><i id="trash-icon"></i></button></td>`;
     callFeatherIcon();
   }
 
