@@ -187,13 +187,11 @@ function updateBoardArray(){
     boardArr[target] = arrBoardInputFieldValue
     
 
-    console.log(boardArr);
 }
 
 //delete board arr by index
 function updateBoardArrayDelete(index){
     boardArr.splice(index, 1);
-    console.log(boardArr);
 }
 
 
@@ -238,7 +236,6 @@ modal3.addEventListener('show.bs.modal', event => {
         $('#BarFromScaleUsedQty').val( barArr[index][16] );
         $('#BarFromScaleMaterialCost').val( barArr[index][17] );
     }else{
-        console.log('ISII INI MODAL FIELD INPUTNYA BAR', index);
         $('#BarMaterialId').val( '')
         $('#BarMaterialName').val( '' )
 
@@ -263,8 +260,6 @@ modal3.addEventListener('show.bs.modal', event => {
         $('#BarFromScaleUsedQty').val( '' );
         $('#BarFromScaleMaterialCost').val( '' );
     }
-
-    console.log(boardArr);
 
 })
 

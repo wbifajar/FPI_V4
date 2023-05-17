@@ -14,11 +14,27 @@ function deleteProcess(rowindex) {
   index -= 1;
   for (var i = 0; i < index; i++) {
     table.rows[i].cells[0].innerHTML = `<th scope="row">${i + 1}</th>`;
-    table.rows[
-      i
-    ].cells[11].innerHTML = `<td><button type="button" onclick="deleteProcess(${
-      i + 1
-    })" class="trash"><i id="trash-icon"></i></button></td>`;
+     
+    
+    var selectedProcessId = $('table#materialTable tbody tr').eq(i).children().eq(1).children().val()
+    var selectedProcessName = $('table#materialTable tbody tr').eq(i).children().eq(2).children().val()
+    // cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
+    // var selectedProcessCost = $('table#materialTable tbody tr').eq(i).children().eq(3).children().val()
+
+    table.rows[i].cells[1].innerHTML = `<td>${selectedProcessId}</td>`;  
+    table.rows[i].cells[2].innerHTML = `<td>${selectedProcessName}</td>`;
+    table.rows[i].cells[3].innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
+    table.rows[i].cells[4].innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${i + 1})" name='opeSum-${i + 1}' id='opeSum-${i + 1}'></td>`;
+    table.rows[i].cells[5].innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio-${i + 1}' onchange="calculateByOperationPerOperationBudgetRatio(${i + 1})" id='operationPerOperationBudgetRatio-${i + 1}'> %</td>`;
+    table.rows[i].cells[6].innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${i + 1}' onchange="calculateByOperationPerBudgetRatio(${i + 1})" id='operationPerBudgetRatio-${i + 1}'> %</td>`;
+    table.rows[i].cells[7].innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateBySetTime(${i + 1})" class="operationInputMd" name='setTime-${i + 1}' id='setTime-${i + 1}'></td>`;
+    table.rows[i].cells[8].innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateByOpeTime(${i + 1})" class="operationInputMd" name='opeTime-${i + 1}' id='opeTime-${i + 1}'></td>`;
+    table.rows[i].cells[9].innerHTML = `<td><input type="text" value="00:00:00" class="operationInputMd" onchange="calculateByTotalOpeTime(${i + 1})" name='totalOpeTime-${i + 1}' id='totalOpeTime-${i + 1}'></td>`;
+    table.rows[i].cells[10].innerHTML = `<td><input type="text" class="inputS" onchange="calculateByQuantityPerMin(${i + 1})" name='quantityPerMinute-${i + 1}' id='quantityPerMinute-${i + 1}'></td>`;
+    table.rows[i].cells[11].innerHTML = `<td><button type="button" onclick="deleteProcess(${i + 1})" class="trash"><i id="trash-icon"></i></button></td>`;
+
+
+
     callFeatherIcon();
   }
 
@@ -113,16 +129,6 @@ function calculateOpePerBudgetRatio(opeSum, budgetPerUnit) {
 
 function calculateOpeTime(opeSum, procCost) {
   var result = (opeSum / parseFloat(procCost)) * 60;
-  // setTime = setTime.split(':');
-  // setTime = (+setTime[0]) * 60 * 60 + (+setTime[1]) * 60 + (+setTime[2]);  //convert date time to second
-  // if(setTime != '' && setTime != 0 && setTime != '00:00:00'){
-  //     var result = (opeSum - ((setTime * setCost)/60)*60)/procCost;
-  // } else {
-  //     var result = opeSum / parseFloat(procCost) * 60;
-  //     // if((setTime*setCost)/60 > opeSum ){
-  //     // }
-  // }
-//   console.log("RESULT IN CALCULATE OPE TIME = ", result);
   var resultFixed = convertSecondsToDateTime(result);
   return resultFixed;
 }
@@ -155,7 +161,6 @@ function calculateTotalOpeTime(opeTime, quantity) {
 	opeTime = convertDateTimeToSeconds(opeTime);
 	var result = opeTime * quantity;
 	var resultFixed = convertSecondsToDateTime(result)
-	//   console.log('calculate total ope time return : ', resultFixed);
 
 	return resultFixed;
 }
@@ -206,7 +211,6 @@ function calculateBySetTime(index) {
       quantityPerMinute
     );
   } else if (processData.opeSum != 0) {
-    // console.log('calculatebysettime sec condition');
     var opeSum = 0;
 
     var setTimeSec = convertDateTimeToSeconds(processData.setTime)
@@ -214,7 +218,6 @@ function calculateBySetTime(index) {
 
     var opeTimeSec = convertDateTimeToSeconds(processData.opeTime)
     opeSum += ( opeTimeSec * process.ProcessCost) / 60;
-    // console.log(opeSum);
     $(`#opeSum-${index}`).val(opeSum);
 
     var operationPerOperationBudgetRatio =

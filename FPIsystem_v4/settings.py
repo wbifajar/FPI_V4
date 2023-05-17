@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 import pymysql
-
+pymysql.version_info = (1, 4, 3, "final", 0)
 pymysql.install_as_MySQLdb()
 
 
@@ -89,9 +89,9 @@ WSGI_APPLICATION = 'FPIsystem_v4.wsgi.application'
 DATABASES = {
      'default': {  
         'ENGINE': 'django.db.backends.mysql',  
-        'NAME': 'FPISYSTEM',  
+        'NAME': 'fpisystem',  
         'USER': 'root',  
-        'PASSWORD': 'Secretid24',  
+        'PASSWORD': 'PkmOba_2022',  
         'HOST': '127.0.0.1',  
         'PORT': '3306',  
         'OPTIONS': {  

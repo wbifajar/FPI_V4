@@ -573,7 +573,7 @@
       <!-- modal calculator option -->
       <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
+          <div class="modal-content" style="background-color: #E9ECEFff;">
             <div class="modal-header"  style="justify-content: center;">
                 <h5 class="modal-title" id="exampleModalToggleLabel">Select Material</h5>
                 <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
@@ -592,7 +592,7 @@
       <!-- modal board -->
       <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
-          <div class="modal-content">
+          <div class="modal-content" style="background-color: #E9ECEFff;">
             <h3 class="modal-title text-center" style="margin-top: 2%;"></h3>
             <div class="modal-body" id="board-modal-content">
                 <div class="row">
@@ -929,7 +929,7 @@
       <!-- modal bar -->
       <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
-          <div class="modal-content">
+          <div class="modal-content" style="background-color: #E9ECEFff;">
               <div class="modal-body" id="bar-modal-content">
                 <h3 class="modal-title text-center" style="margin: 2%;"></h3>
                 <div class="row">
@@ -1724,7 +1724,7 @@ function addOther() {
         if (checkName == undefined){
             othersList.push(selectedOthers);
         } else {
-            if (checkName.ProcessId == selectedOthers.OtherId){
+            if (checkName.OtherId == selectedOthers.OtherId){
                 return false;
             }
             othersList.push(selectedOthers);
@@ -1769,6 +1769,14 @@ function deleteOther(rowindex){
     othersIndex-=1;
     for(var i=0 ; i<othersIndex ; i++){
         table.rows[i].cells[0].innerHTML = `<th scope="row">${i+1}</th>`;
+
+        var selectedOthersName = $('table#othersTable tbody tr').eq(i).children().eq(1).children().val()
+        var selectedOthersValue = $('table#othersTable tbody tr').eq(i).children().eq(2).children().val()
+        console.log("SELECTED = ", selectedOthersValue)
+
+        table.rows[i].cells[2].innerHTML = `<td><input type="input" id="otherPrice-${i + 1}" onchange="calculateOtherPercentage(${i + 1}, this.value)" class="inputMd" value=${selectedOthersValue} ></td>`;
+        table.rows[i].cells[3].innerHTML = `<td><input type="input" class="inputPercentage" id="otherPercentage-${i + 1}"></td>`;
+        table.rows[i].cells[4].innerHTML = `<td><input type="checkbox"></td>`;
         table.rows[i].cells[5].innerHTML = `<td><button type="button" onclick="deleteOther(${i+1})" class="trash"><i id="trash-icon"></i></button></td>`;
         callFeatherIcon();
     }

@@ -110,10 +110,10 @@ function deleteMaterial(rowindex){
     for(var i=0 ; i<materialIndex ; i++){
         table.rows[i].cells[0].innerHTML = `<th scope="row">${i+1}</th>`;
         // untuk ambil material id nya 
-        var el =  $('table#materialTable tbody tr').eq(i).children().eq(4).children().eq(0)
+   
         // var material_id = $(el).attr('onchange').split('(')[1].split(')')[0]
-        var used_qty = $(el).val()
         var selected_material_id = $('table#materialTable tbody tr').eq(i).children().eq(1).children().val()
+        var used_qty = $('table#materialTable tbody tr').eq(i).children().eq(4).children().eq(0).val()
         var selected_material_price = $('table#materialTable tbody tr').eq(i).children().eq(6).children().text()
         var selected_material_cost_price = $('table#materialTable tbody tr').eq(i).children().eq(7).children().val()
         // console.log("DELETD SELECTED MATERIAL COST PRICE = ", selected_material_cost_price );
@@ -126,7 +126,6 @@ function deleteMaterial(rowindex){
         callFeatherIcon();
     }
 
-    console.log('delete materual index = ', index);
     updateMaterialLength(index);
     updateBoardArrayDelete(rowindex - 1);
     updateTotalMaterialCostOnModal();
