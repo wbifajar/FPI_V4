@@ -375,8 +375,6 @@
             
             <div class="btncreate">
                 <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create</button></a>
-                <input type="submit" value="SAVE">
-                <button type="submit" class="btn btn-primary">Save Quotation</button>
             </div> 
         </div>
 
@@ -1574,13 +1572,28 @@
     function calculateCostExcludeOperation(){
         var data = getData();
         var result = data.managementCost+data.totalMaterialCost+data.totalOutsourceCost;
+        
         for (var i=0; i<othersIndex; i++){
-            result += parseFloat(document.getElementById(`otherPrice-${i+1}`).value);
+            var otherPrice = parseFloat(document.getElementById(`otherPrice-${i+1}`).value);
+            var otherCheckBox = document.getElementById(`otherCheckBox-${i+1}`).checked;
+            
+            if (!isNaN(otherPrice)) {
+                if (otherCheckBox == false){
+                    result += otherPrice;
+                } else {
+                    if (data.quantity != '' && data.quantity != 0){
+                        result += otherPrice/data.quantity;
+                        console.log('cek' + result);
+                    } else {
+                        result += otherPrice;
+                    }
+                }
+            }
         }
 
         $('#costExcludeOperation').val(zeroSeparator(result));
 
-        var operationBudget = data.budgetPerUnit - result;
+        var operationBudget = data.budgetPerUnit*data.quantity - result;
         $('#operationBudget').val(zeroSeparator(operationBudget));
         if (operationBudget < 0) {
             document.getElementById("operationBudget").style.color = "white";
@@ -1750,7 +1763,7 @@ function addOther() {
     cell2.innerHTML = `<td>${selectedOthers.Name}</td>`;
     cell3.innerHTML = `<td><input type="input" id="otherPrice-${othersIndex}" onchange="calculateOtherPercentage(${othersIndex}, this.value)" class="inputMd"></td>`;
     cell4.innerHTML = `<td><input type="input" class="inputPercentage" id="otherPercentage-${othersIndex}"></td>`;
-    cell5.innerHTML = `<td><input type="checkbox"></td>`;
+    cell5.innerHTML = `<td><input type="checkbox" id="otherCheckBox-${othersIndex}" name="otherCheckBox-${othersIndex}" onchange="calculateCostExcludeOperation()"></td>`;
     cell6.innerHTML = `<td><button type="button" onclick="deleteOther(${othersIndex})" class="trash"><i id="trash-icon"></i></button></td>`;
     cell7.innerHTML = `<td><input type="hidden" name='othersId-${othersIndex}' value='${selectedOthers.OtherId}'></td>`;
     
@@ -1776,7 +1789,7 @@ function deleteOther(rowindex){
 
         table.rows[i].cells[2].innerHTML = `<td><input type="input" id="otherPrice-${i + 1}" onchange="calculateOtherPercentage(${i + 1}, this.value)" class="inputMd" value=${selectedOthersValue} ></td>`;
         table.rows[i].cells[3].innerHTML = `<td><input type="input" class="inputPercentage" id="otherPercentage-${i + 1}"></td>`;
-        table.rows[i].cells[4].innerHTML = `<td><input type="checkbox"></td>`;
+        table.rows[i].cells[4].innerHTML = `<td><input type="checkbox" id="otherCheckBox-${i+1}" name="otherCheckBox-${i+1}" onchange="calculateCostExcludeOperation()></td>`;
         table.rows[i].cells[5].innerHTML = `<td><button type="button" onclick="deleteOther(${i+1})" class="trash"><i id="trash-icon"></i></button></td>`;
         callFeatherIcon();
     }

@@ -33,3 +33,8 @@ tableSeed('data.csv', 'part', connection, cursor)
 insertToTable('process', '"Programming", 15000, 3000', connection, cursor)
 insertToTable('process', '"Welding", 2500,  2500', connection, cursor)
 insertToTable('process', '"Bending", 3000, 2500', connection, cursor)
+
+insert into customer values(null, "PT. Miura Indonesia", "Kawasan Karawang International Industrial City Jl. Harapan Raya Lot KK-10, Sirnabaya, Telukjambe Timur, Karawang, Jawa Barat ID 41361");
+insert into customer values(null, "PT. Mikuni Indonesia", "Industrial Town MM 2100 Jl. Irian Blok QQ-1, Jatiwangi, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat ID 17520");
+insert into customer values(null, "PT. Muramoto Elektronika", "Perkantoran Serpong Town Square (Great Western Resort) Blok AB1 No.32, Jl. MH. Thamrin No.KM.2, Kota Tangerang, Banten ID 15143");
+insert into customer values(null, "PT. Shima Trading Indonesia", "Alamanda Tower Lt.20 Unit A Jl. TB. Simatupang Kav 23-24, Jakarta Selatan, DKI Jakarta ID 12430");
