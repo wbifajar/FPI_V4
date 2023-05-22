@@ -1769,7 +1769,7 @@ function addOther() {
     
     callFeatherIcon();
     updateOtherLength(othersIndex);
-
+    $('#otherName').val('');
     return false;
 }
 
@@ -1785,11 +1785,13 @@ function deleteOther(rowindex){
 
         var selectedOthersName = $('table#othersTable tbody tr').eq(i).children().eq(1).children().val()
         var selectedOthersValue = $('table#othersTable tbody tr').eq(i).children().eq(2).children().val()
-        console.log("SELECTED = ", selectedOthersValue)
+        var selectedOthersPercentage = $('table#othersTable tbody tr').eq(i).children().eq(3).children().val()
+        var selectedOthersCheckbox = $('table#othersTable tbody tr').eq(i).children().eq(4).children()[0].checked == true ? 'checked' : ''
+        console.log("SELECTED = ", selectedOthersCheckbox)
 
         table.rows[i].cells[2].innerHTML = `<td><input type="input" id="otherPrice-${i + 1}" onchange="calculateOtherPercentage(${i + 1}, this.value)" class="inputMd" value=${selectedOthersValue} ></td>`;
-        table.rows[i].cells[3].innerHTML = `<td><input type="input" class="inputPercentage" id="otherPercentage-${i + 1}"></td>`;
-        table.rows[i].cells[4].innerHTML = `<td><input type="checkbox" id="otherCheckBox-${i+1}" name="otherCheckBox-${i+1}" onchange="calculateCostExcludeOperation()></td>`;
+        table.rows[i].cells[3].innerHTML = `<td><input type="input" class="inputPercentage" id="otherPercentage-${i + 1}" value="${selectedOthersPercentage}"></td>`;
+        table.rows[i].cells[4].innerHTML = `<td><input type="checkbox" id="otherCheckBox-${i+1}" name="otherCheckBox-${i+1}" onchange="calculateCostExcludeOperation()" ${selectedOthersCheckbox}></td>`;
         table.rows[i].cells[5].innerHTML = `<td><button type="button" onclick="deleteOther(${i+1})" class="trash"><i id="trash-icon"></i></button></td>`;
         callFeatherIcon();
     }
