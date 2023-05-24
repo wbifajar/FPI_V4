@@ -54,6 +54,7 @@
         outline: none;
         cursor: pointer;
         text-align: left !important;
+        width: 14vw;
       }
     </style>
 
@@ -63,7 +64,7 @@
 
   </head>
   <body>
-    <div class="side-bar p-3" style="width: 310px;">
+    <div class="side-bar p-3" style="width: 23%;">
       <a href="/home" class="sidebar-header d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
         <img src="{% static 'images/logo.png' %}" width="80" height="60" alt="">
         <div class="side-bar-header-text center-text">
@@ -154,8 +155,8 @@
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <a href="/material" class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont">
-                  Material
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="material1" name="material1" value="Material" readonly ><br>
                 </a>
               </div>
               <div>
