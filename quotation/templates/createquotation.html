@@ -15,6 +15,15 @@
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
         text-align: center;
     }
+    /* css table modal customer dan product */
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        color: black !important;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+    
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        color: black !important;
+    }
 </style>
 {% endblock head %}
 
@@ -293,7 +302,7 @@
                                     <th scope="col">Price</th>
                                     <th scope="col">%</th>
                                     <th scope="col">/Unit</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">#</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -1582,7 +1591,7 @@
                     result += otherPrice;
                 } else {
                     if (data.quantity != '' && data.quantity != 0){
-                        result += otherPrice/data.quantity;
+                        result = otherPrice/data.quantity;
                         console.log('cek' + result);
                     } else {
                         result += otherPrice;
