@@ -21,7 +21,7 @@ function deleteProcess(rowindex) {
     var selectedProcessCost = $('table#processTable tbody tr').eq(i).children().eq(3).text()
     console.log("SELECTED PROCESS = ", selectedProcessCost);
     // cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
-    // var selectedProcessCost = $('table#materialTable tbody tr').eq(i).children().eq(3).children().val()
+    var selectedProcessCost = $('table#materialTable tbody tr').eq(i).children().eq(3).children().val()
 
     table.rows[i].cells[1].innerHTML = `<td>${selectedProcessId}</td>`;  
     table.rows[i].cells[2].innerHTML = `<td>${selectedProcessName}</td>`;
