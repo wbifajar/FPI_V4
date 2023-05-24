@@ -16,14 +16,16 @@ function deleteProcess(rowindex) {
     table.rows[i].cells[0].innerHTML = `<th scope="row">${i + 1}</th>`;
      
     
-    var selectedProcessId = $('table#materialTable tbody tr').eq(i).children().eq(1).children().val()
-    var selectedProcessName = $('table#materialTable tbody tr').eq(i).children().eq(2).children().val()
+    var selectedProcessId = $('table#processTable tbody tr').eq(i).children().eq(1).text()
+    var selectedProcessName = $('table#processTable tbody tr').eq(i).children().eq(2).text()
+    var selectedProcessCost = $('table#processTable tbody tr').eq(i).children().eq(3).text()
+    console.log("SELECTED PROCESS = ", selectedProcessCost);
     // cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
     var selectedProcessCost = $('table#materialTable tbody tr').eq(i).children().eq(3).children().val()
 
     table.rows[i].cells[1].innerHTML = `<td>${selectedProcessId}</td>`;  
     table.rows[i].cells[2].innerHTML = `<td>${selectedProcessName}</td>`;
-    table.rows[i].cells[3].innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
+    table.rows[i].cells[3].innerHTML = `<td>${selectedProcessCost}</td>`;
     table.rows[i].cells[4].innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${i + 1})" name='opeSum-${i + 1}' id='opeSum-${i + 1}'></td>`;
     table.rows[i].cells[5].innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio-${i + 1}' onchange="calculateByOperationPerOperationBudgetRatio(${i + 1})" id='operationPerOperationBudgetRatio-${i + 1}'> %</td>`;
     table.rows[i].cells[6].innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${i + 1}' onchange="calculateByOperationPerBudgetRatio(${i + 1})" id='operationPerBudgetRatio-${i + 1}'> %</td>`;
