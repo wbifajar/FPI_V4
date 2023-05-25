@@ -2,6 +2,8 @@ function updateProcessLength(index) {
   $("#processLength").val(index);
 }
 
+
+
 function deleteProcess(rowindex) {
 //   console.log(index);
   var table = document
@@ -94,6 +96,72 @@ function getProcessData(index) {
   };
 
   return data;
+}
+
+function addProcess() {
+  // get process name from search input 
+  var processName = document.getElementById('processName').value;
+
+  // get process database from py file 
+  const obj = getProcessFromDB();
+  var selectedProcess = obj.find(element => element.Name == processName);
+      
+  if(selectedProcess == undefined){
+      return false;
+  }
+  
+  // check for duplicate process
+  if(Object.entries(processList).length != 0){
+      var checkName = processList.find(element => element.Name == processName);
+      if (checkName == undefined){
+          processList.push(selectedProcess);
+      } else {
+          if (checkName.ProcessId == selectedProcess.ProcessId){
+              return false;
+          }
+          processList.push(selectedProcess);
+      }
+  } else {
+      processList.push(selectedProcess);
+  }
+  
+  // alter table to add process 
+  var table = document.getElementById("processTable").getElementsByTagName('tbody')[0];
+  index++;
+
+  var row = table.insertRow(-1);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  var cell3 = row.insertCell(2);
+  var cell4 = row.insertCell(3);
+  var cell5 = row.insertCell(4);
+  var cell6 = row.insertCell(5);
+  var cell7 = row.insertCell(6);
+  var cell8 = row.insertCell(7);
+  var cell9 = row.insertCell(8);
+  var cell10 = row.insertCell(9);
+  var cell11 = row.insertCell(10);
+  var cell12 = row.insertCell(11);
+  var cell13 = row.insertCell(12);
+
+  cell1.innerHTML = `<th scope="row">${index}</th>`; 
+  cell2.innerHTML = `<td>${selectedProcess.ProcessId}</td>`;  
+  cell3.innerHTML = `<td>${selectedProcess.Name}</td>`;
+  cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
+  cell5.innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${index})" name='opeSum-${index}' id='opeSum-${index}'></td>`;
+  cell6.innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio-${index}' onchange="calculateByOperationPerOperationBudgetRatio(${index})" id='operationPerOperationBudgetRatio-${index}'> %</td>`;
+  cell7.innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${index}' onchange="calculateByOperationPerBudgetRatio(${index})" id='operationPerBudgetRatio-${index}'> %</td>`;
+  cell8.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateBySetTime(${index})" class="operationInputMd" name='setTime-${index}' id='setTime-${index}'></td>`;
+  cell9.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateByOpeTime(${index})" class="operationInputMd" name='opeTime-${index}' id='opeTime-${index}'></td>`;
+  cell10.innerHTML = `<td><input type="text" value="00:00:00" class="operationInputMd" onchange="calculateByTotalOpeTime(${index})" name='totalOpeTime-${index}' id='totalOpeTime-${index}'></td>`;
+  cell11.innerHTML = `<td><input type="text" class="inputS" onchange="calculateByQuantityPerMin(${index})" name='quantityPerMinute-${index}' id='quantityPerMinute-${index}'></td>`;
+  cell12.innerHTML = `<td><button type="button" onclick="deleteProcess(${index})" class="trash"><i id="trash-icon"></i></button></td>`;
+  cell13.innerHTML = `<td><input type="hidden" name='processId-${index}' value='${index}'></td>`;
+
+  callFeatherIcon();
+  updateProcessLength(index);
+  $('#processName').val('');
+  return false;
 }
 
 function setProcessData(
