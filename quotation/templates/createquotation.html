@@ -31,7 +31,8 @@
 {% block content %}
 
 <div class="container mt-3" >
-    <form action="/save-quotation" method="POST">
+    <!-- <form action="/save-quotation" method="POST"> -->
+    <form action="/Quotation/submittes/" method="POST">
         {% csrf_token %}
         <!-- bagian paling atas yang tidak bisa ke scroll -->
         <div class="row">
@@ -384,6 +385,7 @@
             
             <div class="btncreate">
                 <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create</button></a>
+                <button type="submit" class="btn btn-primary">Submit Quotation</button>
             </div> 
         </div>
 
@@ -807,6 +809,7 @@
 
                                 <div>
                                     <button type="button" class="btn btn-secondary btnsearch2" id="submit-board-cost-from-number">Submit</button>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -1155,6 +1158,8 @@
 
     </div>
 </form>
+
+
 {% endblock content %}
 
 
