@@ -18,14 +18,12 @@ function deleteProcess(rowindex) {
     
     var selectedProcessId = $('table#processTable tbody tr').eq(i).children().eq(1).text()
     var selectedProcessName = $('table#processTable tbody tr').eq(i).children().eq(2).text()
-    var selectedProcessCost = $('table#processTable tbody tr').eq(i).children().eq(3).text()
-    console.log("SELECTED PROCESS = ", selectedProcessCost);
-    // cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
-    var selectedProcessCost = $('table#materialTable tbody tr').eq(i).children().eq(3).children().val()
+    // var selectedProcessCost = $('table#processTable tbody tr').eq(i).children().eq(3).text()
+    // var selectedProcessCost = $('table#materialTable tbody tr').eq(i).children().eq(3).children().val()
 
     table.rows[i].cells[1].innerHTML = `<td>${selectedProcessId}</td>`;  
     table.rows[i].cells[2].innerHTML = `<td>${selectedProcessName}</td>`;
-    table.rows[i].cells[3].innerHTML = `<td>${selectedProcessCost}</td>`;
+    table.rows[i].cells[3].innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
     table.rows[i].cells[4].innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${i + 1})" name='opeSum-${i + 1}' id='opeSum-${i + 1}'></td>`;
     table.rows[i].cells[5].innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio-${i + 1}' onchange="calculateByOperationPerOperationBudgetRatio(${i + 1})" id='operationPerOperationBudgetRatio-${i + 1}'> %</td>`;
     table.rows[i].cells[6].innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${i + 1}' onchange="calculateByOperationPerBudgetRatio(${i + 1})" id='operationPerBudgetRatio-${i + 1}'> %</td>`;
@@ -491,7 +489,6 @@ function calculateByQuantityPerMin(index){
   
   var opeTimeSec = 60/processData.quantityPerMinute;
   var opeTime = convertSecondsToDateTime(opeTimeSec);
-//   console.log( 'quantoty = ', data.quantity);
   var totalOpeTime = convertSecondsToDateTime(opeTimeSec * data.quantity);
   $(`#opeTime-${index}`).val(opeTime);
   var opeSum = getTotalOpeSumFromSetTimeAndOpeTime(index);
@@ -526,29 +523,27 @@ function totalOperations(){
   var processList = $('#processTable tr');
   var processLength = processList.length - 2;
 
-  console.log('Proces List = ', processList);
-  console.log(processList.length);
 
   for (let index = 1; index < processLength; index++) {
     var elel = $(processList[index]).children() 
     console.log( elel );
     // console.log( $(elel[5]).children().val().split('%') );
+
     totalOpeSum += parseInt($(elel[4]).children().val())
     totalOpePerOpeBudgetRatio += parseFloat(  $(elel[5]).children().val().split('%')[0] )
     totalOpePerBudgetRatio += parseFloat(  $(elel[6]).children().val().split('%')[0] )
     totalSetTime += parseInt(convertDateTimeToSeconds($(elel[7]).children().val()))
-   
-    console.log ('TOTAL ope = ', totalOpePerOpeBudgetRatio);
     
     totalOpeTime += parseInt(convertDateTimeToSeconds($(elel[8]).children().val()))
-    console.log ('TOTAL ope time = ', totalOpeTime);
-    console.log ('TOTAL ope time = ', convertSecondsToDateTime(totalOpeTime));
+
     // totalSetTime = new Date(totalSetTime * 1000).toISOString().slice(11, 19);
 
     totalTotalOpeTime += parseInt(convertDateTimeToSeconds($(elel[9]).children().val()))
   }
   
   
+  $('#operationCost').text(totalOpeSum);
+
   $('#totalOpeSum').text(totalOpeSum);
   $('#totalOpePerOpe').text(totalOpePerOpeBudgetRatio.toFixed(2) + ' %' )
   $('#totalOpePerBudget').text(totalOpePerBudgetRatio.toFixed(2) + ' %')
@@ -562,13 +557,10 @@ function totalOperations(){
 function restOperations(){  
   var totalBudget = $('#totalBudget').val().replaceAll(',', '')
   var costExcludeOperation = $('#costExcludeOperation').val().replaceAll(',', '')
-  console.log( "costExcludeOperation = ", costExcludeOperation);
   var costAvailable = parseFloat(totalBudget) - parseFloat(costExcludeOperation)
-  console.log('REST = ', costAvailable);
   $('#restOpeSum').text(costAvailable);
 
   var totalOpeSum = $('#totalOpeSum').text()
-  console.log(totalOpeSum);
   costAvailable = costAvailable - totalOpeSum
   $('#restOpeSum').text( zeroSeparator(costAvailable));
 

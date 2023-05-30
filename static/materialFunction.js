@@ -60,7 +60,6 @@ function addMaterial() {
     var cell7 = row.insertCell(6);
     var cell8 = row.insertCell(7);
     var cell9 = row.insertCell(8);
-    var cell10 = row.insertCell(9);
 
     cell1.innerHTML = `<th scope="row">${materialIndex}</th>`;
     cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idMaterial}"></td>`;
@@ -75,11 +74,11 @@ function addMaterial() {
                                 <img class="imgcalcu" src="/static/images/calculator.png">
                             </a>
                         </td>`;
-    cell6.innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${materialIndex})" name="materialNumber-${materialIndex}" id="materialNumber-${materialIndex}" value="0"></td>`;
-    cell7.innerHTML = `<td> <p class="material-price"> ${selectedMaterial.Price} </p> </td>`;
-    cell8.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" value=0 name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
-    cell9.innerHTML = `<td><button type="button" onclick="deleteMaterial(${materialIndex});" class="trash"><i id="trash-icon"></i></button></td>`;
-    cell10.innerHTML = `<td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idMaterial}'></td>`;
+    // cell6.innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${materialIndex})" name="materialNumber-${materialIndex}" id="materialNumber-${materialIndex}" value="0"></td>`;
+    cell6.innerHTML = `<td> <p class="material-price"> ${selectedMaterial.Price} </p> </td>`;
+    cell7.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" value=0 name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
+    cell8.innerHTML = `<td><button type="button" onclick="deleteMaterial(${materialIndex});" class="trash"><i id="trash-icon"></i></button></td>`;
+    cell9.innerHTML = `<td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idMaterial}'></td>`;
   
     callFeatherIcon();
     updateMaterialLength(index);
@@ -87,8 +86,8 @@ function addMaterial() {
 
     // add array kosong ke board arr array dan bar arr array biar ga error pas di delete
     boardArr.push([
-        selectedMaterial.idMaterial, '', '', '', '', '', '', '', '', '', '', '', 
-        '', '', '', '', '', '', '', '', '', '', '', '', 
+        selectedMaterial.idMaterial, '', '', '', '', '', '', '', '', '', '', 
+        '', '', '', '', '', '', '', '', '', '', '', 
         '', '', '', '', ''
     ])
     console.log(boardArr);
@@ -119,10 +118,10 @@ function deleteMaterial(rowindex){
         // console.log("DELETD SELECTED MATERIAL COST PRICE = ", selected_material_cost_price );
 
         table.rows[i].cells[4].innerHTML = `<td><input type="input" class="inputt1 material-used-process" onchange="calculateByUsedQuantity(${i+1})" name="usedQuantity-${i+1}" id="usedQuantity-${i+1}" value=${used_qty}><a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${i+1}" data-bs-index="${ selected_material_id }" ><img class="imgcalcu" src="/static/images/calculator.png"></a></td>;`
-        table.rows[i].cells[5].innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${i+1})" name="materialNumber-${i+1}" id="materialNumber-${i+1}" value="0"></td>`;
-        table.rows[i].cells[6].innerHTML = `<td> <p class="material-price"> ${ selected_material_price } </p> </td>`;
-        table.rows[i].cells[7].innerHTML = `<td><input type="input" class="inputt1 material-cost-price" value=${selected_material_cost_price} name="materialCost-${i+1}" id=materialCost-${i+1} ></td>`;
-        table.rows[i].cells[8].innerHTML = `<td><button type="button" onclick="deleteMaterial(${i+1})" class="trash"><i id="trash-icon"></i></button></td>`;
+        // table.rows[i].cells[5].innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${i+1})" name="materialNumber-${i+1}" id="materialNumber-${i+1}" value="0"></td>`;
+        table.rows[i].cells[5].innerHTML = `<td> <p class="material-price"> ${ selected_material_price } </p> </td>`;
+        table.rows[i].cells[6].innerHTML = `<td><input type="input" class="inputt1 material-cost-price" value=${selected_material_cost_price} name="materialCost-${i+1}" id=materialCost-${i+1} ></td>`;
+        table.rows[i].cells[7].innerHTML = `<td><button type="button" onclick="deleteMaterial(${i+1})" class="trash"><i id="trash-icon"></i></button></td>`;
         callFeatherIcon();
     }
 
@@ -145,22 +144,21 @@ function calculateByUsedQuantity(materialIndex){
     var data = getMaterialData(materialIndex);
     var material = materialList[materialIndex-1];
     
-    console.log('TEESTSETSESET = ', materialIndex);
-    console.log( 'MATERIAL LIST = ', materialList );
+    
     var materialCost = calculateMaterialCost(data.usedQuantity, material.Price);
     $(`#materialCost-${materialIndex}`).val(materialCost);
     updateTotalMaterialCostOnModal();
 }
 
-function calculateByNumber(number){
-    var data = getMaterialData(number);
-    var material = materialList[materialIndex-1];
+// function calculateByNumber(number){
+//     var data = getMaterialData(number);
+//     var material = materialList[materialIndex-1];
 
-    var usedQuantity = calculateUsedQuantity(data.materialNumber);
-    var materialCost = calculateMaterialCost(usedQuantity, material.Price);
+//     var usedQuantity = calculateUsedQuantity(data.materialNumber);
+//     var materialCost = calculateMaterialCost(usedQuantity, material.Price);
     
-    setMaterialData(materialIndex, usedQuantity, data.materialNumber, materialCost);
-}
+//     setMaterialData(materialIndex, usedQuantity, data.materialNumber, materialCost);
+// }
 
 $('#reflect-cost-button').on('click', function(){
     var total = $('#total-material-cost').text()
