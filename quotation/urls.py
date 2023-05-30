@@ -8,4 +8,5 @@ urlpatterns = [
     path('QuotationMaterial/', views.QuotationMaterial, name="QuotationMaterial"),
     path('tes-submit/', views.SubmitTest, name="TesSubmitForm"),
     path('insert-form/', views.InsertForm, name="InsertDB"),
+    path('submittes/', views.insertQuotation, name="testes")
 ] 
