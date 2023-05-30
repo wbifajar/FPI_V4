@@ -1,4 +1,3 @@
-
 function addOther() {
     // get others name from search input 
     var otherName = document.getElementById('otherName').value;
