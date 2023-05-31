@@ -5,7 +5,7 @@ function updateTotalMaterialCostOnModal(){
     $('table#materialTable > tbody tr').each(function(index, value){
     
         var num = $(value).find('input.material-cost-price').val() 
-        total +=  parseInt(num) ;
+        total +=  parseInt(num);
 
         // break loop before last row (last row is for showing total material cost)
         if( index == $('table#materialTable > tbody tr').length - 2 ){
