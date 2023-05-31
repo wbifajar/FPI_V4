@@ -394,10 +394,10 @@
           <div class="modal-content">
             <div class="modal-body">  
                 <div style="display: flex; flex-basis: 40%; justify-content: right;">
-                    <input type="input" list="material" id="searchName" name="searchName" placeholder="Search ..." class="inputSearch " >
-                            <datalist id="material">
-                                {% for m in material %}
-                                    <option value="{{m.Name}}" />
+                    <input type="input" list="partreflectcost" id="searchName" name="searchName" placeholder="Search ..." class="inputSearch " >
+                            <datalist id="partreflectcost">
+                                {% for p in partreflectcost %}
+                                    <option value="{{p.name}}" />
                                 {% endfor %}
                             </datalist> 
                     <button type="button" onclick="addMaterial()" class="btn btn-secondary btnsearch">  Add</button>
@@ -421,7 +421,7 @@
                     <tbody>
                         <th scope="row"></th>
                         <td></td>
-                        <!-- <td></td> -->
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td>
@@ -1001,8 +1001,12 @@
                                         <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumExposed"> mm
                                     </div>
                                     <div class="col">
-                                        Diameter
-                                        <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumRoundBa"> mm
+                                        <div>
+                                            Length
+                                        </div>
+                                        <div>
+                                            <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumRoundBa"> mm
+                                        </div>
                                     </div>
                                     <div class="col">
                                         Edge Loss
@@ -1027,7 +1031,7 @@
                                 <!-- baris 4 -->
                                 <div class="row">
                                     <div class="col">
-                                        Scala
+                                        Scalp
                                         <input class="kolominput" type="text" readonly onchange="" id="BarCalcNumScla"> mm
                                     </div>
                                     <div class="col">
@@ -1624,8 +1628,8 @@
 
     // get material database from py file 
     function getMaterialFromDB(){
-        var material = '{{materialjs|safe}}';
-        const obj = JSON.parse(material);
+        var part = '{{partreflectcostjs|safe}}';
+        const obj = JSON.parse(part);
 
         return obj;
     }

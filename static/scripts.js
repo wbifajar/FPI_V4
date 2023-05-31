@@ -349,7 +349,7 @@ function calculateByOpeSum(index) {
 			// ope sum - calculate ope sum by settime
 			// lalu hasilnya baru dipake buat ngitung opetime
 			// ambil data opesum sekarang yang sudah diubah oleh settime += calculate opesum by ope time
-			console.log("run 1.4");
+			// console.log("run 1.4");
 		}
 			// console.log('OnChange1 :: oldValue: ' + document.getElementById('opeSum-1').oldValue + ', newValue: ' + index.newValue);
 
@@ -367,7 +367,7 @@ function calculateByOpeSum(index) {
 		var opeTime = calculateOpeTime(processData.opeSum, process.ProcessCost);
 		var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
 		var quantityPerMinute = calculateQuantityPerMinute(opeTime);
-		console.log("run 2");
+		// console.log("run 2");
 	}
 	setProcessData(
 		index,
@@ -526,7 +526,7 @@ function totalOperations(){
 
   for (let index = 1; index < processLength; index++) {
     var elel = $(processList[index]).children() 
-    console.log( elel );
+    // console.log( elel );
     // console.log( $(elel[5]).children().val().split('%') );
 
     totalOpeSum += parseInt($(elel[4]).children().val())
@@ -542,7 +542,12 @@ function totalOperations(){
   }
   
   
-  $('#operationCost').text(totalOpeSum);
+  $('#operationCost').val(zeroSeparator(totalOpeSum));
+  var costExcludeOperation = $('#costExcludeOperation').val().replaceAll(',', '')
+  totalCost = parseFloat(totalOpeSum) + parseFloat(costExcludeOperation);
+  $('#totalCost').val(zeroSeparator (totalCost));
+
+
 
   $('#totalOpeSum').text(totalOpeSum);
   $('#totalOpePerOpe').text(totalOpePerOpeBudgetRatio.toFixed(2) + ' %' )
@@ -563,6 +568,7 @@ function restOperations(){
   var totalOpeSum = $('#totalOpeSum').text()
   costAvailable = costAvailable - totalOpeSum
   $('#restOpeSum').text( zeroSeparator(costAvailable));
+
 
   var totalOpePerOpe = $('#totalOpePerOpe').text();
   var restOpePerOpe = 100 - parseFloat(totalOpePerOpe);

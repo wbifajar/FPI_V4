@@ -30,9 +30,9 @@ def CreateNewQuotation(request):
 	part = cursor.fetchall()
 	partjs = json.dumps(part)
 	
-	cursor.execute('select * from material')
-	material = cursor.fetchall()
-	materialjs = json.dumps(material)
+	# cursor.execute('select * from material')
+	# material = cursor.fetchall()
+	# materialjs = json.dumps(material)
 
 	context = {
 		'process' : process,
@@ -47,8 +47,8 @@ def CreateNewQuotation(request):
 		'partjs' : partjs,
 		'partbar' : part,
 		'partbarjs' : partjs,
-		'material' : material,
-		'materialjs' : materialjs,
+		'partreflectcost' : part,
+		'partreflectcostjs' : partjs,
 	}
 
 	if request.method == 'POST':
