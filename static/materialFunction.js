@@ -2,7 +2,7 @@ function getMaterialData(materialIndex){
      
     var data = {
         'usedQuantity' : isNaN(parseInt(document.getElementById(`usedQuantity-${materialIndex}`).value)) ? 0 : parseInt(document.getElementById(`usedQuantity-${materialIndex}`).value),
-        'materialNumber' : isNaN(parseInt(document.getElementById(`materialNumber-${materialIndex}`).value)) ? 0 : parseInt(document.getElementById(`materialNumber-${materialIndex}`).value),
+        // 'materialNumber' : isNaN(parseInt(document.getElementById(`materialNumber-${materialIndex}`).value)) ? 0 : parseInt(document.getElementById(`materialNumber-${materialIndex}`).value),
         'materialCost' : isNaN(parseInt(document.getElementById(`materialCost-${materialIndex}`).value)) ? 0 : parseInt(document.getElementById(`materialCost-${materialIndex}`).value),
     }
 
@@ -11,7 +11,7 @@ function getMaterialData(materialIndex){
 
 function setMaterialData(materialIndex, usedQuantity, materialNumber, materialCost){
     $(`#usedQuantity-${materialIndex}`).val(usedQuantity);
-    $(`#materialNumber-${materialIndex}`).val(materialNumber);
+    // $(`#materialNumber-${materialIndex}`).val(materialNumber);
     $(`#materialCost-${materialIndex}`).val(materialCost);
 }
 
@@ -25,7 +25,7 @@ function addMaterial() {
     // get material database from py file 
     
     const obj = getMaterialFromDB();
-    var selectedMaterial = obj.find(element => element.Name == materialName);
+    var selectedMaterial = obj.find(element => element.name == materialName);
 
     if(selectedMaterial == undefined){
         return false;
@@ -33,11 +33,11 @@ function addMaterial() {
     
     // check for duplicate material
     if(Object.entries(materialList).length != 0){
-        var checkName = materialList.find(element => element.Name == materialName);
+        var checkName = materialList.find(element => element.name == materialName);
         if (checkName == undefined){
             materialList.push(selectedMaterial);
         } else {
-            if (checkName.idMaterial == selectedMaterial.idMaterial){
+            if (checkName.idPart == selectedMaterial.idPart){
                 return false;
             }
             materialList.push(selectedMaterial);
@@ -62,23 +62,23 @@ function addMaterial() {
     var cell9 = row.insertCell(8);
 
     cell1.innerHTML = `<th scope="row">${materialIndex}</th>`;
-    cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idMaterial}"></td>`;
-    cell3.innerHTML = `<td><input type="input" value="${selectedMaterial.Name}"></td>`;
+    cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idPart}"></td>`;
+    cell3.innerHTML = `<td><input type="input" value="${selectedMaterial.name}"></td>`;
     cell4.innerHTML = `<td><input type="input" list="process" class="inputt1"></td>`;
     cell5.innerHTML = `<td>
                         <input type="input" class="inputt1 material-used-process" 
                         onchange="calculateByUsedQuantity(${materialIndex})" 
                         name="usedQuantity-${materialIndex}" 
                         id="usedQuantity-${materialIndex}">
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idMaterial}" >
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idPart}" >
                                 <img class="imgcalcu" src="/static/images/calculator.png">
                             </a>
                         </td>`;
     // cell6.innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${materialIndex})" name="materialNumber-${materialIndex}" id="materialNumber-${materialIndex}" value="0"></td>`;
-    cell6.innerHTML = `<td> <p class="material-price"> ${selectedMaterial.Price} </p> </td>`;
-    cell7.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" value=0 name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
+    cell6.innerHTML = `<td> <p class="material-price"> ${selectedMaterial.price} </p> </td>`;
+    cell7.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" value="0" name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
     cell8.innerHTML = `<td><button type="button" onclick="deleteMaterial(${materialIndex});" class="trash"><i id="trash-icon"></i></button></td>`;
-    cell9.innerHTML = `<td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idMaterial}'></td>`;
+    cell9.innerHTML = `<td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idPart}'></td>`;
   
     callFeatherIcon();
     updateMaterialLength(index);
@@ -86,7 +86,7 @@ function addMaterial() {
 
     // add array kosong ke board arr array dan bar arr array biar ga error pas di delete
     boardArr.push([
-        selectedMaterial.idMaterial, '', '', '', '', '', '', '', '', '', '', 
+        selectedMaterial.idPart, '', '', '', '', '', '', '', '', '', '', 
         '', '', '', '', '', '', '', '', '', '', '', 
         '', '', '', '', ''
     ])
@@ -135,17 +135,17 @@ function calculateMaterialCost(usedQuantity, price){
     return result;
 }
 
-function calculateUsedQuantity(number){
-    var result = 1/number;
-    return result;
-}
+// function calculateUsedQuantity(number){
+//     var result = 1/number;
+//     return result;
+// }
 
 function calculateByUsedQuantity(materialIndex){
     var data = getMaterialData(materialIndex);
     var material = materialList[materialIndex-1];
     
     
-    var materialCost = calculateMaterialCost(data.usedQuantity, material.Price);
+    var materialCost = calculateMaterialCost(data.usedQuantity, material.price);
     $(`#materialCost-${materialIndex}`).val(materialCost);
     updateTotalMaterialCostOnModal();
 }
@@ -166,7 +166,7 @@ $('#reflect-cost-button').on('click', function(){
 
     var materialCostPercentage = $('#materialCostPercentage').val()
 
-    console.log('OTAL MTAERIAL VSOT = ', total * materialCostPercentage / 100 );
+    // console.log('OTAL MTAERIAL VSOT = ', total * materialCostPercentage / 100 );
     $('#totalMaterialCost').val(total * materialCostPercentage / 100)
 })
 
