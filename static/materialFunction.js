@@ -23,7 +23,6 @@ function addMaterial() {
     var materialName = document.getElementById('searchName').value;
 
     // get material database from py file 
-    
     const obj = getMaterialFromDB();
     var selectedMaterial = obj.find(element => element.name == materialName);
 
@@ -32,19 +31,13 @@ function addMaterial() {
     }
     
     // check for duplicate material
-    if(Object.entries(materialList).length != 0){
+    if( Object.entries(materialList).length != 0){
         var checkName = materialList.find(element => element.name == materialName);
-        if (checkName == undefined){
-            materialList.push(selectedMaterial);
-        } else {
-            if (checkName.idPart == selectedMaterial.idPart){
-                return false;
-            }
-            materialList.push(selectedMaterial);
+        if (checkName != undefined && checkName.idPart == selectedMaterial.idPart){
+            return false
         }
-    } else {
-        materialList.push(selectedMaterial);
-    }
+    } 
+    materialList.push(selectedMaterial);
     
     // alter table to add process 
     var table = document.getElementById("materialTable").getElementsByTagName('tbody')[0];
@@ -74,7 +67,6 @@ function addMaterial() {
                                 <img class="imgcalcu" src="/static/images/calculator.png">
                             </a>
                         </td>`;
-    // cell6.innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${materialIndex})" name="materialNumber-${materialIndex}" id="materialNumber-${materialIndex}" value="0"></td>`;
     cell6.innerHTML = `<td> <p class="material-price"> ${selectedMaterial.price} </p> </td>`;
     cell7.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" value="0" name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
     cell8.innerHTML = `<td><button type="button" onclick="deleteMaterial(${materialIndex});" class="trash"><i id="trash-icon"></i></button></td>`;
@@ -84,12 +76,20 @@ function addMaterial() {
     updateMaterialLength(index);
     $('#searchName').val('');
 
-    // add array kosong ke board arr array dan bar arr array biar ga error pas di delete
+    // add empty array to boardArr array dan barArr array
+    // with some default value from DB : material id, name, gravity, price 
     boardArr.push([
-        selectedMaterial.idPart, '', '', '', '', '', '', '', '', '', '', 
-        '', '', '', '', '', '', '', '', '', '', '', 
-        '', '', '', '', ''
+        selectedMaterial.idPart, selectedMaterial.idPart , selectedMaterial.name, '', '', '', selectedMaterial.spesificGravity , selectedMaterial.price, '', '', '', 
+        '', '', '', '', '', '', '', selectedMaterial.price, '', '',
+        '', '', '', '', selectedMaterial.price, '', '', ''  
     ])
+
+    barArr.push([
+        selectedMaterial.idPart, selectedMaterial.idPart, selectedMaterial.name, '', '', selectedMaterial.spesificGravity, selectedMaterial.price, '', '', '',
+        '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '',
+    ])
+
     console.log(boardArr);
     return false;
 }
