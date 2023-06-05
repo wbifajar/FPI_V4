@@ -1,0 +1,17 @@
+CREATE TABLE `quotation` (
+  `Quotation_ID` int NOT NULL AUTO_INCREMENT,
+  `Customer_ID` int NOT NULL,
+  `Product_ID` int NOT NULL,
+  `Quantity` float DEFAULT NULL,
+  `BudgetPerUnit` float DEFAULT NULL,
+  `CostExcludeOperation` float DEFAULT NULL,
+  `OperationCost` float DEFAULT NULL,
+  `ManagementCostPercentage` float DEFAULT NULL,
+  `MaterialCostNumber` int DEFAULT NULL,
+  `MaterialCostPercentage` int DEFAULT NULL,
+  `OutsorceCostNumber` float DEFAULT NULL,
+  `OutsorceCostPercentage` float DEFAULT NULL,
+  `OperationBudget` float DEFAULT NULL,
+  `CreatedAt` datetime DEFAULT (now()),
+  PRIMARY KEY (`Quotation_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
