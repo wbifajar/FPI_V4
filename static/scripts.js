@@ -106,115 +106,107 @@ function getProcessData(index) {
 }
 
 function addProcess() {
-  // get process name from search input 
-  var processName = document.getElementById('processName').value;
+	// get process name from search input 
+	var processName = document.getElementById('processName').value;
 
-  // get process database from py file 
-  const obj = getProcessFromDB();
-  var selectedProcess = obj.find(element => element.Name == processName);
-      
-  if(selectedProcess == undefined){
-      return false;
-  }
+	// get process database from py file 
+	const obj = getProcessFromDB();
+	var selectedProcess = obj.find(element => element.Name == processName);
+		
+	if(selectedProcess == undefined){
+		return false;
+	}
+	
+	// check for duplicate process
+	if(Object.entries(processList).length != 0){
+		var checkName = processList.find(element => element.Name == processName);
+		if (checkName == undefined){
+			processList.push(selectedProcess);
+		} else {
+			if (checkName.ProcessId == selectedProcess.ProcessId){
+				return false;
+			}
+			processList.push(selectedProcess);
+		}
+		
+	} else {
+		processList.push(selectedProcess);
+	}
   
-  // check for duplicate process
-  if(Object.entries(processList).length != 0){
-      var checkName = processList.find(element => element.Name == processName);
-      if (checkName == undefined){
-          processList.push(selectedProcess);
-      } else {
-          if (checkName.ProcessId == selectedProcess.ProcessId){
-              return false;
-          }
-          processList.push(selectedProcess);
-      }
-  } else {
-      processList.push(selectedProcess);
-  }
-  
-  // alter table to add process 
-  var table = document.getElementById("processTable").getElementsByTagName('tbody')[0];
-  index++;
+	// alter table to add process 	
+	var table = document.getElementById("processTable").getElementsByTagName('tbody')[0];
+	index++;
 
-  var row = table.insertRow(-1);
-  var cell1 = row.insertCell(0);
-  var cell2 = row.insertCell(1);
-  var cell3 = row.insertCell(2);
-  var cell4 = row.insertCell(3);
-  var cell5 = row.insertCell(4);
-  var cell6 = row.insertCell(5);
-  var cell7 = row.insertCell(6);
-  var cell8 = row.insertCell(7);
-  var cell9 = row.insertCell(8);
-  var cell10 = row.insertCell(9);
-  var cell11 = row.insertCell(10);
-  var cell12 = row.insertCell(11);
-  var cell13 = row.insertCell(12);
+	var row = table.insertRow(-1);
+	var cell1 = row.insertCell(0);
+	var cell2 = row.insertCell(1);
+	var cell3 = row.insertCell(2);
+	var cell4 = row.insertCell(3);
+	var cell5 = row.insertCell(4);
+	var cell6 = row.insertCell(5);
+	var cell7 = row.insertCell(6);
+	var cell8 = row.insertCell(7);
+	var cell9 = row.insertCell(8);
+	var cell10 = row.insertCell(9);
+	var cell11 = row.insertCell(10);
+	var cell12 = row.insertCell(11);
+	var cell13 = row.insertCell(12);
 
-  cell1.innerHTML = `<th scope="row">${index}</th>`; 
-  cell2.innerHTML = `<td>${selectedProcess.ProcessId}</td>`;  
-  cell3.innerHTML = `<td>${selectedProcess.Name}</td>`;
-  cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
-  cell5.innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${index})" name='opeSum-${index}' id='opeSum-${index}'></td>`;
-  cell6.innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio-${index}' onchange="calculateByOperationPerOperationBudgetRatio(${index})" id='operationPerOperationBudgetRatio-${index}'> %</td>`;
-  cell7.innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${index}' onchange="calculateByOperationPerBudgetRatio(${index})" id='operationPerBudgetRatio-${index}'> %</td>`;
-  cell8.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateBySetTime(${index})" class="operationInputMd" name='setTime-${index}' id='setTime-${index}'></td>`;
-  cell9.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateByOpeTime(${index})" class="operationInputMd" name='opeTime-${index}' id='opeTime-${index}'></td>`;
-  cell10.innerHTML = `<td><input type="text" value="00:00:00" class="operationInputMd" onchange="calculateByTotalOpeTime(${index})" name='totalOpeTime-${index}' id='totalOpeTime-${index}'></td>`;
-  cell11.innerHTML = `<td><input type="text" class="inputS" onchange="calculateByQuantityPerMin(${index})" name='quantityPerMinute-${index}' id='quantityPerMinute-${index}'></td>`;
-  cell12.innerHTML = `<td><button type="button" onclick="deleteProcess(${index})" class="trash"><i id="trash-icon"></i></button></td>`;
-  cell13.innerHTML = `<td><input type="hidden" name='processId-${index}' value='${index}'></td>`;
+	cell1.innerHTML = `<th scope="row">${index}</th>`; 
+	cell2.innerHTML = `<td>${selectedProcess.ProcessId}</td>`;  
+	cell3.innerHTML = `<td>${selectedProcess.Name}</td>`;
+	cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
+	cell5.innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${index})" name='opeSum-${index}' id='opeSum-${index}'></td>`;
+	cell6.innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio-${index}' onchange="calculateByOperationPerOperationBudgetRatio(${index})" id='operationPerOperationBudgetRatio-${index}'> %</td>`;
+	cell7.innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${index}' onchange="calculateByOperationPerBudgetRatio(${index})" id='operationPerBudgetRatio-${index}'> %</td>`;
+	cell8.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateBySetTime(${index})" class="operationInputMd" name='setTime-${index}' id='setTime-${index}'></td>`;
+	cell9.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateByOpeTime(${index})" class="operationInputMd" name='opeTime-${index}' id='opeTime-${index}'></td>`;
+	cell10.innerHTML = `<td><input type="text" value="00:00:00" class="operationInputMd" onchange="calculateByTotalOpeTime(${index})" name='totalOpeTime-${index}' id='totalOpeTime-${index}'></td>`;
+	cell11.innerHTML = `<td><input type="text" class="inputS" onchange="calculateByQuantityPerMin(${index})" name='quantityPerMinute-${index}' id='quantityPerMinute-${index}'></td>`;
+	cell12.innerHTML = `<td><button type="button" onclick="deleteProcess(${index})" class="trash"><i id="trash-icon"></i></button></td>`;
+	cell13.innerHTML = `<td><input type="hidden" name='processId-${index}' value='${index}'></td>`;
 
-  callFeatherIcon();
-  updateProcessLength(index);
-  $('#processName').val('');
-  return false;
+	callFeatherIcon();
+	updateProcessLength(index);
+	$('#processName').val('');
+	return false;
 }
 
-function setProcessData(
-  index,
-  opeSum,
-  operationPerOperationBudgetRatio,
-  operationPerBudgetRatio,
-  setTime,
-  opeTime,
-  totalOpeTime,
-  quantityPerMinute
-) {
-  $(`#opeSum-${index}`).val(opeSum);
-  $(`#operationPerOperationBudgetRatio-${index}`).val(
-    operationPerOperationBudgetRatio
-  );
-  $(`#operationPerBudgetRatio-${index}`).val(operationPerBudgetRatio);
-  $(`#setTime-${index}`).val(setTime);
-  $(`#opeTime-${index}`).val(opeTime);
-  $(`#totalOpeTime-${index}`).val(totalOpeTime);
-  $(`#quantityPerMinute-${index}`).val(quantityPerMinute);
+function setProcessData( index, opeSum, operationPerOperationBudgetRatio, operationPerBudgetRatio, setTime, opeTime, totalOpeTime, quantityPerMinute) {
+	$(`#opeSum-${index}`).val(opeSum);
+	$(`#operationPerOperationBudgetRatio-${index}`).val(
+		operationPerOperationBudgetRatio
+	);
+	$(`#operationPerBudgetRatio-${index}`).val(operationPerBudgetRatio);
+	$(`#setTime-${index}`).val(setTime);
+	$(`#opeTime-${index}`).val(opeTime);
+	$(`#totalOpeTime-${index}`).val(totalOpeTime);
+	$(`#quantityPerMinute-${index}`).val(quantityPerMinute);
 }
 
 function calculateOperationPerOperationBudgetRatio(opeSum, operationBudget) {
-  var result = (opeSum / operationBudget) * 100;
-  var resultFixed = result.toFixed(2);
-  return resultFixed;
+	var result = (opeSum / operationBudget) * 100;
+	var resultFixed = result.toFixed(2);
+	return resultFixed;
 }
 
 function calculateOpePerBudgetRatio(opeSum, budgetPerUnit) {
-  var result = (opeSum / budgetPerUnit) * 100;
-  var resultFixed = result.toFixed(2);
-  return resultFixed;
+	var result = (opeSum / budgetPerUnit) * 100;
+	var resultFixed = result.toFixed(2);
+	return resultFixed;
 }
 
 function calculateOpeTime(opeSum, procCost) {
-  var result = (opeSum / parseFloat(procCost)) * 60;
-  var resultFixed = convertSecondsToDateTime(result);
-  return resultFixed;
+	var result = (opeSum / parseFloat(procCost)) * 60;
+	var resultFixed = convertSecondsToDateTime(result);
+	return resultFixed;
 }
 
 function convertDateTimeToSeconds(date){
-  var t = date.split(":")
-  var sec = t[0] * 60 * 60 + t[1] * 60 + parseInt(t[2])
-//   console.log(date, "||",  sec);
-  return sec;
+	var t = date.split(":")
+	var sec = t[0] * 60 * 60 + t[1] * 60 + parseInt(t[2])
+	//   console.log(date, "||",  sec);
+	return sec;
 }
 
 function convertSecondsToDateTime(sec){
@@ -243,87 +235,83 @@ function calculateTotalOpeTime(opeTime, quantity) {
 }
 
 function calculateQuantityPerMinute(opeTime) {
-  opeTime = opeTime.split(":");
-  opeTime = +opeTime[0] * 60 * 60 + +opeTime[1] * 60 + +opeTime[2]; //convert date time to second
-  if(opeTime == 0){
-    return 0
-  }
-  var result = 60 / opeTime;
-  return result.toFixed(5);
+	opeTime = opeTime.split(":");
+	opeTime = +opeTime[0] * 60 * 60 + +opeTime[1] * 60 + +opeTime[2]; //convert date time to second
+	if(opeTime == 0){
+		return 0
+	}
+	var result = 60 / opeTime;
+	return result.toFixed(5);
 }
 
 function calculateBySetTime(index) {
-  var processData = getProcessData(index);
-  var data = getData();
-  var process = processList[index - 1];
+	var processData = getProcessData(index);
+	var data = getData();
+	var process = processList[index - 1];
 
-  
 
-  if (processData.opeSum == "" && processData.opeSum == 0) {
-    console.log('calculatebysettime first condition');
-    var setTimeSec = convertDateTimeToSeconds(processData.setTime)
-    var opeSum = (setTimeSec * process.SettingCost) / 60;
-    $(`#opeSum-${index}`).val(opeSum);
-    var operationPerOperationBudgetRatio =
-      calculateOperationPerOperationBudgetRatio(
-        opeSum,
-        data.operationBudget
-      );
-    var operationPerBudgetRatio = calculateOpePerBudgetRatio(
-      opeSum,
-      data.budgetPerUnit
-    );
-    var opeTime = "00:00:00";
-    var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
-    var quantityPerMinute = calculateQuantityPerMinute(opeTime);
 
-    setProcessData(
-      index,
-      opeSum,
-      operationPerOperationBudgetRatio,
-      operationPerBudgetRatio,
-      processData.setTime,
-      opeTime,
-      totalOpeTime,
-      quantityPerMinute
-    );
-  } else if (processData.opeSum != 0) {
-    var opeSum = 0;
+	if (processData.opeSum == "" && processData.opeSum == 0) {
+		console.log('calculatebysettime first condition');
+		var setTimeSec = convertDateTimeToSeconds(processData.setTime)
+		var opeSum = (setTimeSec * process.SettingCost) / 60;
+		$(`#opeSum-${index}`).val(opeSum);
+		var operationPerOperationBudgetRatio =
+			calculateOperationPerOperationBudgetRatio(
+			opeSum,
+			data.operationBudget
+			);
+		var operationPerBudgetRatio = calculateOpePerBudgetRatio(
+			opeSum,
+			data.budgetPerUnit
+		);
+		var opeTime = "00:00:00";
+		var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
+		var quantityPerMinute = calculateQuantityPerMinute(opeTime);
 
-    var setTimeSec = convertDateTimeToSeconds(processData.setTime)
-    opeSum += (setTimeSec * process.SettingCost) / 60;
+		setProcessData(
+			index,
+			opeSum,
+			operationPerOperationBudgetRatio,
+			operationPerBudgetRatio,
+			processData.setTime,
+			opeTime,
+			totalOpeTime,
+			quantityPerMinute
+		);
+	} else if (processData.opeSum != 0) {
+		var opeSum = 0;
 
-    var opeTimeSec = convertDateTimeToSeconds(processData.opeTime)
-    opeSum += ( opeTimeSec * process.ProcessCost) / 60;
-    $(`#opeSum-${index}`).val(opeSum);
+		var setTimeSec = convertDateTimeToSeconds(processData.setTime)
+		opeSum += (setTimeSec * process.SettingCost) / 60;
 
-    var operationPerOperationBudgetRatio =
-      calculateOperationPerOperationBudgetRatio(
-        opeSum,
-        data.operationBudget
-      );
-    var operationPerBudgetRatio = calculateOpePerBudgetRatio(
-      opeSum,
-      data.budgetPerUnit
-    );
-    var opeTime = processData.opeTime
-    var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
-    var quantityPerMinute = calculateQuantityPerMinute(opeTime);
+		var opeTimeSec = convertDateTimeToSeconds(processData.opeTime)
+		opeSum += ( opeTimeSec * process.ProcessCost) / 60;
+		$(`#opeSum-${index}`).val(opeSum);
 
-    setProcessData(
-      index,
-      opeSum,
-      operationPerOperationBudgetRatio,
-      operationPerBudgetRatio,
-      processData.setTime,
-      opeTime,
-      totalOpeTime,
-      quantityPerMinute
-    );
+		var operationPerOperationBudgetRatio = calculateOperationPerOperationBudgetRatio( opeSum, data.operationBudget );
+		var operationPerBudgetRatio = calculateOpePerBudgetRatio(
+			opeSum,
+			data.budgetPerUnit
+		);
+		var opeTime = processData.opeTime
+		var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
+		var quantityPerMinute = calculateQuantityPerMinute(opeTime);
 
-  }
+		setProcessData(
+			index,
+			opeSum,
+			operationPerOperationBudgetRatio,
+			operationPerBudgetRatio,
+			processData.setTime,
+			opeTime,
+			totalOpeTime,
+			quantityPerMinute
+		);
 
-  totalOperations();
+	}
+
+	totalOperations();
 }
 
 function savePrevValue() {
@@ -332,18 +320,18 @@ function savePrevValue() {
 }
 
 function getTotalOpeSumFromSetTimeAndOpeTime(index) {
-  var processData = getProcessData(index);
-  var data = getData();
-  var process = processList[index - 1];
+	var processData = getProcessData(index);
+	var data = getData();
+	var process = processList[index - 1];
 
-  var opeSum = 0;
-  processData.setTime = convertDateTimeToSeconds(processData.setTime)
-  opeSum += (processData.setTime * process.SettingCost) / 60;
+	var opeSum = 0;
+	processData.setTime = convertDateTimeToSeconds(processData.setTime)
+	opeSum += (processData.setTime * process.SettingCost) / 60;
 
-  processData.opeTime = convertDateTimeToSeconds(processData.opeTime)
-  opeSum += (processData.opeTime * process.ProcessCost) / 60;
+	processData.opeTime = convertDateTimeToSeconds(processData.opeTime)
+	opeSum += (processData.opeTime * process.ProcessCost) / 60;
 
-  return opeSum;
+	return opeSum;
 }
 
 function calculateByOpeSum(index) {
@@ -432,11 +420,7 @@ function calculateByOpeSum(index) {
 
 		// console.log("flag 1 = ", processData.setTime);
 	} else {
-		var operationPerOperationBudgetRatio =
-			calculateOperationPerOperationBudgetRatio(
-			curr,
-			data.operationBudget
-			);
+		var operationPerOperationBudgetRatio = calculateOperationPerOperationBudgetRatio(curr,data.operationBudget);
 		var operationPerBudgetRatio = calculateOpePerBudgetRatio(
 			processData.opeSum,
 			data.budgetPerUnit
@@ -446,6 +430,7 @@ function calculateByOpeSum(index) {
 		var quantityPerMinute = calculateQuantityPerMinute(opeTime);
 		// console.log("run 2");
 	}
+
 	setProcessData(
 		index,
 		processData.opeSum,

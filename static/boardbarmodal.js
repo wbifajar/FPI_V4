@@ -182,7 +182,7 @@ function updateBoardArray(){
         boldmaterialcostfrompart
     ]
 
-    // kalo belom ada create baru, kalo belom ada update
+    // update value board array
     target = findIndexOfMaterialId(boardArr, index)
     boardArr[target] = arrBoardInputFieldValue
     
@@ -312,13 +312,9 @@ function updateBarArray(){
         bar_from_scale_material_cost,
     ]
 
-    // kalo belom ada create baru, kalo belom ada update
+    // update value board array
     target = findIndexOfMaterialId(barArr, index)
-    if( target == -1 ){
-        barArr.push(arrBarInputFieldValue);
-    }else{
-        barArr[target] = arrBarInputFieldValue
-    }
+    barArr[target] = arrBarInputFieldValue
 
     console.log(barArr);
 }
