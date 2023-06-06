@@ -23,7 +23,6 @@ function addMaterial() {
     var materialName = document.getElementById('searchName').value;
 
     // get material database from py file 
-    
     const obj = getMaterialFromDB();
     var selectedMaterial = obj.find(element => element.name == materialName);
 
@@ -62,7 +61,7 @@ function addMaterial() {
     var cell9 = row.insertCell(8);
 
     cell1.innerHTML = `<th scope="row">${materialIndex}</th>`;
-    cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idPart}"></td>`;
+    cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idPart}" id="materialNameRC"></td>`;
     cell3.innerHTML = `<td><input type="input" value="${selectedMaterial.name}"></td>`;
     cell4.innerHTML = `<td><input type="input" list="process" class="inputt1"></td>`;
     cell5.innerHTML = `<td>
@@ -90,7 +89,7 @@ function addMaterial() {
         '', '', '', '', '', '', '', '', '', '', '', 
         '', '', '', '', ''
     ])
-    console.log(boardArr);
+    
     return false;
 }
 

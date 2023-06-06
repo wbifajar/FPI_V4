@@ -52,7 +52,6 @@ modal2.addEventListener('show.bs.modal', event => {
     // fill value in board modal if already existed before
     var index = findIndexOfMaterialId(boardArr, recipient)
 
-    console.log('ISII INI MODAL FIELD INPUTNYA', index);
     $('#BoardMaterialId').val( boardArr[index][1] )
     $('#BoardMaterialName').val( boardArr[index][2] )
 
@@ -98,8 +97,6 @@ modal2.addEventListener('show.bs.modal', event => {
 
     $('#BoldMaterialCostFromPart').val(boardArr[index][28])
     
-
-    console.log(boardArr);
 
 })
 

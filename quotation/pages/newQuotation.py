@@ -29,10 +29,6 @@ def CreateNewQuotation(request):
 	cursor.execute('select * from part')
 	part = cursor.fetchall()
 	partjs = json.dumps(part)
-	
-	# cursor.execute('select * from material')
-	# material = cursor.fetchall()
-	# materialjs = json.dumps(material)
 
 	context = {
 		'process' : process,
