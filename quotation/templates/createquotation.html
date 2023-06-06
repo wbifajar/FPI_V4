@@ -31,7 +31,8 @@
 {% block content %}
 
 <div class="container mt-3" >
-    <form action="/save-quotation" method="POST">
+    <!-- <form action="/save-quotation" method="POST"> -->
+    <form action="/Quotation/submittes/" method="POST">
         {% csrf_token %}
         <!-- bagian paling atas yang tidak bisa ke scroll -->
         <div class="row">
@@ -57,7 +58,7 @@
                                     Quantity
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="quantity" onchange="calculateTotalBudget();">
+                                    <input class="" type="text" id="quantity" name="Quantity" onchange="calculateTotalBudget();">
                                 </div>
                             </div>
                     
@@ -72,7 +73,7 @@
                                     Budget/Unit
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="budgetPerUnit" onchange="calculateTotalBudget()">
+                                    <input class="" type="text" id="budgetPerUnit" name="BudgetPerUnit" onchange="calculateTotalBudget()">
                                 </div>
                             </div>
                     
@@ -96,7 +97,7 @@
                         <div class="row">
                             <div class="col">
                                 Cost Exclude Operation
-                                <input type="text" value="0" class="noInput " id="costExcludeOperation">
+                                <input type="text" value="0" class="noInput " id="costExcludeOperation" name="CostExcludeOperation">
                             </div>
                     
                             <div class="col-sm-1">
@@ -107,7 +108,7 @@
                             
                             <div class="col">
                                 Operation Cost
-                                <input type="text" class="noInput " value="0" id="operationCost">
+                                <input type="text" class="noInput " value="0" id="operationCost" name="OperationCost">
                             </div>
                     
                             
@@ -165,7 +166,7 @@
                                             Percentage
                                         </div>
                                         <div>
-                                            <input type="text" class="inputPercentage " id="managementCostPercentage" value="30" onchange="calculateManagementCost()"> %
+                                            <input type="text" class="inputPercentage " id="managementCostPercentage" name="ManagementCostPercentage" value="30" onchange="calculateManagementCost()"> %
                                         </div>
                                         
                                     </div>
@@ -193,7 +194,7 @@
                                         <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" >
                                             Material Cost
                                         </a>
-                                        <input type="text" class="inputMd " id="materialCost" onchange="calculateTotalMaterialCost()">
+                                        <input type="text" class="inputMd " id="materialCost" name="MaterialCostNumber" onchange="calculateTotalMaterialCost()">
                                     </div>
                             
                                     <div class="col-sm-1">
@@ -207,7 +208,7 @@
                                             Percentage
                                         </div>
                                         <div>
-                                            <input type="text" value="100" class="inputPercentage " id="materialCostPercentage" onchange="calculateTotalMaterialCost()"> %
+                                            <input type="text" value="100" class="inputPercentage " id="materialCostPercentage" name="MaterialCostPercentage" onchange="calculateTotalMaterialCost()"> %
                                         </div>
                                         
                                     </div>
@@ -238,7 +239,7 @@
                                 <div class="row mb-2">
                                     <div class="col">
                                         Outsource Cost
-                                        <input class="inputMd " type="text" name="outsourceCost" id="outsourceCost" onchange="calculateTotalOursourceCost()">
+                                        <input class="inputMd " type="text" name="outsourceCost" id="outsourceCost" name="OutsourceCost" onchange="calculateTotalOursourceCost()">
                                         <!-- <input type="text" id="quantity"> -->
                                     </div>
                             
@@ -251,7 +252,7 @@
                                             Percentage
                                         </div>
                                         <div>
-                                            <input class="inputPercentage " type="text" value="100" id="outsourceCostPercentage" onchange="calculateTotalOursourceCost()"> %
+                                            <input class="inputPercentage " type="text" value="100" id="outsourceCostPercentage" name="OutsourceCostPercentage" onchange="calculateTotalOursourceCost()"> %
                                         </div>
                                         
                                     </div>
@@ -322,7 +323,7 @@
                             
                          
                             Operation Budget
-                            <input style="margin-left: 3%;" type="text" value="0" class="inputMd noInput" id="operationBudget">
+                            <input style="margin-left: 3%;" type="text" value="0" class="inputMd noInput" id="operationBudget" name="OperationBudget">
                         </div>
                         <div style="display: flex; justify-content: right; width: 100%;">
                             <input type="input" list="process" id="processName" placeholder="Search ..." class="inputSearch">
@@ -359,7 +360,7 @@
                             <tr>
                                 <th colspan="3"></th>
                                 <td>Total</td>
-                                <th scope="col" id="totalOpeSum">0</th>
+                                <th scope="col" id="totalOpeSum"> 0</th>
                                 <td scope="col" id="totalOpePerOpe">0</td>
                                 <td scope="col" id="totalOpePerBudget">0</td>
                                 <td scope="col" id="totalSetTime">00:00:00</td>
@@ -384,6 +385,7 @@
             
             <div class="btncreate">
                 <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create</button></a>
+                <button type="submit" class="btn btn-primary">Submit Quotation</button>
             </div> 
         </div>
 
@@ -792,6 +794,7 @@
 
                                 <div>
                                     <button type="button" class="btn btn-secondary btnsearch2" id="submit-board-cost-from-number">Submit</button>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -872,7 +875,7 @@
                                 </div>
 
                                 <div>
-                                    <button type="button" class="btn btn-secondary btnsearch2">Submit</button>
+                                    <button type="button" class="btn btn-secondary btnsearch2" id="submit-board-cost-from-part-scale">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -1056,7 +1059,7 @@
                                 </div>
 
                                 <div>
-                                    <button type="button" class="btn btn-secondary btnsearch2"  >Submit</button>
+                                    <button type="button" class="btn btn-secondary btnsearch2"  id="submit-bar-cost-from-num" >Submit</button>
                                 </div>
 
                             </div>
@@ -1093,7 +1096,7 @@
                                 </div>
 
                                 <div>
-                                    <button type="button" class="btn btn-secondary btnsearch2">Submit</button>
+                                    <button type="button" class="btn btn-secondary btnsearch2" id="submit-bar-cost-from-scale">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -1144,6 +1147,8 @@
 
     </div>
 </form>
+
+
 {% endblock content %}
 
 
@@ -1581,8 +1586,8 @@
                     console.log('cek1 = ' + result)
                 } else {
                     if (data.quantity != '' && data.quantity != 0){
-                        result += otherPrice*data.quantity/data.quantity;
-                        console.log('cek = ' + result);
+                        result += otherPrice/data.quantity;
+                        console.log('cek' + result);
                     } else {
                         result += otherPrice * data.quantity;
                         console.log('cek2 = ' + result)
@@ -1641,76 +1646,13 @@
 
 <!-- process function -->
 <script>
-    function addProcess() {
-        // get process name from search input 
-        var processName = document.getElementById('processName').value;
-
-        // get process database from py file 
+    function getProcessFromDB(){
         var process = '{{processjs|safe}}';
         const obj = JSON.parse(process);
-        var selectedProcess = obj.find(element => element.Name == processName);
-            
-        if(selectedProcess == undefined){
-            return false;
-        }
-        
-        // check for duplicate process
-        if(Object.entries(processList).length != 0){
-            var checkName = processList.find(element => element.Name == processName);
-            if (checkName == undefined){
-                processList.push(selectedProcess);
-            } else {
-                if (checkName.ProcessId == selectedProcess.ProcessId){
-                    return false;
-                }
-                processList.push(selectedProcess);
-            }
-        } else {
-            processList.push(selectedProcess);
-        }
-        
-        // alter table to add process 
-        var table = document.getElementById("processTable").getElementsByTagName('tbody')[0];
-        index++;
-
-        var row = table.insertRow(-1);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
-        var cell5 = row.insertCell(4);
-        var cell6 = row.insertCell(5);
-        var cell7 = row.insertCell(6);
-        var cell8 = row.insertCell(7);
-        var cell9 = row.insertCell(8);
-        var cell10 = row.insertCell(9);
-        var cell11 = row.insertCell(10);
-        var cell12 = row.insertCell(11);
-        var cell13 = row.insertCell(12);
-
-        cell1.innerHTML = `<th scope="row">${index}</th>`; 
-        cell2.innerHTML = `<td>${selectedProcess.ProcessId}</td>`;  
-        cell3.innerHTML = `<td>${selectedProcess.Name}</td>`;
-        cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
-        cell5.innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${index})" name='opeSum-${index}' id='opeSum-${index}'></td>`;
-        cell6.innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio-${index}' onchange="calculateByOperationPerOperationBudgetRatio(${index})" id='operationPerOperationBudgetRatio-${index}'> %</td>`;
-        cell7.innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${index}' onchange="calculateByOperationPerBudgetRatio(${index})" id='operationPerBudgetRatio-${index}'> %</td>`;
-        cell8.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateBySetTime(${index})" class="operationInputMd" name='setTime-${index}' id='setTime-${index}'></td>`;
-        cell9.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateByOpeTime(${index})" class="operationInputMd" name='opeTime-${index}' id='opeTime-${index}'></td>`;
-        cell10.innerHTML = `<td><input type="text" value="00:00:00" class="operationInputMd" onchange="calculateByTotalOpeTime(${index})" name='totalOpeTime-${index}' id='totalOpeTime-${index}'></td>`;
-        cell11.innerHTML = `<td><input type="text" class="inputS" onchange="calculateByQuantityPerMin(${index})" name='quantityPerMinute-${index}' id='quantityPerMinute-${index}'></td>`;
-        cell12.innerHTML = `<td><button type="button" onclick="deleteProcess(${index})" class="trash"><i id="trash-icon"></i></button></td>`;
-        cell13.innerHTML = `<td><input type="hidden" name='processId-${index}' value='${index}'></td>`;
-
-        callFeatherIcon();
-        updateProcessLength(index);
-        $('#processName').val('');
-        return false;
+        return obj;
     }
 </script>
 <!-- end process function -->
-
-
 
 <script src="{% static '/scripts.js' %}" type=""></script>
 <script src="{% static '/boardbarmodal.js' %}" type=""></script>
@@ -1719,103 +1661,13 @@
 <!-- others function  -->
 <script>
 
-function addOther() {
-    // get others name from search input 
-    var otherName = document.getElementById('otherName').value;
-
-    // get others database from py file 
+function getOtherFromDB(){
     var others = '{{othersjs|safe}}';
     const obj = JSON.parse(others);
-    var selectedOthers = obj.find(element => element.Name == otherName);
-
-    if(selectedOthers == undefined){
-        return false;
-    }
-    
-    // check for duplicate others
-    if(Object.entries(othersList).length != 0){
-        var checkName = othersList.find(element => element.Name == otherName);
-        if (checkName == undefined){
-            othersList.push(selectedOthers);
-        } else {
-            if (checkName.OtherId == selectedOthers.OtherId){
-                return false;
-            }
-            othersList.push(selectedOthers);
-        }
-    } else {
-        othersList.push(selectedOthers);
-    }
-    
-    // alter table to add others 
-    var table = document.getElementById("othersTable").getElementsByTagName('tbody')[0];
-    othersIndex++;
-
-    var row = table.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    var cell5 = row.insertCell(4);
-    var cell6 = row.insertCell(5);
-    var cell7 = row.insertCell(6);
-
-    cell1.innerHTML = `<th scope="row">${othersIndex}</th>`;
-    cell2.innerHTML = `<td>${selectedOthers.Name}</td>`;
-    cell3.innerHTML = `<td><input type="input" id="otherPrice-${othersIndex}" onchange="calculateOtherPercentage(${othersIndex}, this.value)" class="inputMd"></td>`;
-    cell4.innerHTML = `<td><input type="input" class="inputPercentage" id="otherPercentage-${othersIndex}"></td>`;
-    cell5.innerHTML = `<td><input type="checkbox" id="otherCheckBox-${othersIndex}" name="otherCheckBox-${othersIndex}" onchange="calculateCostExcludeOperation()"></td>`;
-    cell6.innerHTML = `<td><button type="button" onclick="deleteOther(${othersIndex})" class="trash"><i id="trash-icon"></i></button></td>`;
-    cell7.innerHTML = `<td><input type="hidden" name='othersId-${othersIndex}' value='${selectedOthers.OtherId}'></td>`;
-    
-    callFeatherIcon();
-    updateOtherLength(othersIndex);
-    $('#otherName').val('');
-    return false;
-}
-
-function deleteOther(rowindex){
-    var table = document.getElementById("othersTable").getElementsByTagName('tbody')[0];
-    table.deleteRow(rowindex-1);
-
-    // remove item from array and fixing the index 
-    othersList.splice(rowindex-1, 1);
-    othersIndex-=1;
-    for(var i=0 ; i<othersIndex ; i++){
-        table.rows[i].cells[0].innerHTML = `<th scope="row">${i+1}</th>`;
-
-        var selectedOthersName = $('table#othersTable tbody tr').eq(i).children().eq(1).children().val()
-        var selectedOthersValue = $('table#othersTable tbody tr').eq(i).children().eq(2).children().val()
-        var selectedOthersPercentage = $('table#othersTable tbody tr').eq(i).children().eq(3).children().val()
-        var selectedOthersCheckbox = $('table#othersTable tbody tr').eq(i).children().eq(4).children()[0].checked == true ? 'checked' : ''
-        console.log("SELECTED = ", selectedOthersCheckbox)
-
-        table.rows[i].cells[2].innerHTML = `<td><input type="input" id="otherPrice-${i + 1}" onchange="calculateOtherPercentage(${i + 1}, this.value)" class="inputMd" value=${selectedOthersValue} ></td>`;
-        table.rows[i].cells[3].innerHTML = `<td><input type="input" class="inputPercentage" id="otherPercentage-${i + 1}" value="${selectedOthersPercentage}"></td>`;
-        table.rows[i].cells[4].innerHTML = `<td><input type="checkbox" id="otherCheckBox-${i+1}" name="otherCheckBox-${i+1}" onchange="calculateCostExcludeOperation()" ${selectedOthersCheckbox}></td>`;
-        table.rows[i].cells[5].innerHTML = `<td><button type="button" onclick="deleteOther(${i+1})" class="trash"><i id="trash-icon"></i></button></td>`;
-        callFeatherIcon();
-    }
-
-    updateOtherLength(othersIndex);
-    calculateTotalBudget();
-}
-
-function updateOtherLength(index){
-    $('#othersLength').val(index);
-}
-
-function calculateOtherPercentage(index, val){
-    var data = getData();
-    if(data.budgetPerUnit != 0 && data.budgetPerUnit != ''){
-        var percent = parseFloat(val)/data.budgetPerUnit*100;
-    }else{
-        var percent = 10;
-    }
-    $('#otherPercentage-'+index).val(percent);
-
-    calculateCostExcludeOperation();
+    return obj
 }
 </script>
+
+<script src="{% static '/otherFunction.js' %}" type=""></script>
 
 {% endblock scripts %}

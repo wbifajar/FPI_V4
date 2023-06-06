@@ -31,19 +31,15 @@ function addMaterial() {
     }
     
     // check for duplicate material
-    if(Object.entries(materialList).length != 0){
+    if( Object.entries(materialList).length != 0){
         var checkName = materialList.find(element => element.name == materialName);
-        if (checkName == undefined){
-            materialList.push(selectedMaterial);
-        } else {
-            if (checkName.idPart == selectedMaterial.idPart){
-                return false;
-            }
-            materialList.push(selectedMaterial);
+        if (checkName != undefined && checkName.idPart == selectedMaterial.idPart){
+            return false
         }
-    } else {
-        materialList.push(selectedMaterial);
-    }
+    } 
+    materialList.push(selectedMaterial);
+
+    
     
     // alter table to add process 
     var table = document.getElementById("materialTable").getElementsByTagName('tbody')[0];
@@ -73,9 +69,8 @@ function addMaterial() {
                                 <img class="imgcalcu" src="/static/images/calculator.png">
                             </a>
                         </td>`;
-    // cell6.innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${materialIndex})" name="materialNumber-${materialIndex}" id="materialNumber-${materialIndex}" value="0"></td>`;
     cell6.innerHTML = `<td> <p class="material-price"> ${selectedMaterial.price} </p> </td>`;
-    cell7.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" value="0" name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
+    cell7.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" value=0 name="materialCost-${materialIndex}" id=materialCost-${materialIndex}></td>`;
     cell8.innerHTML = `<td><button type="button" onclick="deleteMaterial(${materialIndex});" class="trash"><i id="trash-icon"></i></button></td>`;
     cell9.innerHTML = `<td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idPart}'></td>`;
   
@@ -83,13 +78,18 @@ function addMaterial() {
     updateMaterialLength(index);
     $('#searchName').val('');
 
-    // add array kosong ke board arr array dan bar arr array biar ga error pas di delete
+    // add empty array to boardArr array dan barArr array
+    // with some default value from DB : material id, name, gravity, price 
     boardArr.push([
-        selectedMaterial.idPart, '', '', '', '', '', '', '', '', '', '', 
-        '', '', '', '', '', '', '', '', '', '', '', 
-        '', '', '', '', ''
+        selectedMaterial.idPart, selectedMaterial.idPart , selectedMaterial.name, '', '', '', selectedMaterial.spesificGravity , selectedMaterial.price, '', '', '', 
+        '', '', '', '', '', '', '', selectedMaterial.price, '', '',
+        '', '', '', '', selectedMaterial.price, '', '', ''  
     ])
-    
+    barArr.push([
+        selectedMaterial.idPart, selectedMaterial.idPart, selectedMaterial.name, '', '', selectedMaterial.spesificGravity, selectedMaterial.price, '', '', '',
+        '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '',
+    ])
     return false;
 }
 
@@ -109,13 +109,14 @@ function deleteMaterial(rowindex){
         table.rows[i].cells[0].innerHTML = `<th scope="row">${i+1}</th>`;
         // untuk ambil material id nya 
    
-        // var material_id = $(el).attr('onchange').split('(')[1].split(')')[0]
+        // var material_id = $(el).attr('onchange').split('(')[1].split(')')[0] 
         var selected_material_id = $('table#materialTable tbody tr').eq(i).children().eq(1).children().val()
-        var used_qty = $('table#materialTable tbody tr').eq(i).children().eq(4).children().eq(0).val()
-        var selected_material_price = $('table#materialTable tbody tr').eq(i).children().eq(6).children().text()
-        var selected_material_cost_price = $('table#materialTable tbody tr').eq(i).children().eq(7).children().val()
-        // console.log("DELETD SELECTED MATERIAL COST PRICE = ", selected_material_cost_price );
-
+        var used_qty = $('table#materialTable tbody tr').eq(i).children().eq(4).children().eq(0).val()  
+        var selected_material_price = $('table#materialTable tbody tr').eq(i).children().eq(5).children().text()
+        var selected_material_cost_price = $('table#materialTable tbody tr').eq(i).children().eq(6).children().val()
+        console.log("DELETD SELECTED MATERIAL COST PRICE = ", used_qty );
+        console.log("DELETD SELECTED MATERIAL PRICE = ", selected_material_price );
+        
         table.rows[i].cells[4].innerHTML = `<td><input type="input" class="inputt1 material-used-process" onchange="calculateByUsedQuantity(${i+1})" name="usedQuantity-${i+1}" id="usedQuantity-${i+1}" value=${used_qty}><a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${i+1}" data-bs-index="${ selected_material_id }" ><img class="imgcalcu" src="/static/images/calculator.png"></a></td>;`
         // table.rows[i].cells[5].innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${i+1})" name="materialNumber-${i+1}" id="materialNumber-${i+1}" value="0"></td>`;
         table.rows[i].cells[5].innerHTML = `<td> <p class="material-price"> ${ selected_material_price } </p> </td>`;
@@ -146,6 +147,7 @@ function calculateByUsedQuantity(materialIndex){
     
     var materialCost = calculateMaterialCost(data.usedQuantity, material.price);
     $(`#materialCost-${materialIndex}`).val(materialCost);
+    console.log('MATERIAL COST = ', materialCost);
     updateTotalMaterialCostOnModal();
 }
 
