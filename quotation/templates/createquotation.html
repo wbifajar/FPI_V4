@@ -588,6 +588,7 @@
           <div class="modal-content" style="background-color: #E9ECEFff;">
             <h3 class="modal-title text-center" style="margin-top: 2%;"></h3>
             <div class="modal-body" id="board-modal-content">
+                
                 <div class="row">
                     <div class="col">
                         <div class="card">
@@ -602,12 +603,12 @@
                                         
                                         Material Name
                                        
-                                        <input class="inputtt" type="text" list="part" value="" id="BoardMaterialName" onchange="getPart(this.value)">
-                                        <datalist id="part">
+                                        <input class="inputtt" type="text" value="" id="BoardMaterialName" onchange="getPart(this.value)">
+                                        <!-- <datalist id="part">
                                             {% for p in part %}
                                                 <option value="{{ p.name }}" />
                                             {% endfor %}
-                                        </datalist>
+                                        </datalist> -->
                                     </div>
                                 </div>
                             </div>
@@ -892,7 +893,7 @@
                                 <div class="angka1" id="FromNumPreviewHalfMargin1"></div>
                                 <div class="angka2" id="FromNumPreviewHalfMargin2"></div>
                                 <div class="angka3" id="FromNumPreviewMargin2"></div>
-                                    <div class="angka4" id="FromNumPreviewExposed"></div>
+                                <div class="angka4" id="FromNumPreviewExposed"></div>
                             </div>
                         </div>
                         <div class="col">

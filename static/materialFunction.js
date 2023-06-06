@@ -57,7 +57,7 @@ function addMaterial() {
     var cell9 = row.insertCell(8);
 
     cell1.innerHTML = `<th scope="row">${materialIndex}</th>`;
-    cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idPart}"></td>`;
+    cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idPart}" id="materialNameRC"></td>`;
     cell3.innerHTML = `<td><input type="input" value="${selectedMaterial.name}"></td>`;
     cell4.innerHTML = `<td><input type="input" list="process" class="inputt1"></td>`;
     cell5.innerHTML = `<td>
@@ -85,14 +85,11 @@ function addMaterial() {
         '', '', '', '', '', '', '', selectedMaterial.price, '', '',
         '', '', '', '', selectedMaterial.price, '', '', ''  
     ])
-
     barArr.push([
         selectedMaterial.idPart, selectedMaterial.idPart, selectedMaterial.name, '', '', selectedMaterial.spesificGravity, selectedMaterial.price, '', '', '',
         '', '', '', '', '', '', '', '', '', '',
         '', '', '', '', '', '', '',
     ])
-
-    console.log(boardArr);
     return false;
 }
 
