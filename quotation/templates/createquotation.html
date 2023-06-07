@@ -588,7 +588,17 @@
           <div class="modal-content" style="background-color: #E9ECEFff;">
             <h3 class="modal-title text-center" style="margin-top: 2%;"></h3>
             <div class="modal-body" id="board-modal-content">
-                
+                <div class="col" style="margin-bottom: 20px;">
+                    <h6>CALCULATE BY</h6>
+                <div class="row calculateRow">
+                        <div class="col calculatecol">
+                            <button id="button1" onclick="disableButtonBoard('button1')"type="button" class="btn btn-secondary btnoption"  >KILOGRAMS</button>
+                        </div>
+                        <div class="col calculatecol">
+                            <button id="button2" onclick="disableButtonBoard('button2')" type="button" class="btn btn-secondary btnoption"  >SHEET</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col">
                         <div class="card">
@@ -888,26 +898,29 @@
                                 MARGIN (NUMBER OF)
                             </h6>
                             <div class="txtimg">
-                                <img src="{% static 'images/boardmarginnumberof.png' %}">
+                                <img style="width: 80%;" src="{% static 'images/boardmarginnumberof.png' %}">
                                 <div class="angka" id="FromNumPreviewMargin1"></div>
                                 <div class="angka1" id="FromNumPreviewHalfMargin1"></div>
                                 <div class="angka2" id="FromNumPreviewHalfMargin2"></div>
                                 <div class="angka3" id="FromNumPreviewMargin2"></div>
                                 <div class="angka4" id="FromNumPreviewExposed"></div>
+                                <div class="angka3" id="FromNumPreviewVerScale"></div>
+                                <div class="angka4" id="FromNumPreviewHorScale"></div>
                             </div>
                         </div>
+                        <!-- board (margin scale of preview)-->
                         <div class="col">
                             <h6>
-                                MARGIN (SCALE)
+                                MARGIN (SCALE) 
                             </h6>
                             <div class="txtimg">
-                                <img src="{% static 'images/boardmarginscale.png' %}">
+                                <img style="width: 80%;" src="{% static 'images/boardmarginscale.png' %}">
                                 <div class="angka5" id="FromPartScalePreviewMargin"></div>
                                 <div class="angka6" id="FromPartScalePreviewExposed"></div>
                             </div>
                         </div>
                         
-                    </div>
+                    </div>
 
                     <div>
                         <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal">Back</button>
@@ -927,6 +940,17 @@
           <div class="modal-content" style="background-color: #E9ECEFff;">
               <div class="modal-body" id="bar-modal-content">
                 <h3 class="modal-title text-center" style="margin: 2%;"></h3>
+                <div class="col" style="margin-bottom: 20px;">
+                    <h6>CALCULATE BY</h6>
+                    <div class="row calculateRow">
+                            <div class="col calculatecol">
+                                <button id="button3" onclick="disableButtonBar('button3')"type="button" class="btn btn-secondary btnoption"  >KILOGRAMS</button>
+                            </div>
+                            <div class="col calculatecol">
+                                <button id="button4" onclick="disableButtonBar('button4')" type="button" class="btn btn-secondary btnoption"  >SHEET</button>
+                            </div>
+                        </div>
+                </div>
                 <div class="row">
                     <div class="col">
                         <div class="card">
@@ -960,7 +984,7 @@
                                 <h6>OUTLINE SCALE</h6>
                                 <div class="row">
                                     <div class="col">
-                                        Part Scale
+                                        Part Scalp
                                         <input class="inputtt4" type="text" id="BarPartScaleMaterial" onchange="calculateFunctionsBar()"> mm
                                     </div>
                                     <div class="col">
@@ -1027,8 +1051,8 @@
                                         <input class="kolominput" type="text" id="BarCalcNumMtrlCost" readonly> mm
                                     </div>
                                     <div class="col">
-                                        Number
-                                        <input class="kolominput" type="text" id="BarCalcNumNum" readonly> mm
+                                        Quantity / Bar
+                                        <input class="kolominput" type="text" id="BarCalcNumNum" readonly> pcs
                                     </div>
                                 </div>
 
@@ -1102,32 +1126,36 @@
                         </div>
                     </div>
 
+                    <!-- bar (margin number of preview)-->
                     <div class="row jarak2">
-                        <div class="col">
+                        <div class="col barnumber">
+                            <h6 style="margin-bottom: 60px;">
+                                MARGIN (NUMBER OF)
+                            </h6>
                             <div class="txtimg">
-                                <img class="imgwidth" src="{% static 'images/barmarginnumberof.png' %}">
+                                <img style="width: 500px" class="imgwidth" src="{% static 'images/barmarginnumberof.png' %}">
                                 <div class="judul">Exposed</div>
-                                <div class="judul1">Scala</div>
+                                <div class="judul1">Scalp</div>
                                 <div class="judul2">Edge Loss</div>
-                                <input class="angkaa noInput inputMd" id="Exposed2"  type="text">
-                                <input class="angkaa1 noInput inputMd" id="Scala2"  type="text">
-                                <input class="angkaa2 noInput inputMd" id="EdgeLoss2"  type="text">
+                                <input class="angkaa noInput inputMd" id="Exposed2"  type="text" readonly value="0">
+                                <input class="angkaa1 noInput inputMd" id="Scala2"  type="text" readonly value="0">
+                                <input class="angkaa2 noInput inputMd" id="EdgeLoss2"  type="text" readonly value="0">
                                 <div class="horizontalline"><hr></div>
-                                <input class="noInput inputMd" id="DiameterBar2" type="text" >
+                                <input class="angkaa6 noInput inputMd" id="DiameterBar2" type="text" readonly value="0" >
                             </div>
                         </div>
-                        <div class="col">
+
+                        <!-- bar (margin scale of preview)-->
+                        <div class="col barscale" style="width: 553px; height: 218px;">
+                            <h6 style="margin-top: 10px; margin-bottom: 60px;">
+                                MARGIN (SCALE)
+                            </h6>
                             <div class="txtimg">
                                 <img class="imgwidth1" src="{% static 'images/barmarginscale.png' %}">
-                                <!-- <div class="angkaa3 " id="BarFromScalePreviewHalfKerf1" value="0"></div>
-                                <div class="angkaa4 " id="BarFromScalePreviewHalfKerf2" value="0"></div>
-                                <div class="angkaa5 " id="BarFromScalePreviewDiameter" value="0"></div>
-                                <div id="BarFromScalePreviewPartScale" value="0"></div> -->
-                                <div class="angkaa3" id="BarFromScalePreviewHalfKerf1"></div>
-                                <div class="angkaa4" id="BarFromScalePreviewHalfKerf2"></div>
-                                <div class="angkaa5" id="BarFromScalePreviewDiameter"></div>
-                                <div id="BarFromScalePreviewPartScale"></div>
-                                
+                                <input class="angkaa3 noInput inputMd" id="BarFromScalePreviewHalfKerf1" type="text" readonly value="0" disabled>
+                                <input class="angkaa4 noInput inputMd" id="BarFromScalePreviewHalfKerf2" type="text" readonly value="0" disabled>
+                                <input class="angkaa5 noInput inputMd" id="BarFromScalePreviewDiameter" type="text" readonly value="0" disabled>
+                                <input class="angkaa7 noInput inputMd" id="BarFromScalePreviewPartScale" type="text" readonly value="0" disabled>
                             </div>
                         </div>
                     </div>
@@ -1272,6 +1300,19 @@
 
 <script>
     // BAGIAN FUNCTION BAR
+    function disableButtonBar(buttonId) {
+        var button3 = document.getElementById('button3');
+        var button4 = document.getElementById('button4');
+
+        if (buttonId === 'button3') {
+            button3.disabled = true;
+            button4.disabled = false;
+        } else if (buttonId === 'button4') {
+            button3.disabled = false;
+            button4.disabled = true;
+        }
+    }
+
     function getPartBar(val){
         var partName = document.getElementById('BarMaterialName').value;
         var part = '{{partjs|safe}}';
@@ -1383,6 +1424,20 @@
         calculateFromPartScale();
         calculateFromNum();
         updateBoardArray();
+    }
+
+    
+    function disableButtonBoard(buttonId) {
+        var button1 = document.getElementById('button1');
+        var button2 = document.getElementById('button2');
+
+        if (buttonId === 'button1') {
+            button1.disabled = true;
+            button2.disabled = false;
+        } else if (buttonId === 'button2') {
+            button1.disabled = false;
+            button2.disabled = true;
+        }
     }
 
     function getPart(){
