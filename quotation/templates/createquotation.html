@@ -904,8 +904,8 @@
                                 <div class="angka2" id="FromNumPreviewHalfMargin2"></div>
                                 <div class="angka3" id="FromNumPreviewMargin2"></div>
                                 <div class="angka4" id="FromNumPreviewExposed"></div>
-                                <div class="angka3" id="FromNumPreviewVerScale"></div>
-                                <div class="angka4" id="FromNumPreviewHorScale"></div>
+                                <div class="angka7" id="FromNumPreviewVerScale"></div>
+                                <div class="angka8" id="FromNumPreviewHorScale"></div>
                             </div>
                         </div>
                         <!-- board (margin scale of preview)-->
@@ -917,6 +917,11 @@
                                 <img style="width: 80%;" src="{% static 'images/boardmarginscale.png' %}">
                                 <div class="angka5" id="FromPartScalePreviewMargin"></div>
                                 <div class="angka6" id="FromPartScalePreviewExposed"></div>
+                                <div class="angka9" id="FromPartScalePreviewMargin1"></div>
+                                <div class="angka10" id="FromPartScalePreviewHalfMargin"></div>
+                                <div class="angka11" id="FromPartScalePreviewHalfMargin1"></div>
+                                <div class="angka12" id="FromPartPreviewVerScale"></div>
+                                <div class="angka13" id="FromPartPreviewHorScale"></div>
                             </div>
                         </div>
                         
@@ -1295,6 +1300,27 @@
     $("#FromNumPreviewExposed").focus(function(){
         $(this).blur();
     });
+    $("#FromNumPreviewVerScale").focus(function(){
+        $(this).blur();
+    });
+    $("#FromNumPreviewHorScale").focus(function(){
+        $(this).blur();
+    });
+    $("#FromPartScalePreviewMargin1").focus(function(){
+        $(this).blur();
+    });
+    $("#FromPartScalePreviewHalfMargin").focus(function(){
+        $(this).blur();
+    });
+    $("#FromPartScalePreviewHalfMargin1").focus(function(){
+        $(this).blur();
+    });
+    $("#FromPartPreviewVerScale").focus(function(){
+        $(this).blur();
+    });
+    $("#FromPartPreviewHorScale").focus(function(){
+        $(this).blur();
+    });
 
 </script>
 
@@ -1511,6 +1537,12 @@
         $('#FromNumPreviewHalfMargin2').text(halfmargin);
         $('#FromNumPreviewExposed').text(fromnum_exposed);
 
+        
+        $('#FromNumPreviewVerScale').text(verscale);
+        $('#FromNumPreviewHorScale').text(horscale);
+        $('#FromPartPreviewVerScale').text(verscale);
+        $('#FromPartPreviewHorScale').text(horscale);
+
         updateBoardArray();
     }
 
@@ -1542,11 +1574,20 @@
 
         $('#FromPartScalePreviewMargin').text(marginfrompart);
         $('#FromPartScalePreviewExposed').text(exposedfrompart);
+        var halfscale = marginfrompart / 2;
+        $('#FromPartScalePreviewMargin1').text(marginfrompart);
+        $('#FromPartScalePreviewHalfMargin').text(halfscale);
+        $('#FromPartScalePreviewHalfMargin1').text(halfscale);
+
+
         $('#WeightFromPart').val(weightfrompart);
         $('#WeightFromPart2').val(weightfrompart);
         $('#WeightFromPart3').val(weightfrompart);
         $('#MaterialCostFromPart').val(materialcostfrompart);
         $('#BoldMaterialCostFromPart').val(materialcostfrompart);
+
+        
+
         updateBoardArray(); 
     }
 

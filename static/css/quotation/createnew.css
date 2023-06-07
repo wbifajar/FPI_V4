@@ -225,14 +225,56 @@ a{
 
 .angka5 {
     position: absolute;
-    left: 12.2%;
-    top: 28%;
+    left: 46.2%;
+    top: 2.7%;
 }
 
 .angka6 {
     position: absolute;
-    left: 57%;
+    left: 55.5%;
     top: 82%;
+}
+
+.angka7 {
+    position: absolute;
+    left: 18%;
+    top: 56%;
+}
+
+.angka8 {
+    position: absolute;
+    left: 30%;
+    top: 59%;
+}
+
+.angka9 {
+    position: absolute;
+    left: 85%;
+    top: 28%;
+}
+
+.angka10 {
+    position: absolute;
+    left: 12.3%;
+    top: 28%;
+}
+
+.angka11 {
+    position: absolute;
+    left: 46%;
+    top: 63.5%;
+}
+
+.angka12 {
+    position: absolute;
+    left: 22.3%;
+    top: 28.5%;
+}
+
+.angka13 {
+    position: absolute;
+    left: 48%;
+    top: 45.5%;
 }
 
 /* style preview bar */
