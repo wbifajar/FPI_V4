@@ -56,11 +56,27 @@ input[type="radio"]{
     align-items: center;
 }
 
+.calculateRow{
+    display: flex;
+}
+
+.calculatecol{
+    display: flex;
+    justify-content: center;
+    margin-right: 10px;
+}
+
 .btnsearch{
     height: 30px !important;
     display: inline-flex;
     align-items: center;
     float: right;
+}
+
+.btnoption{
+    height: 30px !important;
+    display: inline-flex;
+    align-items: center;
 }
 
 .modal-body{
@@ -115,7 +131,7 @@ a{
     margin-left: 2%;
 }
 
-/* css modal - quotation option *//* untuk button modal */
+/* css modal - quotation option // untuk button modal */
 .btnsearch1{
     height: 30px !important;
     display: inline-flex;
@@ -176,44 +192,47 @@ a{
 /* style preview board */
 .angka{
     position: absolute;
-    left: 160px;
-    top: 107px;
+    background: white;
+    padding: 0 0.3%;
+    left: 31%;
+    top: 37%;
 }
 
 .angka1{
     position: absolute;
-    left: 160px;
-    top: 187px;
+    left: 31%;
+    top: 71.4%;
 }
 
 .angka2{
     position: absolute;
-    left: 70px;
-    top: 150px;
+    left: 11.3%;
+    top: 56%;
 }
 
 .angka3{
+    background: white;
     position: absolute;
-    left: 246px;
-    top: 150px;
+    left: 49%;
+    top: 57.4%;
 }
 
 .angka4{
     position: absolute;
-    left: 259px;
-    top: 210px;
+    left: 49.5%;
+    top: 85%;
 }
 
-.angka5{
+.angka5 {
     position: absolute;
-    left: 70px;
-    top: 70px;
+    left: 12.2%;
+    top: 28%;
 }
 
-.angka6{
+.angka6 {
     position: absolute;
-    left: 250px;
-    top: 155px;
+    left: 57%;
+    top: 82%;
 }
 
 /* style preview bar */
@@ -233,18 +252,17 @@ a{
 .imgwidth1{
     max-width: 550px;
     max-height: 70px;
-    margin-top: -48px;
 }
 
 .judul{
     position: absolute;
-    left: 40px;
+    left: 28px;
     top: -25px;
 }
 
 .judul1{
     position: absolute;
-    left: 113px;
+    left: 95px;
     top: -25px;
 }
 
@@ -256,20 +274,26 @@ a{
 
 .angkaa{
     position: absolute;
-    left: 40px;
+    left: 4px;
     top: 75px;
 }
 
 .angkaa1{
     position: absolute;
-    left: 113px;
+    left: 60px;
     top: 75px;
 }
 
 .angkaa2{
     position: absolute;
-    left: 450px;
+    left: 430px;
     top: 75px;
+}
+
+.angkaa6{
+    position: absolute;
+    left: 210px !important;
+    top: 110px;
 }
  
 .horizontalline{
@@ -278,25 +302,30 @@ a{
 
 .angkaa3{
     position: absolute;
-    left: 180px !important;
-    top: -65px;
+    left: 135px !important;
+    top: -25px;
 }
 
 .angkaa4{
     position: absolute;
-    left: 325px !important;
-    top: -65px;
+    left: 280px !important;
+    top: -25px;
 }
 
 .angkaa5{
     position: absolute;
-    left: 325px !important;
-    /* top: 5px; */
+    left: 335px !important;
+    top: 20px;
+}
+.angkaa7{
+    position: absolute;
+    left: 210px !important;
+    top: 75px;
 }
 
 div#BarFromScalePreviewPartScale {
     position: absolute;
-    left: 180px;
+    left: 245px;
 }
 
 /* calculation number of & scale input style */
@@ -315,8 +344,3 @@ div#BarFromScalePreviewPartScale {
 .jarak2{
     margin-top: 3%;
 }
-
-
-  
-
-
