@@ -592,10 +592,10 @@
                     <h6>CALCULATE BY</h6>
                 <div class="row calculateRow">
                         <div class="col calculatecol">
-                            <button id="button1" onclick="disableButtonBoard('button1')"type="button" class="btn btn-secondary btnoption"  >KILOGRAMS</button>
+                            <button id="buttonKGBoard" onclick="disableButtonBoard('buttonKGBoard')"type="button" class="btn btn-secondary btnoption"  >KILOGRAMS</button>
                         </div>
                         <div class="col calculatecol">
-                            <button id="button2" onclick="disableButtonBoard('button2')" type="button" class="btn btn-secondary btnoption"  >SHEET</button>
+                            <button id="buttonSheetBoard" onclick="disableButtonBoard('buttonSheetBoard')" type="button" class="btn btn-secondary btnoption"  >SHEET</button>
                         </div>
                     </div>
                 </div>
@@ -659,8 +659,12 @@
                                         <input class="inputtt " type="text" id="MaterialSpesificGravity">
                                     </div>
                                     <div class="col">
-                                        Price / KG
-                                        <input class="inputtt " type="text" id="MaterialPrice">
+                                        <div id="priceBoard">
+                                            Price / KG
+                                        </div>
+                                        <div>
+                                            <input class="inputtt " type="text" id="MaterialPrice">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -731,8 +735,12 @@
                                 <!-- baris 4 -->
                                 <div class="row jarak">
                                     <div class="col">
-                                        Weight (KG)
-                                        <input class="inputtt3" type="text" id="WeightFromNumber">
+                                        <div id="weightBoard">
+                                            Weight (KG)
+                                        </div>
+                                        <div>
+                                            <input class="inputtt3" type="text" id="WeightFromNumber">
+                                        </div>
                                     </div>
                             
                                     <div class="col-sm-1">
@@ -762,8 +770,13 @@
                                 <!-- baris 5 -->
                                 <div class="row jarak">
                                     <div class="col">
-                                        Price / KG
-                                        <input class="inputtt3" type="text" id="PriceFromNumber">
+                                        <div id="priceBoardFromNum">
+                                            Price / KG
+                                        </div>
+                                        <div>
+                                            <input class="inputtt3" type="text" id="PriceFromNumber">
+
+                                        </div>
                                     </div>
                             
                                     <div class="col-sm-1">
@@ -840,8 +853,13 @@
                                 <!-- baris 3 -->
                                 <div class="row jarak">
                                     <div class="col">
-                                        Price / KG
-                                        <input class="inputtt3" type="text" id="PriceFromPart">
+                                        <div id="priceBoardFromPartScale">
+                                            Price / KG
+                                        </div>
+                                        <div>
+                                            <input class="inputtt3" type="text" id="PriceFromPart">
+
+                                        </div>
                                     </div>
                             
                                     <div class="col-sm-1">
@@ -899,29 +917,30 @@
                             </h6>
                             <div class="txtimg">
                                 <img style="width: 80%;" src="{% static 'images/boardmarginnumberof.png' %}">
-                                <div class="angka" id="FromNumPreviewMargin1"></div>
-                                <div class="angka1" id="FromNumPreviewHalfMargin1"></div>
-                                <div class="angka2" id="FromNumPreviewHalfMargin2"></div>
-                                <div class="angka3" id="FromNumPreviewMargin2"></div>
-                                <div class="angka4" id="FromNumPreviewExposed"></div>
-                                <div class="angka7" id="FromNumPreviewVerScale"></div>
-                                <div class="angka8" id="FromNumPreviewHorScale"></div>
+                                <input class="angka noInput" id="FromNumPreviewMargin1" value="0" readonly></input>
+                                <input class="angka1 noInput" id="FromNumPreviewHalfMargin1" value="0" readonly></input>
+                                <input class="angka2 noInput" id="FromNumPreviewHalfMargin2" value="0" readonly></input>
+                                <input class="angka3 noInput" id="FromNumPreviewMargin2" value="0" readonly></input>
+                                <input class="angka4 noInput" id="FromNumPreviewExposed" value="0" readonly></input>
+                                <input class="angka7 noInput" id="FromNumPreviewVerScale" value="0" readonly></input>
+                                <input class="angka8 noInput" id="FromNumPreviewHorScale" value="0" readonly></input>
                             </div>
                         </div>
                         <!-- board (margin scale of preview)-->
-                        <div class="col">
+                        <div class="col" style="margin-left: 8%;">
                             <h6>
                                 MARGIN (SCALE) 
                             </h6>
                             <div class="txtimg">
                                 <img style="width: 80%;" src="{% static 'images/boardmarginscale.png' %}">
-                                <div class="angka5" id="FromPartScalePreviewMargin"></div>
-                                <div class="angka6" id="FromPartScalePreviewExposed"></div>
-                                <div class="angka9" id="FromPartScalePreviewMargin1"></div>
-                                <div class="angka10" id="FromPartScalePreviewHalfMargin"></div>
-                                <div class="angka11" id="FromPartScalePreviewHalfMargin1"></div>
-                                <div class="angka12" id="FromPartPreviewVerScale"></div>
-                                <div class="angka13" id="FromPartPreviewHorScale"></div>
+                                <input class="angka5 noInput" id="FromPartScalePreviewMargin" value="0" readonly></input>
+                                <input class="angka6 noInput" id="FromPartScalePreviewExposed" value="0" readonly></input>
+                                <input class="angka9 noInput" id="FromPartScalePreviewMargin1" value="0" readonly></input>
+                                <input class="angka10 noInput" id="FromPartScalePreviewHalfMargin" value="0" readonly></input>
+                                <input class="angka11 noInput" id="FromPartScalePreviewHalfMargin1" value="0" readonly></input>
+                                <input class="angka12 noInput" id="FromPartPreviewVerScale" value="0" readonly></input>
+                                <input class="angka13 noInput" id="FromPartPreviewHorScale" value="0" readonly></input>
+
                             </div>
                         </div>
                         
@@ -949,10 +968,10 @@
                     <h6>CALCULATE BY</h6>
                     <div class="row calculateRow">
                             <div class="col calculatecol">
-                                <button id="button3" onclick="disableButtonBar('button3')"type="button" class="btn btn-secondary btnoption"  >KILOGRAMS</button>
+                                <button id="buttonKGBar" onclick="disableButtonBar('buttonKGBar')"type="button" class="btn btn-secondary btnoption"  >KILOGRAMS</button>
                             </div>
                             <div class="col calculatecol">
-                                <button id="button4" onclick="disableButtonBar('button4')" type="button" class="btn btn-secondary btnoption"  >SHEET</button>
+                                <button id="buttonSheetBar" onclick="disableButtonBar('buttonSheetBar')" type="button" class="btn btn-secondary btnoption"  >SHEET</button>
                             </div>
                         </div>
                 </div>
@@ -1138,10 +1157,10 @@
                                 MARGIN (NUMBER OF)
                             </h6>
                             <div class="txtimg">
-                                <img style="width: 500px" class="imgwidth" src="{% static 'images/barmarginnumberof.png' %}">
                                 <div class="judul">Exposed</div>
                                 <div class="judul1">Scalp</div>
                                 <div class="judul2">Edge Loss</div>
+                                <img style="width: 500px" class="imgwidth" src="{% static 'images/barmarginnumberof.png' %}">
                                 <input class="angkaa noInput inputMd" id="Exposed2"  type="text" readonly value="0">
                                 <input class="angkaa1 noInput inputMd" id="Scala2"  type="text" readonly value="0">
                                 <input class="angkaa2 noInput inputMd" id="EdgeLoss2"  type="text" readonly value="0">
@@ -1157,10 +1176,10 @@
                             </h6>
                             <div class="txtimg">
                                 <img class="imgwidth1" src="{% static 'images/barmarginscale.png' %}">
-                                <input class="angkaa3 noInput inputMd" id="BarFromScalePreviewHalfKerf1" type="text" readonly value="0" disabled>
-                                <input class="angkaa4 noInput inputMd" id="BarFromScalePreviewHalfKerf2" type="text" readonly value="0" disabled>
-                                <input class="angkaa5 noInput inputMd" id="BarFromScalePreviewDiameter" type="text" readonly value="0" disabled>
-                                <input class="angkaa7 noInput inputMd" id="BarFromScalePreviewPartScale" type="text" readonly value="0" disabled>
+                                <input class="angkaa3 noInput inputMd" id="BarFromScalePreviewHalfKerf1" type="text" value="0" readonly>
+                                <input class="angkaa4 noInput inputMd" id="BarFromScalePreviewHalfKerf2" type="text" value="0" readonly>
+                                <input class="angkaa5 noInput inputMd" id="BarFromScalePreviewDiameter" type="text" value="0" readonly>
+                                <input class="angkaa7 noInput inputMd" id="BarFromScalePreviewPartScale" type="text" value="0" readonly>
                             </div>
                         </div>
                     </div>
@@ -1321,21 +1340,48 @@
     $("#FromPartPreviewHorScale").focus(function(){
         $(this).blur();
     });
+    $("#BarFromScalePreviewHalfKerf1").focus(function(){
+        $(this).blur();
+    });
+    $("#BarFromScalePreviewHalfKerf2").focus(function(){
+        $(this).blur();
+    });
+    $("#BarFromScalePreviewDiameter").focus(function(){
+        $(this).blur();
+    });
+    $("#BarFromScalePreviewPartScale").focus(function(){
+        $(this).blur();
+    });
+
 
 </script>
 
 <script>
-    // BAGIAN FUNCTION BAR
-    function disableButtonBar(buttonId) {
-        var button3 = document.getElementById('button3');
-        var button4 = document.getElementById('button4');
+    // function setValuePreviewBar(){
+    //     var halfkerf1 = document.getElementById("#BarFromScalePreviewHalfKerf1");
+    //     var halfkerf2 = document.getElementById("#BarFromScalePreviewHalfKerf2");
+    //     var diameter = document.getElementById("#BarFromScalePreviewDiameter");
+    //     var partscale = document.getElementById("#BarFromScalePreviewPartScale");
+    //     halfkerf1.innerHTML = "0";
+    //     halfkerf2.innerHTML = "0";
+    //     diameter.innerHTML = "0";
+    //     partscale.innerHTML = "0";
+    // }
 
-        if (buttonId === 'button3') {
-            button3.disabled = true;
-            button4.disabled = false;
-        } else if (buttonId === 'button4') {
-            button3.disabled = false;
-            button4.disabled = true;
+    // BAGIAN FUNCTION BAR
+    
+
+    function disableButtonBar(buttonId) {
+        var buttonKGBar = document.getElementById('buttonKGBar');
+        var buttonSheetBar = document.getElementById('buttonSheetBar');
+
+        if (buttonId === 'buttonKGBar') {
+            buttonKGBar.disabled = true;
+            buttonSheetBar.disabled = false;
+
+        } else if (buttonId === 'buttonSheetBar') {
+            buttonKGBar.disabled = false;
+            buttonSheetBar.disabled = true;
         }
     }
 
@@ -1350,9 +1396,6 @@
         $('#BarMaterialId').val(selectedPart.idPart);
         $('#BarMaterialSpesificGravity').val(selectedPart.spesificGravity);
         $('#BarMaterialPrice').val(selectedPart.price);
-
-
-
 
         calculateFunctionsBar();
         getFromNumPreviewValues();
@@ -1387,10 +1430,10 @@
         $('#BarFromScaleMaterialCost').val(bar_material_cost);
 
         var half_bar_kerf_loss = bar_kerf_loss / 2
-        $('#BarFromScalePreviewHalfKerf1').text(half_bar_kerf_loss);
-        $('#BarFromScalePreviewHalfKerf2').text(half_bar_kerf_loss);
-        $('#BarFromScalePreviewDiameter').text(bar_diameter);
-        $('#BarFromScalePreviewPartScale').text(bar_partscale);
+        $('#BarFromScalePreviewHalfKerf1').val(half_bar_kerf_loss);
+        $('#BarFromScalePreviewHalfKerf2').val(half_bar_kerf_loss);
+        $('#BarFromScalePreviewDiameter').val(bar_diameter);
+        $('#BarFromScalePreviewPartScale').val(bar_partscale);
         updateBarArray();
     }
 
@@ -1445,6 +1488,7 @@
         updateBarArray();
     }
 
+
     // ============ BAGIAN BOARD ============
     function calculateFunctionsBoard(){
         calculateFromPartScale();
@@ -1454,15 +1498,23 @@
 
     
     function disableButtonBoard(buttonId) {
-        var button1 = document.getElementById('button1');
-        var button2 = document.getElementById('button2');
+        var buttonKGBoard = document.getElementById('buttonKGBoard');
+        var buttonSheetBoard = document.getElementById('buttonSheetBoard');
 
-        if (buttonId === 'button1') {
-            button1.disabled = true;
-            button2.disabled = false;
-        } else if (buttonId === 'button2') {
-            button1.disabled = false;
-            button2.disabled = true;
+        if (buttonId === 'buttonKGBoard') {
+            buttonKGBoard.disabled = true;
+            buttonSheetBoard.disabled = false;
+            document.getElementById("priceBoard").innerHTML = "Price / KG";
+            document.getElementById("weightBoard").innerHTML = "Weight (KG)";
+            document.getElementById("priceBoardFromNum").innerHTML = "Price / KG";
+            document.getElementById("priceBoardFromPartScale").innerHTML = "Price / KG";
+        } else if (buttonId === 'buttonSheetBoard') {
+            buttonKGBoard.disabled = false;
+            buttonSheetBoard.disabled = true;
+            document.getElementById("priceBoard").innerHTML = "Price / Sheet";
+            document.getElementById("weightBoard").innerHTML = "Weight (Sheet)";
+            document.getElementById("priceBoardFromNum").innerHTML = "Price / Sheet";
+            document.getElementById("priceBoardFromPartScale").innerHTML = "Price / Sheet";
         }
     }
 
@@ -1530,12 +1582,18 @@
         $('#MaterialCostFromNumber').val(fromnum_materialcost);
         $('#BoldMaterialCostFromNumber').val(fromnum_materialcost);
         
-        $('#FromNumPreviewMargin1').text(fromnum_margin);
-        $('#FromNumPreviewMargin2').text(fromnum_margin);
+        $('#FromNumPreviewMargin1').val(fromnum_margin);
+        $('#FromNumPreviewMargin2').val(fromnum_margin);
         var halfmargin = fromnum_margin / 2
-        $('#FromNumPreviewHalfMargin1').text(halfmargin);
-        $('#FromNumPreviewHalfMargin2').text(halfmargin);
-        $('#FromNumPreviewExposed').text(fromnum_exposed);
+        $('#FromNumPreviewHalfMargin1').val(halfmargin);
+        $('#FromNumPreviewHalfMargin2').val(halfmargin);
+        $('#FromNumPreviewExposed').val(fromnum_exposed);
+
+        
+        $('#FromNumPreviewVerScale').val(verscale);
+        $('#FromNumPreviewHorScale').val(horscale);
+        $('#FromPartPreviewVerScale').val(verscale);
+        $('#FromPartPreviewHorScale').val(horscale);
 
         
         $('#FromNumPreviewVerScale').text(verscale);
@@ -1572,13 +1630,12 @@
         var materialcostfrompart = weightfrompart * price
         materialcostfrompart = materialcostfrompart.toFixed(2);
 
-        $('#FromPartScalePreviewMargin').text(marginfrompart);
-        $('#FromPartScalePreviewExposed').text(exposedfrompart);
-        var halfscale = marginfrompart / 2;
-        $('#FromPartScalePreviewMargin1').text(marginfrompart);
-        $('#FromPartScalePreviewHalfMargin').text(halfscale);
-        $('#FromPartScalePreviewHalfMargin1').text(halfscale);
 
+        $('#FromPartScalePreviewMargin').val(marginfrompart);
+        $('#FromPartScalePreviewExposed').val(exposedfrompart);
+        var halfscale = marginfrompart / 2;
+        $('#FromPartScalePreviewMargin1').val(marginfrompart);
+        $('#FromPartScalePreviewHalfMargin').val(halfscale);
 
         $('#WeightFromPart').val(weightfrompart);
         $('#WeightFromPart2').val(weightfrompart);

@@ -74,9 +74,39 @@ input[type="radio"]{
 }
 
 .btnoption{
-    height: 30px !important;
-    display: inline-flex;
-    align-items: center;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #9c9c9c;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.btnoption::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.btnoption:hover {
+    height: 100%;
+    opacity: 1;
+}
+
+
+.btnoption:disabled {
+    opacity: 1;
+    pointer-events: none;
 }
 
 .modal-body{
@@ -166,9 +196,11 @@ a{
     margin-bottom: 10px;
 }
 
-.jarak{
+.jarak {
     margin-top: 2%;
     margin-bottom: 1%;
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -190,89 +222,168 @@ a{
 }
 
 /* style preview board */
-.angka{
+.angka {
     position: absolute;
-    background: white;
-    padding: 0 0.3%;
-    left: 31%;
-    top: 37%;
+    width: 5.3%;
+    height: 7%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 29.2%;
+    top: 37.2%;
 }
 
-.angka1{
+.angka1 {
     position: absolute;
-    left: 31%;
-    top: 71.4%;
+    width: 5.3%;
+    height: 4%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 29.2%;
+    top: 73.2%;
 }
 
-.angka2{
+.angka2 {
     position: absolute;
-    left: 11.3%;
-    top: 56%;
-}
-
-.angka3{
-    background: white;
-    position: absolute;
-    left: 49%;
+    width: 3.7%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 11%;
     top: 57.4%;
 }
 
-.angka4{
+.angka3 {
     position: absolute;
-    left: 49.5%;
+    width: 5%;
+    height: 8.2%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 47.7%;
+    top: 57.4%;
+}
+
+.angka4 {
+    position: absolute;
+    width: 5%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 47.7%;
     top: 85%;
 }
 
 .angka5 {
-    position: absolute;
-    left: 46.2%;
-    top: 2.7%;
+   position: absolute;
+   width: 5.4%;
+   height: 7%;
+   background-color: white;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   left: 44%;
+   top: 3.1%;
 }
 
 .angka6 {
     position: absolute;
-    left: 55.5%;
+    width: 5.4%;
+    height: 7%;
+     background-color: white;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     left: 54.5%;
     top: 82%;
 }
 
 .angka7 {
     position: absolute;
-    left: 18%;
-    top: 56%;
+    width: 5.3%;
+    height: 9%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 18.2%;
+    top: 54.2%;
 }
 
 .angka8 {
     position: absolute;
-    left: 30%;
-    top: 59%;
+    width: 5.3%;
+    height: 7%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 29.2%;
+    top: 59.2%;
 }
 
 .angka9 {
     position: absolute;
-    left: 85%;
+    width: 5.4%;
+    height: 7%;
+     background-color: white;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+    left: 83.5%;
     top: 28%;
 }
 
 .angka10 {
     position: absolute;
-    left: 12.3%;
+    width: 5.4%;
+    height: 7%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 11%;
     top: 28%;
 }
 
 .angka11 {
     position: absolute;
-    left: 46%;
+    width: 5.4%;
+    height: 7%;
+     background-color: white;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+    left: 44%;
     top: 63.5%;
 }
 
 .angka12 {
     position: absolute;
+    width: 5.4%;
+    height: 7%;
+     background-color: white;
+     display: flex;
+     justify-content: center;
+     align-items: center;
     left: 22.3%;
     top: 28.5%;
 }
 
 .angka13 {
     position: absolute;
+    width: 5.4%;
+    height: 7%;
+     background-color: white;
+     display: flex;
+     justify-content: center;
+     align-items: center;
     left: 48%;
     top: 45.5%;
 }
@@ -296,73 +407,74 @@ a{
     max-height: 70px;
 }
 
-.judul{
+.judul {
     position: absolute;
-    left: 28px;
-    top: -25px;
+    left: 9%;
+    top: -24%;
 }
 
-.judul1{
+.judul1 {
     position: absolute;
-    left: 95px;
-    top: -25px;
+    left: 20.5%;
+    top: -24%;
 }
 
-.judul2{
+.judul2 {
     position: absolute;
-    left: 450px;
-    top: -25px;
+    left: 87%;
+    top: -24%;
 }
 
-.angkaa{
+.angkaa {
     position: absolute;
-    left: 4px;
-    top: 75px;
+    left: 3%;
+    top: 74%;
 }
 
-.angkaa1{
+.angkaa1 {
     position: absolute;
-    left: 60px;
-    top: 75px;
+    left: 12%;
+    top: 74%;
 }
 
-.angkaa2{
+.angkaa2 {
     position: absolute;
-    left: 430px;
-    top: 75px;
+    left: 80.5%;
+    top: 74%;
 }
 
-.angkaa6{
+.angkaa6 {
     position: absolute;
-    left: 210px !important;
-    top: 110px;
+    left: 44%;
+    top: 109%;
 }
  
 .horizontalline{
     margin: 2em 0 0 0;
 }
 
-.angkaa3{
+.angkaa3 {
     position: absolute;
-    left: 135px !important;
-    top: -25px;
+    left: 27.2% !important;
+    top: -24%;
 }
 
-.angkaa4{
+.angkaa4 {
     position: absolute;
-    left: 280px !important;
-    top: -25px;
+    left: 52.1% !important;
+    top: -24%;
 }
 
-.angkaa5{
+.angkaa5 {
     position: absolute;
-    left: 335px !important;
-    top: 20px;
+    left: 56% !important;
+    top: 42%;
 }
-.angkaa7{
+
+.angkaa7 {
     position: absolute;
-    left: 210px !important;
-    top: 75px;
+    left: 37% !important;
+    top: 65%;
 }
 
 div#BarFromScalePreviewPartScale {
