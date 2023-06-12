@@ -356,10 +356,10 @@ a{
     position: absolute;
     width: 5.4%;
     height: 7%;
-     background-color: white;
-     display: flex;
-     justify-content: center;
-     align-items: center;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     left: 44%;
     top: 63.5%;
 }
