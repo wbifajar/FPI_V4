@@ -613,7 +613,7 @@
                                         
                                         Material Name
                                        
-                                        <input class="inputtt" type="text" value="" id="BoardMaterialName" onchange="getPart(this.value)">
+                                        <input class="inputtt" type="text" value="" id="BoardMaterialName" >
                                         <!-- <datalist id="part">
                                             {% for p in part %}
                                                 <option value="{{ p.name }}" />
@@ -1258,398 +1258,15 @@
 </script>
 
 <!-- nonInputabel input  -->
-<script>
-    $("#totalBudget").focus(function(){
-        $(this).blur(); 
-    });
-    $("#operationCost").focus(function(){
-        $(this).blur(); 
-    });
-    $("#totalCost").focus(function(){
-        $(this).blur(); 
-    });
-    $("#costExcludeOperation").focus(function(){
-        $(this).blur(); 
-    });
-    $("#managementCost").focus(function(){
-        $(this).blur(); 
-    });
-    $("#totalMaterialCost").focus(function(){
-        $(this).blur(); 
-    });
-    $("#managementCost").focus(function(){
-        $(this).blur(); 
-    });
-    $("#totalOutsourceCost").focus(function(){
-        $(this).blur(); 
-    });
-    $("#operationBudget").focus(function(){
-        $(this).blur(); 
-    });
-    $("#budgetPerUnit2").focus(function(){
-        $(this).blur(); 
-    });
-    $("#Exposed2").focus(function(){
-        $(this).blur();
-    });
-    $("#Scala2").focus(function(){
-        $(this).blur();
-    });
-    $("#EdgeLoss2").focus(function(){
-        $(this).blur();
-    });
-    $("#DiameterBar2").focus(function(){
-        $(this).blur();
-    });
-    $("#OutlineScalePart").focus(function(){
-        $(this).blur();
-    });
-    $("#FromNumPreviewMargin1").focus(function(){
-        $(this).blur();
-    });
-    $("#FromNumPreviewMargin2").focus(function(){
-        $(this).blur();
-    });
-    $("#FromNumPreviewHalfMargin1").focus(function(){
-        $(this).blur();
-    });
-    $("#FromNumPreviewHalfMargin2").focus(function(){
-        $(this).blur();
-    });
-    $("#FromNumPreviewExposed").focus(function(){
-        $(this).blur();
-    });
-    $("#FromNumPreviewVerScale").focus(function(){
-        $(this).blur();
-    });
-    $("#FromNumPreviewHorScale").focus(function(){
-        $(this).blur();
-    });
-    $("#FromPartScalePreviewMargin1").focus(function(){
-        $(this).blur();
-    });
-    $("#FromPartScalePreviewHalfMargin").focus(function(){
-        $(this).blur();
-    });
-    $("#FromPartScalePreviewHalfMargin1").focus(function(){
-        $(this).blur();
-    });
-    $("#FromPartPreviewVerScale").focus(function(){
-        $(this).blur();
-    });
-    $("#FromPartPreviewHorScale").focus(function(){
-        $(this).blur();
-    });
-    $("#BarFromScalePreviewHalfKerf1").focus(function(){
-        $(this).blur();
-    });
-    $("#BarFromScalePreviewHalfKerf2").focus(function(){
-        $(this).blur();
-    });
-    $("#BarFromScalePreviewDiameter").focus(function(){
-        $(this).blur();
-    });
-    $("#BarFromScalePreviewPartScale").focus(function(){
-        $(this).blur();
-    });
+<script src="{% static '/nonInputableInput.js' %}" type=""></script>
 
 
-</script>
-
-<script>
-    // function setValuePreviewBar(){
-    //     var halfkerf1 = document.getElementById("#BarFromScalePreviewHalfKerf1");
-    //     var halfkerf2 = document.getElementById("#BarFromScalePreviewHalfKerf2");
-    //     var diameter = document.getElementById("#BarFromScalePreviewDiameter");
-    //     var partscale = document.getElementById("#BarFromScalePreviewPartScale");
-    //     halfkerf1.innerHTML = "0";
-    //     halfkerf2.innerHTML = "0";
-    //     diameter.innerHTML = "0";
-    //     partscale.innerHTML = "0";
-    // }
-
-    // BAGIAN FUNCTION BAR
-    
-
-    function disableButtonBar(buttonId) {
-        var buttonKGBar = document.getElementById('buttonKGBar');
-        var buttonSheetBar = document.getElementById('buttonSheetBar');
-
-        if (buttonId === 'buttonKGBar') {
-            buttonKGBar.disabled = true;
-            buttonSheetBar.disabled = false;
-
-        } else if (buttonId === 'buttonSheetBar') {
-            buttonKGBar.disabled = false;
-            buttonSheetBar.disabled = true;
-        }
-    }
-
-    function getPartBar(val){
-        var partName = document.getElementById('BarMaterialName').value;
-        var part = '{{partjs|safe}}';
-        const obj = JSON.parse(part);
-        var selectedPart = obj.find(element => element.name == partName);
+<!-- ========== START BOARD AND BAR CALCULATION FUNCTION ========== -->
+<script src="{% static '/boardCalculationFunction.js' %}" type=""></script>
+<script src="{% static '/barCalculationFunction.js' %}" type=""></script>
+<!-- ========== END BOARD AND BAR CALCULATION FUNCTION ========== -->
 
 
-        console.log(selectedPart);
-        $('#BarMaterialId').val(selectedPart.idPart);
-        $('#BarMaterialSpesificGravity').val(selectedPart.spesificGravity);
-        $('#BarMaterialPrice').val(selectedPart.price);
-
-        calculateFunctionsBar();
-        getFromNumPreviewValues();
-    }
-
-    function calculateFunctionsBar(){
-        calculateNumOfQty();
-        calculateFromScale();
-        updateBarArray();
-    }
-
-    function calculateFromScale(){
-        var bar_partscale = document.getElementById("BarPartScaleMaterial").value
-        bar_partscale = bar_partscale == '' ? 0 : parseFloat(bar_partscale)
-        var bar_diameter = document.getElementById("BarDiameterMaterial").value
-        bar_diameter = bar_diameter == '' ? 0 : parseFloat(bar_diameter)
-
-        var bar_specgravity = document.getElementById("BarMaterialSpesificGravity").value
-        bar_specgravity = bar_specgravity == '' ? 0 : parseFloat(bar_specgravity)
-        var bar_price = document.getElementById("BarMaterialPrice").value
-        bar_price = bar_price == '' ? 0 : parseFloat(bar_price)
-
-        var bar_kerf_loss = document.getElementById("BarFromScaleKerfLoss").value
-        bar_kerf_loss = bar_kerf_loss == '' ? 0 : parseFloat(bar_kerf_loss) 
-
-        var used_qty = 3.14 * (Math.pow((bar_diameter/2), 2)) * ((bar_partscale + bar_kerf_loss)) * bar_specgravity
-        used_qty = used_qty / 1000000
-        $('#BarFromScaleUsedQty').val(used_qty);
-
-        var bar_material_cost = used_qty * bar_price
-        bar_material_cost = bar_material_cost.toFixed(2);
-        $('#BarFromScaleMaterialCost').val(bar_material_cost);
-
-        var half_bar_kerf_loss = bar_kerf_loss / 2
-        $('#BarFromScalePreviewHalfKerf1').val(half_bar_kerf_loss);
-        $('#BarFromScalePreviewHalfKerf2').val(half_bar_kerf_loss);
-        $('#BarFromScalePreviewDiameter').val(bar_diameter);
-        $('#BarFromScalePreviewPartScale').val(bar_partscale);
-        updateBarArray();
-    }
-
-    function calculateNumOfQty(){
-        var bar_partscale = document.getElementById("BarPartScaleMaterial").value
-        bar_partscale = bar_partscale == '' ? 0 : parseFloat(bar_partscale)
-        var bar_diameter = document.getElementById("BarDiameterMaterial").value
-        bar_diameter = bar_diameter == '' ? 0 : parseFloat(bar_diameter)
-
-        var bar_specgravity = document.getElementById("BarMaterialSpesificGravity").value
-        bar_specgravity = bar_specgravity == '' ? 0 : parseFloat(bar_specgravity)
-        var bar_price = document.getElementById("BarMaterialPrice").value
-        bar_price = bar_price == '' ? 0 : parseFloat(bar_price)
-
-        var bar_calcnum_exposed = document.getElementById("BarCalcNumExposed").value
-        bar_calcnum_exposed = bar_calcnum_exposed == '' ? 0 : parseFloat(bar_calcnum_exposed)
-        var bar_calcnum_round_ba = document.getElementById("BarCalcNumRoundBa").value
-        bar_calcnum_round_ba = bar_calcnum_round_ba == '' ? 0 : parseFloat(bar_calcnum_round_ba)
-        var bar_calcnum_edge_loss = document.getElementById("BarCalcNumEdgeLoss").value
-        bar_calcnum_edge_loss = bar_calcnum_edge_loss == '' ? 0 : parseFloat(bar_calcnum_edge_loss)
-
-        var bar_kerf_loss = document.getElementById("BarFromScaleKerfLoss").value
-        bar_kerf_loss = bar_kerf_loss == '' ? 0 : parseFloat(bar_kerf_loss)
-
-        var bar_material_cost = ((3.14 * (Math.pow((bar_diameter/2), 2)) * bar_calcnum_round_ba * bar_specgravity)/1000000) * bar_price
-        $('#BarCalcNumMtrlCost').val(bar_material_cost);
-
-        
-        $('#Exposed2').val(bar_calcnum_exposed);
-        $('#Scala2').val(bar_partscale);
-        $('#EdgeLoss2').val(bar_calcnum_edge_loss);
-        $('#DiameterBar2').val(bar_calcnum_round_ba);
-        $('#OutlineScalePart').val(bar_partscale);
-        $('#OutlineScaleDiameter').val(bar_diameter);
-
-        var bar_num = (bar_calcnum_round_ba - bar_calcnum_exposed - bar_calcnum_edge_loss) / (bar_partscale + bar_kerf_loss)
-        bar_num = bar_num < 0 ? 0 : Math.floor(bar_num)
-        $('#BarCalcNumNum').val(bar_num);
-        
-        $('#BarCalcNumScla').val(bar_partscale);
-
-        var bar_used_qty = bar_material_cost / bar_num / bar_price
-        $('#BarCalcNumUsedQty').val(bar_used_qty);
-
-        var bold_material_cost = bar_material_cost / bar_num
-        $('#BarCalcNumBoldMaterialCost').val(bold_material_cost)
-
-        // $('#BarCalcNumPreviewExposed').text(bar_calcnum_exposed)
-        // $('#BarCalcNumPreviewScla').text(bar_partscale)
-        // $('#BarCalcNumPreviewEdgeLoss').text(bar_calcnum_edge_loss)
-        // $('#BarCalcNumPreviewRoundBa').text(bar_calcnum_round_ba)
-        updateBarArray();
-    }
-
-
-    // ============ BAGIAN BOARD ============
-    function calculateFunctionsBoard(){
-        calculateFromPartScale();
-        calculateFromNum();
-        updateBoardArray();
-    }
-
-    
-    function disableButtonBoard(buttonId) {
-        var buttonKGBoard = document.getElementById('buttonKGBoard');
-        var buttonSheetBoard = document.getElementById('buttonSheetBoard');
-
-        if (buttonId === 'buttonKGBoard') {
-            buttonKGBoard.disabled = true;
-            buttonSheetBoard.disabled = false;
-            document.getElementById("priceBoard").innerHTML = "Price / KG";
-            document.getElementById("weightBoard").innerHTML = "Weight (KG)";
-            document.getElementById("priceBoardFromNum").innerHTML = "Price / KG";
-            document.getElementById("priceBoardFromPartScale").innerHTML = "Price / KG";
-        } else if (buttonId === 'buttonSheetBoard') {
-            buttonKGBoard.disabled = false;
-            buttonSheetBoard.disabled = true;
-            document.getElementById("priceBoard").innerHTML = "Price / Sheet";
-            document.getElementById("weightBoard").innerHTML = "Weight (Sheet)";
-            document.getElementById("priceBoardFromNum").innerHTML = "Price / Sheet";
-            document.getElementById("priceBoardFromPartScale").innerHTML = "Price / Sheet";
-        }
-    }
-
-    function getPart(){
-        var partName = document.getElementById('BoardMaterialName').value;
-
-        var part = '{{partjs|safe}}';
-        const obj = JSON.parse(part);
-        var selectedPart = obj.find(element => element.name == partName);
-        
-        console.log(selectedPart);
-        $('#BoardMaterialId').val(selectedPart.idPart);
-        $('#MaterialSpesificGravity').val(selectedPart.spesificGravity);
-        $('#MaterialPrice').val(selectedPart.price);
-        $('#PriceFromNumber').val(selectedPart.price);
-        $('#PriceFromPart').val(selectedPart.price);
-    }
-
-    function calculateFromNum(){
-        var fromnum_verscale = document.getElementById("VerticalScaleFromNumber").value
-        fromnum_verscale = fromnum_verscale == '' ? 0 : parseFloat(fromnum_verscale)
-        var fromnum_horscale = document.getElementById("HorizontalScaleFromNumber").value
-        fromnum_horscale = fromnum_horscale == '' ? 0 : parseFloat(fromnum_horscale)
-
-        var verscale = document.getElementById("VerticalScaleMaterial").value
-        verscale = verscale == '' ? 0 : parseFloat(verscale)
-        var horscale = document.getElementById("HorizontalScaleMaterial").value
-        horscale = horscale == '' ? 0 : parseFloat(horscale)
-        var thickness = document.getElementById("ThicknessMaterial").value
-        thickness = thickness == '' ? 0 : parseFloat(thickness)
-        var specificgravity = document.getElementById("MaterialSpesificGravity").value
-        thickness = thickness == '' ? 0 : parseFloat(thickness)
-
-        var fromnum_exposed = document.getElementById("ExposedFromNumber").value
-        fromnum_exposed = fromnum_exposed == '' ? 0 : parseFloat(fromnum_exposed)
-        var fromnum_margin = document.getElementById("MarginFromNumber").value
-        fromnum_margin = fromnum_margin == '' ? 0 : parseFloat(fromnum_margin)
-
-        var fromnum_price = document.getElementById("PriceFromNumber").value
-        fromnum_price = fromnum_price == '' ? 0 : parseFloat(fromnum_price)
-
-        var numver = (fromnum_verscale - fromnum_exposed - (fromnum_margin/2)) / (verscale + fromnum_margin)
-        numver = numver < 0 ? 0 : Math.floor(numver)
-        $('#NumVerFromNumber').val(numver);
-
-        var numhor = fromnum_horscale / (horscale + fromnum_margin)
-        numhor = numhor < 0 ? 0 : Math.floor(numhor)
-        $('#NumHorFromNumber').val(numhor);
-        
-        var qtypersheet = numver * numhor
-        $('#QtyPerSheetFromNumber').val(qtypersheet);
-        $('#QtyFromNumber').val(qtypersheet);
-        
-        var weightfromnum = (fromnum_verscale * fromnum_horscale * thickness * specificgravity) / 1000000
-        $('#WeightFromNumber').val(weightfromnum);
-
-        var weightperqty = weightfromnum / qtypersheet
-        weightperqty = weightperqty.toFixed(2);
-        $('#WeightPerQtyFromNumber').val(weightperqty);
-        $('#WeightFromNumber2').val(weightperqty);
-        $('#WeightFromNumber3').val(weightperqty);
-        
-        var fromnum_materialcost = fromnum_price * weightperqty
-        fromnum_materialcost = fromnum_materialcost.toFixed(2);
-        $('#MaterialCostFromNumber').val(fromnum_materialcost);
-        $('#BoldMaterialCostFromNumber').val(fromnum_materialcost);
-        
-        $('#FromNumPreviewMargin1').val(fromnum_margin);
-        $('#FromNumPreviewMargin2').val(fromnum_margin);
-        var halfmargin = fromnum_margin / 2
-        $('#FromNumPreviewHalfMargin1').val(halfmargin);
-        $('#FromNumPreviewHalfMargin2').val(halfmargin);
-        $('#FromNumPreviewExposed').val(fromnum_exposed);
-
-        
-        $('#FromNumPreviewVerScale').val(verscale);
-        $('#FromNumPreviewHorScale').val(horscale);
-        $('#FromPartPreviewVerScale').val(verscale);
-        $('#FromPartPreviewHorScale').val(horscale);
-
-        
-        $('#FromNumPreviewVerScale').text(verscale);
-        $('#FromNumPreviewHorScale').text(horscale);
-        $('#FromPartPreviewVerScale').text(verscale);
-        $('#FromPartPreviewHorScale').text(horscale);
-
-        updateBoardArray();
-    }
-
-    function calculateFromPartScale(){
-        var verscale = document.getElementById("VerticalScaleMaterial").value
-        verscale = verscale == '' ? 0 : parseFloat(verscale)
-        var horscale = document.getElementById("HorizontalScaleMaterial").value
-        horscale = horscale == '' ? 0 : parseFloat(horscale)
-        var thickness = document.getElementById("ThicknessMaterial").value
-        thickness = thickness == '' ? 0 : parseFloat(thickness)
-
-        var specificgravity = document.getElementById("MaterialSpesificGravity").value
-        thickness = thickness == '' ? 0 : parseFloat(thickness)
-
-        var exposedfrompart = document.getElementById("ExposedFromPart").value
-        exposedfrompart = exposedfrompart == '' ? 10 : parseFloat(exposedfrompart)
-        var marginfrompart = document.getElementById("MarginFromPart").value
-        marginfrompart = marginfrompart == '' ? 20 : parseFloat(marginfrompart)
-
-        var price = document.getElementById("MaterialPrice").value
-        price = price == '' ? 0 : parseFloat(price) 
-
-        // WeightFromPart
-
-        var weightfrompart = ((verscale + exposedfrompart) * (horscale + marginfrompart) * thickness * specificgravity) / 1000000
-        weightfrompart = weightfrompart.toFixed(2);
-        var materialcostfrompart = weightfrompart * price
-        materialcostfrompart = materialcostfrompart.toFixed(2);
-
-
-        $('#FromPartScalePreviewMargin').val(marginfrompart);
-        $('#FromPartScalePreviewExposed').val(exposedfrompart);
-        var halfscale = marginfrompart / 2;
-        $('#FromPartScalePreviewMargin1').val(marginfrompart);
-        $('#FromPartScalePreviewHalfMargin').val(halfscale);
-
-        $('#WeightFromPart').val(weightfrompart);
-        $('#WeightFromPart2').val(weightfrompart);
-        $('#WeightFromPart3').val(weightfrompart);
-        $('#MaterialCostFromPart').val(materialcostfrompart);
-        $('#BoldMaterialCostFromPart').val(materialcostfrompart);
-
-        
-
-        updateBoardArray(); 
-    }
-
-
-</script>
 <!-- calculation functions -->
 <script>
     // buat others 
@@ -1785,7 +1402,6 @@
 <!-- ========== START MATERIAL FUNCTION ========== -->
 <script>
 
-    // get material database from py file 
     function getMaterialFromDB(){
         var part = '{{partreflectcostjs|safe}}';
         const obj = JSON.parse(part);
@@ -1797,7 +1413,7 @@
 <script src="{% static '/materialFunction.js' %}" type=""></script>
 <!-- ========== END MATERIAL FUNCTION ========== -->
 
-<!-- process function -->
+<!-- ========== START PROCESS FUNCTION ========== -->
 <script>
     function getProcessFromDB(){
         var process = '{{processjs|safe}}';
@@ -1805,22 +1421,23 @@
         return obj;
     }
 </script>
-<!-- end process function -->
-
 <script src="{% static '/scripts.js' %}" type=""></script>
-<script src="{% static '/boardbarmodal.js' %}" type=""></script>
-<script src="{% static '/boardSubmitFunction.js' %}" type=""></script>
+<!-- ========== END PROCESS FUNCTION ========== -->
 
-<!-- others function  -->
+<!-- ========== START OTHER FUNCTION ========== -->
 <script>
-
-function getOtherFromDB(){
-    var others = '{{othersjs|safe}}';
-    const obj = JSON.parse(others);
-    return obj
-}
+    function getOtherFromDB(){
+        var others = '{{othersjs|safe}}';
+        const obj = JSON.parse(others);
+        return obj
+    }
 </script>
 
 <script src="{% static '/otherFunction.js' %}" type=""></script>
+<!-- ========== END OTHER FUNCTION ========== -->
+
+<script src="{% static '/boardbarmodal.js' %}" type=""></script>
+<script src="{% static '/boardBarSubmitFunction.js' %}" type=""></script>
+
 
 {% endblock scripts %}

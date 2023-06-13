@@ -2,8 +2,6 @@ function updateProcessLength(index) {
   $("#processLength").val(index);
 }
 
-
-
 function deleteProcess(rowindex) {
 //   console.log(index);
   var table = document
@@ -156,7 +154,7 @@ function addProcess() {
 	cell2.innerHTML = `<td>${selectedProcess.ProcessId}</td>`;  
 	cell3.innerHTML = `<td>${selectedProcess.Name}</td>`;
 	cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
-	cell5.innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${index})" name='opeSum-${index}' id='opeSum-${index}'></td>`;
+	cell5.innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${index})" name='opeSum-${index}' id='opeSum-${index}' value='0'></td>`;
 	cell6.innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio-${index}' onchange="calculateByOperationPerOperationBudgetRatio(${index})" id='operationPerOperationBudgetRatio-${index}'> %</td>`;
 	cell7.innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${index}' onchange="calculateByOperationPerBudgetRatio(${index})" id='operationPerBudgetRatio-${index}'> %</td>`;
 	cell8.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateBySetTime(${index})" class="operationInputMd" name='setTime-${index}' id='setTime-${index}'></td>`;

@@ -85,6 +85,7 @@ function addMaterial() {
         '', '', '', '', '', '', '', selectedMaterial.price, '', '',
         '', '', '', '', selectedMaterial.price, '', '', ''  
     ])
+
     barArr.push([
         selectedMaterial.idPart, selectedMaterial.idPart, selectedMaterial.name, '', '', selectedMaterial.spesificGravity, selectedMaterial.price, '', '', '',
         '', '', '', '', '', '', '', '', '', '',
@@ -166,8 +167,16 @@ $('#reflect-cost-button').on('click', function(){
     $('#materialCost').val(total)
 
     var materialCostPercentage = $('#materialCostPercentage').val()
-
-    // console.log('OTAL MTAERIAL VSOT = ', total * materialCostPercentage / 100 );
     $('#totalMaterialCost').val(total * materialCostPercentage / 100)
 })
 
+function updateTotalMaterialCostOnModal(){
+    var total = 0
+    //loop each row before last row (last row is for showing total material cost)
+    $('table#materialTable > tbody tr:not(:last-child)').each(function(index, value){
+        var num = $(value).find('input.material-cost-price').val() 
+        total +=  parseInt(num);
+    });
+
+    $('#total-material-cost').text(total)
+}
