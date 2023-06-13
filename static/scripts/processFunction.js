@@ -447,8 +447,7 @@ function calculateByOpeSum(index) {
 $("#opeSum-1").change(function () {
   var prev = $(this).data("val");
   var current = $(this).val();
-//   console.log("Prev value " + prev);
-//   console.log("New value " + current);
+
 });
 
 function calculateByOperationPerOperationBudgetRatio(index) {

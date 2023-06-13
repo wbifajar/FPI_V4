@@ -4,6 +4,12 @@ function calculateFunctionsBoard(){
     updateBoardArray();
 }
 
+function getActiveUnitType(){
+    const KG_STAT = $('#buttonKGBoard').prop('disabled');
+    if(KG_STAT == true) return 'kg'
+
+    return 'sheet'
+}
 
 function disableButtonBoard(buttonId) {
     var buttonKGBoard = document.getElementById('buttonKGBoard');
@@ -12,18 +18,21 @@ function disableButtonBoard(buttonId) {
     if (buttonId === 'buttonKGBoard') {
         buttonKGBoard.disabled = true;
         buttonSheetBoard.disabled = false;
-        document.getElementById("priceBoard").innerHTML = "Price / KG";
-        document.getElementById("weightBoard").innerHTML = "Weight (KG)";
-        document.getElementById("priceBoardFromNum").innerHTML = "Price / KG";
-        document.getElementById("priceBoardFromPartScale").innerHTML = "Price / KG";
+        $("#priceBoard").text("Price / KG");
+        $("#weightBoard").text("Weight (KG)");
+        $("#priceBoardFromNum").text("Price / KG");
+        $("#priceBoardFromPartScale").text("Price / KG");
     } else if (buttonId === 'buttonSheetBoard') {
         buttonKGBoard.disabled = false;
         buttonSheetBoard.disabled = true;
-        document.getElementById("priceBoard").innerHTML = "Price / Sheet";
-        document.getElementById("weightBoard").innerHTML = "Weight (Sheet)";
-        document.getElementById("priceBoardFromNum").innerHTML = "Price / Sheet";
-        document.getElementById("priceBoardFromPartScale").innerHTML = "Price / Sheet";
+        $("#priceBoard").text("Price / Sheet");
+        $("#weightBoard").text("Weight (Sheet)");
+        $("#priceBoardFromNum").text("Price / Sheet");
+        $("#priceBoardFromPartScale").text("Price / Sheet");
+        
     }
+
+    calculateFunctionsBoard();
 }
 
 function calculateFromNum(){
@@ -61,11 +70,15 @@ function calculateFromNum(){
     $('#QtyPerSheetFromNumber').val(qtypersheet);
     $('#QtyFromNumber').val(qtypersheet);
     
-    var weightfromnum = (fromnum_verscale * fromnum_horscale * thickness * specificgravity) / 1000000
+    if(getActiveUnitType() == 'kg'){
+        var weightfromnum = (fromnum_verscale * fromnum_horscale * thickness * specificgravity) / 1000000
+    }else{
+        var weightfromnum = 1
+    }
     $('#WeightFromNumber').val(weightfromnum);
 
     var weightperqty = weightfromnum / qtypersheet
-    weightperqty = weightperqty.toFixed(2);
+    weightperqty = weightperqty.toFixed(5);
     $('#WeightPerQtyFromNumber').val(weightperqty);
     $('#WeightFromNumber2').val(weightperqty);
     $('#WeightFromNumber3').val(weightperqty);
@@ -98,6 +111,11 @@ function calculateFromNum(){
 }
 
 function calculateFromPartScale(){
+    var fromnum_verscale = document.getElementById("VerticalScaleFromNumber").value
+    fromnum_verscale = fromnum_verscale == '' ? 0 : parseFloat(fromnum_verscale)
+    var fromnum_horscale = document.getElementById("HorizontalScaleFromNumber").value
+    fromnum_horscale = fromnum_horscale == '' ? 0 : parseFloat(fromnum_horscale)
+
     var verscale = document.getElementById("VerticalScaleMaterial").value
     verscale = verscale == '' ? 0 : parseFloat(verscale)
     var horscale = document.getElementById("HorizontalScaleMaterial").value
@@ -118,8 +136,15 @@ function calculateFromPartScale(){
 
     // WeightFromPart
 
-    var weightfrompart = ((verscale + exposedfrompart) * (horscale + marginfrompart) * thickness * specificgravity) / 1000000
-    weightfrompart = weightfrompart.toFixed(2);
+    if(getActiveUnitType() == "kg"){
+        var weightfrompart = ((verscale + exposedfrompart) * (horscale + marginfrompart) * thickness * specificgravity) / 1000000
+    }else{
+        var weightfrompart = 1 / ( 
+                (fromnum_verscale * fromnum_horscale) / 
+                ( (verscale + exposedfrompart + marginfrompart) * (horscale+ marginfrompart) ) 
+            )
+    }
+    weightfrompart = weightfrompart.toFixed(5);
     var materialcostfrompart = weightfrompart * price
     materialcostfrompart = materialcostfrompart.toFixed(2);
 

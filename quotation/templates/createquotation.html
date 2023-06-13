@@ -592,10 +592,10 @@
                     <h6>CALCULATE BY</h6>
                 <div class="row calculateRow">
                         <div class="col calculatecol">
-                            <button id="buttonKGBoard" onclick="disableButtonBoard('buttonKGBoard')"type="button" class="btn btn-secondary btnoption"  >KILOGRAMS</button>
+                            <button id="buttonKGBoard" onclick="disableButtonBoard('buttonKGBoard'); getActiveUnitType()" type="button" class="btn btn-secondary btnoption" disabled>KILOGRAMS</button>
                         </div>
                         <div class="col calculatecol">
-                            <button id="buttonSheetBoard" onclick="disableButtonBoard('buttonSheetBoard')" type="button" class="btn btn-secondary btnoption"  >SHEET</button>
+                            <button id="buttonSheetBoard" onclick="disableButtonBoard('buttonSheetBoard'); getActiveUnitType()" type="button" class="btn btn-secondary btnoption">SHEET</button>
                         </div>
                     </div>
                 </div>
@@ -1252,12 +1252,12 @@
 </script>
 
 <!-- nonInputabel input  -->
-<script src="{% static '/nonInputableInput.js' %}" type=""></script>
+<script src="{% static 'scripts/nonInputableInput.js' %}" type=""></script>
 
 
 <!-- ========== START BOARD AND BAR CALCULATION FUNCTION ========== -->
-<script src="{% static '/boardCalculationFunction.js' %}" type=""></script>
-<script src="{% static '/barCalculationFunction.js' %}" type=""></script>
+<script src="{% static 'scripts/boardCalculationFunction.js' %}" type=""></script>
+<script src="{% static 'scripts/barCalculationFunction.js' %}" type=""></script>
 <!-- ========== END BOARD AND BAR CALCULATION FUNCTION ========== -->
 
 
@@ -1404,7 +1404,7 @@
     }
 </script>
 
-<script src="{% static '/materialFunction.js' %}" type=""></script>
+<script src="{% static 'scripts/materialFunction.js' %}" type=""></script>
 <!-- ========== END MATERIAL FUNCTION ========== -->
 
 <!-- ========== START PROCESS FUNCTION ========== -->
@@ -1415,7 +1415,7 @@
         return obj;
     }
 </script>
-<script src="{% static '/scripts.js' %}" type=""></script>
+<script src="{% static 'scripts/processFunction.js' %}" type=""></script>
 <!-- ========== END PROCESS FUNCTION ========== -->
 
 <!-- ========== START OTHER FUNCTION ========== -->
@@ -1427,11 +1427,11 @@
     }
 </script>
 
-<script src="{% static '/otherFunction.js' %}" type=""></script>
+<script src="{% static 'scripts/otherFunction.js' %}" type=""></script>
 <!-- ========== END OTHER FUNCTION ========== -->
 
-<script src="{% static '/boardbarmodal.js' %}" type=""></script>
-<script src="{% static '/boardBarSubmitFunction.js' %}" type=""></script>
+<script src="{% static 'scripts/boardbarmodal.js' %}" type=""></script>
+<script src="{% static 'scripts/boardBarSubmitFunction.js' %}" type=""></script>
 
 
 {% endblock scripts %}
