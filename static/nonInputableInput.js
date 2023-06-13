@@ -1,0 +1,95 @@
+$("#totalBudget").focus(function(){
+    $(this).blur(); 
+});
+$("#operationCost").focus(function(){
+    $(this).blur(); 
+});
+$("#totalCost").focus(function(){
+    $(this).blur(); 
+});
+$("#costExcludeOperation").focus(function(){
+    $(this).blur(); 
+});
+$("#managementCost").focus(function(){
+    $(this).blur(); 
+});
+$("#totalMaterialCost").focus(function(){
+    $(this).blur(); 
+});
+$("#managementCost").focus(function(){
+    $(this).blur(); 
+});
+$("#totalOutsourceCost").focus(function(){
+    $(this).blur(); 
+});
+$("#operationBudget").focus(function(){
+    $(this).blur(); 
+});
+$("#budgetPerUnit2").focus(function(){
+    $(this).blur(); 
+});
+$("#Exposed2").focus(function(){
+    $(this).blur();
+});
+$("#Scala2").focus(function(){
+    $(this).blur();
+});
+$("#EdgeLoss2").focus(function(){
+    $(this).blur();
+});
+$("#DiameterBar2").focus(function(){
+    $(this).blur();
+});
+$("#OutlineScalePart").focus(function(){
+    $(this).blur();
+});
+$("#FromNumPreviewMargin1").focus(function(){
+    $(this).blur();
+});
+$("#FromNumPreviewMargin2").focus(function(){
+    $(this).blur();
+});
+$("#FromNumPreviewHalfMargin1").focus(function(){
+    $(this).blur();
+});
+$("#FromNumPreviewHalfMargin2").focus(function(){
+    $(this).blur();
+});
+$("#FromNumPreviewExposed").focus(function(){
+    $(this).blur();
+});
+$("#FromNumPreviewVerScale").focus(function(){
+    $(this).blur();
+});
+$("#FromNumPreviewHorScale").focus(function(){
+    $(this).blur();
+});
+$("#FromPartScalePreviewMargin1").focus(function(){
+    $(this).blur();
+});
+$("#FromPartScalePreviewHalfMargin").focus(function(){
+    $(this).blur();
+});
+$("#FromPartScalePreviewHalfMargin1").focus(function(){
+    $(this).blur();
+});
+$("#FromPartPreviewVerScale").focus(function(){
+    $(this).blur();
+});
+$("#FromPartPreviewHorScale").focus(function(){
+    $(this).blur();
+});
+$("#BarFromScalePreviewHalfKerf1").focus(function(){
+    $(this).blur();
+});
+$("#BarFromScalePreviewHalfKerf2").focus(function(){
+    $(this).blur();
+});
+$("#BarFromScalePreviewDiameter").focus(function(){
+    $(this).blur();
+});
+$("#BarFromScalePreviewPartScale").focus(function(){
+    $(this).blur();
+});
+
+
