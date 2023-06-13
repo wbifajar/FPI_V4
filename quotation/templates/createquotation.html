@@ -607,13 +607,13 @@
                             <div class="row ">
                                     <div class="col">
                                         Material ID
-                                        <input class="inputtt noInput" type="text" value="" id="BoardMaterialId">
+                                        <input class="inputtt noInput" type="text" value="" id="BoardMaterialId" readonly>
                                     </div>
                                     <div class="col">
                                         
                                         Material Name
                                        
-                                        <input class="inputtt" type="text" value="" id="BoardMaterialName" >
+                                        <input class="inputtt" type="text" value="" id="BoardMaterialName" readonly>
                                         <!-- <datalist id="part">
                                             {% for p in part %}
                                                 <option value="{{ p.name }}" />
@@ -656,14 +656,14 @@
                                 <div class="row">
                                     <div class="col">
                                         Spesific Gravity
-                                        <input class="inputtt " type="text" id="MaterialSpesificGravity">
+                                        <input class="inputtt " type="text" id="MaterialSpesificGravity" readonly>
                                     </div>
                                     <div class="col">
                                         <div id="priceBoard">
                                             Price / KG
                                         </div>
                                         <div>
-                                            <input class="inputtt " type="text" id="MaterialPrice">
+                                            <input class="inputtt " type="text" id="MaterialPrice" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -774,7 +774,7 @@
                                             Price / KG
                                         </div>
                                         <div>
-                                            <input class="inputtt3" type="text" id="PriceFromNumber">
+                                            <input class="inputtt3" type="text" id="PriceFromNumber" readonly>
 
                                         </div>
                                     </div>
@@ -857,7 +857,7 @@
                                             Price / KG
                                         </div>
                                         <div>
-                                            <input class="inputtt3" type="text" id="PriceFromPart">
+                                            <input class="inputtt3" type="text" id="PriceFromPart" readonly>
 
                                         </div>
                                     </div>
@@ -983,18 +983,12 @@
                             <div class="row">
                                     <div class="col">
                                         Material ID
-                                        <input class="inputtt" type="text" id="BarMaterialId">
+                                        <input class="inputtt" type="text" id="BarMaterialId" readonly>
                                     </div>
                                     <div class="col">
                                         Bar Material Name
                                        
-                                        <input class="inputtt" type="text" id="BarMaterialName" list="partbar" onchange="getPartBar(this.value)">
-
-                                        <datalist id="partbar">
-                                            {% for p in partbar %}
-                                                <option value="{{ p.name }}" />
-                                            {% endfor %}
-                                        </datalist>
+                                        <input class="inputtt" type="text" id="BarMaterialName" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -1028,11 +1022,11 @@
                                 <div class="row">
                                     <div class="col">
                                         Spesific Gravity
-                                        <input class="inputtt" type="text" id="BarMaterialSpesificGravity">
+                                        <input class="inputtt" type="text" id="BarMaterialSpesificGravity" readonly>
                                     </div>
                                     <div class="col">
                                         Price / KG
-                                        <input class="inputtt" type="text" id="BarMaterialPrice">
+                                        <input class="inputtt" type="text" id="BarMaterialPrice" readonly>
                                     </div>
                                 </div>
                             </div>
