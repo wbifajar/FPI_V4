@@ -842,12 +842,18 @@
 
                                 <!-- baris 2 -->
                                 <div class="row">
-                                    <div class="col">
-                                        Weight
-                                        <input class="inputtt2" type="text" style="margin-left: -8px;" id="WeightFromPart"> kg
+                                    <div class="col" id="weightBoardFromPartScale">
+                                        <div>
+                                            Weight
+                                        </div>
+                                        <div class="weightps" id="weightInputBoardFPS">
+                                            <input class="inputtt2" type="text" id="WeightFromPart"> 
+                                            <div class="" id="satuanWeightFromPart">
+                                                kg
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                    </div>
+                    
                                 </div>
 
                                 <!-- baris 3 -->
@@ -1025,8 +1031,12 @@
                                         <input class="inputtt" type="text" id="BarMaterialSpesificGravity" readonly>
                                     </div>
                                     <div class="col">
-                                        Price / KG
-                                        <input class="inputtt" type="text" id="BarMaterialPrice" readonly>
+                                        <div id="priceBar">
+                                            Price / KG
+                                        </div>
+                                        <div>
+                                            <input class="inputtt" type="text" id="BarMaterialPrice" readonly>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1082,7 +1092,12 @@
                                     </div>
                                     <div class="col">
                                         Used Quantity
-                                        <input class="kolominput" type="text" readonly onchange="" id="BarCalcNumUsedQty"> kg
+                                        <div>
+                                            <input class="kolominput" type="text" readonly onchange="" id="BarCalcNumUsedQty">
+                                            <div id="satuanUsedQuantityNumOfBar">
+                                                kg
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 

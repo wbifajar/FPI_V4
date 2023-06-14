@@ -222,6 +222,21 @@ a{
 }
 
 /* style preview board */
+
+.weightps{
+    display: flex;
+    justify-content: center;
+}
+
+#weightBoardFromPartScale{
+    margin-right: 51%;
+    margin-left: -1%;
+}
+
+#WeightFromPart{
+    margin-right: 1%;
+}
+
 .angka {
     position: absolute;
     width: 5.3%;
@@ -467,7 +482,7 @@ a{
 
 .angkaa5 {
     position: absolute;
-    left: 56% !important;
+    left: 58% !important;
     top: 42%;
 }
 
