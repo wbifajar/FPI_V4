@@ -591,10 +591,10 @@
                 <div class="col" style="margin-bottom: 20px;">
                     <h6>CALCULATE BY</h6>
                 <div class="row calculateRow">
-                        <div class="col calculatecol">
+                        <div class="col calculatecol1">
                             <button id="buttonKGBoard" onclick="disableButtonBoard('buttonKGBoard'); getActiveUnitType()" type="button" class="btn btn-secondary btnoption" disabled>KILOGRAMS</button>
                         </div>
-                        <div class="col calculatecol">
+                        <div class="col calculatecol2">
                             <button id="buttonSheetBoard" onclick="disableButtonBoard('buttonSheetBoard'); getActiveUnitType()" type="button" class="btn btn-secondary btnoption">SHEET</button>
                         </div>
                     </div>
@@ -680,24 +680,52 @@
                                 <h6>FROM NUMBER OF</h6>
                                 <!-- baris 1 -->
                                 <div class="row">
-                                    <div class="col">
-                                        Vertical Scale
-                                        <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="VerticalScaleFromNumber"> mm
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Vertical Scale</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="VerticalScaleFromNumber"> 
+                                                <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        Horizontal Scale
-                                        <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="HorizontalScaleFromNumber"> mm
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Horizontal Scale</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="HorizontalScaleFromNumber">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- baris 2 -->
                                 <div class="row">
-                                    <div class="col">
-                                        Exposed
-                                        <input class="inputtt2 input" type="text" onchange="calculateFromNum()" id="ExposedFromNumber"> mm
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Exposed</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="ExposedFromNumber">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        Margin
-                                        <input class="inputtt2" type="text" onchange="calculateFromNum()" id="MarginFromNumber"> mm
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Margin</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="MarginFromNumber">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -830,24 +858,46 @@
                                 <h6>FROM PART SCALE</h6>
                                 <!-- baris 1 -->
                                 <div class="row">
-                                    <div class="col">
-                                        Exposed
-                                        <input class="inputtt2" type="text" onchange="calculateFromPartScale()" id="ExposedFromPart"> mm
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Exposed</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2" type="text" onchange="calculateFromPartScale()" id="ExposedFromPart">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        Margin
-                                        <input class="inputtt2" type="text" onchange="calculateFromPartScale()" id="MarginFromPart"> mm
+                                        
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Margin</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2" type="text" onchange="calculateFromPartScale()" id="MarginFromPart"> 
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <!-- baris 2 -->
                                 <div class="row">
-                                    <div class="col">
-                                        Weight
-                                        <input class="inputtt2" type="text" style="margin-left: -8px;" id="WeightFromPart"> kg
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Weight</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2" type="text" id="WeightFromPart">
+                                                    <span class="label-span">kg</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col">
-                                    </div>
+                                        </div>
                                 </div>
 
                                 <!-- baris 3 -->
@@ -967,11 +1017,11 @@
                 <div class="col" style="margin-bottom: 20px;">
                     <h6>CALCULATE BY</h6>
                     <div class="row calculateRow">
-                            <div class="col calculatecol">
+                            <div class="col calculatecol1">
                                 <button id="buttonKGBar" onclick="disableButtonBar('buttonKGBar')"type="button" class="btn btn-secondary btnoption"  >KILOGRAMS</button>
                             </div>
-                            <div class="col calculatecol">
-                                <button id="buttonSheetBar" onclick="disableButtonBar('buttonSheetBar')" type="button" class="btn btn-secondary btnoption"  >SHEET</button>
+                            <div class="col calculatecol2">
+                                <button id="buttonSheetBar" onclick="disableButtonBar('buttonSheetBar')" type="button" class="btn btn-secondary btnoption"  >BAR</button>
                             </div>
                         </div>
                 </div>
@@ -1001,13 +1051,27 @@
                             <div class="card-body">
                                 <h6>OUTLINE SCALE</h6>
                                 <div class="row">
-                                    <div class="col">
-                                        Part Scalp
-                                        <input class="inputtt4" type="text" id="BarPartScaleMaterial" onchange="calculateFunctionsBar()"> mm
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 22%;">Part Scalp</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt4" type="text" id="BarPartScaleMaterial" onchange="calculateFunctionsBar()">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        Diameter
-                                        <input class="inputtt4" type="text" id="BarDiameterMaterial" onchange="calculateFunctionsBar()"> mm
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 22%;">Diameter</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt4" type="text" id="BarDiameterMaterial" onchange="calculateFunctionsBar()">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1042,47 +1106,96 @@
                                 <h6>CALCULATION NUMBER OF QUANTITY</h6>
                                 <!-- baris 1 -->
                                 <div class="row">
-                                    <div class="col">
-                                        Exposed
-                                        <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumExposed"> mm
-                                    </div>
-                                    <div class="col">
-                                        <div>
-                                            Length
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Exposed</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumExposed">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumRoundBa"> mm
+                                    </div>
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Length</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumRoundBa">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Edge Loss</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumEdgeLoss">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        Edge Loss
-                                        <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumEdgeLoss"> mm
+
                                     </div>
+                                
                                 </div>
 
                                 <hr>
 
                                 <!-- baris 3 -->
                                 <div class="row">
-                                    <div class="col">
-                                        Material Cost
-                                        <input class="kolominput" type="text" id="BarCalcNumMtrlCost" readonly> mm
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Material Cost</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput" type="text" id="BarCalcNumMtrlCost" readonly>
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        Quantity / Bar
-                                        <input class="kolominput" type="text" id="BarCalcNumNum" readonly> pcs
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Quantity / Bar</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput" type="text" id="BarCalcNumNum" readonly>
+                                                    <span class="label-span">pcs</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <!-- baris 4 -->
                                 <div class="row">
-                                    <div class="col">
-                                        Scalp
-                                        <input class="kolominput" type="text" readonly onchange="" id="BarCalcNumScla"> mm
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Scalp</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput" type="text" readonly onchange="" id="BarCalcNumScla">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        Used Quantity
-                                        <input class="kolominput" type="text" readonly onchange="" id="BarCalcNumUsedQty"> kg
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Used Quantity</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput" type="text" readonly onchange="" id="BarCalcNumUsedQty">
+                                                    <span class="label-span">kg</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -1115,13 +1228,27 @@
                                 <h6>CALCULATION FROM SCALE</h6>
                                 <!-- baris 1 -->
                                 <div class="row">
-                                    <div class="col">
-                                        Keft Loss
-                                        <input class="inputtt2" type="text" onchange="calculateFunctionsBar()" id="BarFromScaleKerfLoss"> mm
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Keft Loss</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2" type="text" onchange="calculateFunctionsBar()" id="BarFromScaleKerfLoss">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        Used Quantity
-                                        <input class="inputtt2" type="text" id="BarFromScaleUsedQty"> mm
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Used Quantity</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2" type="text" id="BarFromScaleUsedQty">
+                                                    <span class="label-span">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -1154,7 +1281,7 @@
                                 <div class="judul">Exposed</div>
                                 <div class="judul1">Scalp</div>
                                 <div class="judul2">Edge Loss</div>
-                                <img style="width: 500px" class="imgwidth" src="{% static 'images/barmarginnumberof.png' %}">
+                                <img style="width: 500px; height: 80px;" class="imgwidth" src="{% static 'images/barmarginnumberof.png' %}">
                                 <input class="angkaa noInput inputMd" id="Exposed2"  type="text" readonly value="0">
                                 <input class="angkaa1 noInput inputMd" id="Scala2"  type="text" readonly value="0">
                                 <input class="angkaa2 noInput inputMd" id="EdgeLoss2"  type="text" readonly value="0">

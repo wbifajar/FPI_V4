@@ -58,14 +58,18 @@ input[type="radio"]{
 
 .calculateRow{
     display: flex;
+    justify-content: space-between;
 }
 
-.calculatecol{
+.calculatecol1{
     display: flex;
-    justify-content: center;
-    margin-right: 10px;
+    justify-content: flex-end;
 }
 
+.calculatecol2{
+    display: flex;
+    justify-content: flex-start;
+}
 .btnsearch{
     height: 30px !important;
     display: inline-flex;
@@ -74,6 +78,7 @@ input[type="radio"]{
 }
 
 .btnoption{
+    width: 30%;
     display: inline-block;
     padding: 10px 20px;
     background-color: #9c9c9c;
@@ -179,6 +184,13 @@ a{
 }
 
 /* kolom input modal board 3 teratas */
+
+span{
+    color: black;
+}
+.label-span {
+    width: 35px;
+}
 .inputtt1{
     width: 60%;
 }
@@ -395,7 +407,7 @@ a{
 
 .imgwidth{
     max-width: 550px;
-    max-height: 70px;
+    max-height: 80px;
     /* box-shadow: 2px 2px 5px #ccc;
     -moz-box-shadow: 2px 2px 5px #ccc;
     -webkit-box-shadow: 2px 2px 5px #ccc;
@@ -483,13 +495,10 @@ div#BarFromScalePreviewPartScale {
 }
 
 /* calculation number of & scale input style */
-.kolominput{
-    width: 87%;
+.kolominput .kolominput1{
+    width: 85%;
 }
 
-.kolominput1{
-    width: 65%;
-}
 
 .jarak1{
     margin-top: 1%;
