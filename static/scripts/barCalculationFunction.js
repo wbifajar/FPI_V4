@@ -1,13 +1,10 @@
- // function setValuePreviewBar(){
-//     var halfkerf1 = document.getElementById("#BarFromScalePreviewHalfKerf1");
-//     var halfkerf2 = document.getElementById("#BarFromScalePreviewHalfKerf2");
-//     var diameter = document.getElementById("#BarFromScalePreviewDiameter");
-//     var partscale = document.getElementById("#BarFromScalePreviewPartScale");
-//     halfkerf1.innerHTML = "0";
-//     halfkerf2.innerHTML = "0";
-//     diameter.innerHTML = "0";
-//     partscale.innerHTML = "0";
-// }
+
+function getActiveUnitType(){
+    const KG_STAT = $('#buttonKGBar').prop('disabled');
+    if(KG_STAT == true) return 'kg'
+
+    return 'sheet'
+}
 
 function disableButtonBar(buttonId) {
     var buttonKGBar = document.getElementById('buttonKGBar');
@@ -16,11 +13,17 @@ function disableButtonBar(buttonId) {
     if (buttonId === 'buttonKGBar') {
         buttonKGBar.disabled = true;
         buttonSheetBar.disabled = false;
+        $("#priceBar").text("Price / KG");
+        $("#satuanUsedQuantityNumOfBar").text("kg");
 
     } else if (buttonId === 'buttonSheetBar') {
         buttonKGBar.disabled = false;
         buttonSheetBar.disabled = true;
+        $("#priceBar").text("Price / Sheet");
+        $("#satuanUsedQuantityNumOfBar").text("sheet");
     }
+
+    calculateFunctionsBar();
 }
 
 function getPartBar(val){
@@ -59,8 +62,13 @@ function calculateFromScale(){
     var bar_kerf_loss = document.getElementById("BarFromScaleKerfLoss").value
     bar_kerf_loss = bar_kerf_loss == '' ? 0 : parseFloat(bar_kerf_loss) 
 
-    var used_qty = 3.14 * (Math.pow((bar_diameter/2), 2)) * ((bar_partscale + bar_kerf_loss)) * bar_specgravity
-    used_qty = used_qty / 1000000
+    
+    if(getActiveUnitType() == 'kg'){
+        var used_qty = 3.14 * (Math.pow((bar_diameter/2), 2)) * ((bar_partscale + bar_kerf_loss)) * bar_specgravity
+        used_qty = used_qty / 1000000;
+    }else{
+        var used_qty = (bar_partscale + bar_kerf_loss)/bar_diameter;
+    }
     $('#BarFromScaleUsedQty').val(used_qty);
 
     var bar_material_cost = used_qty * bar_price
@@ -107,17 +115,26 @@ function calculateNumOfQty(){
     $('#OutlineScalePart').val(bar_partscale);
     $('#OutlineScaleDiameter').val(bar_diameter);
 
-    var bar_num = (bar_calcnum_round_ba - bar_calcnum_exposed - bar_calcnum_edge_loss) / (bar_partscale + bar_kerf_loss)
-    bar_num = bar_num < 0 ? 0 : Math.floor(bar_num)
+   
+    var bar_num = (bar_calcnum_round_ba - bar_calcnum_exposed - bar_calcnum_edge_loss) / (bar_partscale + bar_kerf_loss);
+    bar_num = bar_num < 0 ? 0 : Math.floor(bar_num).toFixed(0)
+    
     $('#BarCalcNumNum').val(bar_num);
     
-    $('#BarCalcNumScla').val(bar_partscale);
 
-    var bar_used_qty = bar_material_cost / bar_num / bar_price
-    $('#BarCalcNumUsedQty').val(bar_used_qty);
+    if(getActiveUnitType() == 'kg'){
+        var bar_used_qty = bar_material_cost / bar_num / bar_price;
+        var bar_scala_new = bar_partscale;
+    }else{
+        var bar_used_qty = 1 / bar_num;
+        var bar_scala_new = bar_calcnum_round_ba - bar_calcnum_exposed - bar_calcnum_edge_loss - ((bar_partscale+bar_kerf_loss) * bar_num)
+        // console.log( bar_calcnum_round_ba, bar_calcnum_exposed, bar_calcnum_edge_loss, bar_partscale, bar_kerf_loss , bar_num)
+    }
+    $('#BarCalcNumScla').val(bar_scala_new);
+    $('#BarCalcNumUsedQty').val(bar_used_qty.toFixed(5));
 
     var bold_material_cost = bar_material_cost / bar_num
-    $('#BarCalcNumBoldMaterialCost').val(bold_material_cost)
+    $('#BarCalcNumBoldMaterialCost').val(bold_material_cost.toFixed(5));
 
     // $('#BarCalcNumPreviewExposed').text(bar_calcnum_exposed)
     // $('#BarCalcNumPreviewScla').text(bar_partscale)

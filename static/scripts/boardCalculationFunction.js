@@ -22,6 +22,12 @@ function disableButtonBoard(buttonId) {
         $("#weightBoard").text("Weight (KG)");
         $("#priceBoardFromNum").text("Price / KG");
         $("#priceBoardFromPartScale").text("Price / KG");
+        $("#satuanWeightFromPart").text("kg");
+        document.getElementById("weightBoardFromPartScale").style.marginRight = "50%";
+        document.getElementById("weightBoardFromPartScale").style.marginLeft = "0%";
+        document.getElementById("weightInputBoardFPS").style.marginLeft = "-2%";
+        document.getElementById("weightInputBoardFPS").style.marginRight = "2%";
+
     } else if (buttonId === 'buttonSheetBoard') {
         buttonKGBoard.disabled = false;
         buttonSheetBoard.disabled = true;
@@ -29,6 +35,13 @@ function disableButtonBoard(buttonId) {
         $("#weightBoard").text("Weight (Sheet)");
         $("#priceBoardFromNum").text("Price / Sheet");
         $("#priceBoardFromPartScale").text("Price / Sheet");
+        $("#satuanWeightFromPart").text("sheet");
+        document.getElementById("weightBoardFromPartScale").style.marginRight = "49.5%";
+        document.getElementById("weightBoardFromPartScale").style.marginLeft = "1%";
+        document.getElementById("WeightFromPart").style.marginRight = "1%";
+        document.getElementById("weightInputBoardFPS").style.marginLeft = "-0.9%";
+        document.getElementById("weightInputBoardFPS").style.marginRight = "2%";
+
         
     }
 
