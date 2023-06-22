@@ -68,9 +68,11 @@
 
   </head>
   <body>
-    <div class="side-bar p-3" style="width: 23%;">
+    <!-- <img src="{% static 'images/logo.png' %}" width="80" height="60" alt="" id="toggle-sidebar"> -->
+    <div class="side-bar p-3" style="width: 23%;" id="main-sidebar">
       <a href="/home" class="sidebar-header d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
         <img src="{% static 'images/logo.png' %}" width="80" height="60" alt="">
+        
         <div class="side-bar-header-text center-text">
           <span class="big-text">Walk Brains</span> 
           <br>
@@ -402,6 +404,12 @@
 
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script>
+    $('#toggle-sidebar').on('click', function() {
+       
+        $('#main-sidebar').toggle("slow");
+    });
+    </script>
 
     {% block scripts %}
 

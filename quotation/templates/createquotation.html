@@ -194,7 +194,7 @@
                                         <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" >
                                             Material Cost
                                         </a>
-                                        <input type="text" class="inputMd " id="materialCost" name="MaterialCostNumber" onchange="calculateTotalMaterialCost()">
+                                        <input type="text" class="inputMd " id="materialCost" name="MaterialCostNumber" value="{{ q.MaterialCostNumber|default:0 }}" onchange="calculateTotalMaterialCost()">
                                     </div>
                             
                                     <div class="col-sm-1">
@@ -323,7 +323,7 @@
                             
                          
                             Operation Budget
-                            <input style="margin-left: 3%;" type="text" value="0" class="inputMd noInput" id="operationBudget" name="OperationBudget">
+                            <input style="margin-left: 3%;" type="text" class="inputMd noInput" id="operationBudget" name="OperationBudget" >
                         </div>
                         <div style="display: flex; justify-content: right; width: 100%;">
                             <input type="input" list="process" id="processName" placeholder="Search ..." class="inputSearch">

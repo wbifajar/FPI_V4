@@ -94,3 +94,24 @@ def insertQuotation(request):
         with connection.cursor() as cursor:
             cursor.execute(query)
         return redirect('/Quotation/')
+
+def detailQuotation(request, quotation_id):
+    if request.user.is_authenticated:
+        connection = connect()
+        cursor = connection.cursor(dictionary=True)
+
+        query = 'SELECT * FROM quotation \
+                        LEFT JOIN product ON quotation.Product_ID = product.idProduct \
+                        LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
+                       Where Quotation_ID = ' + str(quotation_id)
+        cursor.execute(query)
+        quotation = cursor.fetchall()
+        quotationjs = json.dumps(quotation, default=str)
+
+        print(quotation[0])
+        context = {
+            'q' : quotation[0],
+            'quotation' : quotationjs[0]
+        }
+
+    return render(request, 'editquotation.html', context)

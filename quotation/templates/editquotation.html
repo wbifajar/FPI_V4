@@ -1,0 +1,1574 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/static/css/quotation/createnew.css">
+
+<style>
+    div.card {
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+    /* css table modal customer dan product */
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        color: black !important;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+    
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        color: black !important;
+    }
+</style>
+{% endblock head %}
+
+
+{% block content %}
+
+<div class="container mt-3" >
+    <!-- <form action="/save-quotation" method="POST"> -->
+    <form action="/Quotation/submittes/" method="POST">
+        {% csrf_token %}
+        <!-- bagian paling atas yang tidak bisa ke scroll -->
+        <div class="row">
+            <div class="col-sm-2 text-center">
+                <div class="row">
+                    <div class="col mt-2 mb-2">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 100px;">Customer</button>
+                    </div>
+                    <div class="col mt-2 mb-2">
+                        <a href="#" class="">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px;">Products</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div>
+                                    Quantity
+                                   
+                                </div>
+                                <div>
+                                    <input class="" type="text" id="quantity" name="Quantity" value="{{ q.Quantity }}" onchange="calculateTotalBudget();">
+                                </div>
+                            </div>
+                    
+                            <div class="col-sm-1">
+                                <div class="text-center">
+                                    x
+                                </div>
+                            </div>
+                            
+                            <div class="col">
+                                <div>
+                                    Budget/Unit
+                                </div>
+                                <div>
+                                    <input class="" type="text" id="budgetPerUnit" name="BudgetPerUnit" value="{{ q.BudgetPerUnit }}" onchange="calculateTotalBudget()">
+                                </div>
+                            </div>
+                    
+                            
+                            <div class="col-sm-1">
+                                <div class="text-center">
+                                    =
+                                </div>
+                            </div>
+                            
+                            <div class="col">
+                                <div>
+                                    Total Budget
+                                </div>
+                                <div>
+                                    <input class="noInput " type="text" value="0" id="totalBudget">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                Cost Exclude Operation
+                                <input type="text" value="{{ q.CostExcludeOperation }}" class="noInput " id="costExcludeOperation" name="CostExcludeOperation">
+                            </div>
+                    
+                            <div class="col-sm-1">
+                                <div class="text-center">
+                                    +
+                                </div>
+                            </div>
+                            
+                            <div class="col">
+                                Operation Cost
+                                <input type="text" class="noInput " id="operationCost" name="OperationCost" value="{{ q.OperationCost }}" >
+                            </div>
+                    
+                            
+                            <div class="col-sm-1">
+                                <div class="text-center">
+                                    =
+                                </div>
+                            </div>
+                            
+                            <div class="col">
+                                <div>
+                                    Total Cost
+                                </div>
+                                <div>
+                                    <input type="text" value="0" class="noInput " id="totalCost">
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div style="overflow: auto; max-height: 75vh;" class="">
+            <!-- bagian body tengah -->
+            <div class="row">
+                <!-- perkaliannya -->
+                <div class="col-7">
+                    <div class="col mb-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div>
+                                            Budget/Unit
+                                        </div>
+                                        <div>
+                                            <input type="text" class="inputMd noInput " id="budgetPerUnit2" value="{{ q.BudgetPerUnit }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            x
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <div>
+                                            Percentage
+                                        </div>
+                                        <div>
+                                            <input type="text" class="inputPercentage " id="managementCostPercentage" name="ManagementCostPercentage" value="30" onchange="calculateManagementCost()"> %
+                                        </div>
+                                        
+                                    </div>
+                            
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            =
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        Management Cost
+                                        <input type="text" value="0" class="inputMd noInput " id="managementCost">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col mb-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                                            Material Cost
+                                        </a>
+                                        <input type="text" class="inputMd " id="materialCost" name="MaterialCostNumber" value="{{ q.MaterialCostNumber}}" onchange="calculateTotalMaterialCost()">
+                                    </div>
+                            
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            x
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <div>
+                                            Percentage
+                                        </div>
+                                        <div>
+                                            <input type="text" class="inputPercentage " id="materialCostPercentage" name="MaterialCostPercentage" value="{{ q.MaterialCostPercentage}}" onchange="calculateTotalMaterialCost()"> %
+                                        </div>
+                                        
+                                    </div>
+                            
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            =
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <div>
+                                            Total Material Cost
+                                        </div>
+                                        <div>
+                                            <input type="text" value="0"  class="inputMd noInput " id="totalMaterialCost">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        Outsource Cost
+                                        <input class="inputMd " type="text" id="outsourceCost" name="OutsourceCostNumber" value="{{ q.OutsorceCostNumber}}" onchange="calculateTotalOursourceCost()">
+                                        <!-- <input type="text" id="quantity"> -->
+                                    </div>
+                            
+                                    <div class="col-sm-1">
+                                        x
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <div>
+                                            Percentage
+                                        </div>
+                                        <div>
+                                            <input class="inputPercentage " type="text" id="outsourceCostPercentage" name="OutsourceCostPercentage" value="{{ q.OutsorceCostPercentage }}" onchange="calculateTotalOursourceCost()"> %
+                                        </div>
+                                        
+                                    </div>
+                            
+                                    
+                                    <div class="col-sm-1">
+                                        =
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <div>
+                                            Total Outsource Cost
+                                        </div>
+                                        <div>
+                                            <input class="inputMd noInput " value="0" type="text" id="totalOutsourceCost">
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- bagian kanannya yang ada radio -->
+                <div class="col-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="display: flex; flex-basis: 40%; justify-content: right;">
+                                <input type="input" list="others" id="otherName" placeholder="Search ..." class="inputSearch ">
+                                <datalist id="others">
+                                    {% for other in others %}
+                                        <option value="{{other.Name}}">
+                                    {% endfor %}
+                                </datalist>
+                                <button type="button" onclick="addOther()" class="btn btn-secondary btnsearch">Add</button>
+                            </div>
+                            <input type="hidden" id="othersLength" name="othersLength" class="">
+                            <table class="table table-hover" id="othersTable" style="text-align: center;">
+                                <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Others</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">%</th>
+                                    <th scope="col">/Unit</th>
+                                    <th scope="col">#</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div class="card" style="max-width: 80vw;">
+                <div class="card-body">
+                    <!-- tabel, search, button create -->
+                    <div style="display: flex; align-items: center;">
+                        <div class="text-center" style=" align-items:center; display: flex; width: 100%;">
+                            
+                         
+                            Operation Budget
+                            <input style="margin-left: 3%;" type="text" class="inputMd noInput" id="operationBudget" name="OperationBudget" value="{{ q.OperationBudget }}">
+                        </div>
+                        <div style="display: flex; justify-content: right; width: 100%;">
+                            <input type="input" list="process" id="processName" placeholder="Search ..." class="inputSearch">
+                            <datalist id="process">
+                                {% for p in process %}
+                                    <option value="{{p.Name}}" />
+                                {% endfor %}
+                            </datalist>
+                            <button type="button" onclick="addProcess()" class="btn btn-secondary btnsearch">Add</button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="processLength" name="processLength">
+                    <table class="table table-hover" id="processTable" style="text-align: center;">
+                        <thead style="vertical-align: middle;">
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Id</th>
+                            <th scope="col">Proc</th>
+                            <th scope="col">Set / Proc cost@min</th>
+                            <th scope="col">OpeSum</th>
+                            <th scope="col">Ope / Ope Budget Ratio</th>
+                            <th scope="col">Ope / Budget Ratio</th>
+                            <th scope="col">SetTime</th>
+                            <th scope="col">OpeTime</th>
+                            <th scope="col">Total OpeTime</th>
+                            <th scope="col">Quantity @min</th>
+                            <th scope="col">#</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot id="total-operation">
+                            <tr>
+                                <th colspan="3"></th>
+                                <td>Total</td>
+                                <th scope="col" id="totalOpeSum"> 0</th>
+                                <td scope="col" id="totalOpePerOpe">0</td>
+                                <td scope="col" id="totalOpePerBudget">0</td>
+                                <td scope="col" id="totalSetTime">00:00:00</td>
+                                <td scope="col" id="totalOpeTime">00:00:00</td>
+                                <td scope="col" id="totalTotalOpeTime">00:00:00</td>
+                                <td scope="col"></td>
+                                <td scope="col"></td>
+                                <td scope="col"></td>
+                            </tr>
+                            <tr>
+                                <th colspan="3"></th>
+                                <td>Rest</td>
+                                <td scope="col" id="restOpeSum">0</td>
+                                <td scope="col" id="restOpePerOpe">100.00%</td>
+                                <td scope="col" id="restOpePerBudget">100.00%</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+            
+            <div class="btncreate">
+                <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create</button></a>
+                <button type="submit" class="btn btn-primary">Submit Quotation</button>
+            </div> 
+        </div>
+
+
+    <!-- modal quotation material -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-body">  
+                <div style="display: flex; flex-basis: 40%; justify-content: right;">
+                    <input type="input" list="partreflectcost" id="searchName" name="searchName" placeholder="Search ..." class="inputSearch " >
+                            <datalist id="partreflectcost">
+                                {% for p in partreflectcost %}
+                                    <option value="{{p.name}}" />
+                                {% endfor %}
+                            </datalist> 
+                    <button type="button" onclick="addMaterial()" class="btn btn-secondary btnsearch">  Add</button>
+                </div>
+                <input type="hidden" id="materialLength" name="materialLength">
+                <table class="table table-hover" id="materialTable">
+                    <thead>
+                      <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Material Code</th>
+                        <th scope="col">Material Name</th>
+                        <th scope="col">Used Process</th>
+                        <th scope="col">Used Quantity</th>
+                        <!-- <th scope="col">Number</th> -->
+                        <th scope="col">Price</th>
+                        <!-- <th scope="col">TempPrice</th> -->
+                        <th scope="col">Material Cost</th>
+                        <th scope="col">#</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <strong>Total</strong>
+                        </td>
+                        <td id="total-material-cost">
+                            0
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tbody>
+                  </table>
+            
+                  
+                  <button type="button" class="btn btn-secondary btnsearch2" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-secondary btnsearch2" id="reflect-cost-button">Reflect Cost</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- modal products -->
+    <div class="modal" tabindex="-1" id="exampleModalCust1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header" style="justify-content: center;">
+              <h5 class="modal-title">PRODUCTS</h5>
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+            </div>
+
+            <div class="modal-body" style="margin: 0 10%;">
+                
+                <div class="row" style="margin: 2% 0 5%;">
+                    <div class="col">
+                        <label>
+                          ID
+                        </label>
+                        <input value='{{productid}}' name="productid" id="productid" required>
+                    </div>
+                    <div class="col">   
+                        <label>
+                          Name
+                        </label>
+                        <input value='{{productname}}' name="productname" id="productname" required>
+                    </div>
+                    <div class="col">
+                      <label>
+                        Vers
+                      </label>
+                      <input value='{{productver}}' name="productver" id="productver">
+                    </div>
+                </div>
+
+                <div >
+                        <table id="ProductsTable" class="display">
+                            <thead>
+                      <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                      </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in product %}
+                                <tr>
+                                    <th scope="row"><button onclick="getProduct(this.value)" value="{{p.idProduct}}_{{p.productName}}" style="border: none; background-color:transparent; width:25px; text-align: center;" type="button">{{p.idProduct}}</button></th>
+                                    <td > <button onclick="getProduct(this.value)" value="{{p.idProduct}}_{{p.productName}}" style="border: none; background-color:transparent; width: 100%; height: auto; text-align: left;" type="button">{{p.productName}}</button ></td>
+                                </tr>
+                                {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary btnsearch2">Submit</button>/ -->
+                <button type="button" class="btn btn-secondary btnsearch2" data-bs-dismiss="modal">Back</button>
+            </div>
+          </div>
+        </div>
+      </div>
+                  
+    <!-- modal customer -->
+    <div class="modal" tabindex="-1" id="exampleModalCust">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header" style="justify-content: center;">
+              <h5 class="modal-title">CUSTOMER</h5>
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+            </div>
+            <div class="modal-body" style="margin: 0 10%;">
+                <div class="row customer" style="margin: 2% 0 5%;">
+                    <div class="col">
+                        <label>
+                          ID
+                        </label>
+                        <input value='{{ q.Customer_ID }}' name="customerid" id="customerid" required>
+                    </div>
+                    <div class="col">
+                        <label>
+                          Name
+                        </label>
+                        <input value='{{ q.customerName }}' name="customername" id="customername" required>
+                    </div>
+                    <div class="col">
+                      <label>
+                        Attn
+                      </label>
+                      <input value='{{customerto}}' name="customerto" id="customerto">
+                    </div>
+                </div>
+
+                <div>
+                    <table id="CustomersTable" class="display">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for customer in customer %}
+                            <tr>
+                                <th scope="row"><button onclick="getCustomer(this.value)" value="{{customer.idCustomer}}_{{customer.customerName}}" style="border: none; background-color:transparent; width:25px; text-align: center;" type="button">{{customer.idCustomer}}</button></th>
+                                <td > <button onclick="getCustomer(this.value)" value="{{customer.idCustomer}}_{{customer.customerName}}" style="border: none; background-color:transparent; width: 100%; height: auto; text-align: left;" type="button">{{customer.customerName}}</button ></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary btnsearch2">Submit</button> -->
+                <button type="button" class="btn btn-secondary btnsearch2" data-bs-dismiss="modal">Back</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- modal calculator option -->
+      <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content" style="background-color: #E9ECEFff;">
+            <div class="modal-header"  style="justify-content: center;">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Select Material</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+              </div>
+            <div class="modal-body">
+                  <button type="button" class="btn btn-secondary btnsearch1" data-bs-toggle="modal" data-bs-target="#exampleModal2" id="show-modal-board">Board</button>
+                  <button type="button" class="btn btn-secondary btnsearch1" data-bs-toggle="modal" data-bs-target="#exampleModal3" id="show-modal-bar">Bar</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal">Back</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- modal board -->
+      <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content" style="background-color: #E9ECEFff;">
+            <h3 class="modal-title text-center" style="margin-top: 2%;"></h3>
+            <div class="modal-body" id="board-modal-content">
+                <div class="col" style="margin-bottom: 20px;">
+                    <h6>CALCULATE BY</h6>
+                <div class="row calculateRow">
+                        <div class="col calculatecol1">
+                            <button id="buttonKGBoard" onclick="disableButtonBoard('buttonKGBoard'); getActiveUnitType()" type="button" class="btn btn-secondary btnoption" disabled>KILOGRAMS</button>
+                        </div>
+                        <div class="col calculatecol2">
+                            <button id="buttonSheetBoard" onclick="disableButtonBoard('buttonSheetBoard'); getActiveUnitType()" type="button" class="btn btn-secondary btnoption">SHEET</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>MATERIAL</h6>
+                            <div class="row ">
+                                    <div class="col">
+                                        Material ID
+                                        <input class="inputtt noInput" type="text" value="" id="BoardMaterialId" readonly>
+                                    </div>
+                                    <div class="col">
+                                        
+                                        Material Name
+                                       
+                                        <input class="inputtt" type="text" value="" id="BoardMaterialName" readonly>
+                                        <!-- <datalist id="part">
+                                            {% for p in part %}
+                                                <option value="{{ p.name }}" />
+                                            {% endfor %}
+                                        </datalist> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- outline scale -->
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>OUTLINE SCALE</h6>
+                            </div>
+                            <div class="row cardmodal">
+                                <div class="col">
+                                    Vertical Scale
+                                    <input class="inputtt1 " type="text" onchange="calculateFunctionsBoard()" id="VerticalScaleMaterial" name="VerticalScaleMaterial"> mm
+                                </div>
+                                <div class="col">
+                                    Horizontal Scale
+                                    <input class="inputtt1 " type="text" onchange="calculateFunctionsBoard()" id="HorizontalScaleMaterial" name="HorizontalScaleMaterial"> mm
+                                </div>
+                                <div class="col">
+                                    Thickness
+                                    <input class="inputtt1 " type="text" onchange="calculateFunctionsBoard()" id="ThicknessMaterial" name="ThicknessMaterial"> mm
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- material cost -->
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>MATERIAL COST</h6>
+                                <div class="row">
+                                    <div class="col">
+                                        Spesific Gravity
+                                        <input class="inputtt " type="text" id="MaterialSpesificGravity" readonly>
+                                    </div>
+                                    <div class="col">
+                                        <div id="priceBoard">
+                                            Price / KG
+                                        </div>
+                                        <div>
+                                            <input class="inputtt " type="text" id="MaterialPrice" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- from number of & from part scale-->
+                <div class="row jarak">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>FROM NUMBER OF</h6>
+                                <!-- baris 1 -->
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Vertical Scale</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="VerticalScaleFromNumber"> 
+                                                <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Horizontal Scale</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="HorizontalScaleFromNumber">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- baris 2 -->
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Exposed</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="ExposedFromNumber">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Margin</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="MarginFromNumber">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- baris 3 -->
+                                <div class="row jarak">
+                                    <div class="col">
+                                        Vertical Number
+                                        <input class="inputtt3" type="text" id="NumVerFromNumber">
+                                    </div>
+                            
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            x
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        Horizontal Number
+                                        <input class="inputtt3" type="text" id="NumHorFromNumber">
+                                    </div>
+                            
+                                    
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            =
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        Quantity per Sheet
+                                        <input class="inputtt3" type="text" id="QtyPerSheetFromNumber"> 
+                                    </div>
+                                </div>
+
+                                <!-- baris 4 -->
+                                <div class="row jarak">
+                                    <div class="col">
+                                        <div id="weightBoard">
+                                            Weight (KG)
+                                        </div>
+                                        <div>
+                                            <input class="inputtt3" type="text" id="WeightFromNumber">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            ÷
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        Quantity
+                                        <input class="inputtt3" type="text" id="QtyFromNumber">
+                                    </div>
+                            
+                                    
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            =
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        Weight / Quantity
+                                        <input class="inputtt3" type="text" id="WeightPerQtyFromNumber">
+                                    </div>
+                                </div>
+
+                                <!-- baris 5 -->
+                                <div class="row jarak">
+                                    <div class="col">
+                                        <div id="priceBoardFromNum">
+                                            Price / KG
+                                        </div>
+                                        <div>
+                                            <input class="inputtt3" type="text" id="PriceFromNumber" readonly>
+
+                                        </div>
+                                    </div>
+                            
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            x
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        Weight
+                                        <input class="inputtt3" type="text" id="WeightFromNumber2">
+                                    </div>
+                            
+                                    
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            =
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        Material Cost
+                                        <input type="text" readonly class="OPResultInput DisabledInput" id="MaterialCostFromNumber">
+                                    </div>
+                                </div>
+
+                                <!-- material cost -->
+                                <div class="jarak">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5>MATERIAL COST</h5>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" readonly id="BoldMaterialCostFromNumber" style="border: none; font-size: 20px" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button type="button" class="btn btn-secondary btnsearch2" id="submit-board-cost-from-number">Submit</button>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- from part scale -->
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>FROM PART SCALE</h6>
+                                <!-- baris 1 -->
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Exposed</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2" type="text" onchange="calculateFromPartScale()" id="ExposedFromPart">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Margin</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2" type="text" onchange="calculateFromPartScale()" id="MarginFromPart"> 
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- baris 2 -->
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Weight</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2" type="text" id="WeightFromPart">
+                                                    <span class="label-span-unit">kg</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- baris 3 -->
+                                <div class="row jarak">
+                                    <div class="col">
+                                        <div id="priceBoardFromPartScale">
+                                            Price / KG
+                                        </div>
+                                        <div>
+                                            <input class="inputtt3" type="text" id="PriceFromPart" readonly>
+
+                                        </div>
+                                    </div>
+                            
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            x
+                                        </div>
+                                    </div>
+                                    <!-- <div>
+                                        asd
+                                    </div> -->
+                                    
+                                    <div class="col">
+                                        Weight
+                                        <input class="inputtt3" type="text" id="WeightFromPart2">
+                                    </div>
+                            
+                                    
+                                    <div class="col-sm-1">
+                                        <div class="text-center">
+                                            =
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        Material Cost
+                                        <input class="inputtt3" type="text" id="MaterialCostFromPart">
+                                       
+                                    </div>
+                                </div>
+
+                                <!-- material cost -->
+                                <div class="jarak" style="margin-top: 23.5%;">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5>MATERIAL COST</h5>
+                                        </div>
+                                        <div class="col"> 
+                                            <input type="text" readonly id="BoldMaterialCostFromPart" style="border: none; font-size: 20px">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button type="button" class="btn btn-secondary btnsearch2" id="submit-board-cost-from-part-scale">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- board (margin number of preview)-->
+                    <div class="row jarak">
+                        <div class="col">
+                            <h6>
+                                MARGIN (NUMBER OF)
+                            </h6>
+                            <div class="txtimg">
+                                <img style="width: 80%;" src="{% static 'images/boardmarginnumberof.png' %}">
+                                <input class="angka noInput" id="FromNumPreviewMargin1" value="0" readonly></input>
+                                <input class="angka1 noInput" id="FromNumPreviewHalfMargin1" value="0" readonly></input>
+                                <input class="angka2 noInput" id="FromNumPreviewHalfMargin2" value="0" readonly></input>
+                                <input class="angka3 noInput" id="FromNumPreviewMargin2" value="0" readonly></input>
+                                <input class="angka4 noInput" id="FromNumPreviewExposed" value="0" readonly></input>
+                                <input class="angka7 noInput" id="FromNumPreviewVerScale" value="0" readonly></input>
+                                <input class="angka8 noInput" id="FromNumPreviewHorScale" value="0" readonly></input>
+                            </div>
+                        </div>
+                        <!-- board (margin scale of preview)-->
+                        <div class="col" style="margin-left: 8%;">
+                            <h6>
+                                MARGIN (SCALE) 
+                            </h6>
+                            <div class="txtimg">
+                                <img style="width: 80%;" src="{% static 'images/boardmarginscale.png' %}">
+                                <input class="angka5 noInput" id="FromPartScalePreviewMargin" value="0" readonly></input>
+                                <input class="angka6 noInput" id="FromPartScalePreviewExposed" value="0" readonly></input>
+                                <input class="angka9 noInput" id="FromPartScalePreviewMargin1" value="0" readonly></input>
+                                <input class="angka10 noInput" id="FromPartScalePreviewHalfMargin" value="0" readonly></input>
+                                <input class="angka11 noInput" id="FromPartScalePreviewHalfMargin1" value="0" readonly></input>
+                                <input class="angka12 noInput" id="FromPartPreviewVerScale" value="0" readonly></input>
+                                <input class="angka13 noInput" id="FromPartPreviewHorScale" value="0" readonly></input>
+
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div>
+                        <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal">Back</button>
+                    </div>
+
+                </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- modal bar -->
+      <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content" style="background-color: #E9ECEFff;">
+              <div class="modal-body" id="bar-modal-content">
+                <h3 class="modal-title text-center" style="margin: 2%;"></h3>
+                <div class="col" style="margin-bottom: 20px;">
+                    <h6>CALCULATE BY</h6>
+                    <div class="row calculateRow">
+                            <div class="col calculatecol1">
+                                <button id="buttonKGBar" onclick="disableButtonBar('buttonKGBar')"type="button" class="btn btn-secondary btnoption"  >KILOGRAMS</button>
+                            </div>
+                            <div class="col calculatecol2">
+                                <button id="buttonSheetBar" onclick="disableButtonBar('buttonSheetBar')" type="button" class="btn btn-secondary btnoption"  >BAR</button>
+                            </div>
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>MATERIAL</h6>
+                            <div class="row">
+                                    <div class="col">
+                                        Material ID
+                                        <input class="inputtt" type="text" id="BarMaterialId" readonly>
+                                    </div>
+                                    <div class="col">
+                                        Bar Material Name
+                                       
+                                        <input class="inputtt" type="text" id="BarMaterialName" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>OUTLINE SCALE</h6>
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 22%;">Part Scalp</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt4" type="text" id="BarPartScaleMaterial" onchange="calculateFunctionsBar()">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 22%;">Diameter</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt4" type="text" id="BarDiameterMaterial" onchange="calculateFunctionsBar()">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>MATERIAL COST</h6>
+                                <div class="row">
+                                    <div class="col">
+                                        Spesific Gravity
+                                        <input class="inputtt" type="text" id="BarMaterialSpesificGravity" readonly>
+                                    </div>
+                                    <div class="col">
+                                        <div id="priceBar">
+                                            Price / KG
+                                        </div>
+                                        <div>
+                                            <input class="inputtt" type="text" id="BarMaterialPrice" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- calculation number of quantity -->
+                <div class="row jarak1">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>CALCULATION NUMBER OF QUANTITY</h6>
+                                <!-- baris 1 -->
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Exposed</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumExposed">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Length</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumRoundBa">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Edge Loss</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput1" type="text" onchange="calculateNumOfQty()" id="BarCalcNumEdgeLoss">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+
+                                    </div>
+                                
+                                </div>
+
+                                <hr>
+
+                                <!-- baris 3 -->
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Material Cost</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput" type="text" id="BarCalcNumMtrlCost" readonly>
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Quantity / Bar</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput" type="text" id="BarCalcNumNum" readonly>
+                                                    <span class="label-span-unit">pcs</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- baris 4 -->
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Scalp</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput" type="text" readonly onchange="" id="BarCalcNumScla">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Used Quantity</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="kolominput" type="text" readonly onchange="" id="BarCalcNumUsedQty">
+                                                    <span class="label-span-unit">kg</span>
+                                                </div>
+                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- material cost -->
+                                <div class="jarak">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5>MATERIAL COST</h5>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" readonly id="BarCalcNumBoldMaterialCost" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button type="button" class="btn btn-secondary btnsearch2"  id="submit-bar-cost-from-num" >Submit</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- calculation from scale -->
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>CALCULATION FROM SCALE</h6>
+                                <!-- baris 1 -->
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Keft Loss</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2" type="text" onchange="calculateFunctionsBar()" id="BarFromScaleKerfLoss">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div style="margin-right: 13%;">Used Quantity</div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="inputtt2" type="text" id="BarFromScaleUsedQty">
+                                                    <span class="label-span-unit">mm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- material cost -->
+                                <div class="jarak" style="margin-top: 25.5%;">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5>MATERIAL COST</h5>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" id="BarFromScaleMaterialCost" readonly >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button type="button" class="btn btn-secondary btnsearch2" id="submit-bar-cost-from-scale">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- bar (margin number of preview)-->
+                    <div class="row jarak2">
+                        <div class="col barnumber">
+                            <h6 style="margin-bottom: 60px;">
+                                MARGIN (NUMBER OF)
+                            </h6>
+                            <div class="txtimg">
+                                <div class="judul">Exposed</div>
+                                <div class="judul1">Scalp</div>
+                                <div class="judul2">Edge Loss</div>
+                                <img style="width: 500px; height: 80px;" class="imgwidth" src="{% static 'images/barmarginnumberof.png' %}">
+                                <input class="angkaa noInput inputMd" id="Exposed2"  type="text" readonly value="0">
+                                <input class="angkaa1 noInput inputMd" id="Scala2"  type="text" readonly value="0">
+                                <input class="angkaa2 noInput inputMd" id="EdgeLoss2"  type="text" readonly value="0">
+                                <div class="horizontalline"><hr></div>
+                                <input class="angkaa6 noInput inputMd" id="DiameterBar2" type="text" readonly value="0" >
+                            </div>
+                        </div>
+
+                        <!-- bar (margin scale of preview)-->
+                        <div class="col barscale" style="width: 553px; height: 218px;">
+                            <h6 style="margin-top: 10px; margin-bottom: 60px;">
+                                MARGIN (SCALE)
+                            </h6>
+                            <div class="txtimg">
+                                <img class="imgwidth1" src="{% static 'images/barmarginscale.png' %}">
+                                <input class="angkaa3 noInput inputMd" id="BarFromScalePreviewHalfKerf1" type="text" value="0" readonly>
+                                <input class="angkaa4 noInput inputMd" id="BarFromScalePreviewHalfKerf2" type="text" value="0" readonly>
+                                <input class="angkaa5 noInput inputMd" id="BarFromScalePreviewDiameter" type="text" value="0" readonly>
+                                <input class="angkaa7 noInput inputMd" id="BarFromScalePreviewPartScale" type="text" value="0" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal">Back</button>
+                </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% for i,k in q.items %}
+      <p>
+          <span style="color: black;">'{{ i }}'</span>
+          <span style="color: black;">{{ ':' }}</span>
+          <span style="color: black;">{{ k }}</span>
+      </p>
+      {% endfor %}
+</div>
+
+    </div>
+</form>
+
+{% endblock content %}
+
+
+{% block scripts %}
+
+
+<!-- datatable & customer function -->
+<script>
+  $(document).ready(function () {
+        $('#CustomersTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "autoWidth": true,
+            "ordering": true,
+    });
+  });
+  
+    function getCustomer(value) {
+        var elements = value.split('_');
+        var id = elements[0];
+        var name = elements[1];
+ 
+        $('#customerid').val(id);
+        $('#customername').val(name);
+    }
+</script>
+
+<!-- datatable & product function -->
+<script>
+    $(document).ready(function () {
+        $('#ProductsTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "autoWidth": true,
+            "ordering": true,
+        });
+    });
+
+    function getProduct(value) {
+        var elements = value.split('_');
+        var id = elements[0];
+        var name = elements[1];
+
+        $('#productid').val(id);
+        $('#productname').val(name);
+    }
+</script>
+
+<!-- on load function -->
+<script>
+  $(document).ready(function () {
+    $('#myTable').DataTable({
+    });
+  });
+</script>
+
+<!-- nonInputabel input  -->
+<script src="{% static 'scripts/nonInputableInput.js' %}" type=""></script>
+
+
+<!-- ========== START BOARD AND BAR CALCULATION FUNCTION ========== -->
+<script src="{% static 'scripts/boardCalculationFunction.js' %}" type=""></script>
+<script src="{% static 'scripts/barCalculationFunction.js' %}" type=""></script>
+<!-- ========== END BOARD AND BAR CALCULATION FUNCTION ========== -->
+
+
+<!-- calculation functions -->
+<script>
+    // buat others 
+    var othersIndex = 0;
+    const othersList = [];
+
+    // buat process 
+    var index = 0;
+    const processList = [];
+
+    // buat material 
+    var materialIndex = 0;
+    const materialList = [];
+
+    function getData(){
+        var data = {
+            'quantity' : isNaN(parseFloat(document.getElementById('quantity').value)) ? 0 : parseFloat(document.getElementById('quantity').value),
+            'budgetPerUnit' : isNaN(parseFloat(document.getElementById('budgetPerUnit').value)) ? 0 : parseFloat(document.getElementById('budgetPerUnit').value),
+            'totalBudget' : isNaN(parseFloat(document.getElementById('totalBudget').value)) ? 0 : parseFloat(document.getElementById('totalBudget').value),
+            'managementCostPercentage' : isNaN(parseFloat(document.getElementById('managementCostPercentage').value)) ? 0 : parseFloat(document.getElementById('managementCostPercentage').value),
+            'managementCost' : Number(document.getElementById('managementCost').value.replace(/[^0-9.-]+/g,"")),
+
+            'materialCost' : isNaN(parseFloat(document.getElementById('materialCost').value)) ? 0 : parseFloat(document.getElementById('materialCost').value),
+            'materialCostPercentage' : isNaN(parseFloat(document.getElementById('materialCostPercentage').value)) ? 0 : parseFloat(document.getElementById('materialCostPercentage').value),
+            'totalMaterialCost' : Number(document.getElementById('totalMaterialCost').value.replace(/[^0-9.-]+/g,"")),
+
+            'outsourceCost' : isNaN(parseFloat(document.getElementById('outsourceCost').value)) ? 0 : parseFloat(document.getElementById('outsourceCost').value),
+            'outsourceCostPercentage' : isNaN(parseFloat(document.getElementById('outsourceCostPercentage').value)) ? 0 : parseFloat(document.getElementById('outsourceCostPercentage').value),
+            'totalOutsourceCost' : Number(document.getElementById('totalOutsourceCost').value.replace(/[^0-9.-]+/g,"")),
+
+            'operationBudget' : Number(document.getElementById('operationBudget').value.replace(/[^0-9.-]+/g,"")),
+        }   
+
+        return data;
+    }
+
+    function zeroSeparator(val){
+        val = parseFloat(val).toLocaleString('en');
+        return val;
+    }
+
+    function calculateBudgetAvailable(){
+        var totalBudget = $('#totalBudget').val().replaceAll(',', '')
+        var costExcludeOperation = $('#costExcludeOperation').val().replaceAll(',', '')
+        // console.log( "costExcludeOperation = ", costExcludeOperation);
+        var costAvailable = parseFloat(totalBudget) - parseFloat(costExcludeOperation)
+        // console.log('total cost available before other cost = ', totalBudget );
+        return costAvailable
+    }
+
+    function calculateTotalBudget(){
+        var data = getData();
+        var result = data.quantity * data.budgetPerUnit;
+        $('#totalBudget').val(zeroSeparator(result));
+        $('#budgetPerUnit2').val(zeroSeparator(data.budgetPerUnit));
+
+        calculateManagementCost();
+        
+        for (var i=0 ; i<othersIndex ; i++){
+            otherPrice = document.getElementById('otherPrice-'+(i+1)).value;
+            calculateOtherPercentage(i+1, otherPrice);
+        }
+        var costAvailable = calculateBudgetAvailable();
+        
+        $('#restOpeSum').text( zeroSeparator(costAvailable) )
+    }
+
+    function calculateManagementCost(){
+        var data = getData();
+        var result = data.budgetPerUnit*data.managementCostPercentage/100;
+        $('#managementCost').val(zeroSeparator(result));
+
+        calculateCostExcludeOperation();
+    }
+
+    function calculateCostExcludeOperation(){
+        var data = getData();
+        var result = data.managementCost+data.totalMaterialCost+data.totalOutsourceCost;
+        
+        for (var i=0; i<othersIndex; i++){
+            var otherPrice = parseFloat(document.getElementById(`otherPrice-${i+1}`).value);
+            var otherCheckBox = document.getElementById(`otherCheckBox-${i+1}`).checked;
+            
+            if (!isNaN(otherPrice)) {
+                if (otherCheckBox == false){
+                    result += otherPrice * data.quantity;
+                    console.log('cek1 = ' + result)
+                } else {
+                    if (data.quantity != '' && data.quantity != 0){
+                        result += otherPrice/data.quantity;
+                        console.log('cek' + result);
+                    } else {
+                        result += otherPrice * data.quantity;
+                        console.log('cek2 = ' + result)
+                    }
+                }
+                // result += otherPrice;
+            }
+        }
+
+        $('#costExcludeOperation').val(zeroSeparator(result));
+
+        var operationBudget = data.budgetPerUnit*data.quantity - result;
+        $('#operationBudget').val(zeroSeparator(operationBudget));
+        if (operationBudget < 0) {
+            document.getElementById("operationBudget").style.color = "white";
+            document.getElementById("operationBudget").style.backgroundColor = "red";
+        } else {
+            document.getElementById("operationBudget").style.color = "black";
+            document.getElementById("operationBudget").style.backgroundColor = "transparent";
+        }
+    }
+
+    function calculateTotalMaterialCost(){
+        var data = getData();
+        var result = data.materialCost * data.materialCostPercentage/100;
+        $('#totalMaterialCost').val(zeroSeparator(result));
+
+        calculateCostExcludeOperation();
+    }
+
+    function calculateTotalOursourceCost(){
+        var data = getData();
+        var result = data.outsourceCost * data.outsourceCostPercentage / 100;
+        $('#totalOutsourceCost').val(zeroSeparator(result));
+
+        calculateCostExcludeOperation();
+    }
+
+    
+</script>
+
+<!-- ========== START MATERIAL FUNCTION ========== -->
+<script>
+
+    function getMaterialFromDB(){
+        var part = '{{partreflectcostjs|safe}}';
+        const obj = JSON.parse(part);
+
+        return obj;
+    }
+</script>
+
+<script src="{% static 'scripts/materialFunction.js' %}" type=""></script>
+<!-- ========== END MATERIAL FUNCTION ========== -->
+
+<!-- ========== START PROCESS FUNCTION ========== -->
+<script>
+    function getProcessFromDB(){
+        var process = '{{processjs|safe}}';
+        const obj = JSON.parse(process);
+        return obj;
+    }
+</script>
+<script src="{% static 'scripts/processFunction.js' %}" type=""></script>
+<!-- ========== END PROCESS FUNCTION ========== -->
+
+<!-- ========== START OTHER FUNCTION ========== -->
+<script>
+    function getOtherFromDB(){
+        var others = '{{othersjs|safe}}';
+        const obj = JSON.parse(others);
+        return obj
+    }
+</script>
+
+<script src="{% static 'scripts/otherFunction.js' %}" type=""></script>
+<!-- ========== END OTHER FUNCTION ========== -->
+
+<script src="{% static 'scripts/boardbarmodal.js' %}" type=""></script>
+<script src="{% static 'scripts/boardBarSubmitFunction.js' %}" type=""></script>
+
+
+{% endblock scripts %}

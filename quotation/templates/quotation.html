@@ -27,7 +27,7 @@
           <div style="display: flex; width: 100%;">
             <div style="flex-basis: 60%; margin-bottom: 2%;">
               <a href="{% url 'CreateNew' %}"><button type="button" class="btn btn-secondary">Create New Quotation</button></a>
-              <button type="submit" name="action" value="edit" class="btn btn-secondary">Edit/Detail</button>
+              <button type="button" name="action" value="edit" class="btn btn-secondary" id="edit-button">Edit/Detail</button>
               <button type="submit" name="action" value="delete" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
               <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create PDF</button></a>
             </div>
@@ -163,4 +163,10 @@
     });
   </script>
 
+<script>
+  $('#edit-button').on('click', function(){
+    var q_id = $('input[type="radio"]:checked').val()
+    location.href = '/Quotation/detail/' + q_id
+  })
+</script>
 {% endblock scripts %}
