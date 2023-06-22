@@ -1,23 +1,29 @@
 from django.shortcuts import render, redirect
 from django.db import connection
 from ..databaseConnect import *
+from datetime import timedelta, datetime
 import json
 
 
 def Quotation(request):
   connection = connect()
   cursor = connection.cursor(dictionary=True)
-  cursor.execute('select * from quotation \
-                 left join customer on quotation.Customer_ID = customer.idCustomer')
+
+  # cursor.execute('select * from quotation \
+  #                left join customer on quotation.Customer_ID = customer.idCustomer')
+  cursor.execute('SELECT * FROM quotation \
+                LEFT JOIN product ON quotation.Product_ID = product.idProduct \
+                LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer')
   quotation = cursor.fetchall()
   quotationjs = json.dumps(quotation, default=str)
-  # print(quotation)
+  print(quotation)
 
   for item in quotation:
     item['Quantity'] = int(item['Quantity'])
     item['BudgetPerUnit'] = int(item['BudgetPerUnit'])
     item['total'] = int(item['Quantity']) * int(item['BudgetPerUnit'])
-    
+    item['expired'] = (item['CreatedAt']) + timedelta(days=10)
+     
   context = {
     "quotation" : quotation,
     "quotationjs" : quotationjs,
@@ -29,9 +35,8 @@ def Quotation(request):
 
   return render(request, 'quotation.html', context)
 
-def insertQuotation(request):
 
- 
+def insertQuotation(request):
   # Customer_ID = 2
   # Product_ID = 2
   CustomerID = request.POST.get('customerid', False)
@@ -82,3 +87,4 @@ def insertQuotation(request):
   with connection.cursor() as cursor:
     cursor.execute(query)
   return redirect('/Quotation/')
+

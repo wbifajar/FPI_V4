@@ -63,7 +63,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <!-- <tr>
                     <td><input class="form-check-input" id="SelectedQuotation" type="radio" name="quotation-1" id="quotation-1"></td>
                     <td>30</td>
                     <td>PT. MIKUNI INDONESIA</td>
@@ -78,18 +78,19 @@
                         19-10-2022 at 04:46 P.M.</td>
                  
                     <td><button type="#" class="btn btn-outline-success">Accepted</button></td>
-                </tr>
+                </tr> -->
                 {% for q in quotation %}
                     <tr>
                         <td><input class="form-check-input" id="SelectedQuotation" type="radio" name="quotation-1" id="quotation-1"></td>
                         <td> {{ q.Quotation_ID }}</td>
                         <td> {{ q.customerName }}</td>
-                        <td>Frame</td>
+                        <!-- <td>Frame</td> -->
+                        <td> {{q.productName}}</td>
                         <td> {{ q.Quantity }}</td>
                         <td> {{ q.BudgetPerUnit }}</td>
                         <td> {{ q.total }}</td>
                         <td> {{ q.CreatedAt }} </td>
-                        <td> belom </td>
+                        <td> {{ q.expired}} </td>
                         <td> belom </td>
                         <td><button type="button" class="btn btn-outline-success">Accepted</button></td>
                     </tr>
