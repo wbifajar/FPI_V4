@@ -16,95 +16,73 @@
 {% block content %}
 
 <div class="container">
-    <div class="card mt-3">
-        <div class="card-header" style="text-align: center;">
-            <b>Quotation Table</b>
-        </div>
+  <div class="card mt-3">
+      <div class="card-header" style="text-align: center;">
+          <b>Quotation Table</b>
+      </div>
 
-        <form action="" method="POST">
-            {% csrf_token %}
+      <form action="{% url 'Quotation' %}" method="POST">
+        {% csrf_token %}
         <div class="card-body">
-            <div style="display: flex; width: 100%;">
-                <div style="flex-basis: 60%;margin-bottom: 2%;">
-                    <a href="{% url 'CreateNew' %}"><button type="button" class="btn btn-secondary">Create New Quotation</button></a>
-                    <button type="button" class="btn btn-secondary">Edit/Detail</button>
-                    <button type="submit" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
-                    <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create PDF</button></a>
-                </div>
-
-                <!-- <div style="display: flex; flex-basis: 40%; justify-content: right;">
-                  <div id="custom-search-input">
-                      <div class="input-group col-md-3">
-                          <input class="form-control input-lg"/>
-                          <span class="input-group-btn">
-                              <button class="btn btn-info btn-lg" type="button" style="border: none;">
-                                  <i data-feather="search" style="color: white;"></i>
-                              </button>
-                          </span>
-                      </div>
-                  </div>
-                </div> -->
+          <div style="display: flex; width: 100%;">
+            <div style="flex-basis: 60%; margin-bottom: 2%;">
+              <a href="{% url 'CreateNew' %}"><button type="button" class="btn btn-secondary">Create New Quotation</button></a>
+              <button type="submit" name="action" value="edit" class="btn btn-secondary">Edit/Detail</button>
+              <button type="submit" name="action" value="delete" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
+              <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create PDF</button></a>
             </div>
-            
-            <table id="myTable" class="table table-striped table-bordered" style="width:100%">
+          </div>
+      
+          <table id="myTable" class="table table-striped table-bordered" style="width:100%">
             <thead>
-                <tr>
-                    <th>#</th>
-                    <th>No.</th>
-                    <th>Customer</th>
-                    <th>Parts</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                    <th>Created By</th>
-                    <th>Expired Date</th>
-                    <th>Log</th>
-                    <th>Status</th>
-                </tr>
+              <tr>
+                <th>#</th>
+                <th>No.</th>
+                <th>Customer</th>
+                <th>Parts</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Created By</th>
+                <th>Expired Date</th>
+                <th>Log</th>
+                <th>Status</th>
+              </tr>
             </thead>
             <tbody>
-                <!-- <tr>
-                    <td><input class="form-check-input" id="SelectedQuotation" type="radio" name="quotation-1" id="quotation-1"></td>
-                    <td>30</td>
-                    <td>PT. MIKUNI INDONESIA</td>
-                    <td>Frame</td>
-                    <td>50</td>
-                    <td>1000</td>
-                    <td>50000</td>
-                    <td>Clara Tanudy
-                        18-10-2022</td>
-                    <td>01-11-2022</td>
-                    <td>Last modified by Mathew Judianto.
-                        19-10-2022 at 04:46 P.M.</td>
-                 
-                    <td><button type="#" class="btn btn-outline-success">Accepted</button></td>
-                </tr> -->
-                {% for q in quotation %}
-                    <tr>
-                        <td><input class="form-check-input" id="SelectedQuotation" type="radio" name="quotation-1" id="quotation-1"></td>
-                        <td> {{ q.Quotation_ID }}</td>
-                        <td> {{ q.customerName }}</td>
-                        <!-- <td>Frame</td> -->
-                        <td> {{q.productName}}</td>
-                        <td> {{ q.Quantity }}</td>
-                        <td> {{ q.BudgetPerUnit }}</td>
-                        <td> {{ q.total }}</td>
-                        <td> {{ q.CreatedAt }} </td>
-                        <td> {{ q.expired}} </td>
-                        <td> belom </td>
-                        <td><button type="button" class="btn btn-outline-success">Accepted</button></td>
-                    </tr>
-                  
-                {% endfor %}
+              {% for q in quotation %}
+              <tr>
+                <td>
+                  <input class="form-check-input" type="radio" name="selected_quotation" value="{{ q.Quotation_ID }}" {% if edit_quotation and edit_quotation.Quotation_ID == q.Quotation_ID %}checked{% endif %}>
+                </td>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ q.customerName }}</td>
+                <td>{{ q.productName }}</td>
+                <td>{{ q.Quantity }}</td>
+                <td>{{ q.BudgetPerUnit }}</td>
+                <td>{{ q.total }}</td>
+                <td>{{ q.CreatedAt }}</td>
+                <td>{{ q.expired }}</td>
+                <td>Last modified by {{ q.ActivityLog }}</td>
+                <td>
+                  <button type="button" class="btn btn-outline-success">Accepted</button>
+                </td>
+              </tr>
+              {% endfor %}
             </tbody>
-            </table>
-
-            <input type="hidden" name="QuotationId" id="QuotationId">
+          </table>
+      
+          {% if edit_quotation %}
+          <input type="hidden" name="action" value="edit">
+          <input type="hidden" name="selected_quotation" value="{{ edit_quotation.Quotation_ID }}">
+          {% else %}
+          <input type="hidden" name="action" value="delete">
+          {% endif %}
         </div>
-        </form>
-
-    </div>
+      </form>
+  </div>
 </div>
+
 
 {% endblock content %}
 
@@ -161,5 +139,28 @@
         return val;
     }
 </script>
+
+<script>
+    function calculateExpiredDate() {
+      var createdDate = document.getElementById("createdDate").value;
+      var expiredDate = new Date(createdDate);
+      expiredDate.setDate(expiredDate.getDate() + 10);
+      document.getElementById("expiredDate").value = expiredDate.toISOString().split('T')[0];
+    }
+  </script>
+
+<script>
+    document.getElementById('DeleteQuotation').addEventListener('click', function() {
+      var selectedQuotation = document.querySelector('input[name="selected_quotation"]:checked');
+      if (selectedQuotation) {
+        document.getElementById('SelectedQuotationId').value = selectedQuotation.value;
+        document.querySelector('input[name="action"]').value = 'delete';
+      } else {
+        // No quotation is selected
+        alert('Please select a quotation to delete.');
+        return false; // Prevent form submission
+      }
+    });
+  </script>
 
 {% endblock scripts %}

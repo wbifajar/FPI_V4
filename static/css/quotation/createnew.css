@@ -185,11 +185,9 @@ a{
 
 /* kolom input modal board 3 teratas */
 
-span{
-    color: black;
-}
-.label-span {
+.label-span-unit {
     width: 35px;
+    color: black;
 }
 .inputtt1{
     width: 60%;
@@ -264,13 +262,13 @@ span{
 .angka1 {
     position: absolute;
     width: 5.3%;
-    height: 4%;
+    height: 5%;
     background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     left: 29.2%;
-    top: 73.2%;
+    top: 72.8%;
 }
 
 .angka2 {
@@ -327,8 +325,8 @@ span{
      display: flex;
      justify-content: center;
      align-items: center;
-     left: 54.5%;
-    top: 82%;
+     left: 52.5%;
+    top: 83%;
 }
 
 .angka7 {

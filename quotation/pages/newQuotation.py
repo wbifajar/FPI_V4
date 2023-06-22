@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 import json
 
 import sys
@@ -9,7 +10,9 @@ from ..databaseConnect import *
 connection = connect()
 cursor = connection.cursor(dictionary=True)
 
+@login_required
 def CreateNewQuotation(request):
+
 	cursor.execute('select * from process')
 	process = cursor.fetchall()
 	processjs = json.dumps(process)
@@ -50,5 +53,7 @@ def CreateNewQuotation(request):
 	if request.method == 'POST':
 		processLength = request.POST.get('processLength')
 		print(processLength)
+		
+    
 
 	return render(request, 'createquotation.html', context)

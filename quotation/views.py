@@ -45,3 +45,4 @@ def InsertForm(request):
     query = 'Insert Into Part values (null, "{}", {}, {})'.format(nama, gravity, price)
     cursor.execute( query )
   return redirect('/Quotation/tes-submit')
+
