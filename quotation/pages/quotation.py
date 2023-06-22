@@ -65,24 +65,32 @@ def insertQuotation(request):
         ProductID = request.POST.get('productid', False)
         Quantity = request.POST.get('Quantity', False)
         BudgetPerUnit = request.POST['BudgetPerUnit']
+        CostExcludeOperation = request.POST['CostExcludeOperation'].replace(',', '')
+        OperationCost = request.POST['OperationCost']
+        ManagementCostPercentage = request.POST['ManagementCostPercentage']
+        MaterialCostNumber = request.POST['MaterialCostNumber']
+        MaterialCostPercentage = request.POST['MaterialCostPercentage']
+        OutsourceCostNumber = request.POST['OutsourceCostNumber']
+        OutsourceCostPercentage = request.POST['OutsourceCostPercentage']
+        OperationBudget = request.POST['OperationBudget'].replace(',', '')
 
-        query = 'INSERT INTO Quotation (Customer_ID, Product_ID, Quantity, BudgetPerUnit, CostExcludeOperation, OperationCost, ManagementCostPercentage, MaterialCostNumber, MaterialCostPercentage, OutsorceCostNumber, OutsorceCostPercentage, OperationBudget, CreatedAt, ActivityLog) VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, "{}", "{}")'.format(
+        query = 'INSERT INTO Quotation VALUES ( null,"{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
             CustomerID,
             ProductID,
             Quantity,
             BudgetPerUnit,
-            12,
-            43,
-            2,
-            12,
-            2,
-            43,
-            12,
-            1,
+            CostExcludeOperation,
+            OperationCost,  
+            ManagementCostPercentage,
+            MaterialCostNumber,
+            MaterialCostPercentage,
+            OutsourceCostNumber,
+            OutsourceCostPercentage,
+            OperationBudget,
             timezone.now(),
             username,
         )
-
+        print( "INSERRT QUERY = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
         return redirect('/Quotation/')
