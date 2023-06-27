@@ -166,7 +166,13 @@
 <script>
   $('#edit-button').on('click', function(){
     var q_id = $('input[type="radio"]:checked').val()
-    location.href = '/Quotation/detail/' + q_id
+
+    if(q_id != undefined)  
+    {
+      location.href = '/Quotation/detail/' + q_id
+    }else{
+      alert('Pick file to edit')
+    }
   })
 </script>
 {% endblock scripts %}

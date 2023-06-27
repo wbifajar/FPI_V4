@@ -634,7 +634,7 @@
                             <div class="row cardmodal">
                                 <div class="col">
                                     Vertical Scale
-                                    <input class="inputtt1 " type="text" onchange="calculateFunctionsBoard()" id="VerticalScaleMaterial" name="VerticalScaleMaterial"> mm
+                                    <input class="inputtt1 " type="text" onchange="calculateFunctionsBoard()" id="VerticalScaleMaterial" value="" name="VerticalScaleMaterial"> mm
                                 </div>
                                 <div class="col">
                                     Horizontal Scale
@@ -1312,15 +1312,15 @@
                 <div>
                     <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal">Back</button>
                 </div>
-
-
             </div>
+            <input type="hidden" name="BoardArr" id="BoardArr">
+            <input type="hidden" name="BarArr" id="BarArr">
           </div>
         </div>
       </div>
 
 </div>
-
+   
     </div>
 </form>
 
@@ -1523,6 +1523,7 @@
     
 </script>
 
+
 <!-- ========== START MATERIAL FUNCTION ========== -->
 <script>
 
@@ -1533,9 +1534,9 @@
         return obj;
     }
 </script>
-
 <script src="{% static 'scripts/materialFunction.js' %}" type=""></script>
 <!-- ========== END MATERIAL FUNCTION ========== -->
+
 
 <!-- ========== START PROCESS FUNCTION ========== -->
 <script>
@@ -1548,6 +1549,7 @@
 <script src="{% static 'scripts/processFunction.js' %}" type=""></script>
 <!-- ========== END PROCESS FUNCTION ========== -->
 
+
 <!-- ========== START OTHER FUNCTION ========== -->
 <script>
     function getOtherFromDB(){
@@ -1559,6 +1561,7 @@
 
 <script src="{% static 'scripts/otherFunction.js' %}" type=""></script>
 <!-- ========== END OTHER FUNCTION ========== -->
+
 
 <script src="{% static 'scripts/boardbarmodal.js' %}" type=""></script>
 <script src="{% static 'scripts/boardBarSubmitFunction.js' %}" type=""></script>

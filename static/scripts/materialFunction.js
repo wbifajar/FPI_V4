@@ -57,13 +57,13 @@ function addMaterial() {
     var cell9 = row.insertCell(8);
 
     cell1.innerHTML = `<th scope="row">${materialIndex}</th>`;
-    cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idPart}" id="materialNameRC"></td>`;
+    cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idPart}" id="materialNameRC" name="material_id"></td>`;
     cell3.innerHTML = `<td><input type="input" value="${selectedMaterial.name}"></td>`;
     cell4.innerHTML = `<td><input type="input" list="process" class="inputt1"></td>`;
     cell5.innerHTML = `<td>
                         <input type="input" class="inputt1 material-used-process" 
                         onchange="calculateByUsedQuantity(${materialIndex})" 
-                        name="usedQuantity-${materialIndex}" 
+                        name="usedQuantity" 
                         id="usedQuantity-${materialIndex}">
                             <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idPart}" >
                                 <img class="imgcalcu" src="/static/images/calculator.png">

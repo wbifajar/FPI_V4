@@ -182,7 +182,7 @@ function updateBoardArray(){
     // update value board array
     target = findIndexOfMaterialId(boardArr, index)
     boardArr[target] = arrBoardInputFieldValue
-    
+    $('#BoardArr').val(boardArr)
 
 }
 
@@ -313,5 +313,6 @@ function updateBarArray(){
     target = findIndexOfMaterialId(barArr, index)
     barArr[target] = arrBarInputFieldValue
 
+    $('#BarArr').val(barArr)
     console.log(barArr);
 }

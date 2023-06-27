@@ -12,8 +12,8 @@ def Quotation(request):
     cursor = connection.cursor(dictionary=True)
 
     cursor.execute('SELECT * FROM quotation \
-                    LEFT JOIN product ON quotation.Product_ID = product.idProduct \
-                    LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer')
+                    JOIN product ON quotation.Product_ID = product.idProduct \
+                    JOIN customer ON quotation.Customer_ID = customer.idCustomer')
     quotation = cursor.fetchall()
     quotationjs = json.dumps(quotation, default=str)
     
@@ -54,7 +54,71 @@ def Quotation(request):
                 context['edit_quotation'] = quotation_data
     return render(request, 'quotation.html', context)
 
+def getLastCreatedQuotationID():
+    connection = connect()
+    cursor = connection.cursor(dictionary=True)
 
+    query = "SELECT * FROM QUOTATION ORDER BY QUOTATION_ID DESC LIMIT 1"
+    cursor.execute(query)
+
+    quotation = cursor.fetchall()
+    quotation_id = quotation[0]["Quotation_ID"]
+    return quotation_id
+
+def insertQuotationMaterial(request):
+    BoardArr = request.POST['BoardArr']
+    
+    QUOTATION_ID = getLastCreatedQuotationID()
+
+    MaterialList = request.POST.getlist('material_id')
+    MaterialLength = len(MaterialList)
+    USED_QUANTITY = request.POST.getlist('usedQuantity')
+    
+    BOARD_VERTICAL_SCALE = 0
+    BOARD_HORIZONTAL_SCALE = 0
+    BOARD_THICKNESS = 0
+    BOARD_VERTICAL_SCALE_FROM_NUMBER = 0
+    BOARD_HORIZONTAL_SCALE_FROM_NUMBER = 0
+    BOARD_EXPOSED_FROM_NUMBER = 0
+    BOARD_MARGIN_FROM_NUMBER = 0
+    BOARD_MATERIAL_COST_FROM_NUMBER = 0
+    BOARD_EXPOSED_FROM_PART_SCALE = 0
+    BOARD_MARGIN_FROM_PART_SCALE = 0
+    BAR_PART_SCALP = 0
+    BAR_DIAMETER = 0
+    BAR_EXPOSED = 0
+    BAR_LENGTH = 0
+    BAR_EDGE_LOSS = 0
+    BAR_KEFT_LOSS = 0
+    
+    for i in range(0, MaterialLength):
+        # query =  'INSERT INTO quotation_material VALUES ( null, 32, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)'
+        query =  'INSERT INTO quotation_material VALUES ( null, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})'.format(
+            QUOTATION_ID,
+            MaterialList[i],
+            USED_QUANTITY[i],
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            
+        )
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+    print( "MaterialList = ", MaterialList, BoardArr)
+    print('=============================================================')
 
 
 @login_required
@@ -90,9 +154,11 @@ def insertQuotation(request):
             timezone.now(),
             username,
         )
-        print( "INSERRT QUERY = ", query)
+        print( "INSERT QUERY = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
+
+        insertQuotationMaterial(request)
         return redirect('/Quotation/')
 
 def detailQuotation(request, quotation_id):
@@ -106,12 +172,33 @@ def detailQuotation(request, quotation_id):
                        Where Quotation_ID = ' + str(quotation_id)
         cursor.execute(query)
         quotation = cursor.fetchall()
+        quotation = quotation[0]
         quotationjs = json.dumps(quotation, default=str)
 
-        print(quotation[0])
+        totalBudget = quotation["Quantity"] * quotation["BudgetPerUnit"]
+        totalCost = quotation["CostExcludeOperation"] + quotation["OperationCost"]
+        managementCost = quotation["BudgetPerUnit"] * 0.3
+        totalMaterialCost =  quotation["MaterialCostNumber"] * ( quotation["MaterialCostPercentage"] / 100 )
+        totalOutsourceCost = quotation["OutsorceCostNumber"] * ( quotation["OutsorceCostPercentage"] / 100 )
+        
+        query = 'SELECT * fROM quotation_material \
+                JOIN PART ON PART.idPART = QUOTATION_MATERIAL.MATERIAL_ID \
+                WHERE Quotation_ID = ' + str(quotation_id)
+        cursor.execute(query)
+        material = cursor.fetchall()
+        materialjs = json.dumps(material, default=str)
+
         context = {
-            'q' : quotation[0],
-            'quotation' : quotationjs[0]
+            'q' : quotation,
+            'quotation' : quotationjs[0],
+            'TotalBudget' : totalBudget,
+            'TotalCost' : totalCost,
+            "ManagementCost" : managementCost,
+            "TotalMaterialCost" : totalMaterialCost,
+            "TotalOutsourceCost" :  totalOutsourceCost,
+
+            'material' : material,
+            'materialjs' : materialjs
         }
 
     return render(request, 'editquotation.html', context)

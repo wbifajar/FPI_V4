@@ -90,7 +90,7 @@
                                     Total Budget
                                 </div>
                                 <div>
-                                    <input class="noInput " type="text" value="0" id="totalBudget">
+                                    <input class="noInput " type="text" id="totalBudget" value="{{ TotalBudget }}">
                                 </div>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                                     Total Cost
                                 </div>
                                 <div>
-                                    <input type="text" value="0" class="noInput " id="totalCost">
+                                    <input type="text" class="noInput " id="totalCost" value="{{ TotalCost }}" >
                                 </div>
                             </div>
                         </div>
@@ -180,7 +180,7 @@
                                     
                                     <div class="col">
                                         Management Cost
-                                        <input type="text" value="0" class="inputMd noInput " id="managementCost">
+                                        <input type="text" class="inputMd noInput " id="managementCost" value="{{ ManagementCost }}">
                                     </div>
                                 </div>
                             </div>
@@ -225,7 +225,7 @@
                                             Total Material Cost
                                         </div>
                                         <div>
-                                            <input type="text" value="0"  class="inputMd noInput " id="totalMaterialCost">
+                                            <input type="text" class="inputMd noInput " id="totalMaterialCost" value="{{ TotalMaterialCost }}">
                                         </div>
                                     </div>
                                 </div>
@@ -268,7 +268,7 @@
                                             Total Outsource Cost
                                         </div>
                                         <div>
-                                            <input class="inputMd noInput " value="0" type="text" id="totalOutsourceCost">
+                                            <input class="inputMd noInput " type="text" id="totalOutsourceCost" value="{{ TotalOutsourceCost }}">
                                         </div>
                                         
                                     </div>
@@ -399,9 +399,9 @@
                 <div style="display: flex; flex-basis: 40%; justify-content: right;">
                     <input type="input" list="partreflectcost" id="searchName" name="searchName" placeholder="Search ..." class="inputSearch " >
                             <datalist id="partreflectcost">
-                                {% for p in partreflectcost %}
+                                <!-- {% for p in partreflectcost %}
                                     <option value="{{p.name}}" />
-                                {% endfor %}
+                                {% endfor %} -->
                             </datalist> 
                     <button type="button" onclick="addMaterial()" class="btn btn-secondary btnsearch">  Add</button>
                 </div>
@@ -422,19 +422,44 @@
                       </tr>
                     </thead>
                     <tbody>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <strong>Total</strong>
-                        </td>
-                        <td id="total-material-cost">
-                            0
-                        </td>
-                        <td></td>
-                        <td></td>
+                        {% for m in material %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>;
+                            <td><input type="input" class="inputt material-id" value="{{ m.idPart }}" id="materialNameRC" name="material_id"></td>`;
+                            <td><input type="input" value="{{ m.name }}"></td>;
+                            <td><input type="input" list="process" class="inputt1"></td>;
+                            <td>
+                                <input type="input" class="inputt1 material-used-process" 
+                                onchange="calculateByUsedQuantity()"
+                                name="usedQuantity" 
+                                id="usedQuantity-{{ forloop.counter }}"
+                                value="{{ m.USED_QUANTITY }}">
+                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idPart}" >
+                                        <img class="imgcalcu" src="/static/images/calculator.png">
+                                    </a>
+                            </td>;
+                            <td> <p class="material-price"> {{ m.price }} </p> </td>;
+                            <td><input type="input" class="inputt1 material-cost-price" value=0 name="materialCost-${{ forloop.counter }}" id=materialCost-${materialIndex}></td>;
+                            <td><button type="button" onclick="deleteMaterial(1);" class="trash"><i id="trash-icon"></i></button></td>;
+                            <td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idPart}'></td>;
+                        </tr>
+                        {% endfor %}
+                        <tr>
+    
+                            <th scope="row"></th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <strong>Total</strong>
+                            </td>
+                            <td id="total-material-cost">
+                                0
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                   </table>
             
@@ -1330,6 +1355,8 @@
 </div>
 
     </div>
+
+    <input type="hidden" >
 </form>
 
 {% endblock content %}
