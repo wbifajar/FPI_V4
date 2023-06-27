@@ -36,9 +36,9 @@ function deleteProcess(rowindex) {
     table.rows[i].cells[4].innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${i + 1})" name='opeSum-${i + 1}' id='opeSum-${i + 1}' value=${selectedOpeSum}></td>`;
     table.rows[i].cells[5].innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio-${i + 1}' onchange="calculateByOperationPerOperationBudgetRatio(${i + 1})" id='operationPerOperationBudgetRatio-${i + 1}' value=${selectedPerOpeBudgetRatio}> %</td>`;
     table.rows[i].cells[6].innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${i + 1}' onchange="calculateByOperationPerBudgetRatio(${i + 1})" id='operationPerBudgetRatio-${i + 1}' value=${selectedPerBudgetRatio}> %</td>`;
-    table.rows[i].cells[7].innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateBySetTime(${i + 1})" class="operationInputMd" name='setTime-${i + 1}' id='setTime-${i + 1}' value=${selectedSetTime}></td>`;
-    table.rows[i].cells[8].innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateByOpeTime(${i + 1})" class="operationInputMd" name='opeTime-${i + 1}' id='opeTime-${i + 1}' value=${selectedOpeTime}></td>`;
-    table.rows[i].cells[9].innerHTML = `<td><input type="text" value="00:00:00" class="operationInputMd" onchange="calculateByTotalOpeTime(${i + 1})" name='totalOpeTime-${i + 1}' id='totalOpeTime-${i + 1}' value=${selectedTotalTime}></td>`;
+    table.rows[i].cells[7].innerHTML = `<td><input type="text" onchange="calculateBySetTime(${i + 1})" class="operationInputMd" name='setTime-${i + 1}' id='setTime-${i + 1}' value=${selectedSetTime}></td>`;
+    table.rows[i].cells[8].innerHTML = `<td><input type="text" onchange="calculateByOpeTime(${i + 1})" class="operationInputMd" name='opeTime-${i + 1}' id='opeTime-${i + 1}' value=${selectedOpeTime}></td>`;
+    table.rows[i].cells[9].innerHTML = `<td><input type="text" class="operationInputMd" onchange="calculateByTotalOpeTime(${i + 1})" name='totalOpeTime-${i + 1}' id='totalOpeTime-${i + 1}' value=${selectedTotalTime}></td>`;
     table.rows[i].cells[10].innerHTML = `<td><input type="text" class="inputS" onchange="calculateByQuantityPerMin(${i + 1})" name='quantityPerMinute-${i + 1}' id='quantityPerMinute-${i + 1}' value=${selectedQtyPerMin}></td>`;
     table.rows[i].cells[11].innerHTML = `<td><button type="button" onclick="deleteProcess(${i + 1})" class="trash"><i id="trash-icon"></i></button></td>`;
 

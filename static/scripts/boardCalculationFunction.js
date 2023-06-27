@@ -29,6 +29,7 @@ function disableButtonBoard(buttonId) {
         $("#weightBoard").text("Weight (Sheet)");
         $("#priceBoardFromNum").text("Price / Sheet");
         $("#priceBoardFromPartScale").text("Price / Sheet");
+        $("#satuanFromPartScaleBoard").text("sheet");
         
     }
 
