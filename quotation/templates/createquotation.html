@@ -384,8 +384,8 @@
             </div>
             
             <div class="btncreate">
-                <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create</button></a>
-                <button type="submit" class="btn btn-primary">Submit Quotation</button>
+                <!-- <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create</button></a> -->
+                <button type="submit" class="btn btn-secondary">Submit Quotation</button>
             </div> 
         </div>
 
@@ -885,13 +885,13 @@
 
                                 <!-- baris 2 -->
                                 <div class="row">
-                                    <div class="col text-center">
+                                    <div class="col text-center"  style="margin-right: 50%;">
                                         <div class="d-flex flex-column align-items-center">
-                                            <div style="margin-right: 13%;">Weight</div>
+                                            <div  style="margin-right: 13%;">Weight</div>
                                             <div class="col">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <input class="inputtt2" type="text" id="WeightFromPart">
-                                                    <span class="label-span-unit">kg</span>
+                                                    <span class="label-span-unit" id="satuanFromPartScaleBoard">kg</span>
                                                 </div>
 
                                             </div>
@@ -1195,7 +1195,7 @@
                                             <div class="col">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <input class="kolominput" type="text" readonly onchange="" id="BarCalcNumUsedQty">
-                                                    <span class="label-span-unit">kg</span>
+                                                    <span class="label-span-unit" id="satuanUsedQuantityNumOfBar">kg</span>
                                                 </div>
                             </div>
                                         </div>

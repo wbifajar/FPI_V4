@@ -19,8 +19,8 @@ function disableButtonBar(buttonId) {
     } else if (buttonId === 'buttonSheetBar') {
         buttonKGBar.disabled = false;
         buttonSheetBar.disabled = true;
-        $("#priceBar").text("Price / Sheet");
-        $("#satuanUsedQuantityNumOfBar").text("sheet");
+        $("#priceBar").text("Price / Bar");
+        $("#satuanUsedQuantityNumOfBar").text("bar");
     }
 
     calculateFunctionsBar();
