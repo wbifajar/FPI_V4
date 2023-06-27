@@ -67,29 +67,31 @@ def getLastCreatedQuotationID():
 
 def insertQuotationMaterial(request):
     BoardArr = request.POST['BoardArr']
+    BarArr = request.POST['BarArr']
     
     QUOTATION_ID = getLastCreatedQuotationID()
 
     MaterialList = request.POST.getlist('material_id')
     MaterialLength = len(MaterialList)
+    print(MaterialLength)
     USED_QUANTITY = request.POST.getlist('usedQuantity')
     
-    BOARD_VERTICAL_SCALE = 0
-    BOARD_HORIZONTAL_SCALE = 0
-    BOARD_THICKNESS = 0
-    BOARD_VERTICAL_SCALE_FROM_NUMBER = 0
-    BOARD_HORIZONTAL_SCALE_FROM_NUMBER = 0
-    BOARD_EXPOSED_FROM_NUMBER = 0
-    BOARD_MARGIN_FROM_NUMBER = 0
-    BOARD_MATERIAL_COST_FROM_NUMBER = 0
-    BOARD_EXPOSED_FROM_PART_SCALE = 0
-    BOARD_MARGIN_FROM_PART_SCALE = 0
-    BAR_PART_SCALP = 0
-    BAR_DIAMETER = 0
-    BAR_EXPOSED = 0
-    BAR_LENGTH = 0
-    BAR_EDGE_LOSS = 0
-    BAR_KEFT_LOSS = 0
+    BOARD_VERTICAL_SCALE = 0 #1
+    BOARD_HORIZONTAL_SCALE = 0 #2
+    BOARD_THICKNESS = 0 #3
+    BOARD_VERTICAL_SCALE_FROM_NUMBER = 0 #4
+    BOARD_HORIZONTAL_SCALE_FROM_NUMBER = 0 #5
+    BOARD_EXPOSED_FROM_NUMBER = 0 #6
+    BOARD_MARGIN_FROM_NUMBER = 0 #7
+    BOARD_MATERIAL_COST_FROM_NUMBER = 0 #8
+    BOARD_EXPOSED_FROM_PART_SCALE = 0 #9
+    BOARD_MARGIN_FROM_PART_SCALE = 0 #10
+    BAR_PART_SCALP = 0 #11
+    BAR_DIAMETER = 0 #12
+    BAR_EXPOSED = 0 #13
+    BAR_LENGTH = 0 #14
+    BAR_EDGE_LOSS = 0 #15
+    BAR_KEFT_LOSS = 0 #16
     
     for i in range(0, MaterialLength):
         # query =  'INSERT INTO quotation_material VALUES ( null, 32, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)'
@@ -97,22 +99,22 @@ def insertQuotationMaterial(request):
             QUOTATION_ID,
             MaterialList[i],
             USED_QUANTITY[i],
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
+            BoardArr[i][3], #verscale
+            BoardArr[i][4],
+            BoardArr[i][5],
+            BoardArr[i][8],
+            BoardArr[i][9],
+            BoardArr[i][10],
+            BoardArr[i][11], #7
+            BoardArr[i][20], #8
+            BoardArr[i][22],
+            BoardArr[i][23],
+            BarArr[i][12],
+            BarArr[i][4],
+            BarArr[i][7],
+            BarArr[i][8],
+            BarArr[i][9],
+            BarArr[i][15],
             
         )
         with connection.cursor() as cursor:

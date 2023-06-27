@@ -148,35 +148,35 @@ function updateBoardArray(){
     var boldmaterialcostfrompart =  $('#BoldMaterialCostFromPart').val()
     // ==== END FROM PART OF PART =====
     var arrBoardInputFieldValue = [
-        index,
-        materialid,
-        materialname,
-        verscale,
-        horscale,
-        thickness,
-        specificgravity,
-        price,
-        fromnum_verscale,
-        fromnum_horscale,
-        fromnum_exposed,
-        fromnum_margin, //10
-        numver,
-        numhor,
-        qtypersheet,
-        weightfromnum,
-        qtyfromnumber, //15
-        weightperqty,
-        pricefromnum,
-        weightfromnum2,
-        fromnum_materialcost,
-        boldmaterialcost,
-        exposedfrompart,
-        marginfrompart,
-        weightfrompart,
-        pricefrompart,
-        weightfrompart2,
-        materialcostfrompart,
-        boldmaterialcostfrompart
+        index, //0
+        materialid, //1
+        materialname, //2
+        verscale, //3
+        horscale, //4
+        thickness, //5
+        specificgravity, //6
+        price, //7
+        fromnum_verscale, //8
+        fromnum_horscale, //9
+        fromnum_exposed, //10
+        fromnum_margin, //11
+        numver, //12
+        numhor, //13
+        qtypersheet, //14
+        weightfromnum, //15
+        qtyfromnumber, //16
+        weightperqty, //17
+        pricefromnum, //18
+        weightfromnum2, //19
+        fromnum_materialcost, //20
+        boldmaterialcost, //21
+        exposedfrompart, //22
+        marginfrompart, //23
+        weightfrompart, //24
+        pricefrompart, //25
+        weightfrompart2, //26
+        materialcostfrompart, //27
+        boldmaterialcostfrompart //28
     ]
 
     // update value board array
@@ -289,24 +289,24 @@ function updateBarArray(){
     
     // ==== END FROM PART OF PART =====
     var arrBarInputFieldValue = [
-        index,
-        materialid,
-        materialname,
-        bar_partscale,
-        bar_diameter,
-        bar_specgravity,
-        bar_price,
-        bar_calcnum_exposed,
-        bar_calcnum_round_ba,
-        bar_calcnum_edge_loss,
-        bar_material_cost,
-        bar_num,
-        bar_scala,
-        bar_used_qty,
-        bold_material_cost,
-        bar_kerf_loss,
-        bar_used_qty_from_scale,
-        bar_from_scale_material_cost,
+        index, //0
+        materialid, //1
+        materialname, //2
+        bar_partscale, //3
+        bar_diameter, //4
+        bar_specgravity, //5
+        bar_price, //6
+        bar_calcnum_exposed, //7
+        bar_calcnum_round_ba, //8
+        bar_calcnum_edge_loss, //9
+        bar_material_cost, //10
+        bar_num, //11
+        bar_scala, //12
+        bar_used_qty, //13
+        bold_material_cost, //14
+        bar_kerf_loss, //15
+        bar_used_qty_from_scale, //16
+        bar_from_scale_material_cost, //17
     ]
 
     // update value board array
