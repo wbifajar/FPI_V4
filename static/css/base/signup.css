@@ -1,0 +1,82 @@
+.signup {
+    background-image: url('/static/images/background.jpeg');
+    background-position: center;
+    height: 100vh;
+    width: 100vw;
+    background-repeat: no-repeat;
+    background-size: cover;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .signup-form {
+    width: 30%;
+    height: 80%;
+    border-radius: 15px !important;
+    font-family: 'Times New Roman', Times, serif;
+  }
+  
+  .signup-form-header {
+    background-color: white; 
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    height: 35%;
+  }
+  
+  .signup-form-header img {
+    margin: 3%;
+    height: 30%;
+  }
+  
+  .signup-form-header h1 {
+    font-weight: bold;
+  }
+  
+  .signup-form-header h4 {
+    font-weight: 300;
+  }
+  .signup-form-input-container {
+    width: 90%;
+    margin: 7% auto 10% auto;
+  }
+  
+  
+  .signup-form-input-container span{
+    justify-content: center;
+    vertical-align: middle;
+    height: 6vh !important;
+    width: 4vw !important;
+    background-color: #CED4DA;
+  }
+  
+  .signup-form-input-container span img{
+    height: 15vh !important;
+    width: auto;
+    margin-bottom: 14%;
+  }
+  
+  .signup-form-input-container input{
+    height: 6vh !important;
+  }
+  
+  .signup-form-input-submit {
+    background-color: #495057;
+    color: white;
+    margin-top: 3%;
+    width: 10vw;
+    font-size: 17px;
+  }
+  
+  .signup-form-input-submit:hover{
+    background-color: #ADB5BD;
+  }
+  
+  .isi{
+    margin-bottom: 0.5rem;
+  }
+  
+  
+  
+  

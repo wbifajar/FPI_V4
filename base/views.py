@@ -5,7 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
 from django.shortcuts import HttpResponseRedirect
 from django.views.generic import TemplateView, View, FormView, ListView
-
+from .forms import CustomUserCreationForm
 from quotation.pages.home import *
 
 # from ..databaseConnect import *
@@ -39,20 +39,21 @@ def signout(request):
     logout(request)
     return redirect('/')
 
+
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            # email = form.cleaned_data.get('email')
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
-            return redirect( '/', user)
+            # login(request, user)
+            return redirect('')
         else:
             return render(request, 'signup.html', {'form': form})
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
         return render(request, 'signup.html', {'form': form})
 
 # class CustomLoginView(LoginView):
