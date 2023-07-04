@@ -1,5 +1,6 @@
 function getMaterialData(materialIndex){
      
+    console.log(materialIndex)
     var data = {
         'usedQuantity' : isNaN(parseInt(document.getElementById(`usedQuantity-${materialIndex}`).value)) ? 0 : parseInt(document.getElementById(`usedQuantity-${materialIndex}`).value),
         // 'materialNumber' : isNaN(parseInt(document.getElementById(`materialNumber-${materialIndex}`).value)) ? 0 : parseInt(document.getElementById(`materialNumber-${materialIndex}`).value),
@@ -91,6 +92,9 @@ function addMaterial() {
         '', '', '', '', '', '', '', '', '', '',
         '', '', '', '', '', '', '',
     ])
+
+    $('#BoardArr').val(boardArr)
+    $('#BarArr').val(barArr)
     return false;
 }
 
@@ -146,9 +150,9 @@ function calculateByUsedQuantity(materialIndex){
     var material = materialList[materialIndex-1];
     
     
+    console.log('MATERIAL COST = ', materialList);
     var materialCost = calculateMaterialCost(data.usedQuantity, material.price);
     $(`#materialCost-${materialIndex}`).val(materialCost);
-    console.log('MATERIAL COST = ', materialCost);
     updateTotalMaterialCostOnModal();
 }
 

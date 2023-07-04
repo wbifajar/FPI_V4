@@ -399,9 +399,9 @@
                 <div style="display: flex; flex-basis: 40%; justify-content: right;">
                     <input type="input" list="partreflectcost" id="searchName" name="searchName" placeholder="Search ..." class="inputSearch " >
                             <datalist id="partreflectcost">
-                                <!-- {% for p in partreflectcost %}
+                                {% for p in partreflectcost %}
                                     <option value="{{p.name}}" />
-                                {% endfor %} -->
+                                {% endfor %}
                             </datalist> 
                     <button type="button" onclick="addMaterial()" class="btn btn-secondary btnsearch">  Add</button>
                 </div>
@@ -430,18 +430,18 @@
                             <td><input type="input" list="process" class="inputt1"></td>;
                             <td>
                                 <input type="input" class="inputt1 material-used-process" 
-                                onchange="calculateByUsedQuantity()"
+                                onchange="calculateByUsedQuantity({{ forloop.counter }})"
                                 name="usedQuantity" 
                                 id="usedQuantity-{{ forloop.counter }}"
                                 value="{{ m.USED_QUANTITY }}">
-                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idPart}" >
+                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${{ forloop.counter }}" data-bs-index="{{ m.idPart }}" >
                                         <img class="imgcalcu" src="/static/images/calculator.png">
                                     </a>
                             </td>;
                             <td> <p class="material-price"> {{ m.price }} </p> </td>;
-                            <td><input type="input" class="inputt1 material-cost-price" value=0 name="materialCost-${{ forloop.counter }}" id=materialCost-${materialIndex}></td>;
+                            <td><input type="input" class="inputt1 material-cost-price" id="materialCost-{{ forloop.counter }}" name="materialCost-{{ forloop.counter }}" value=0></td>;
                             <td><button type="button" onclick="deleteMaterial(1);" class="trash"><i id="trash-icon"></i></button></td>;
-                            <td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idPart}'></td>;
+                            <td><input type="hidden" name='idMaterial-{{ forloop.counter }}' value='${{ m.idPart }}'></td>;
                         </tr>
                         {% endfor %}
                         <tr>
@@ -1558,18 +1558,27 @@
 </script>
 
 <!-- ========== START MATERIAL FUNCTION ========== -->
+<script src="{% static 'scripts/materialFunction.js' %}" type=""></script>
 <script>
 
     function getMaterialFromDB(){
         var part = '{{partreflectcostjs|safe}}';
         const obj = JSON.parse(part);
-
         return obj;
     }
 </script>
 
-<script src="{% static 'scripts/materialFunction.js' %}" type=""></script>
 <!-- ========== END MATERIAL FUNCTION ========== -->
+<script>
+
+    function getMaterialFromDB(){
+        var part = '{{materialjs|safe}}';
+        const obj = JSON.parse(part);
+        console.log("assas");
+        console.log(obj);
+        return obj;
+    }
+</script>
 
 <!-- ========== START PROCESS FUNCTION ========== -->
 <script>
@@ -1597,5 +1606,9 @@
 <script src="{% static 'scripts/boardbarmodal.js' %}" type=""></script>
 <script src="{% static 'scripts/boardBarSubmitFunction.js' %}" type=""></script>
 
-
+<script>
+    $(function() {
+        console.log( "ready!" );
+    });
+</script>
 {% endblock scripts %}
