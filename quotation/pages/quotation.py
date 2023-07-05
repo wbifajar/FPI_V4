@@ -32,12 +32,14 @@ def Quotation(request):
         action = request.POST.get('action')
 
         if action == 'delete':
-            selected_quotation_id = request.POST.get('selected_quotation')
+            selected_quotation_id = request.POST.getlist('selected_quotation')
 
             if selected_quotation_id:
                 # Perform delete operation
-                cursor.execute('DELETE FROM quotation WHERE Quotation_ID = %s', (selected_quotation_id,))
-                connection.commit()
+                for i in range (0, len(selected_quotation_id)):
+                    query = 'DELETE FROM quotation WHERE Quotation_ID = ' + selected_quotation_id[i]
+                    cursor.execute(query)
+                    connection.commit()
 
                 # Reload the page after successful deletion
                 return redirect('Quotation')
@@ -65,59 +67,72 @@ def getLastCreatedQuotationID():
     quotation_id = quotation[0]["Quotation_ID"]
     return quotation_id
 
+def handleEmptyString(val, default_value_if_empty):
+    if val == '':
+        return default_value_if_empty
+    return val
+
 def insertQuotationMaterial(request):
-    BoardArr = request.POST['BoardArr']
+    BoardArr = request.POST['BoardArr'].split(',')
+    BarArr = request.POST['BarArr'].split(',')
     
     QUOTATION_ID = getLastCreatedQuotationID()
 
     MaterialList = request.POST.getlist('material_id')
     MaterialLength = len(MaterialList)
+    print(MaterialLength)
     USED_QUANTITY = request.POST.getlist('usedQuantity')
-    
-    BOARD_VERTICAL_SCALE = 0
-    BOARD_HORIZONTAL_SCALE = 0
-    BOARD_THICKNESS = 0
-    BOARD_VERTICAL_SCALE_FROM_NUMBER = 0
-    BOARD_HORIZONTAL_SCALE_FROM_NUMBER = 0
-    BOARD_EXPOSED_FROM_NUMBER = 0
-    BOARD_MARGIN_FROM_NUMBER = 0
-    BOARD_MATERIAL_COST_FROM_NUMBER = 0
-    BOARD_EXPOSED_FROM_PART_SCALE = 0
-    BOARD_MARGIN_FROM_PART_SCALE = 0
-    BAR_PART_SCALP = 0
-    BAR_DIAMETER = 0
-    BAR_EXPOSED = 0
-    BAR_LENGTH = 0
-    BAR_EDGE_LOSS = 0
-    BAR_KEFT_LOSS = 0
+    BoardArrView = [BoardArr[i:i+29] for i in range(0, len(BoardArr), 29)]
+    BarArrView = [BarArr[i:i+27] for i in range(0, len(BarArr), 29)]
+    for item in BoardArrView:
+        print("BOARDARR = ", item )
+    for item in BarArrView:
+        print("BARARR = ", item )
+
     
     for i in range(0, MaterialLength):
-        # query =  'INSERT INTO quotation_material VALUES ( null, 32, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)'
+        MaterialID = MaterialList[i]
+        UsedQuantity = handleEmptyString(USED_QUANTITY[i], 0)
+        BoardVerticalScale = handleEmptyString(BoardArr[i * 29 + 3], 0) #1
+        BoardHorizontalScale = handleEmptyString(BoardArr[i * 29 + 4], 0) #2
+        BoardThickness = handleEmptyString(BoardArr[i * 29 + 5], 0) #3
+        BoardVerticalScaleFromNumber = handleEmptyString(BoardArr[i * 29 + 8], 0) #4
+        BoardHorizontalScaleFromNumber = handleEmptyString(BoardArr[i * 29 + 9], 0) #5
+        BoardExposedFromNumber = handleEmptyString(BoardArr[i * 29 + 10], 0) #6
+        BoardMarginFromNumber = handleEmptyString(BoardArr[i * 29 + 11], 0) #7
+        BoardMaterialCostFromNumber = handleEmptyString(BoardArr[i * 29 + 20], 0) #8
+        BoardExposedFromPartScale = handleEmptyString(BoardArr[i * 29 + 22], 0) #9
+        BoardMarginFromPartScale = handleEmptyString(BoardArr[i * 29 + 23], 0) #10
+        BarPartScalp = handleEmptyString(BarArr[i * 27 + 12], 0) #11
+        BarDiameter = handleEmptyString(BarArr[i * 27 + 4], 0) #12
+        BarExposed = handleEmptyString(BarArr[i * 27 + 7], 0) #13
+        BarLength = handleEmptyString(BarArr[i * 27 + 8], 0) #14
+        BarEdgeLoss = handleEmptyString(BarArr[i * 27 + 9], 0) #15
+        BarKeftLoss = handleEmptyString(BarArr[i * 27 + 15], 0) #16
         query =  'INSERT INTO quotation_material VALUES ( null, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})'.format(
             QUOTATION_ID,
-            MaterialList[i],
-            USED_QUANTITY[i],
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            
+            MaterialID,
+            UsedQuantity,
+            BoardVerticalScale, 
+            BoardHorizontalScale,
+            BoardThickness,
+            BoardVerticalScaleFromNumber,
+            BoardHorizontalScaleFromNumber,
+            BoardExposedFromNumber,
+            BoardMarginFromNumber, 
+            BoardMaterialCostFromNumber, 
+            BoardExposedFromPartScale,
+            BoardMarginFromPartScale, 
+            BarPartScalp,
+            BarDiameter,
+            BarExposed,
+            BarLength,
+            BarEdgeLoss,
+            BarKeftLoss,
         )
+        print( "MaterialList = ", query )
         with connection.cursor() as cursor:
             cursor.execute(query)
-    print( "MaterialList = ", MaterialList, BoardArr)
     print('=============================================================')
 
 
@@ -154,6 +169,7 @@ def insertQuotation(request):
             timezone.now(),
             username,
         )
+        
         print( "INSERT QUERY = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
@@ -182,13 +198,33 @@ def detailQuotation(request, quotation_id):
         totalOutsourceCost = quotation["OutsorceCostNumber"] * ( quotation["OutsorceCostPercentage"] / 100 )
         
         query = 'SELECT * fROM quotation_material \
-                JOIN PART ON PART.idPART = QUOTATION_MATERIAL.MATERIAL_ID \
+                LEFT JOIN PART ON PART.idPART = QUOTATION_MATERIAL.MATERIAL_ID \
                 WHERE Quotation_ID = ' + str(quotation_id)
+        
         cursor.execute(query)
         material = cursor.fetchall()
         materialjs = json.dumps(material, default=str)
+        
+        for item in material:
+            item["MATERIAL_COST"] = float(item["USED_QUANTITY"]) * item["price"]
+            print(item)
+       
 
-        context = {
+            
+        cursor.execute('select * from part')
+        part = cursor.fetchall()
+        partjs = json.dumps(part)
+
+        query = 'SELECT idPart, name, spesificGravity, price FROM quotation_material \
+                LEFT JOIN PART ON PART.idPART = QUOTATION_MATERIAL.MATERIAL_ID \
+                WHERE Quotation_ID = ' + str(quotation_id)
+        
+        cursor.execute(query)
+        selected_material = cursor.fetchall()
+        selected_material_js = json.dumps(selected_material)
+        print("SELECTED_MATERIAL ====> ", selected_material_js)
+
+        context = { 
             'q' : quotation,
             'quotation' : quotationjs[0],
             'TotalBudget' : totalBudget,
@@ -198,7 +234,13 @@ def detailQuotation(request, quotation_id):
             "TotalOutsourceCost" :  totalOutsourceCost,
 
             'material' : material,
-            'materialjs' : materialjs
+            'materialjs' : materialjs,
+
+            'partreflectcost' : part,
+		    'partreflectcostjs' : partjs,
+
+            'selected_material' : selected_material,
+            'selected_material_js' : selected_material_js
         }
 
     return render(request, 'editquotation.html', context)

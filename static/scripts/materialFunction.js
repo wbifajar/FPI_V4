@@ -1,3 +1,15 @@
+$(document).ready(function () {
+    updateTotalMaterialCostOnModal();
+   
+    // boardArr.push([
+    //     obj[0]['MATERIAL_ID'], selectedMaterial.idPart , selectedMaterial.name, '', '', '', selectedMaterial.spesificGravity , selectedMaterial.price, '', '', '', 
+    //     '', '', '', '', '', '', '', selectedMaterial.price, '', '',
+    //     '', '', '', '', selectedMaterial.price, '', '', ''  
+    // ])
+       
+    
+});
+
 function getMaterialData(materialIndex){
      
     var data = {
@@ -25,12 +37,12 @@ function addMaterial() {
     // get material database from py file 
     const obj = getMaterialFromDB();
     var selectedMaterial = obj.find(element => element.name == materialName);
-
+    
     if(selectedMaterial == undefined){
         return false;
     }
     
-    // check for duplicate material
+    // check if selected input already exist
     if( Object.entries(materialList).length != 0){
         var checkName = materialList.find(element => element.name == materialName);
         if (checkName != undefined && checkName.idPart == selectedMaterial.idPart){
@@ -38,14 +50,12 @@ function addMaterial() {
         }
     } 
     materialList.push(selectedMaterial);
-
-    
-    
+   
     // alter table to add process 
     var table = document.getElementById("materialTable").getElementsByTagName('tbody')[0];
-    materialIndex++;
-
-    var row = table.insertRow(materialIndex-1);
+    var materialTableLength = $('table#materialTable > tbody tr:not(:last-child)').length;
+    console.log("AMTERUAL TABLE LENGTH = ", materialTableLength);
+    var row = table.insertRow(materialTableLength);
     var cell1 = row.insertCell(0);
     var cell2 = row.insertCell(1);
     var cell3 = row.insertCell(2);

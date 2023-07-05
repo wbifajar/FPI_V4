@@ -399,9 +399,9 @@
                 <div style="display: flex; flex-basis: 40%; justify-content: right;">
                     <input type="input" list="partreflectcost" id="searchName" name="searchName" placeholder="Search ..." class="inputSearch " >
                             <datalist id="partreflectcost">
-                                <!-- {% for p in partreflectcost %}
+                                {% for p in partreflectcost %}
                                     <option value="{{p.name}}" />
-                                {% endfor %} -->
+                                {% endfor %}
                             </datalist> 
                     <button type="button" onclick="addMaterial()" class="btn btn-secondary btnsearch">  Add</button>
                 </div>
@@ -424,10 +424,10 @@
                     <tbody>
                         {% for m in material %}
                         <tr>
-                            <th scope="row">{{ forloop.counter }}</th>;
-                            <td><input type="input" class="inputt material-id" value="{{ m.idPart }}" id="materialNameRC" name="material_id"></td>`;
-                            <td><input type="input" value="{{ m.name }}"></td>;
-                            <td><input type="input" list="process" class="inputt1"></td>;
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td><input type="input" class="inputt material-id" value="{{ m.idPart }}" id="materialNameRC" name="material_id"></td>
+                            <td><input type="input" value="{{ m.name }}"></td>
+                            <td><input type="input" list="process" class="inputt1"></td>
                             <td>
                                 <input type="input" class="inputt1 material-used-process" 
                                 onchange="calculateByUsedQuantity()"
@@ -437,11 +437,11 @@
                                     <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idPart}" >
                                         <img class="imgcalcu" src="/static/images/calculator.png">
                                     </a>
-                            </td>;
-                            <td> <p class="material-price"> {{ m.price }} </p> </td>;
-                            <td><input type="input" class="inputt1 material-cost-price" value=0 name="materialCost-${{ forloop.counter }}" id=materialCost-${materialIndex}></td>;
-                            <td><button type="button" onclick="deleteMaterial(1);" class="trash"><i id="trash-icon"></i></button></td>;
-                            <td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idPart}'></td>;
+                            </td>
+                            <td> <p class="material-price"> {{ m.price }} </p> </td>
+                            <td><input type="input" class="inputt1 material-cost-price" id="materialCost-${materialIndex}" name="materialCost-${{ forloop.counter }}" value="{{ m.MATERIAL_COST }}"></td>
+                            <td><button type="button" onclick="deleteMaterial(1)" class="trash"><i id="trash-icon"></i></button></td>
+                            <td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idPart}'></td>
                         </tr>
                         {% endfor %}
                         <tr>
@@ -1374,6 +1374,14 @@
             "autoWidth": true,
             "ordering": true,
     });
+    var selected_material = '{{selected_material_js|safe}}';
+    const obj = JSON.parse(selected_material);
+    obj.forEach(element => {
+        console.log(element);
+        materialList.push(element)
+    });
+    updateMaterialLength(obj.length)
+    console.log(obj);
   });
   
     function getCustomer(value) {
@@ -1434,6 +1442,10 @@
     // buat process 
     var index = 0;
     const processList = [];
+
+    // var selected_material = '{{selected_material_js|safe}}';
+    // const obj = JSON.parse(selected_material);
+    // console.log(obj);
 
     // buat material 
     var materialIndex = 0;
@@ -1563,9 +1575,16 @@
     function getMaterialFromDB(){
         var part = '{{partreflectcostjs|safe}}';
         const obj = JSON.parse(part);
-
         return obj;
+       
+        // boardArr.push([
+        //     obj[0]['MATERIAL_ID'], selectedMaterial.idPart , selectedMaterial.name, '', '', '', selectedMaterial.spesificGravity , selectedMaterial.price, '', '', '', 
+        //     '', '', '', '', '', '', '', selectedMaterial.price, '', '',
+        //     '', '', '', '', selectedMaterial.price, '', '', ''  
+        // ])
+       
     }
+
 </script>
 
 <script src="{% static 'scripts/materialFunction.js' %}" type=""></script>

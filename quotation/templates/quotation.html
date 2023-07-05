@@ -53,7 +53,7 @@
               {% for q in quotation %}
               <tr>
                 <td>
-                  <input class="form-check-input" type="radio" name="selected_quotation" value="{{ q.Quotation_ID }}" {% if edit_quotation and edit_quotation.Quotation_ID == q.Quotation_ID %}checked{% endif %}>
+                  <input class="form-check-input" type="checkbox" name="selected_quotation" value="{{ q.Quotation_ID }}" {% if edit_quotation and edit_quotation.Quotation_ID == q.Quotation_ID %}checked{% endif %}>
                 </td>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ q.customerName }}</td>
@@ -150,29 +150,38 @@
   </script>
 
 <script>
-    document.getElementById('DeleteQuotation').addEventListener('click', function() {
-      var selectedQuotation = document.querySelector('input[name="selected_quotation"]:checked');
-      if (selectedQuotation) {
-        document.getElementById('SelectedQuotationId').value = selectedQuotation.value;
-        document.querySelector('input[name="action"]').value = 'delete';
-      } else {
-        // No quotation is selected
-        alert('Please select a quotation to delete.');
-        return false; // Prevent form submission
-      }
-    });
+    // document.getElementById('DeleteQuotation').addEventListener('click', function() {
+    //   var selectedQuotation = document.querySelector('input[name="selected_quotation"]:checked');
+    //   if (selectedQuotation) {
+    //     document.getElementById('SelectedQuotationId').value = selectedQuotation.value;
+    //     document.querySelector('input[name="action"]').value = 'delete';
+    //   } else {
+    //     // No quotation is selected
+    //     alert('Please select a quotation to delete.');
+    //     return false; // Prevent form submission
+    //   }
+    // });
   </script>
 
 <script>
   $('#edit-button').on('click', function(){
-    var q_id = $('input[type="radio"]:checked').val()
-
-    if(q_id != undefined)  
-    {
-      location.href = '/Quotation/detail/' + q_id
-    }else{
-      alert('Pick file to edit')
+    // var q_id = $('input[type="checkbox"]:checked').val()
+    var q_id = $('.form-check-input:checkbox:checked')
+  
+    if(q_id.length > 1){
+      alert('Please pick one file only to edit')
+      return;
     }
+
+    else if(q_id.length == 0)  
+    {
+      alert('Pick file to edit')
+      return;
+    }
+
+    q_id = $('.form-check-input:checkbox:checked').val()
+    location.href = '/Quotation/detail/' + q_id
+  
   })
 </script>
 {% endblock scripts %}
