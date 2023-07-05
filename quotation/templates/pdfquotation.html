@@ -19,162 +19,162 @@
 {% endblock head %}
 
 {% block content %}
-<div class="container jarak" >
-    <div class="card" id="form">
-        <div class="card-body">
-          <div class="container mb-5 mt-3">
-            <div class="row d-flex align-items-baseline align-items-center">
-              <div class="col-xl-9">
-                  <h4><img src="{% static 'images/logo.png' %}" width="70" height="55" alt="">Walk Brains</h4>
-              </div>
-              <div class="col-xl-3 float-end text-end">
-                <h4 class="fw-bold">Quotation</h4>
-                <a id="content1">#QUO-003420/10/2022</a>
-                <a>SENT</a>
-              </div>
-            </div>
-
-            
-              <div class="row" style="margin-top: 3%;">
-                <div class="fw-bold">To</div>
-                <div class="col-xl-8">
-                  <ul class="list-unstyled">
-                    <li class="fw-bold">PT SHIMA TRADING INDONESIA</li>
-                    <li class="col-xl-4" style="line-break: loose;">
-                        Alamanda Tower Lt.20 Unit A 
-                        Jl. TB. Simatupang Kav 23-24
-                        Jakarta Selatan DKI Jakarta
-                        ID 12430
-                    </li>
-                    <li >Tax ID : 66.995.276.4-016.000</li>
-                  </ul>
+<form action="/Quotation/createPDF/" method="POST">
+  <div class="container jarak" >
+      <div class="card" id="form">
+          <div class="card-body">
+            <div class="container mb-5 mt-3">
+              <div class="row d-flex align-items-baseline align-items-center">
+                <div class="col-xl-9">
+                    <h4><img src="{% static 'images/logo.png' %}" width="70" height="55" alt="">Walk Brains</h4>
                 </div>
-                <div class="col-xl-4 text-end">
-                  <ul class="list-unstyled">
-                    <li class="fw-bold">PT WALK BRAINS INDONESIA</li>
-                    <li style="line-break: loose;">
-                        MidPlaza II 16th FI Jl. Jend. Sudirman Kav 10-11
-                        Jakarta DKI Jakarta 62 10220
-                    </li>
-                    <li >Tax ID : 02.930.753.5-022.000</li>
-
-                  </ul>
+                <div class="col-xl-3 float-end text-end">
+                  <h4 class="fw-bold">Quotation</h4>
+                  <a id="content1">#QUO-003420/10/2022</a>
+                  <a>SENT</a>
                 </div>
               </div>
-
-              <div class="row" style="margin-top: 3%;">
-                <div class="fw-bold">Ship to</div>
-                <div>
-                  <ul class="list-unstyled">
-                    <li class="col-xl-3" style="line-break: loose;">
-                        Alamanda Tower Lt.20 Unit A 
-                        Jl. TB. Simatupang Kav 23-24
-                        Jakarta Selatan DKI Jakarta
-                        ID 12430
-                    </li>
-                    <li >Tax ID : 66.995.276.4-016.000</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="row" style="margin-top: 3%;">
-                <div>
-                  <ul class="list-unstyled">
-                    <li >Estimate Date : 2022-10-07</li>
-                    <li >Expiry Date : 2022-10-31</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="row my-2 mx-1 justify-content-center">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th scope="col">No.</th>
-                      <th scope="col">Product Code</th>
-                      <th scope="col">Product Name</th>
-                      <th scope="col">Currency</th>
-                      <th scope="col">Quantity</th>
-                      <th scope="col">Unit Price</th>
-                      <th scope="col">Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Product Code</td>
-                      <td>Product Name</td>
-                      <td>IDR</td>
-                      <td class="text-end">60</td>
-                      <td class="text-end">10000</td>
-                      <td class="text-end">600000</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+  
               
-              <div class="row">
-                <div class="col-xl-8">
-                    <!-- <div class="card">
-                          <h4><b>Notes or Special Comments :</b></h4>
-                          <p>Architect & Engineer</p>
-                    </div> -->
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                              <th scope="col">Notes or Special Comments :</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <!-- <td></td> -->
-                              <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus repudiandae distinctio illo nam quisquam veritatis tempore sequi laborum, non, harum ab commodi unde voluptatem dolorum, earum debitis voluptas perspiciatis adipisci!</td>
-                            </tr>
-                          </tbody>
-
-                    </table>
-                </div>
-
-                <div class="col-xl-4 total">
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <p class="text-start">SubTotal</p>
-                        <p class="text-end">$1110</p>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <p class="text-black">PPN(11%)</p>
-                        <p class="text-end">$110</p>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <p class="text-black">Total Amount</p>
-                        <p class="text-end">$1220</p>
-                    </div>
-                </div>
-              </div>
-
-              <div class="margin">
-                <p style="margin-top: 2%;">We will be happy to supply any further information you may need and trust that you call on us to fill your order, which will receive our prompt and carefull attention.</p>  
-              </div>
-
-              <div style="width: 25%; text-align: left; float: right;">
-                  <div class="row">
-                    <h6 class="fw-bold">Note :</h6>
-                    <p>Customer's Acceptance</p>
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20%;">
-                      <p class="text-black">Signature : [</p>
-                      <p class="text-end">]</p>
-                    </div>
-                    <p>Date :</p>
+                <div class="row" style="margin-top: 3%;">
+                  <div class="fw-bold">To</div>
+                  <div class="col-xl-8">
+                    <ul class="list-unstyled">
+                      <li class="fw-bold" id="customerName" name="customerName">{{q.customerName}}</li>
+                      <li class="col-xl-4" style="line-break: loose;">
+                          <!-- Alamanda Tower Lt.20 Unit A 
+                          Jl. TB. Simatupang Kav 23-24
+                          Jakarta Selatan DKI Jakarta
+                          ID 12430 --> {{q.customerAddress}}
+                      </li>
+                      <li >Tax ID : 66.995.276.4-016.000</li>
+                    </ul>
                   </div>
-              </div>
-
+                  <div class="col-xl-4 text-end">
+                    <ul class="list-unstyled">
+                      <li class="fw-bold">PT. Walk Brains Indonesia</li>
+                      <li style="line-break: loose;">
+                          MidPlaza II 16th FI Jl. Jend. Sudirman Kav 10-11
+                          Jakarta DKI Jakarta 62 10220
+                      </li>
+                      <li >Tax ID : 02.930.753.5-022.000</li>
+  
+                    </ul>
+                  </div>
+                </div>
+  
+                <div class="row" style="margin-top: 3%;">
+                  <div class="fw-bold">Ship to</div>
+                  <div>
+                    <ul class="list-unstyled">
+                      <li class="col-xl-3" style="line-break: loose;">
+                          {{q.customerAddress}}
+                      </li>
+                      <li >Tax ID : 66.995.276.4-016.000</li>
+                    </ul>
+                  </div>
+                </div>
+  
+                <div class="row" style="margin-top: 3%;">
+                  <div>
+                    <ul class="list-unstyled">
+                      <li >Estimate Date : {{createdAtFormat}}</li>
+                      <li >Expiry Date : {{expiredFormat}}</li>
+                    </ul>
+                  </div>
+                </div>
+  
+                <div class="row my-2 mx-1 justify-content-center">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Product Code</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Currency</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{q.idProduct}}</td>
+                        <td>{{q.idProduct}}</td>
+                        <td>{{q.productName}}</td>
+                        <td>IDR</td>
+                        <td class="text-end">{{quantity}}</td>
+                        <td class="text-end">{{budgetPerUnit}}</td>
+                        <td class="text-end">{{amount}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div class="row">
+                  <div class="col-xl-8">
+                      <!-- <div class="card">
+                            <h4><b>Notes or Special Comments :</b></h4>
+                            <p>Architect & Engineer</p>
+                      </div> -->
+                      <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                <th scope="col">Notes or Special Comments :</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <!-- <td></td> -->
+                                <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus repudiandae distinctio illo nam quisquam veritatis tempore sequi laborum, non, harum ab commodi unde voluptatem dolorum, earum debitis voluptas perspiciatis adipisci!</td>
+                              </tr>
+                            </tbody>
+  
+                      </table>
+                  </div>
+  
+                  <div class="col-xl-4 total">
+                      <div style="display: flex; align-items: center; justify-content: space-between;">
+                          <p class="text-start">SubTotal</p>
+                          <p class="text-end">$1110</p>
+                      </div>
+                      <div style="display: flex; align-items: center; justify-content: space-between;">
+                          <p class="text-black">PPN(11%)</p>
+                          <p class="text-end">{{ppn}}</p>
+                      </div>
+                      <div style="display: flex; align-items: center; justify-content: space-between;">
+                          <p class="text-black">Total Amount</p>
+                          <p class="text-end">{{total}}</p>
+                      </div>
+                  </div>
+                </div>
+  
+                <div class="margin">
+                  <p style="margin-top: 2%;">We will be happy to supply any further information you may need and trust that you call on us to fill your order, which will receive our prompt and carefull attention.</p>  
+                </div>
+  
+                <div style="width: 25%; text-align: left; float: right;">
+                    <div class="row">
+                      <h6 class="fw-bold">Note :</h6>
+                      <p>Customer's Acceptance</p>
+                      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20%;">
+                        <p class="text-black">Signature : [</p>
+                        <p class="text-end">]</p>
+                      </div>
+                      <p>Date :</p>
+                    </div>
+                </div>
+  
+            </div>
           </div>
-        </div>
-    </div>
+      </div>
+  
+        <div class="btncreate">
+          <input type="button" onclick="HTMLtoPDF()" class="btn btn-secondary btn_print" value="Create PDF"></input>
+      </div> 
+  </div>
 
-      <div class="btncreate">
-        <input type="button" onclick="HTMLtoPDF()" class="btn btn-secondary btn_print" value="Create PDF"></input>
-    </div> 
-</div>
+</form>
 
 {% endblock content %}
 

@@ -52,6 +52,18 @@ def Quotation(request):
 
                 # Pass the quotation data to the template for pre-filling the form fields
                 context['edit_quotation'] = quotation_data
+
+        elif action == 'createPDF':
+            selected_quotation_id = request.POST.get('selected_quotation')
+
+            if selected_quotation_id:
+                # Retrieve the quotation data based on the selected ID
+                cursor.execute('SELECT * FROM quotation WHERE Quotation_ID = %s', (selected_quotation_id,))
+                quotation_data = cursor.fetchone()
+
+                # Pass the quotation data to the template for pre-filling the form fields
+                context['pdf_quotation'] = quotation_data
+
     return render(request, 'quotation.html', context)
 
 def getLastCreatedQuotationID():
@@ -78,7 +90,7 @@ def insertQuotationMaterial(request):
 
     MaterialList = request.POST.getlist('material_id')
     MaterialLength = len(MaterialList)
-    print(MaterialLength)
+    # print(MaterialLength)
     USED_QUANTITY = request.POST.getlist('usedQuantity')
     BoardArrView = [BoardArr[i:i+29] for i in range(0, len(BoardArr), 29)]
     BarArrView = [BarArr[i:i+27] for i in range(0, len(BarArr), 29)]
@@ -168,7 +180,7 @@ def insertQuotation(request):
             username,
         )
         
-        print( "INSERT QUERY = ", query)
+        # print( "INSERT QUERY = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
 
@@ -195,7 +207,7 @@ def detailQuotation(request, quotation_id):
         totalMaterialCost =  quotation["MaterialCostNumber"] * ( quotation["MaterialCostPercentage"] / 100 )
         totalOutsourceCost = quotation["OutsorceCostNumber"] * ( quotation["OutsorceCostPercentage"] / 100 )
         
-        query = 'SELECT * fROM quotation_material \
+        query = 'SELECT * FROM quotation_material \
                 LEFT JOIN PART ON PART.idPART = QUOTATION_MATERIAL.MATERIAL_ID \
                 WHERE Quotation_ID = ' + str(quotation_id)
         
@@ -204,16 +216,12 @@ def detailQuotation(request, quotation_id):
         materialjs = json.dumps(material, default=str)
         
         for item in material:
-            
             print(item)
-       
-
             
         cursor.execute('select * from part')
         part = cursor.fetchall()
         partjs = json.dumps(part)
 
-        
 
         context = { 
             'q' : quotation,
@@ -232,3 +240,42 @@ def detailQuotation(request, quotation_id):
         }
 
     return render(request, 'editquotation.html', context)
+
+def createPDFQuotation(request, quotation_id):
+    if request.user.is_authenticated:
+        connection = connect()
+        cursor = connection.cursor(dictionary=True)
+
+        query = 'SELECT * FROM quotation \
+                        LEFT JOIN product ON quotation.Product_ID = product.idProduct \
+                        LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
+                       Where Quotation_ID = ' + str(quotation_id)
+        cursor.execute(query)
+        quotation = cursor.fetchall()
+        quotation = quotation[0]
+        quotationjs = json.dumps(quotation, default=str)
+
+        quantity = int(quotation['Quantity'])
+        budgetPerUnit = int(quotation['BudgetPerUnit'])
+        expired = quotation['CreatedAt'] + timedelta(days=10)
+        expiredFormat = expired.strftime("%d/%m/%Y")
+        createdAtFormat = quotation['CreatedAt'].strftime("%d/%m/%Y")
+        amount = quantity * budgetPerUnit
+        ppn = int(amount*0.11)
+        total = int(amount + ppn)
+        
+
+        context = { 
+            'q' : quotation,
+            'quotation' : quotationjs[0],
+            'expired' : expired,
+            'expiredFormat' : expiredFormat,
+            'createdAtFormat' : createdAtFormat,
+            'amount' : amount,
+            'quantity' : quantity,
+            'budgetPerUnit' : budgetPerUnit,
+            'ppn' : ppn,
+            'total' : total,
+        }
+
+    return render(request, 'pdfquotation.html', context)

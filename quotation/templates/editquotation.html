@@ -59,7 +59,7 @@
                                    
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="quantity" name="Quantity" value="{{ q.Quantity }}" onchange="calculateTotalBudget();">
+                                    <input class="" type="text" id="quantity" name="Quantity" value="{{ q.Quantity }}" onchange="calculateTotalBudget()">
                                 </div>
                             </div>
                     
@@ -424,24 +424,24 @@
                     <tbody>
                         {% for m in material %}
                         <tr>
-                            <th scope="row">{{ forloop.counter }}</th>;
-                            <td><input type="input" class="inputt material-id" value="{{ m.idPart }}" id="materialNameRC" name="material_id"></td>`;
-                            <td><input type="input" value="{{ m.name }}"></td>;
-                            <td><input type="input" list="process" class="inputt1"></td>;
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td><input type="input" class="inputt material-id" value="{{ m.idPart }}" id="materialNameRC" name="material_id"></td>`
+                            <td><input type="input" value="{{ m.name }}"></td>
+                            <td><input type="input" list="process" class="inputt1"></td>
                             <td>
                                 <input type="input" class="inputt1 material-used-process" 
-                                onchange="calculateByUsedQuantity({{ forloop.counter }})"
+                                onchange="calculateByUsedQuantity()"
                                 name="usedQuantity" 
                                 id="usedQuantity-{{ forloop.counter }}"
                                 value="{{ m.USED_QUANTITY }}">
                                     <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${{ forloop.counter }}" data-bs-index="{{ m.idPart }}" >
                                         <img class="imgcalcu" src="/static/images/calculator.png">
                                     </a>
-                            </td>;
-                            <td> <p class="material-price"> {{ m.price }} </p> </td>;
-                            <td><input type="input" class="inputt1 material-cost-price" id="materialCost-{{ forloop.counter }}" name="materialCost-{{ forloop.counter }}" value=0></td>;
-                            <td><button type="button" onclick="deleteMaterial(1);" class="trash"><i id="trash-icon"></i></button></td>;
-                            <td><input type="hidden" name='idMaterial-{{ forloop.counter }}' value='${{ m.idPart }}'></td>;
+                            </td>
+                            <td> <p class="material-price"> {{ m.price }} </p> </td>
+                            <td><input type="input" class="inputt1 material-cost-price" id="materialCost-{{ forloop.counter }}" name="materialCost-{{ forloop.counter }}" value=0></td>
+                            <td><button type="button" onclick="deleteMaterial(1)" class="trash"><i id="trash-icon"></i></button></td>
+                            <td><input type="hidden" name='idMaterial-{{ forloop.counter }}' value='${{ m.idPart }}'></td>
                         </tr>
                         {% endfor %}
                         <tr>
@@ -487,13 +487,13 @@
                         <label>
                           ID
                         </label>
-                        <input value='{{productid}}' name="productid" id="productid" required>
+                        <input value='{{ q.idProduct }}' name="productid" id="productid" required>
                     </div>
                     <div class="col">   
                         <label>
                           Name
                         </label>
-                        <input value='{{productname}}' name="productname" id="productname" required>
+                        <input value='{{ q.productName }}' name="productname" id="productname" required>
                     </div>
                     <div class="col">
                       <label>
@@ -1363,8 +1363,6 @@
 
 
 {% block scripts %}
-
-
 <!-- datatable & customer function -->
 <script>
   $(document).ready(function () {

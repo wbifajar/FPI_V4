@@ -29,7 +29,7 @@
               <a href="{% url 'CreateNew' %}"><button type="button" class="btn btn-secondary">Create New Quotation</button></a>
               <button type="button" name="action" value="edit" class="btn btn-secondary" id="edit-button">Edit/Detail</button>
               <button type="submit" name="action" value="delete" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
-              <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create PDF</button></a>
+              <a href="#"><button value="createPDF" type="button" class="btn btn-secondary" id="createPDF">Create PDF</button></a>
             </div>
           </div>
       
@@ -71,6 +71,9 @@
               {% endfor %}
             </tbody>
           </table>
+          
+          <input type="hidden" name="action" value="createPDF">
+          <input type="hidden" name="selected_quotation" value="{{ pdf_quotation.Quotation_ID }}">
       
           {% if edit_quotation %}
           <input type="hidden" name="action" value="edit">
@@ -112,9 +115,9 @@
     });
 
     var data = table.rows().data();
-    let quotationlengh = parseInt(data.length);
+    let quotationlength = parseInt(data.length);
 
-    for (let i=0 ; i<quotationlengh ; i++){
+    for (let i=0 ; i<quotationlength ; i++){
         price = data[i][5];
         price = currency(price);
 
@@ -126,28 +129,28 @@
     }
 
     $('#myTable').dataTable().fnClearTable();   
-    for (let i=0 ; i<quotationlengh ; i++){
+    for (let i=0 ; i<quotationlength ; i++){
         $('#myTable').dataTable().fnAddData(data[i]);
     }
   });
 </script>
 
-<script>
+<!-- <script>
     function currency(val){
         const formatter = new Intl.NumberFormat('id', {style: 'currency', currency: 'idr'});
         val = formatter.format(val);
         return val;
     }
-</script>
+</script> -->
 
-<script>
+<!-- <script>
     function calculateExpiredDate() {
       var createdDate = document.getElementById("createdDate").value;
       var expiredDate = new Date(createdDate);
       expiredDate.setDate(expiredDate.getDate() + 10);
       document.getElementById("expiredDate").value = expiredDate.toISOString().split('T')[0];
     }
-  </script>
+</script> -->
 
 <script>
     document.getElementById('DeleteQuotation').addEventListener('click', function() {
@@ -172,6 +175,19 @@
       location.href = '/Quotation/detail/' + q_id
     }else{
       alert('Pick file to edit')
+    }
+  })
+</script>
+
+<script>
+  $('#createPDF').on('click', function(){
+    var q_id = $('input[type="radio"]:checked').val()
+
+    if(q_id != undefined)  
+    {
+      location.href = '/Quotation/createPDF/' + q_id
+    }else{
+      alert('Pick file to create the pdf')
     }
   })
 </script>
