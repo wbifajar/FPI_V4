@@ -252,7 +252,7 @@ function calculateBySetTime(index) {
 	if (processData.opeSum == "" && processData.opeSum == 0) {
 		console.log('calculatebysettime first condition');
 		var setTimeSec = convertDateTimeToSeconds(processData.setTime)
-		var opeSum = (setTimeSec * process.SettingCost) / 60;
+		var opeSum = (setTimeSec * process.SettingCost) / (60 * data.quantity);
 		$(`#opeSum-${index}`).val(opeSum);
 		var operationPerOperationBudgetRatio =
 			calculateOperationPerOperationBudgetRatio(
@@ -281,7 +281,7 @@ function calculateBySetTime(index) {
 		var opeSum = 0;
 
 		var setTimeSec = convertDateTimeToSeconds(processData.setTime)
-		opeSum += (setTimeSec * process.SettingCost) / 60;
+		opeSum += (setTimeSec * process.SettingCost) / (60 * data.quantity);
 
 		var opeTimeSec = convertDateTimeToSeconds(processData.opeTime)
 		opeSum += ( opeTimeSec * process.ProcessCost) / 60;
@@ -609,11 +609,13 @@ function totalOperations(){
 
 
   $('#totalOpeSum').text(totalOpeSum);
-  $('#totalOpePerOpe').text(totalOpePerOpeBudgetRatio.toFixed(2) + ' %' )
-  $('#totalOpePerBudget').text(totalOpePerBudgetRatio.toFixed(2) + ' %')
+  $('#totalOpePerOpe').text(totalOpePerOpeBudgetRatio.toFixed(5) + ' %' )
+  $('#totalOpePerBudget').text(totalOpePerBudgetRatio.toFixed(5) + ' %')
   $('#totalSetTime').text( convertSecondsToDateTime(totalSetTime) );
   $('#totalOpeTime').text( convertSecondsToDateTime(totalOpeTime) );
   $('#totalTotalOpeTime').text( convertSecondsToDateTime(totalTotalOpeTime) );
+
+  $('#totalOperationCost').val(totalOpeSum)
   restOperations();
   
 }

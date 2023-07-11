@@ -1,3 +1,15 @@
+$(document).ready(function () {
+    updateTotalMaterialCostOnModal();
+   
+    // boardArr.push([
+    //     obj[0]['MATERIAL_ID'], selectedMaterial.idPart , selectedMaterial.name, '', '', '', selectedMaterial.spesificGravity , selectedMaterial.price, '', '', '', 
+    //     '', '', '', '', '', '', '', selectedMaterial.price, '', '',
+    //     '', '', '', '', selectedMaterial.price, '', '', ''  
+    // ])
+       
+    
+});
+
 function getMaterialData(materialIndex){
      
     var data = {
@@ -42,8 +54,9 @@ function addMaterial() {
     // alter table to add process 
     var table = document.getElementById("materialTable").getElementsByTagName('tbody')[0];
     var materialTableLength = $('table#materialTable > tbody tr:not(:last-child)').length;
-    console.log("MATERUAL TABLE ELNGTH = ", materialTableLength);
     materialIndex++;
+    console.log("MATERUAL TABLE ELNGTH = ", materialTableLength);
+
     var row = table.insertRow(materialTableLength);
     var cell1 = row.insertCell(0);
     var cell2 = row.insertCell(1);
@@ -55,7 +68,7 @@ function addMaterial() {
     var cell8 = row.insertCell(7);
     var cell9 = row.insertCell(8);
 
-    cell1.innerHTML = `<th scope="row">${materialIndex}</th>`;
+    cell1.outerHTML = `<th class="th" scope="row">${materialTableLength+1}</th>`;
     cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idPart}" id="materialNameRC" name="material_id"></td>`;
     cell3.innerHTML = `<td><input type="input" value="${selectedMaterial.name}"></td>`;
     cell4.innerHTML = `<td><input type="input" list="process" class="inputt1"></td>`;
@@ -90,9 +103,6 @@ function addMaterial() {
         '', '', '', '', '', '', '', '', '', '',
         '', '', '', '', '', '', '',
     ])
-
-    $('#BoardArr').val(boardArr);
-    $('#BarArr').val(barArr);
     return false;
 }
 

@@ -89,4 +89,6 @@ function calculateOtherPercentage(index, val){
     $('#otherPercentage-'+index).val(percent);
 
     calculateCostExcludeOperation();
+    getTotalOtherCost();
+    calculateMaterialOutsourceOther();
 }

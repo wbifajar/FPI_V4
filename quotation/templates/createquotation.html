@@ -94,6 +94,7 @@
                             </div>
                         </div>
 
+                        <!-- SECOND ROW -->
                         <div class="row">
                             <div class="col">
                                 Cost Exclude Operation
@@ -128,7 +129,57 @@
                             </div>
                         </div>
 
-                        
+                        <!-- THIRD ROW -->
+                        <div class="row">
+                            <div class="col-2">
+                                Calculation Result
+                                <input type="text" value="0" class="noInput " id="calculationResult" name="CalculationResult">
+                            </div>
+                    
+                            <div class="col-1">
+                                <div class="text-center">
+                                    =
+                                </div>
+                            </div>
+                            
+                            <div class="col-2">
+                                Management Cost After
+                                <input type="text" class="noInput " value="0" id="managementCostNew" name="ManagementCostNew">
+                            </div>
+                    
+                            
+                            <div class="col-sm-1">
+                                <div class="text-center">
+                                    +
+                                </div>
+                            </div>
+                            
+                            <div class="col-3">
+                                <div>
+                                    Material + Outsorce + Other
+                                </div>
+                                <div>
+                                    <input type="text" value="0" class="noInput " id="materialOutsourceOtherCost" name="MaterialOutsourceOtherCost">
+                                </div>
+                            </div>
+
+                               
+                              
+                            <div class="col-sm">
+                                <div class="text-center">
+                                    +
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div>
+                                    Operation Cost
+                                </div>
+                                <div>
+                                    <input type="text" value="0" class="noInput " id="totalOperationCost" name="TotalOperationCost">
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -224,7 +275,7 @@
                                             Total Material Cost
                                         </div>
                                         <div>
-                                            <input type="text" value="0"  class="inputMd noInput " id="totalMaterialCost">
+                                            <input type="text" value="0"  class="inputMd noInput " id="totalMaterialCost" onchange="calculateMaterialOutsourceOther()">
                                         </div>
                                     </div>
                                 </div>
@@ -1319,16 +1370,20 @@
         </div>
       </div>
 
+      <div class="row">
+          <div class="col">
+              <div id="myPlot" style="margin-bottom: 40px;"></div>
+          </div>
+      </div>
 </div>
    
     </div>
 </form>
-
-
 {% endblock content %}
 
 
 {% block scripts %}
+
 
 
 <!-- datatable & customer function -->
@@ -1384,144 +1439,12 @@
 <!-- nonInputabel input  -->
 <script src="{% static 'scripts/nonInputableInput.js' %}" type=""></script>
 
-
-<!-- ========== START BOARD AND BAR CALCULATION FUNCTION ========== -->
+<!-- ========== BOARD AND BAR CALCULATION FUNCTION ========== -->
 <script src="{% static 'scripts/boardCalculationFunction.js' %}" type=""></script>
 <script src="{% static 'scripts/barCalculationFunction.js' %}" type=""></script>
-<!-- ========== END BOARD AND BAR CALCULATION FUNCTION ========== -->
-
 
 <!-- calculation functions -->
-<script>
-    // buat others 
-    var othersIndex = 0;
-    const othersList = [];
-
-    // buat process 
-    var index = 0;
-    const processList = [];
-
-    // buat material 
-    var materialIndex = 0;
-    const materialList = [];
-
-    function getData(){
-        var data = {
-            'quantity' : isNaN(parseFloat(document.getElementById('quantity').value)) ? 0 : parseFloat(document.getElementById('quantity').value),
-            'budgetPerUnit' : isNaN(parseFloat(document.getElementById('budgetPerUnit').value)) ? 0 : parseFloat(document.getElementById('budgetPerUnit').value),
-            'totalBudget' : isNaN(parseFloat(document.getElementById('totalBudget').value)) ? 0 : parseFloat(document.getElementById('totalBudget').value),
-            'managementCostPercentage' : isNaN(parseFloat(document.getElementById('managementCostPercentage').value)) ? 0 : parseFloat(document.getElementById('managementCostPercentage').value),
-            'managementCost' : Number(document.getElementById('managementCost').value.replace(/[^0-9.-]+/g,"")),
-
-            'materialCost' : isNaN(parseFloat(document.getElementById('materialCost').value)) ? 0 : parseFloat(document.getElementById('materialCost').value),
-            'materialCostPercentage' : isNaN(parseFloat(document.getElementById('materialCostPercentage').value)) ? 0 : parseFloat(document.getElementById('materialCostPercentage').value),
-            'totalMaterialCost' : Number(document.getElementById('totalMaterialCost').value.replace(/[^0-9.-]+/g,"")),
-
-            'outsourceCost' : isNaN(parseFloat(document.getElementById('outsourceCost').value)) ? 0 : parseFloat(document.getElementById('outsourceCost').value),
-            'outsourceCostPercentage' : isNaN(parseFloat(document.getElementById('outsourceCostPercentage').value)) ? 0 : parseFloat(document.getElementById('outsourceCostPercentage').value),
-            'totalOutsourceCost' : Number(document.getElementById('totalOutsourceCost').value.replace(/[^0-9.-]+/g,"")),
-
-            'operationBudget' : Number(document.getElementById('operationBudget').value.replace(/[^0-9.-]+/g,"")),
-        }   
-
-        return data;
-    }
-
-    function zeroSeparator(val){
-        val = parseFloat(val).toLocaleString('en');
-        return val;
-    }
-
-    function calculateBudgetAvailable(){
-        var totalBudget = $('#totalBudget').val().replaceAll(',', '')
-        var costExcludeOperation = $('#costExcludeOperation').val().replaceAll(',', '')
-        // console.log( "costExcludeOperation = ", costExcludeOperation);
-        var costAvailable = parseFloat(totalBudget) - parseFloat(costExcludeOperation)
-        // console.log('total cost available before other cost = ', totalBudget );
-        return costAvailable
-    }
-
-    function calculateTotalBudget(){
-        var data = getData();
-        var result = data.quantity * data.budgetPerUnit;
-        $('#totalBudget').val(zeroSeparator(result));
-        $('#budgetPerUnit2').val(zeroSeparator(data.budgetPerUnit));
-
-        calculateManagementCost();
-        
-        for (var i=0 ; i<othersIndex ; i++){
-            otherPrice = document.getElementById('otherPrice-'+(i+1)).value;
-            calculateOtherPercentage(i+1, otherPrice);
-        }
-        var costAvailable = calculateBudgetAvailable();
-        
-        $('#restOpeSum').text( zeroSeparator(costAvailable) )
-    }
-
-    function calculateManagementCost(){
-        var data = getData();
-        var result = data.budgetPerUnit*data.managementCostPercentage/100;
-        $('#managementCost').val(zeroSeparator(result));
-
-        calculateCostExcludeOperation();
-    }
-
-    function calculateCostExcludeOperation(){
-        var data = getData();
-        var result = data.managementCost+data.totalMaterialCost+data.totalOutsourceCost;
-        
-        for (var i=0; i<othersIndex; i++){
-            var otherPrice = parseFloat(document.getElementById(`otherPrice-${i+1}`).value);
-            var otherCheckBox = document.getElementById(`otherCheckBox-${i+1}`).checked;
-            
-            if (!isNaN(otherPrice)) {
-                if (otherCheckBox == false){
-                    result += otherPrice * data.quantity;
-                    console.log('cek1 = ' + result)
-                } else {
-                    if (data.quantity != '' && data.quantity != 0){
-                        result += otherPrice/data.quantity;
-                        console.log('cek' + result);
-                    } else {
-                        result += otherPrice * data.quantity;
-                        console.log('cek2 = ' + result)
-                    }
-                }
-                // result += otherPrice;
-            }
-        }
-
-        $('#costExcludeOperation').val(zeroSeparator(result));
-
-        var operationBudget = data.budgetPerUnit*data.quantity - result;
-        $('#operationBudget').val(zeroSeparator(operationBudget));
-        if (operationBudget < 0) {
-            document.getElementById("operationBudget").style.color = "white";
-            document.getElementById("operationBudget").style.backgroundColor = "red";
-        } else {
-            document.getElementById("operationBudget").style.color = "black";
-            document.getElementById("operationBudget").style.backgroundColor = "transparent";
-        }
-    }
-
-    function calculateTotalMaterialCost(){
-        var data = getData();
-        var result = data.materialCost * data.materialCostPercentage/100;
-        $('#totalMaterialCost').val(zeroSeparator(result));
-
-        calculateCostExcludeOperation();
-    }
-
-    function calculateTotalOursourceCost(){
-        var data = getData();
-        var result = data.outsourceCost * data.outsourceCostPercentage / 100;
-        $('#totalOutsourceCost').val(zeroSeparator(result));
-
-        calculateCostExcludeOperation();
-    }
-
-    
-</script>
+<script src="{% static 'scripts/mainCalculationFunction.js' %}"></script>
 
 
 <!-- ========== START MATERIAL FUNCTION ========== -->
@@ -1530,7 +1453,6 @@
     function getMaterialFromDB(){
         var part = '{{partreflectcostjs|safe}}';
         const obj = JSON.parse(part);
-
         return obj;
     }
 </script>
@@ -1565,6 +1487,7 @@
 
 <script src="{% static 'scripts/boardbarmodal.js' %}" type=""></script>
 <script src="{% static 'scripts/boardBarSubmitFunction.js' %}" type=""></script>
+<script src="{% static 'scripts/tesD3/breakeventester.js' %}" type="module"></script>
 
 
 {% endblock scripts %}
