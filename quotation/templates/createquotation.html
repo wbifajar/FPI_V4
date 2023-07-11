@@ -95,7 +95,7 @@
                         </div>
 
                         <!-- SECOND ROW -->
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col">
                                 Cost Exclude Operation
                                 <input type="text" value="0" class="noInput " id="costExcludeOperation" name="CostExcludeOperation">
@@ -127,39 +127,39 @@
                                     <input type="text" value="0" class="noInput " id="totalCost">
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- THIRD ROW -->
-                        <div class="row">
-                            <div class="col-2">
+                        <div class="row text-center">
+                            <div class="col">
                                 Calculation Result
-                                <input type="text" value="0" class="noInput " id="calculationResult" name="CalculationResult">
+                                <input disabled type="text" value="0" class="noInput " id="calculationResult" name="CalculationResult">
                             </div>
                     
-                            <div class="col-1">
+                            <div class="col">
                                 <div class="text-center">
                                     =
                                 </div>
                             </div>
                             
-                            <div class="col-2">
+                            <div class="col">
                                 Management Cost After
-                                <input type="text" class="noInput " value="0" id="managementCostNew" name="ManagementCostNew">
+                                <input disabled type="text" class="noInput " value="0" id="managementCostNew" name="ManagementCostNew">
                             </div>
                     
                             
-                            <div class="col-sm-1">
+                            <div class="col">
                                 <div class="text-center">
                                     +
                                 </div>
                             </div>
                             
-                            <div class="col-3">
+                            <div class="col">
                                 <div>
                                     Material + Outsorce + Other
                                 </div>
                                 <div>
-                                    <input type="text" value="0" class="noInput " id="materialOutsourceOtherCost" name="MaterialOutsourceOtherCost">
+                                    <input disabled type="text" value="0" class="noInput " id="materialOutsourceOtherCost" name="MaterialOutsourceOtherCost">
                                 </div>
                             </div>
 
@@ -176,7 +176,7 @@
                                     Operation Cost
                                 </div>
                                 <div>
-                                    <input type="text" value="0" class="noInput " id="totalOperationCost" name="TotalOperationCost">
+                                    <input disabled type="text" value="0" class="noInput inputMd " id="totalOperationCost" name="TotalOperationCost">
                                 </div>
                             </div>
                         </div>
@@ -434,12 +434,33 @@
                 </div>
             </div>
             
-            <div class="btncreate">
+            <div class="btncreate" style="display: flex; justify-content: space-between;">
                 <!-- <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create</button></a> -->
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalLineGraph">Break Event Point Graph</button>
+                <!-- <button type="button" class="btn btn-secondary btngraph" data-bs-toggle="modal" data-bs-target="#modalLineGraph">Graph</button> -->
                 <button type="submit" class="btn btn-secondary">Submit Quotation</button>
             </div> 
         </div>
 
+    <!-- modal linegraph -->
+    <div class="modal fade" id="modalLineGraph" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content" style="background-color: #E9ECEFff;">
+            <div class="modal-header"  style="justify-content: center;">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Set Quantity Range</h5>
+              </div>
+            <div class="modal-body">
+                <input type="range" id="x-range" min="0" max="10" step="1">
+                <canvas id="line-chart"></canvas>
+                
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal">Back</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <!-- modal quotation material -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1384,6 +1405,69 @@
 
 {% block scripts %}
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var canvas = document.getElementById('line-chart');
+    var rangeInput = document.getElementById('x-range');
+
+    var chart = new Chart(canvas, {
+    type: 'line',
+    data: {
+        labels: [], // Start with empty labels array
+        datasets: [{
+        label: 'Data',
+        data: [], // Start with empty data array
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    beginAtZero: false,
+                    ticks: {
+                        stepSize: 1, // Set the step size to 1
+                        callback: function(value, index, values) {
+                            return value +1;
+                        }
+                    }
+                }
+            }]
+        }
+    }
+    });
+
+    rangeInput.addEventListener('input', function() {
+    var value = parseInt(rangeInput.value);
+    var bpu = document.getElementById('budgetPerUnit');
+    console.log('asdasd' + bpu)
+
+    // Generate labels and data based on the input range
+    var labels = [];
+    var data = [];
+    
+
+    for (i = 0; i <= value; i++) {
+        labels.push(i);
+
+        data.push(i*bpu); // Example: Generate random data
+    }
+    
+    // Update the chart data and labels
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = data;
+    chart.update();
+    });
+  </script>
+  
 
 
 <!-- datatable & customer function -->

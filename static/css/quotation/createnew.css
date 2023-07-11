@@ -135,6 +135,15 @@ input[type="radio"]{
     margin-bottom: 4%;
 }
 
+.btngraph{
+    justify-content: left !important;
+}
+
+#line-chart {
+    max-width: 60vw;
+    max-height: 45vh;
+}
+
 a{
     text-decoration: none;
     color: white;
@@ -226,6 +235,7 @@ a{
 .noInput{
     background-color: transparent;
     border: none;
+    
 }
 /* .PreviewContainer{
     margin-top: 7%;

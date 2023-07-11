@@ -150,11 +150,12 @@ function calculateFromPartScale(){
     materialcostfrompart = materialcostfrompart.toFixed(2);
 
 
-    $('#FromPartScalePreviewMargin').val(marginfrompart);
     $('#FromPartScalePreviewExposed').val(exposedfrompart);
     var halfscale = marginfrompart / 2;
-    $('#FromPartScalePreviewMargin1').val(marginfrompart);
+    $('#FromPartScalePreviewMargin').val(halfscale);
+    $('#FromPartScalePreviewMargin1').val(halfscale);
     $('#FromPartScalePreviewHalfMargin').val(halfscale);
+    $('#FromPartScalePreviewHalfMargin1').val(halfscale);
 
     $('#WeightFromPart').val(weightfrompart);
     $('#WeightFromPart2').val(weightfrompart);

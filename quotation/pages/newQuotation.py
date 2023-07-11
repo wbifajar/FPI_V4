@@ -57,3 +57,32 @@ def CreateNewQuotation(request):
     
 
 	return render(request, 'createquotation.html', context)
+
+# def line_graph(request):
+#     if request.method == 'POST':
+#         # Get the user input from the form
+#         graphQuantity = request.POST.getlist('graphQuantity')
+#         BudgetPerUnit = request.POST.getlist('BudgetPerUnit')
+        
+#         # Convert the input values to integers
+#         graphQuantity = list(map(int, graphQuantity))
+#         BudgetPerUnit = list(map(int, BudgetPerUnit))
+        
+#         # Create the line graph
+#         plt.plot(graphQuantity, BudgetPerUnit)
+#         plt.xlabel('X-axis')
+#         plt.ylabel('Y-axis')
+#         plt.title('Line Graph')
+        
+#         # Save the graph to a temporary image file
+#         graph_path = 'myapp/static/myapp/line_graph.png'
+#         plt.savefig(graph_path)
+        
+#         # Pass the graph path to the template
+#         context = {'graph_path': graph_path}
+        
+#         # Render the template with the graph
+#         return render(request, 'myapp/line_graph.html', context)
+
+#     # Render the empty form
+#     return render(request, 'myapp/input_form.html')
