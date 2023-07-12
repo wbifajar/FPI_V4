@@ -59,7 +59,7 @@
                                    
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="quantity" name="Quantity" value="{{ q.Quantity }}" onchange="calculateTotalBudget();">
+                                    <input class="" type="text" id="quantity" name="Quantity" value="{{ q.QUANTITY }}" onchange="calculateTotalBudget();">
                                 </div>
                             </div>
                     
@@ -74,7 +74,7 @@
                                     Budget/Unit
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="budgetPerUnit" name="BudgetPerUnit" value="{{ q.BudgetPerUnit }}" onchange="calculateTotalBudget()">
+                                    <input class="" type="text" id="budgetPerUnit" name="BudgetPerUnit" value="{{ q.BUDGET_PER_UNIT }}" onchange="calculateTotalBudget()">
                                 </div>
                             </div>
                     
@@ -487,19 +487,19 @@
                         <label>
                           ID
                         </label>
-                        <input value='{{productid}}' name="productid" id="productid" required>
+                        <input value='{{q.PRODUCT_ID}}' name="productid" id="productid" required>
                     </div>
                     <div class="col">   
                         <label>
                           Name
                         </label>
-                        <input value='{{productname}}' name="productname" id="productname" required>
+                        <input value='{{q.PRODUCT_NAME}}' name="productname" id="productname" required>
                     </div>
                     <div class="col">
                       <label>
                         Vers
                       </label>
-                      <input value='{{productver}}' name="productver" id="productver">
+                      <input value='{{q.PRODUCT_VERSION}}' name="productver" id="productver">
                     </div>
                 </div>
 

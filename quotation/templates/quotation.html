@@ -56,14 +56,14 @@
                   <input class="form-check-input" type="checkbox" name="selected_quotation" value="{{ q.Quotation_ID }}" {% if edit_quotation and edit_quotation.Quotation_ID == q.Quotation_ID %}checked{% endif %}>
                 </td>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ q.customerName }}</td>
-                <td>{{ q.productName }}</td>
-                <td>{{ q.Quantity }}</td>
-                <td>{{ q.BudgetPerUnit }}</td>
-                <td>{{ q.total }}</td>
-                <td>{{ q.CreatedAt }}</td>
-                <td>{{ q.expired }}</td>
-                <td>Last modified by {{ q.ActivityLog }}</td>
+                <td>{{ q.CUSTOMER_NAME }}</td>
+                <td>{{ q.PRODUCTNAME }}</td>
+                <td>{{ q.QUANTITY }}</td>
+                <td>{{ q.BUDGETPERUNIT }}</td>
+                <td>{{ q.TOTAL }}</td>
+                <td>{{ q.CREATEDAT }}</td>
+                <td>{{ q.EXPIRED }}</td>
+                <td>Last modified by DEVIN</td>
                 <td>
                   <button type="button" class="btn btn-outline-success">Accepted</button>
                 </td>
