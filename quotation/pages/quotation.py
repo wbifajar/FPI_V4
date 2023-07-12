@@ -12,16 +12,16 @@ def Quotation(request):
     cursor = connection.cursor(dictionary=True)
 
     cursor.execute('SELECT * FROM quotation \
-                    JOIN product ON quotation.Product_ID = product.idProduct \
-                    JOIN customer ON quotation.Customer_ID = customer.idCustomer')
+                    LEFT JOIN product ON quotation.Product_ID = product.idProduct \
+                    LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer')
     quotation = cursor.fetchall()
     quotationjs = json.dumps(quotation, default=str)
     
     for item in quotation:
-        item['Quantity'] = int(item['Quantity'])
-        item['BudgetPerUnit'] = int(item['BudgetPerUnit'])
-        item['total'] = int(item['Quantity']) * int(item['BudgetPerUnit'])
-        item['expired'] = (item['CreatedAt']) + timedelta(days=10)
+        item['QUANTITY'] = int(item['QUANTITY'])
+        item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
+        item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
+        item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=10)
 
     context = {
         "quotation": quotation,
@@ -64,7 +64,7 @@ def getLastCreatedQuotationID():
     cursor.execute(query)
 
     quotation = cursor.fetchall()
-    quotation_id = quotation[0]["Quotation_ID"]
+    quotation_id = quotation[0]["QUOTATION_ID"]
     return quotation_id
 
 def handleEmptyString(val, default_value_if_empty):
@@ -142,6 +142,8 @@ def insertQuotation(request):
         username = request.user.username
         CustomerID = request.POST.get('customerid', False)
         ProductID = request.POST.get('productid', False)
+        ProductName = request.POST.get('productname', False)
+        ProductVersion = request.POST.get('productver', False)
         Quantity = request.POST.get('Quantity', False)
         BudgetPerUnit = request.POST['BudgetPerUnit']
         CostExcludeOperation = request.POST['CostExcludeOperation'].replace(',', '')
@@ -153,9 +155,12 @@ def insertQuotation(request):
         OutsourceCostPercentage = request.POST['OutsourceCostPercentage']
         OperationBudget = request.POST['OperationBudget'].replace(',', '')
 
-        query = 'INSERT INTO Quotation VALUES ( null,"{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
+        query = 'INSERT INTO Quotation VALUES ( null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
+         
             CustomerID,
             ProductID,
+            ProductName,
+            ProductVersion,
             Quantity,
             BudgetPerUnit,
             CostExcludeOperation,
@@ -166,8 +171,7 @@ def insertQuotation(request):
             OutsourceCostNumber,
             OutsourceCostPercentage,
             OperationBudget,
-            timezone.now(),
-            username,
+            timezone.now()
         )
         
         print( "INSERT QUERY = ", query)
@@ -183,7 +187,6 @@ def detailQuotation(request, quotation_id):
         cursor = connection.cursor(dictionary=True)
 
         query = 'SELECT * FROM quotation \
-                        LEFT JOIN product ON quotation.Product_ID = product.idProduct \
                         LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
                        Where Quotation_ID = ' + str(quotation_id)
         cursor.execute(query)
@@ -191,11 +194,11 @@ def detailQuotation(request, quotation_id):
         quotation = quotation[0]
         quotationjs = json.dumps(quotation, default=str)
 
-        totalBudget = quotation["Quantity"] * quotation["BudgetPerUnit"]
-        totalCost = quotation["CostExcludeOperation"] + quotation["OperationCost"]
-        managementCost = quotation["BudgetPerUnit"] * 0.3
-        totalMaterialCost =  quotation["MaterialCostNumber"] * ( quotation["MaterialCostPercentage"] / 100 )
-        totalOutsourceCost = quotation["OutsorceCostNumber"] * ( quotation["OutsorceCostPercentage"] / 100 )
+        totalBudget = quotation["QUANTITY"] * quotation["BUDGET_PER_UNIT"]
+        totalCost = quotation["COST_EXCLUDE_OPERATION"] + quotation["OPERATION_COST"]
+        managementCost = quotation["BUDGET_PER_UNIT"] * 0.3
+        totalMaterialCost =  quotation["MATERIAL_COST_NUMBER"] * ( quotation["MATERIAL_COST_PERCENTAGE"] / 100 )
+        totalOutsourceCost = quotation["OUTSOURCE_COST_NUMBER"] * ( quotation["OUTSOURCE_COST_PERCENTAGE"] / 100 )
         
         query = 'SELECT * fROM quotation_material \
                 LEFT JOIN PART ON PART.idPART = QUOTATION_MATERIAL.MATERIAL_ID \
