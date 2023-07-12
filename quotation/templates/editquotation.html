@@ -98,7 +98,7 @@
                         <div class="row">
                             <div class="col">
                                 Cost Exclude Operation
-                                <input type="text" value="{{ q.CostExcludeOperation }}" class="noInput " id="costExcludeOperation" name="CostExcludeOperation">
+                                <input type="text" value="{{ q.COST_EXCLUDE_OPERATION }}" class="noInput " id="costExcludeOperation" name="CostExcludeOperation">
                             </div>
                     
                             <div class="col-sm-1">
@@ -109,7 +109,7 @@
                             
                             <div class="col">
                                 Operation Cost
-                                <input type="text" class="noInput " id="operationCost" name="OperationCost" value="{{ q.OperationCost }}" >
+                                <input type="text" class="noInput " id="operationCost" name="OperationCost" value="{{ q.OPERATION_COST }}" >
                             </div>
                     
                             
@@ -152,7 +152,7 @@
                                             Budget/Unit
                                         </div>
                                         <div>
-                                            <input type="text" class="inputMd noInput " id="budgetPerUnit2" value="{{ q.BudgetPerUnit }}">
+                                            <input type="text" class="inputMd noInput " id="budgetPerUnit2" value="{{ q.BUDGET_PER_UNIT }}">
                                         </div>
                                     </div>
 
@@ -195,7 +195,7 @@
                                         <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" >
                                             Material Cost
                                         </a>
-                                        <input type="text" class="inputMd " id="materialCost" name="MaterialCostNumber" value="{{ q.MaterialCostNumber}}" onchange="calculateTotalMaterialCost()">
+                                        <input type="text" class="inputMd " id="materialCost" name="MaterialCostNumber" value="{{ q.MATERIAL_COST_NNUMBER}}" onchange="calculateTotalMaterialCost()">
                                     </div>
                             
                                     <div class="col-sm-1">
@@ -209,7 +209,7 @@
                                             Percentage
                                         </div>
                                         <div>
-                                            <input type="text" class="inputPercentage " id="materialCostPercentage" name="MaterialCostPercentage" value="{{ q.MaterialCostPercentage}}" onchange="calculateTotalMaterialCost()"> %
+                                            <input type="text" class="inputPercentage " id="materialCostPercentage" name="MaterialCostPercentage" value="{{ q.MATERIAL_COST_PERCENTAGE}}" onchange="calculateTotalMaterialCost()"> %
                                         </div>
                                         
                                     </div>
@@ -240,7 +240,7 @@
                                 <div class="row mb-2">
                                     <div class="col">
                                         Outsource Cost
-                                        <input class="inputMd " type="text" id="outsourceCost" name="OutsourceCostNumber" value="{{ q.OutsorceCostNumber}}" onchange="calculateTotalOursourceCost()">
+                                        <input class="inputMd " type="text" id="outsourceCost" name="OutsourceCostNumber" value="{{ q.OUTSOURCE_COST_NUMBER}}" onchange="calculateTotalOursourceCost()">
                                         <!-- <input type="text" id="quantity"> -->
                                     </div>
                             
@@ -253,7 +253,7 @@
                                             Percentage
                                         </div>
                                         <div>
-                                            <input class="inputPercentage " type="text" id="outsourceCostPercentage" name="OutsourceCostPercentage" value="{{ q.OutsorceCostPercentage }}" onchange="calculateTotalOursourceCost()"> %
+                                            <input class="inputPercentage " type="text" id="outsourceCostPercentage" name="OutsourceCostPercentage" value="{{ q.OUTSOURCE_COST_PERCENTAGE }}" onchange="calculateTotalOursourceCost()"> %
                                         </div>
                                         
                                     </div>
@@ -324,7 +324,7 @@
                             
                          
                             Operation Budget
-                            <input style="margin-left: 3%;" type="text" class="inputMd noInput" id="operationBudget" name="OperationBudget" value="{{ q.OperationBudget }}">
+                            <input style="margin-left: 3%;" type="text" class="inputMd noInput" id="operationBudget" name="OperationBudget" value="{{ q.OPERATION_BUDGET }}">
                         </div>
                         <div style="display: flex; justify-content: right; width: 100%;">
                             <input type="input" list="process" id="processName" placeholder="Search ..." class="inputSearch">

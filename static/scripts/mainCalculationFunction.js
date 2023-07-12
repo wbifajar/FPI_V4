@@ -76,6 +76,7 @@ function calculateManagementCost() {
     var data = getData();
     var result = data.budgetPerUnit * data.managementCostPercentage / 100;
     $('#managementCost').val(zeroSeparator(result));
+    $('#managamentCostPercentageNew').val(data.managementCostPercentage);
 
     calculateCostExcludeOperation();
 }
@@ -91,14 +92,11 @@ function calculateCostExcludeOperation() {
         if (!isNaN(otherPrice)) {
             if (otherCheckBox == false) {
                 result += otherPrice * data.quantity;
-                console.log('cek1 = ' + result)
             } else {
                 if (data.quantity != '' && data.quantity != 0) {
                     result += otherPrice / data.quantity;
-                    console.log('cek' + result);
                 } else {
                     result += otherPrice * data.quantity;
-                    console.log('cek2 = ' + result)
                 }
             }
             // result += otherPrice;
@@ -130,14 +128,11 @@ function getTotalOtherCost() {
         if (!isNaN(otherPrice)) {
             if (otherCheckBox == false) {
                 result += otherPrice * data.quantity;
-                console.log('cek1 = ' + result)
             } else {
                 if (data.quantity != '' && data.quantity != 0) {
                     result += otherPrice / data.quantity;
-                    console.log('cek' + result);
                 } else {
                     result += otherPrice * data.quantity;
-                    console.log('cek2 = ' + result)
                 }
             }
             // result += otherPrice;
@@ -153,6 +148,7 @@ function calculateTotalMaterialCost() {
     var data = getData();
     var result = data.materialCost * data.materialCostPercentage / 100;
     $('#totalMaterialCost').val(zeroSeparator(result));
+    
 
     calculateCostExcludeOperation();
     calculateMaterialOutsourceOther();
@@ -190,6 +186,7 @@ function calculateCalculationResult(){
 
     var managementCostAfter = parseFloat($('#calculationResult').val()) - parseFloat(totalOperationCost) - parseFloat(totalMaterialOutsourceOther)
     $('#managementCostNew').val(managementCostAfter)
+    
 }
 
 

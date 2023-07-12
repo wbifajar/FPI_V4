@@ -91,5 +91,8 @@ $("#BarFromScalePreviewDiameter").focus(function(){
 $("#BarFromScalePreviewPartScale").focus(function(){
     $(this).blur();
 });
+$("#managamentCostPercentageNew").focus(function(){
+    $(this).blur();
+});
 
 

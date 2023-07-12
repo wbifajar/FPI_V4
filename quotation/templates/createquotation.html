@@ -143,7 +143,8 @@
                             </div>
                             
                             <div class="col">
-                                Management Cost After
+                                Management Cost <br>
+                                (<input class="noInput" type="text" value="0" id="managamentCostPercentageNew" style="border: none; background: transparent; width: 30px;">% from Calculation Result)
                                 <input disabled type="text" class="noInput " value="0" id="managementCostNew" name="ManagementCostNew">
                             </div>
                     
@@ -330,7 +331,6 @@
                         </div>
                     </div>
                 </div>
-
                 
                 <!-- bagian kanannya yang ada radio -->
                 <div class="col-5">
@@ -434,33 +434,30 @@
                 </div>
             </div>
             
-            <div class="btncreate" style="display: flex; justify-content: space-between;">
-                <!-- <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create</button></a> -->
-                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalLineGraph">Break Event Point Graph</button>
-                <!-- <button type="button" class="btn btn-secondary btngraph" data-bs-toggle="modal" data-bs-target="#modalLineGraph">Graph</button> -->
+            <hr>
+            <div class="card" style="max-width: 80vw;">
+                <div class="card-body">
+                    <!-- tabel, search, button create -->
+                    <div style="display: flex; align-items: center;">
+                        <div class="text-center" style=" align-items:center; display: flex; width: 100%;">
+                            <div class="col">
+                               <h6 style="margin-top: 1%;"><b>Set Quantity Range</b></h6>
+                                <div class="row" style="justify-content: center;">
+                                    <input type="text" id="graphnumber" style="width: 50%;">
+                                </div>
+                                <div class="row">
+                                    <div id="myPlot" style="margin-bottom: 40px; margin-top: 5%; max-width: 95%; margin-left: 1%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btncreate" style="display: flex; justify-content: space-between; justify-content: right;">
                 <button type="submit" class="btn btn-secondary">Submit Quotation</button>
             </div> 
         </div>
-
-    <!-- modal linegraph -->
-    <div class="modal fade" id="modalLineGraph" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-          <div class="modal-content" style="background-color: #E9ECEFff;">
-            <div class="modal-header"  style="justify-content: center;">
-                <h5 class="modal-title" id="exampleModalToggleLabel">Set Quantity Range</h5>
-              </div>
-            <div class="modal-body">
-                <input type="range" id="x-range" min="0" max="10" step="1">
-                <canvas id="line-chart"></canvas>
-                
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal">Back</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
     <!-- modal quotation material -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -548,7 +545,7 @@
                       <input value='{{productver}}' name="productver" id="productver">
                     </div>
                 </div>
-
+<!-- 
                 <div >
                         <table id="ProductsTable" class="display">
                             <thead>
@@ -566,7 +563,7 @@
                                 {% endfor %}
                     </tbody>
                   </table>
-                </div>
+                </div> -->
             </div>
             
             <div class="modal-footer">
@@ -1391,13 +1388,6 @@
         </div>
       </div>
 
-      <div class="row">
-        
-        <input type="text" id="graphnumber" >
-          <div class="col">
-              <div id="myPlot" style="margin-bottom: 40px;"></div>
-          </div>
-      </div>
 </div>
    
     </div>
@@ -1406,71 +1396,6 @@
 
 
 {% block scripts %}
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    var canvas = document.getElementById('line-chart');
-    var rangeInput = document.getElementById('x-range');
-
-    var chart = new Chart(canvas, {
-    type: 'line',
-    data: {
-        labels: [], // Start with empty labels array
-        datasets: [{
-        label: 'Data',
-        data: [], // Start with empty data array
-        borderColor: 'rgba(75, 192, 192, 1)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true,
-                }
-            }],
-            xAxes: [{
-                ticks: {
-                    beginAtZero: false,
-                    ticks: {
-                        stepSize: 1, // Set the step size to 1
-                        callback: function(value, index, values) {
-                            return value +1;
-                        }
-                    }
-                }
-            }]
-        }
-    }
-    });
-
-    rangeInput.addEventListener('input', function() {
-    var value = parseInt(rangeInput.value);
-    var bpu = document.getElementById('budgetPerUnit');
-    console.log('asdasd' + bpu)
-
-    // Generate labels and data based on the input range
-    var labels = [];
-    var data = [];
-    
-
-    for (i = 0; i <= value; i++) {
-        labels.push(i);
-
-        data.push(i*bpu); // Example: Generate random data
-    }
-    
-    // Update the chart data and labels
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = data;
-    chart.update();
-    });
-  </script>
-  
-
 
 <!-- datatable & customer function -->
 <script>
