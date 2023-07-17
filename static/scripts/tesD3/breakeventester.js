@@ -213,7 +213,11 @@ svg.append("g")
       .style("mix-blend-mode", "multiply")
       .attr("d", line);
   console.log(groups);
+
+  //draw the dots
+ 
   // Add an invisible layer for the interactive tip.
+  console.log(d => d,quantity);
   const dot = svg.append("g")
       .attr("display", "none");
 

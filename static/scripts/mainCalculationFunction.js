@@ -70,6 +70,7 @@ function calculateTotalBudget() {
 
     $('#restOpeSum').text(zeroSeparator(costAvailable))
     recalculateBySetTime();
+    calculateCalculationResult();
 }
 
 function calculateManagementCost() {

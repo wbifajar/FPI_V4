@@ -53,13 +53,13 @@
               {% for q in quotation %}
               <tr>
                 <td>
-                  <input class="form-check-input" type="checkbox" name="selected_quotation" value="{{ q.Quotation_ID }}" {% if edit_quotation and edit_quotation.Quotation_ID == q.Quotation_ID %}checked{% endif %}>
+                  <input class="form-check-input" type="checkbox" name="selected_quotation" value="{{ q.QUOTATION_ID }}" {% if edit_quotation and edit_quotation.Quotation_ID == q.Quotation_ID %}checked{% endif %}>
                 </td>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ q.CUSTOMER_NAME }}</td>
-                <td>{{ q.PRODUCTNAME }}</td>
+                <td>{{ q.customerName  }}</td>
+                <td>{{ q.PRODUCT_NAME }}</td>
                 <td>{{ q.QUANTITY }}</td>
-                <td>{{ q.BUDGETPERUNIT }}</td>
+                <td>{{ q.BUDGET_PER_UNIT }}</td>
                 <td>{{ q.TOTAL }}</td>
                 <td>{{ q.CREATEDAT }}</td>
                 <td>{{ q.EXPIRED }}</td>

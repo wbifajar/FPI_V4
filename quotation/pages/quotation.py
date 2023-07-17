@@ -12,7 +12,6 @@ def Quotation(request):
     cursor = connection.cursor(dictionary=True)
 
     cursor.execute('SELECT * FROM quotation \
-                    LEFT JOIN product ON quotation.Product_ID = product.idProduct \
                     LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer')
     quotation = cursor.fetchall()
     quotationjs = json.dumps(quotation, default=str)
