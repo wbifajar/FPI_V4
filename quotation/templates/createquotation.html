@@ -46,6 +46,21 @@
                             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px;">Products</button>
                         </a>
                     </div>
+                    <div class="col mt-2 mb-2">
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" style="width: 100px;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                              Status
+                            </a>
+                          
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-primary w-100">Accepted</button></a></li>
+                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-dark w-100">Draft</button></a></li>
+                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-success w-100">Submitted</button></a></li>
+                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-warning w-100">Rejected</button></a></li>
+                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-danger w-100">Expired</button></a></li>
+                            </ul>
+                          </div>
+                    </div>
                 </div>
             </div>
             <div class="col">
@@ -144,7 +159,7 @@
                             
                             <div class="col">
                                 Management Cost <br>
-                                (<input class="noInput" type="text" value="0" id="managamentCostPercentageNew" style="border: none; background: transparent; width: 30px;">% from Calculation Result)
+                                (<input class="noInput" type="text" value="30" id="managamentCostPercentageNew" style="border: none; background: transparent; width: 30px;">% from Calculation Result)
                                 <input disabled type="text" class="noInput " value="0" id="managementCostNew" name="ManagementCostNew">
                             </div>
                     
@@ -1387,6 +1402,7 @@
           </div>
         </div>
       </div>
+
 
 </div>
    
