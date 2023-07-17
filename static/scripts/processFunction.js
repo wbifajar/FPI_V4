@@ -602,7 +602,7 @@ function totalOperations(){
   
   
   $('#operationCost').val(zeroSeparator(totalOpeSum));
-  var costExcludeOperation = $('#costExcludeOperation').val().replaceAll(',', '')
+  var costExcludeOperation = $('#materialOutsourceOtherCost').val().replaceAll(',', '')
   totalCost = parseFloat(totalOpeSum) + parseFloat(costExcludeOperation);
   $('#totalCost').val(zeroSeparator (totalCost));
 
@@ -622,7 +622,7 @@ function totalOperations(){
 
 function restOperations(){  
   var totalBudget = $('#totalBudget').val().replaceAll(',', '')
-  var costExcludeOperation = $('#costExcludeOperation').val().replaceAll(',', '')
+  var costExcludeOperation = $('#materialOutsourceOtherCost').val().replaceAll(',', '')
   var costAvailable = parseFloat(totalBudget) - parseFloat(costExcludeOperation)
   $('#restOpeSum').text(costAvailable);
 

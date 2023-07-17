@@ -1,13 +1,13 @@
 $("#totalBudget").focus(function(){
     $(this).blur(); 
 });
-$("#operationCost").focus(function(){
+$("#totalOperationCost").focus(function(){
     $(this).blur(); 
 });
 $("#totalCost").focus(function(){
     $(this).blur(); 
 });
-$("#costExcludeOperation").focus(function(){
+$("#materialOusourceOtherCost").focus(function(){
     $(this).blur(); 
 });
 $("#managementCost").focus(function(){

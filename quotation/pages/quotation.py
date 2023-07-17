@@ -145,8 +145,8 @@ def insertQuotation(request):
         ProductVersion = request.POST.get('productver', False)
         Quantity = request.POST.get('Quantity', False)
         BudgetPerUnit = request.POST['BudgetPerUnit']
-        CostExcludeOperation = request.POST['CostExcludeOperation'].replace(',', '')
-        OperationCost = request.POST['OperationCost']
+        CostExcludeOperation = request.POST['MaterialOutsourceOtherCost'].replace(',', '')
+        OperationCost = request.POST['TotalOperationCost']
         ManagementCostPercentage = request.POST['ManagementCostPercentage']
         MaterialCostNumber = request.POST['MaterialCostNumber']
         MaterialCostPercentage = request.POST['MaterialCostPercentage']

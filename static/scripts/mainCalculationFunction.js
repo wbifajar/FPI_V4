@@ -47,7 +47,7 @@ function zeroSeparator(val) {
 
 function calculateBudgetAvailable() {
     var totalBudget = $('#totalBudget').val().replaceAll(',', '')
-    var costExcludeOperation = $('#costExcludeOperation').val().replaceAll(',', '')
+    var costExcludeOperation = $('#materialOutsourceOtherCost').val().replaceAll(',', '')
     // console.log( "costExcludeOperation = ", costExcludeOperation);
     var costAvailable = parseFloat(totalBudget) - parseFloat(costExcludeOperation)
     // console.log('total cost available before other cost = ', totalBudget );
@@ -104,7 +104,7 @@ function calculateCostExcludeOperation() {
         }
     }
 
-    $('#costExcludeOperation').val(zeroSeparator(result));
+    $('#materialOutsourceOtherCost').val(zeroSeparator(result));
 
     var operationBudget = data.budgetPerUnit - result;
     $('#operationBudget').val(zeroSeparator(operationBudget));
