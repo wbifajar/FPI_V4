@@ -9,6 +9,7 @@
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/static/css/quotation/createnew.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <style>
     div.card {
@@ -39,27 +40,33 @@
             <div class="col-sm-2 text-center">
                 <div class="row">
                     <div class="col mt-2 mb-2">
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 100px;">Customer</button>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 120px;">Customer</button>
                     </div>
                     <div class="col mt-2 mb-2">
                         <a href="#" class="">
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px;">Products</button>
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 120px;">Products</button>
                         </a>
                     </div>
-                    <div class="col mt-2 mb-2">
-                        <div class="dropdown">
-                            <a class="btn btn-secondary dropdown-toggle" style="width: 100px;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                              Status
-                            </a>
-                          
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-primary w-100">Accepted</button></a></li>
-                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-dark w-100">Draft</button></a></li>
-                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-success w-100">Submitted</button></a></li>
-                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-warning w-100">Rejected</button></a></li>
-                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-danger w-100">Expired</button></a></li>
-                            </ul>
-                          </div>
+                    <div class="col mt-2 mb-2 ">
+                        <select class="form-select" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;">
+                            <option selected>Status</option>
+                            <option value="1">Draft</option>
+                            <option value="2" style="color: #337ab7;">Accepted</option>
+                            <option value="3" style="color: #5cb85c;">Submitted</option>
+                            <option value="4" style="color: #f0ad4e;">Rejected</option>
+                            <option value="5" style="color: #cc0000;">Expired</option>
+                          </select>
+
+                          <!-- <div class="dropdown">
+                            <button class="dropdown-button btn btn-secondary">Draft</button>
+                            <div class="dropdown-content">
+                              <a href="#" class="dropdown-item" data-color="#4CAF50">Option 1</a>
+                              <a href="#" class="dropdown-item" data-color="#FF9800">Option 2</a>
+                              <a href="#" class="dropdown-item" data-color="#2196F3">Option 3</a>
+                              <a href="#" class="dropdown-item" data-color="#E91E63">Option 4</a>
+                              <a href="#" class="dropdown-item" data-color="#9C27B0">Option 5</a>
+                            </div>
+                          </div> -->
                     </div>
                 </div>
             </div>
@@ -415,12 +422,14 @@
             </div>
             
             <hr>
-            <div class="card" style="max-width: 80vw;">
+            <div class="card beptitle" id="dropdown" style="cursor: pointer; text-align: center; font-size: large; font-weight: bold;">Break Even Point Graph<i class="fas fa-caret-down"></i></div>
+            <div class="card bepgraph" style="max-width: 80vw; display: none;">
                 <div class="card-body">
                     <!-- tabel, search, button create -->
                     <div style="display: flex; align-items: center;">
                         <div class="text-center" style=" align-items:center; display: flex; width: 100%;">
                             <div class="col">
+                                
                                <h6 style="margin-top: 1%;"><b>Set Quantity Range</b></h6>
                                 <div class="row" style="justify-content: center;">
                                     <input type="text" id="graphnumber" style="width: 50%;">
@@ -432,7 +441,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>
 
             <div class="btncreate" style="display: flex; justify-content: space-between; justify-content: right;">
                 <button type="submit" class="btn btn-secondary">Submit Quotation</button>
@@ -610,10 +619,10 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
-      <!-- modal calculator option -->
-      <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- modal calculator option -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content" style="background-color: #E9ECEFff;">
             <div class="modal-header"  style="justify-content: center;">
@@ -629,10 +638,10 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
-      <!-- modal board -->
-      <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- modal board -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div class="modal-content" style="background-color: #E9ECEFff;">
             <h3 class="modal-title text-center" style="margin-top: 2%;"></h3>
@@ -1054,10 +1063,10 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
-      <!-- modal bar -->
-      <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- modal bar -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div class="modal-content" style="background-color: #E9ECEFff;">
               <div class="modal-body" id="bar-modal-content">
@@ -1366,7 +1375,7 @@
             <input type="hidden" name="BarArr" id="BarArr">
           </div>
         </div>
-      </div>
+    </div>
 
 
 </div>
@@ -1377,6 +1386,44 @@
 
 
 {% block scripts %}
+<!-- drop down linegraph -->
+<script>
+    const dropdownElement = document.getElementById("dropdown");
+    const cardElement = document.querySelector(".bepgraph");
+
+    dropdownElement.addEventListener("click", () => {
+        if (cardElement.style.display === "none") {
+            cardElement.style.display = "block";
+        } else {
+            cardElement.style.display = "none";
+        }
+    });
+</script>
+
+<!-- status -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const selectElement = document.querySelector(".form-select");
+
+        selectElement.addEventListener("change", function() {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const selectedColor = selectedOption.style.color;
+
+            selectElement.style.color = selectedColor;
+            // console.log("Selected option color:", selectedColor);
+        });
+    });
+    // const dropdownButton = document.querySelector(".dropdown-button");
+    // const dropdownItems = document.querySelectorAll(".dropdown-item");
+
+    // dropdownItems.forEach(item => {
+    // item.addEventListener("click", () => {
+    //     const color = item.dataset.color;
+    //     dropdownButton.textContent = item.textContent;
+    //     dropdownButton.style.backgroundColor = color;
+    //   });
+    // });
+</script>
 
 <!-- datatable & customer function -->
 <script>

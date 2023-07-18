@@ -155,7 +155,6 @@ def insertQuotation(request):
         OperationBudget = request.POST['OperationBudget'].replace(',', '')
 
         query = 'INSERT INTO Quotation VALUES ( null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
-         
             CustomerID,
             ProductID,
             ProductName,
@@ -246,3 +245,32 @@ def detailQuotation(request, quotation_id):
         }
 
     return render(request, 'editquotation.html', context)
+
+# belum jadi masih proses
+def insertProcess(request):
+    ProcessId = request.POST.getlist('processid', False)
+    Opesum = request.POST.getlist['opeSum']
+    OpePerOpeBudgetRatio = request.POST.getlist['operationPerOperationBudgetRatio']
+    OpePerBudgetRatio = request.POST.getlist['operationPerBudgetRatio']
+    SetTime = request.POST.getlist['setTime']
+    OpeTime = request.POST.getlist['opeTime']
+    TotalOpeTime = request.POST.getlist['totalOpeTime']
+    QuantityPerMin = request.POST.getlist['quantityPerMinute']
+    
+
+    query = 'INSERT INTO quotation_process VALUES (null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
+        ProcessId,
+        Opesum,
+        OpePerOpeBudgetRatio,
+        OpePerBudgetRatio,
+        SetTime,
+        OpeTime,
+        TotalOpeTime,
+        QuantityPerMin,
+    )
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+
+    insertQuotationMaterial(request)
+    return redirect('/Quotation/')
