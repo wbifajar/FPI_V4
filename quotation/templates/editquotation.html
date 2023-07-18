@@ -46,17 +46,32 @@
                             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px;">Products</button>
                         </a>
                     </div>
+                    <div class="col mt-2 mb-2">
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" style="width: 100px;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                              Status
+                            </a>
+                          
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-primary w-100">Accepted</button></a></li>
+                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-dark w-100">Draft</button></a></li>
+                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-success w-100">Submitted</button></a></li>
+                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-warning w-100">Rejected</button></a></li>
+                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-danger w-100">Expired</button></a></li>
+                            </ul>
+                          </div>
+                    </div>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
                     <div class="card-body">
 
+                        <!-- FIRST ROW -->
                         <div class="row mb-2">
                             <div class="col">
                                 <div>
                                     Quantity
-                                   
                                 </div>
                                 <div>
                                     <input class="" type="text" id="quantity" name="Quantity" value="{{ q.QUANTITY }}" onchange="calculateTotalBudget();">
@@ -74,7 +89,7 @@
                                     Budget/Unit
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="budgetPerUnit" name="BudgetPerUnit" value="{{ q.BUDGET_PER_UNIT }}" onchange="calculateTotalBudget()">
+                                    <input class="" type="text" id="budgetPerUnit" name="BudgetPerUnit"  value="{{ q.BUDGET_PER_UNIT }}" onchange="calculateTotalBudget()">
                                 </div>
                             </div>
                     
@@ -90,46 +105,63 @@
                                     Total Budget
                                 </div>
                                 <div>
-                                    <input class="noInput " type="text" id="totalBudget" value="{{ TotalBudget }}">
+                                    <input class="noInput " type="text" value="0" id="totalBudget">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <!-- SECOND ROW -->
+                        <div class="row text-center">
                             <div class="col">
-                                Cost Exclude Operation
-                                <input type="text" value="{{ q.COST_EXCLUDE_OPERATION }}" class="noInput " id="costExcludeOperation" name="CostExcludeOperation">
-                            </div>
-                    
-                            <div class="col-sm-1">
-                                <div class="text-center">
-                                    +
-                                </div>
+                                Calculation Result
+                                <input disabled type="text" value="0" class="noInput " id="calculationResult" name="CalculationResult">
                             </div>
                             
                             <div class="col">
-                                Operation Cost
-                                <input type="text" class="noInput " id="operationCost" name="OperationCost" value="{{ q.OPERATION_COST }}" >
-                            </div>
-                    
-                            
-                            <div class="col-sm-1">
                                 <div class="text-center">
                                     =
                                 </div>
                             </div>
                             
                             <div class="col">
+                                Management Cost <br>
+                                (<input class="noInput" type="text" value="30" id="managamentCostPercentageNew" style="border: none; background: transparent; width: 30px;">% from Calculation Result)
+                                <input disabled type="text" class="noInput " value="0" id="managementCostNew" name="ManagementCostNew">
+                            </div>
+                    
+                            
+                            <div class="col">
+                                <div class="text-center">
+                                    +
+                                </div>
+                            </div>
+                            
+                            <div class="col">
                                 <div>
-                                    Total Cost
+                                    Material + Outsorce + Other
                                 </div>
                                 <div>
-                                    <input type="text" class="noInput " id="totalCost" value="{{ TotalCost }}" >
+                                    <input disabled type="text" class="noInput " id="materialOutsourceOtherCost" name="MaterialOutsourceOtherCost">
+                                </div>
+                            </div>
+
+                               
+                              
+                            <div class="col-sm">
+                                <div class="text-center">
+                                    +
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div>
+                                    Operation Cost
+                                </div>
+                                <div>
+                                    <input disabled type="text" class="noInput inputMd " id="totalOperationCost" name="TotalOperationCost">
                                 </div>
                             </div>
                         </div>
-
-                        
 
                     </div>
                 </div>
@@ -152,7 +184,7 @@
                                             Budget/Unit
                                         </div>
                                         <div>
-                                            <input type="text" class="inputMd noInput " id="budgetPerUnit2" value="{{ q.BUDGET_PER_UNIT }}">
+                                            <input type="text" class="inputMd noInput " id="budgetPerUnit2" value="0">
                                         </div>
                                     </div>
 
@@ -180,7 +212,7 @@
                                     
                                     <div class="col">
                                         Management Cost
-                                        <input type="text" class="inputMd noInput " id="managementCost" value="{{ ManagementCost }}">
+                                        <input type="text" value="0" class="inputMd noInput " id="managementCost">
                                     </div>
                                 </div>
                             </div>
@@ -195,7 +227,7 @@
                                         <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" >
                                             Material Cost
                                         </a>
-                                        <input type="text" class="inputMd " id="materialCost" name="MaterialCostNumber" value="{{ q.MATERIAL_COST_NUMBER}}" onchange="calculateTotalMaterialCost()">
+                                        <input type="text" class="inputMd " id="materialCost" name="MaterialCostNumber" value="{{ q.MATERIAL_COST_NUMBER }}" onchange="calculateTotalMaterialCost()">
                                     </div>
                             
                                     <div class="col-sm-1">
@@ -209,7 +241,7 @@
                                             Percentage
                                         </div>
                                         <div>
-                                            <input type="text" class="inputPercentage " id="materialCostPercentage" name="MaterialCostPercentage" value="{{ q.MATERIAL_COST_PERCENTAGE}}" onchange="calculateTotalMaterialCost()"> %
+                                            <input type="text" value="100" class="inputPercentage " id="materialCostPercentage" name="MaterialCostPercentage" onchange="calculateTotalMaterialCost()"> %
                                         </div>
                                         
                                     </div>
@@ -225,7 +257,7 @@
                                             Total Material Cost
                                         </div>
                                         <div>
-                                            <input type="text" class="inputMd noInput " id="totalMaterialCost" value="{{ TotalMaterialCost }}">
+                                            <input type="text" value="0"  class="inputMd noInput " id="totalMaterialCost" onchange="calculateMaterialOutsourceOther()">
                                         </div>
                                     </div>
                                 </div>
@@ -240,7 +272,7 @@
                                 <div class="row mb-2">
                                     <div class="col">
                                         Outsource Cost
-                                        <input class="inputMd " type="text" id="outsourceCost" name="OutsourceCostNumber" value="{{ q.OUTSOURCE_COST_NUMBER}}" onchange="calculateTotalOursourceCost()">
+                                        <input class="inputMd " type="text" id="outsourceCost" name="OutsourceCostNumber" value="{{ q.OUTSOURCE_COST_NUMBER|floatformat:'0' }}" onchange="calculateTotalOursourceCost()">
                                         <!-- <input type="text" id="quantity"> -->
                                     </div>
                             
@@ -253,7 +285,7 @@
                                             Percentage
                                         </div>
                                         <div>
-                                            <input class="inputPercentage " type="text" id="outsourceCostPercentage" name="OutsourceCostPercentage" value="{{ q.OUTSOURCE_COST_PERCENTAGE }}" onchange="calculateTotalOursourceCost()"> %
+                                            <input class="inputPercentage " type="text" value="100" id="outsourceCostPercentage" name="OutsourceCostPercentage" onchange="calculateTotalOursourceCost()"> %
                                         </div>
                                         
                                     </div>
@@ -268,7 +300,7 @@
                                             Total Outsource Cost
                                         </div>
                                         <div>
-                                            <input class="inputMd noInput " type="text" id="totalOutsourceCost" value="{{ TotalOutsourceCost }}">
+                                            <input class="inputMd noInput " value="0" type="text" id="totalOutsourceCost">
                                         </div>
                                         
                                     </div>
@@ -280,7 +312,6 @@
                         </div>
                     </div>
                 </div>
-
                 
                 <!-- bagian kanannya yang ada radio -->
                 <div class="col-5">
@@ -324,7 +355,7 @@
                             
                          
                             Operation Budget
-                            <input style="margin-left: 3%;" type="text" class="inputMd noInput" id="operationBudget" name="OperationBudget" value="{{ q.OPERATION_BUDGET }}">
+                            <input style="margin-left: 3%;" type="text" class="inputMd noInput" id="operationBudget" name="OperationBudget" >
                         </div>
                         <div style="display: flex; justify-content: right; width: 100%;">
                             <input type="input" list="process" id="processName" placeholder="Search ..." class="inputSearch">
@@ -384,12 +415,30 @@
                 </div>
             </div>
             
-            <div class="btncreate">
-                <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create</button></a>
-                <button type="submit" class="btn btn-primary">Submit Quotation</button>
+            <hr>
+            <div class="card" style="max-width: 80vw;">
+                <div class="card-body">
+                    <!-- tabel, search, button create -->
+                    <div style="display: flex; align-items: center;">
+                        <div class="text-center" style=" align-items:center; display: flex; width: 100%;">
+                            <div class="col">
+                               <h6 style="margin-top: 1%;"><b>Set Quantity Range</b></h6>
+                                <div class="row" style="justify-content: center;">
+                                    <input type="text" id="graphnumber" style="width: 50%;">
+                                </div>
+                                <div class="row">
+                                    <div id="myPlot" style="margin-bottom: 40px; margin-top: 5%; max-width: 95%; margin-left: 1%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btncreate" style="display: flex; justify-content: space-between; justify-content: right;">
+                <button type="submit" class="btn btn-secondary">Submit Quotation</button>
             </div> 
         </div>
-
 
     <!-- modal quotation material -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -422,30 +471,32 @@
                       </tr>
                     </thead>
                     <tbody>
-                        {% for m in material %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td><input type="input" class="inputt material-id" value="{{ m.idPart }}" id="materialNameRC" name="material_id"></td>
-                            <td><input type="input" value="{{ m.name }}"></td>
+                        {{ selected_material }}
+                        {% for qm in selected_material %}
+                            <th scope="row">{{forloop.counter }}</th>
+                            <td><input type="input" class="inputt material-id" value="{{qm.MATERIAL_ID}}" id="materialNameRC" name="material_id"></td>
+                            <td><input type="input" value="{{ qm.name }}"></td>
                             <td><input type="input" list="process" class="inputt1"></td>
                             <td>
                                 <input type="input" class="inputt1 material-used-process" 
-                                onchange="calculateByUsedQuantity()"
+                                onchange="calculateByUsedQuantity({{ forloop.counter }})"
                                 name="usedQuantity" 
                                 id="usedQuantity-{{ forloop.counter }}"
-                                value="{{ m.USED_QUANTITY }}">
-                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${materialIndex}" data-bs-index="${selectedMaterial.idPart}" >
-                                        <img class="imgcalcu" src="/static/images/calculator.png">
-                                    </a>
+                                value="{{ qm.USED_QUANTITY }}">
+                                <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-{{ forloop.counter }}" data-bs-index="{{ qm.idPart }}" >
+                                    <img class="imgcalcu" src="/static/images/calculator.png">
+                                </a>
                             </td>
-                            <td> <p class="material-price"> {{ m.price }} </p> </td>
-                            <td><input type="input" class="inputt1 material-cost-price" id="materialCost-${materialIndex}" name="materialCost-${{ forloop.counter }}" value="{{ m.MATERIAL_COST }}"></td>
-                            <td><button type="button" onclick="deleteMaterial(1)" class="trash"><i id="trash-icon"></i></button></td>
-                            <td><input type="hidden" name='idMaterial-${materialIndex}' value='${selectedMaterial.idPart}'></td>
-                        </tr>
-                        {% endfor %}
+                            <td><p class="material-price"> {{ qm.price }} </p></td>
+                            <td>
+                                <input type="input" class="inputt1 material-cost-price" name="materialCost-{{ forloop.counter }}" id="materialCost-{{ forloop.counter }}">
+                            </td> 
+                            <td><button type="button" onclick="deleteMaterial({{ forloop.counter }})" class="trash"><i id="trash-icon"></i></button></td>`;
+                            <td><input type="hidden" name='idMaterial-{{ forloop.counter }}' value='{{ qm.MATERIAL_ID}}'></td>
+                          
+                        {% endfor%}
+
                         <tr>
-    
                             <th scope="row"></th>
                             <td></td>
                             <td></td>
@@ -459,7 +510,7 @@
                             </td>
                             <td></td>
                             <td></td>
-                        </tr>
+                        </tr>   
                     </tbody>
                   </table>
             
@@ -487,22 +538,22 @@
                         <label>
                           ID
                         </label>
-                        <input value='{{q.PRODUCT_ID}}' name="productid" id="productid" required>
+                        <input value='{{productid}}' name="productid" id="productid" required>
                     </div>
                     <div class="col">   
                         <label>
                           Name
                         </label>
-                        <input value='{{q.PRODUCT_NAME}}' name="productname" id="productname" required>
+                        <input value='{{productname}}' name="productname" id="productname" required>
                     </div>
                     <div class="col">
                       <label>
                         Vers
                       </label>
-                      <input value='{{q.PRODUCT_VERSION}}' name="productver" id="productver">
+                      <input value='{{productver}}' name="productver" id="productver">
                     </div>
                 </div>
-
+<!-- 
                 <div >
                         <table id="ProductsTable" class="display">
                             <thead>
@@ -520,7 +571,7 @@
                                 {% endfor %}
                     </tbody>
                   </table>
-                </div>
+                </div> -->
             </div>
             
             <div class="modal-footer">
@@ -545,13 +596,13 @@
                         <label>
                           ID
                         </label>
-                        <input value='{{ q.Customer_ID }}' name="customerid" id="customerid" required>
+                        <input value='{{customerid}}' name="customerid" id="customerid" required>
                     </div>
                     <div class="col">
                         <label>
                           Name
                         </label>
-                        <input value='{{ q.customerName }}' name="customername" id="customername" required>
+                        <input value='{{customername}}' name="customername" id="customername" required>
                     </div>
                     <div class="col">
                       <label>
@@ -660,7 +711,7 @@
                             <div class="row cardmodal">
                                 <div class="col">
                                     Vertical Scale
-                                    <input class="inputtt1 " type="text" onchange="calculateFunctionsBoard()" id="VerticalScaleMaterial" name="VerticalScaleMaterial"> mm
+                                    <input class="inputtt1 " type="text" onchange="calculateFunctionsBoard()" id="VerticalScaleMaterial" value="" name="VerticalScaleMaterial"> mm
                                 </div>
                                 <div class="col">
                                     Horizontal Scale
@@ -911,13 +962,13 @@
 
                                 <!-- baris 2 -->
                                 <div class="row">
-                                    <div class="col text-center">
+                                    <div class="col text-center"  style="margin-right: 50%;">
                                         <div class="d-flex flex-column align-items-center">
-                                            <div style="margin-right: 13%;">Weight</div>
+                                            <div  style="margin-right: 13%;">Weight</div>
                                             <div class="col">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <input class="inputtt2" type="text" id="WeightFromPart">
-                                                    <span class="label-span-unit">kg</span>
+                                                    <span class="label-span-unit" id="satuanFromPartScaleBoard">kg</span>
                                                 </div>
 
                                             </div>
@@ -1221,7 +1272,7 @@
                                             <div class="col">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <input class="kolominput" type="text" readonly onchange="" id="BarCalcNumUsedQty">
-                                                    <span class="label-span-unit">kg</span>
+                                                    <span class="label-span-unit" id="satuanUsedQuantityNumOfBar">kg</span>
                                                 </div>
                             </div>
                                         </div>
@@ -1338,32 +1389,22 @@
                 <div>
                     <button type="button" class="btn btn-secondary btnsearch2" data-bs-toggle="modal" data-bs-target="#exampleModal">Back</button>
                 </div>
-
-
             </div>
+            <input type="hidden" name="BoardArr" id="BoardArr">
+            <input type="hidden" name="BarArr" id="BarArr">
           </div>
         </div>
       </div>
 
-      {% for i,k in q.items %}
-      <p>
-          <span style="color: black;">'{{ i }}'</span>
-          <span style="color: black;">{{ ':' }}</span>
-          <span style="color: black;">{{ k }}</span>
-      </p>
-      {% endfor %}
+
 </div>
-
+   
     </div>
-
-    <input type="hidden" >
 </form>
-
 {% endblock content %}
 
 
 {% block scripts %}
-
 
 <!-- datatable & customer function -->
 <script>
@@ -1374,14 +1415,6 @@
             "autoWidth": true,
             "ordering": true,
     });
-    var selected_material = '{{selected_material_js|safe}}';
-    const obj = JSON.parse(selected_material);
-    obj.forEach(element => {
-        console.log(element);
-        materialList.push(element)
-    });
-    updateMaterialLength(obj.length)
-    console.log(obj);
   });
   
     function getCustomer(value) {
@@ -1426,148 +1459,13 @@
 <!-- nonInputabel input  -->
 <script src="{% static 'scripts/nonInputableInput.js' %}" type=""></script>
 
-
-<!-- ========== START BOARD AND BAR CALCULATION FUNCTION ========== -->
+<!-- ========== BOARD AND BAR CALCULATION FUNCTION ========== -->
 <script src="{% static 'scripts/boardCalculationFunction.js' %}" type=""></script>
 <script src="{% static 'scripts/barCalculationFunction.js' %}" type=""></script>
-<!-- ========== END BOARD AND BAR CALCULATION FUNCTION ========== -->
-
 
 <!-- calculation functions -->
-<script>
-    // buat others 
-    var othersIndex = 0;
-    const othersList = [];
+<script src="{% static 'scripts/mainCalculationFunctionEdit.js' %}"></script>
 
-    // buat process 
-    var index = 0;
-    const processList = [];
-
-    // var selected_material = '{{selected_material_js|safe}}';
-    // const obj = JSON.parse(selected_material);
-    // console.log(obj);
-
-    // buat material 
-    var materialIndex = 0;
-    const materialList = [];
-
-    function getData(){
-        var data = {
-            'quantity' : isNaN(parseFloat(document.getElementById('quantity').value)) ? 0 : parseFloat(document.getElementById('quantity').value),
-            'budgetPerUnit' : isNaN(parseFloat(document.getElementById('budgetPerUnit').value)) ? 0 : parseFloat(document.getElementById('budgetPerUnit').value),
-            'totalBudget' : isNaN(parseFloat(document.getElementById('totalBudget').value)) ? 0 : parseFloat(document.getElementById('totalBudget').value),
-            'managementCostPercentage' : isNaN(parseFloat(document.getElementById('managementCostPercentage').value)) ? 0 : parseFloat(document.getElementById('managementCostPercentage').value),
-            'managementCost' : Number(document.getElementById('managementCost').value.replace(/[^0-9.-]+/g,"")),
-
-            'materialCost' : isNaN(parseFloat(document.getElementById('materialCost').value)) ? 0 : parseFloat(document.getElementById('materialCost').value),
-            'materialCostPercentage' : isNaN(parseFloat(document.getElementById('materialCostPercentage').value)) ? 0 : parseFloat(document.getElementById('materialCostPercentage').value),
-            'totalMaterialCost' : Number(document.getElementById('totalMaterialCost').value.replace(/[^0-9.-]+/g,"")),
-
-            'outsourceCost' : isNaN(parseFloat(document.getElementById('outsourceCost').value)) ? 0 : parseFloat(document.getElementById('outsourceCost').value),
-            'outsourceCostPercentage' : isNaN(parseFloat(document.getElementById('outsourceCostPercentage').value)) ? 0 : parseFloat(document.getElementById('outsourceCostPercentage').value),
-            'totalOutsourceCost' : Number(document.getElementById('totalOutsourceCost').value.replace(/[^0-9.-]+/g,"")),
-
-            'operationBudget' : Number(document.getElementById('operationBudget').value.replace(/[^0-9.-]+/g,"")),
-        }   
-
-        return data;
-    }
-
-    function zeroSeparator(val){
-        val = parseFloat(val).toLocaleString('en');
-        return val;
-    }
-
-    function calculateBudgetAvailable(){
-        var totalBudget = $('#totalBudget').val().replaceAll(',', '')
-        var costExcludeOperation = $('#materialOutsourceOtherCost').val().replaceAll(',', '')
-        // console.log( "costExcludeOperation = ", costExcludeOperation);
-        var costAvailable = parseFloat(totalBudget) - parseFloat(costExcludeOperation)
-        // console.log('total cost available before other cost = ', totalBudget );
-        return costAvailable
-    }
-
-    function calculateTotalBudget(){
-        var data = getData();
-        var result = data.quantity * data.budgetPerUnit;
-        $('#totalBudget').val(zeroSeparator(result));
-        $('#budgetPerUnit2').val(zeroSeparator(data.budgetPerUnit));
-
-        calculateManagementCost();
-        
-        for (var i=0 ; i<othersIndex ; i++){
-            otherPrice = document.getElementById('otherPrice-'+(i+1)).value;
-            calculateOtherPercentage(i+1, otherPrice);
-        }
-        var costAvailable = calculateBudgetAvailable();
-        
-        $('#restOpeSum').text( zeroSeparator(costAvailable) )
-    }
-
-    function calculateManagementCost(){
-        var data = getData();
-        var result = data.budgetPerUnit*data.managementCostPercentage/100;
-        $('#managementCost').val(zeroSeparator(result));
-
-        calculateCostExcludeOperation();
-    }
-
-    function calculateCostExcludeOperation(){
-        var data = getData();
-        var result = data.managementCost+data.totalMaterialCost+data.totalOutsourceCost;
-        
-        for (var i=0; i<othersIndex; i++){
-            var otherPrice = parseFloat(document.getElementById(`otherPrice-${i+1}`).value);
-            var otherCheckBox = document.getElementById(`otherCheckBox-${i+1}`).checked;
-            
-            if (!isNaN(otherPrice)) {
-                if (otherCheckBox == false){
-                    result += otherPrice * data.quantity;
-                    console.log('cek1 = ' + result)
-                } else {
-                    if (data.quantity != '' && data.quantity != 0){
-                        result += otherPrice/data.quantity;
-                        console.log('cek' + result);
-                    } else {
-                        result += otherPrice * data.quantity;
-                        console.log('cek2 = ' + result)
-                    }
-                }
-                // result += otherPrice;
-            }
-        }
-
-        $('#materialOutsourceOtherCost').val(zeroSeparator(result));
-
-        var operationBudget = data.budgetPerUnit*data.quantity - result;
-        $('#operationBudget').val(zeroSeparator(operationBudget));
-        if (operationBudget < 0) {
-            document.getElementById("operationBudget").style.color = "white";
-            document.getElementById("operationBudget").style.backgroundColor = "red";
-        } else {
-            document.getElementById("operationBudget").style.color = "black";
-            document.getElementById("operationBudget").style.backgroundColor = "transparent";
-        }
-    }
-
-    function calculateTotalMaterialCost(){
-        var data = getData();
-        var result = data.materialCost * data.materialCostPercentage/100;
-        $('#totalMaterialCost').val(zeroSeparator(result));
-
-        calculateCostExcludeOperation();
-    }
-
-    function calculateTotalOursourceCost(){
-        var data = getData();
-        var result = data.outsourceCost * data.outsourceCostPercentage / 100;
-        $('#totalOutsourceCost').val(zeroSeparator(result));
-
-        calculateCostExcludeOperation();
-    }
-
-    
-</script>
 
 <!-- ========== START MATERIAL FUNCTION ========== -->
 <script>
@@ -1576,19 +1474,11 @@
         var part = '{{partreflectcostjs|safe}}';
         const obj = JSON.parse(part);
         return obj;
-       
-        // boardArr.push([
-        //     obj[0]['MATERIAL_ID'], selectedMaterial.idPart , selectedMaterial.name, '', '', '', selectedMaterial.spesificGravity , selectedMaterial.price, '', '', '', 
-        //     '', '', '', '', '', '', '', selectedMaterial.price, '', '',
-        //     '', '', '', '', selectedMaterial.price, '', '', ''  
-        // ])
-       
     }
-
 </script>
-
-<script src="{% static 'scripts/materialFunctionEdit.js' %}" type=""></script>
+<script src="{% static 'scripts/materialFunction.js' %}" type=""></script>
 <!-- ========== END MATERIAL FUNCTION ========== -->
+
 
 <!-- ========== START PROCESS FUNCTION ========== -->
 <script>
@@ -1600,6 +1490,7 @@
 </script>
 <script src="{% static 'scripts/processFunction.js' %}" type=""></script>
 <!-- ========== END PROCESS FUNCTION ========== -->
+
 
 <!-- ========== START OTHER FUNCTION ========== -->
 <script>
@@ -1613,8 +1504,10 @@
 <script src="{% static 'scripts/otherFunction.js' %}" type=""></script>
 <!-- ========== END OTHER FUNCTION ========== -->
 
+
 <script src="{% static 'scripts/boardbarmodal.js' %}" type=""></script>
 <script src="{% static 'scripts/boardBarSubmitFunction.js' %}" type=""></script>
+<script src="{% static 'scripts/tesD3/breakeventester.js' %}" type="module"></script>
 
 
 {% endblock scripts %}

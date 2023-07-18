@@ -138,15 +138,15 @@ def insertQuotationMaterial(request):
 @login_required
 def insertQuotation(request):
     if request.user.is_authenticated:
-        username = request.user.username
+        # username = request.user.username  
         CustomerID = request.POST.get('customerid', False)
         ProductID = request.POST.get('productid', False)
         ProductName = request.POST.get('productname', False)
         ProductVersion = request.POST.get('productver', False)
         Quantity = request.POST.get('Quantity', False)
         BudgetPerUnit = request.POST['BudgetPerUnit']
-        CostExcludeOperation = request.POST['MaterialOutsourceOtherCost'].replace(',', '')
-        OperationCost = request.POST['TotalOperationCost']
+        CostExcludeOperation = float(request.POST.get('MaterialOutsourceOtherCost', False))
+        OperationCost = float(request.POST.get('TotalOperationCost', False))
         ManagementCostPercentage = request.POST['ManagementCostPercentage']
         MaterialCostNumber = request.POST['MaterialCostNumber']
         MaterialCostPercentage = request.POST['MaterialCostPercentage']
@@ -192,11 +192,13 @@ def detailQuotation(request, quotation_id):
         quotation = quotation[0]
         quotationjs = json.dumps(quotation, default=str)
 
+        quotation["QUANTITY"] = int(quotation["QUANTITY"])
+
         totalBudget = quotation["QUANTITY"] * quotation["BUDGET_PER_UNIT"]
         totalCost = quotation["COST_EXCLUDE_OPERATION"] + quotation["OPERATION_COST"]
         managementCost = quotation["BUDGET_PER_UNIT"] * 0.3
-        totalMaterialCost =  quotation["MATERIAL_COST_NUMBER"] * ( quotation["MATERIAL_COST_PERCENTAGE"] / 100 )
-        totalOutsourceCost = quotation["OUTSOURCE_COST_NUMBER"] * ( quotation["OUTSOURCE_COST_PERCENTAGE"] / 100 )
+        # totalMaterialCost =  quotation["MATERIAL_COST_NUMBER"] * ( quotation["MATERIAL_COST_PERCENTAGE"] / 100 )
+        # totalOutsourceCost = quotation["OUTSOURCE_COST_NUMBER"] * ( quotation["OUTSOURCE_COST_PERCENTAGE"] / 100 )
         
         query = 'SELECT * fROM quotation_material \
                 LEFT JOIN PART ON PART.idPART = QUOTATION_MATERIAL.MATERIAL_ID \
@@ -216,7 +218,7 @@ def detailQuotation(request, quotation_id):
         part = cursor.fetchall()
         partjs = json.dumps(part)
 
-        query = 'SELECT idPart, name, spesificGravity, price FROM quotation_material \
+        query = 'SELECT * FROM quotation_material \
                 LEFT JOIN PART ON PART.idPART = QUOTATION_MATERIAL.MATERIAL_ID \
                 WHERE Quotation_ID = ' + str(quotation_id)
         
@@ -231,9 +233,7 @@ def detailQuotation(request, quotation_id):
             'TotalBudget' : totalBudget,
             'TotalCost' : totalCost,
             "ManagementCost" : managementCost,
-            "TotalMaterialCost" : totalMaterialCost,
-            "TotalOutsourceCost" :  totalOutsourceCost,
-
+          
             'material' : material,
             'materialjs' : materialjs,
 
