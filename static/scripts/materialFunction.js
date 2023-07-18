@@ -145,10 +145,10 @@ function calculateMaterialCost(usedQuantity, price){
 
 function calculateByUsedQuantity(materialIndex){
     var data = getMaterialData(materialIndex);
-    var material = materialList[materialIndex-1];
+    var materialPrice = $('table#materialTable tbody tr').eq(materialIndex - 1).children().eq(5).children().text()
     
-    console.log(material);
-    var materialCost = calculateMaterialCost(data.usedQuantity, material.price);
+    // console.log(material);
+    var materialCost = calculateMaterialCost(data.usedQuantity, materialPrice);
     $(`#materialCost-${materialIndex}`).val(materialCost);
     console.log('MATERIAL COST = ', materialCost);
     updateTotalMaterialCostOnModal();
