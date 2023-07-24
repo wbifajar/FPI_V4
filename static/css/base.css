@@ -1,7 +1,7 @@
 /* @import url('https://fonts.googleapis.com/css?family=Roboto'); */
 
 body {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Times New Roman', Times, sans-serif;
   position: relative;
   display: flex;
 }

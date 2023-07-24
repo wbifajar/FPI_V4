@@ -10,33 +10,24 @@ const processList = [];
 var materialIndex = 0;
 const materialList = [];
 
-function removeNonDigit(val){
-    return val.replace(/[^0-9.-]+/g,"")
-}
-
-function handleNanValue(val) {
-    return isNaN(parseFloat(val)) ? 0 : parseFloat(val)
-}
-
 function getData() {
     var data = {
-        'quantity': handleNanValue($('#quantity').val()),
-        'budgetPerUnit': handleNanValue($('#budgetPerUnit').val()),
-        'totalBudget': handleNanValue($('#totalBudget').val()),
-        'managementCostPercentage': handleNanValue($('#managementCostPercentage').val()),
-        'managementCost': handleNanValue( removeNonDigit($('#managementCost').val()) ),
+        'quantity': replaceNanValue($('#quantity').val(), 0),
+        'budgetPerUnit': replaceNanValue($('#budgetPerUnit').val(), 0),
+        'totalBudget': replaceNanValue($('#totalBudget').val(), 0),
+        'managementCostPercentage': replaceNanValue($('#managementCostPercentage').val(), 0),
+        'managementCost': replaceNanValue( removeNonDigit($('#managementCost').val()) , 0),
 
-        'materialCost': handleNanValue($('#materialCost').val()),
-        'materialCostPercentage': handleNanValue($('#materialCostPercentage').val()),
-        'totalMaterialCost': handleNanValue( removeNonDigit($('#totalMaterialCost').val()) ),
+        'materialCost': replaceNanValue($('#materialCost').val(), 0),
+        'materialCostPercentage': replaceNanValue($('#materialCostPercentage').val(), 0),
+        'totalMaterialCost': replaceNanValue( removeNonDigit($('#totalMaterialCost').val()) , 0),
 
-        'outsourceCost': handleNanValue($('#outsourceCost').val()),
-        'outsourceCostPercentage': handleNanValue($('#outsourceCostPercentage').val()),
-        'totalOutsourceCost': handleNanValue( removeNonDigit($('#totalOutsourceCost').val()) ),
+        'outsourceCost': replaceNanValue($('#outsourceCost').val(), 0),
+        'outsourceCostPercentage': replaceNanValue($('#outsourceCostPercentage').val(), 0),
+        'totalOutsourceCost': replaceNanValue( removeNonDigit($('#totalOutsourceCost').val()) , 0),
 
-        'operationBudget': handleNanValue( removeNonDigit($('#operationBudget').val()) ),
+        'operationBudget': replaceNanValue( removeNonDigit($('#operationBudget').val()) , 0),
     }
-    console.log(data);
     return data;
 }
 
@@ -169,7 +160,7 @@ function calculateMaterialOutsourceOther(){
     var totalOutsourceCost = removeNonDigit($('#totalOutsourceCost').val())
     var totalOtherCost = getTotalOtherCost()
 
-    var total = parseFloat(totalMaterialCost) + parse-Float(totalOutsourceCost) + parseFloat(totalOtherCost)
+    var total = parseFloat(totalMaterialCost) + parseFloat(totalOutsourceCost) + parseFloat(totalOtherCost)
     $('#materialOutsourceOtherCost').val(total)
     calculateCalculationResult();
 }
@@ -205,5 +196,12 @@ $(function() {
     calculateTotalMaterialCost();
     calculateTotalOursourceCost();
     calculateMaterialOutsourceOther();
-    calculateByUsedQuantity(1);
+    var materialTableLen = $('table#materialTable > tbody tr:not(:last-child)').length
+   
+    for (var i = 0; i < materialTableLen; i++) {
+        calculateByUsedQuantity(i+1);
+    }
+
+    getSelectedMaterialFromViews();
+    addToBoardArr();
 });

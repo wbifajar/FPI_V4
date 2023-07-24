@@ -10,31 +10,23 @@ const processList = [];
 var materialIndex = 0;
 const materialList = [];
 
-function removeNonDigit(val){
-    return val.replace(/[^0-9.-]+/g,"")
-}
-
-function handleNanValue(val) {
-    return isNaN(parseFloat(val)) ? 0 : parseFloat(val)
-}
-
 function getData() {
     var data = {
-        'quantity': handleNanValue($('#quantity').val()),
-        'budgetPerUnit': handleNanValue($('#budgetPerUnit').val()),
-        'totalBudget': handleNanValue($('#totalBudget').val()),
-        'managementCostPercentage': handleNanValue($('#managementCostPercentage').val()),
-        'managementCost': handleNanValue( removeNonDigit($('#managementCost').val()) ),
+        'quantity': replaceNanValue($('#quantity').val(), ''),
+        'budgetPerUnit': replaceNanValue($('#budgetPerUnit').val(), ''),
+        'totalBudget': replaceNanValue($('#totalBudget').val(), ''),
+        'managementCostPercentage': replaceNanValue($('#managementCostPercentage').val(), ''),
+        'managementCost': replaceNanValue( removeNonDigit($('#managementCost').val()) , ''),
 
-        'materialCost': handleNanValue($('#materialCost').val()),
-        'materialCostPercentage': handleNanValue($('#materialCostPercentage').val()),
-        'totalMaterialCost': handleNanValue( removeNonDigit($('#totalMaterialCost').val()) ),
+        'materialCost': replaceNanValue($('#materialCost').val(), ''),
+        'materialCostPercentage': replaceNanValue($('#materialCostPercentage').val(), ''),
+        'totalMaterialCost': replaceNanValue( removeNonDigit($('#totalMaterialCost').val()) , ''),
 
-        'outsourceCost': handleNanValue($('#outsourceCost').val()),
-        'outsourceCostPercentage': handleNanValue($('#outsourceCostPercentage').val()),
-        'totalOutsourceCost': handleNanValue( removeNonDigit($('#totalOutsourceCost').val()) ),
+        'outsourceCost': replaceNanValue($('#outsourceCost').val(), ''),
+        'outsourceCostPercentage': replaceNanValue($('#outsourceCostPercentage').val(), ''),
+        'totalOutsourceCost': replaceNanValue( removeNonDigit($('#totalOutsourceCost').val()) , ''),
 
-        'operationBudget': handleNanValue( removeNonDigit($('#operationBudget').val()) ),
+        'operationBudget': replaceNanValue( removeNonDigit($('#operationBudget').val()) , ''),
     }
     console.log(data);
     return data;

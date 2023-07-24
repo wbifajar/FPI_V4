@@ -39,7 +39,7 @@ function disableButtonBoard(buttonId) {
 function calculateFromNum(){
     var fromnum_verscale = document.getElementById("VerticalScaleFromNumber").value
     fromnum_verscale = fromnum_verscale == '' ? 0 : parseFloat(fromnum_verscale)
-    var fromnum_horscale = document.getElementById("HorizontalScaleFromNumber").value
+    var fromnum_horscale = $("#HorizontalScaleFromNumber").val()
     fromnum_horscale = fromnum_horscale == '' ? 0 : parseFloat(fromnum_horscale)
 
     var verscale = document.getElementById("VerticalScaleMaterial").value
@@ -61,12 +61,13 @@ function calculateFromNum(){
 
     var numver = (fromnum_verscale - fromnum_exposed - (fromnum_margin/2)) / (verscale + fromnum_margin)
     numver = numver < 0 ? 0 : Math.floor(numver)
+    numver = replaceNanValue(numver, 0)
     $('#NumVerFromNumber').val(numver);
 
     var numhor = fromnum_horscale / (horscale + fromnum_margin)
     numhor = numhor < 0 ? 0 : Math.floor(numhor)
+    numhor = replaceNanValue(numhor, 0)
     $('#NumHorFromNumber').val(numhor);
-    
     var qtypersheet = numver * numhor
     $('#QtyPerSheetFromNumber').val(qtypersheet);
     $('#QtyFromNumber').val(qtypersheet);
@@ -79,7 +80,7 @@ function calculateFromNum(){
     $('#WeightFromNumber').val(weightfromnum);
 
     var weightperqty = weightfromnum / qtypersheet
-    weightperqty = weightperqty.toFixed(5);
+    weightperqty =  replaceInfinityValue(weightperqty.toFixed(5), 0);
     $('#WeightPerQtyFromNumber').val(weightperqty);
     $('#WeightFromNumber2').val(weightperqty);
     $('#WeightFromNumber3').val(weightperqty);

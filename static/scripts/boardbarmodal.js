@@ -40,6 +40,7 @@ modal2.addEventListener('show.bs.modal', event => {
     // Button that triggered the modal
     const button = event.relatedTarget
 
+    
     // id modal board yang akan dibuka oleh button ini
     const recipient = button.getAttribute('data-bs-index')
     const modalTitle = modal2.querySelector('.modal-title')
@@ -97,7 +98,8 @@ modal2.addEventListener('show.bs.modal', event => {
 
     $('#BoldMaterialCostFromPart').val(boardArr[index][28])
     
-
+    calculateFromNum();
+    calculateFromPartScale();
 })
 
 function updateBoardArray(){
@@ -157,22 +159,22 @@ function updateBoardArray(){
         specificgravity,
         price,
         fromnum_verscale,
-        fromnum_horscale,
+        fromnum_horscale, //10
         fromnum_exposed,
-        fromnum_margin, //10
+        fromnum_margin, 
         numver,
         numhor,
-        qtypersheet,
+        qtypersheet, //15
         weightfromnum,
-        qtyfromnumber, //15
+        qtyfromnumber, 
         weightperqty,
         pricefromnum,
-        weightfromnum2,
-        fromnum_materialcost,
+        weightfromnum2, //20
+        fromnum_materialcost, 
         boldmaterialcost,
         exposedfrompart,
         marginfrompart,
-        weightfrompart,
+        weightfrompart, //25
         pricefrompart,
         weightfrompart2,
         materialcostfrompart,
@@ -180,7 +182,7 @@ function updateBoardArray(){
     ]
 
     // update value board array
-    target = findIndexOfMaterialId(boardArr, index)
+    target = findIndexOfMaterialId(boardArr, materialid)
     boardArr[target] = arrBoardInputFieldValue
     $('#BoardArr').val(boardArr)
 

@@ -80,9 +80,35 @@ function addMaterial() {
     // add empty array to boardArr array dan barArr array
     // with some default value from DB : material id, name, gravity, price 
     boardArr.push([
-        selectedMaterial.idPart, selectedMaterial.idPart , selectedMaterial.name, '', '', '', selectedMaterial.spesificGravity , selectedMaterial.price, '', '', '', 
-        '', '', '', '', '', '', '', selectedMaterial.price, '', '',
-        '', '', '', '', selectedMaterial.price, '', '', ''  
+        selectedMaterial.idPart, 
+        selectedMaterial.idPart, 
+        selectedMaterial.name, 
+        0,
+        0,
+        0,
+        selectedMaterial.spesificGravity ,
+        selectedMaterial.price,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        selectedMaterial.price,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        selectedMaterial.price,
+        0,
+        0,
+        0  
     ])
 
     barArr.push([
@@ -153,7 +179,7 @@ function calculateByUsedQuantity(materialIndex){
     console.log('MATERIAL COST = ', materialCost);
     updateTotalMaterialCostOnModal();
 }
-
+    
 // function calculateByNumber(number){
 //     var data = getMaterialData(number);
 //     var material = materialList[materialIndex-1];
