@@ -135,6 +135,52 @@ def insertQuotationMaterial(request):
     print('=============================================================')
 
 
+
+
+
+    print('asddsadd')
+    QUOTATION_ID = getLastCreatedQuotationID()
+
+    ProcessId = request.POST.getlist('ProcessId')
+    ProcessLength = len(ProcessId)
+    # Quantity = request.POST.getlist('usedQuantity')
+
+    
+    Opesum = request.POST.getlist('opeSum')
+    OpePerOpeBudgetRatio = request.POST.getlist('operationPerOperationBudgetRatio')
+    OpePerBudgetRatio = request.POST.getlist('operationPerBudgetRatio')
+    SetTime = request.POST.getlist('setTime')
+    OpeTime = request.POST.getlist('opeTime')
+    TotalOpeTime = request.POST.getlist('totalOpeTime')
+    QuantityPerMin = request.POST.getlist('quantityPerMinute')
+
+    print("ORICIANISBIFBSAIBF")
+    print(ProcessId)
+    print("QPM = ", QuantityPerMin)
+    for i in range(0, ProcessLength):
+       
+        # UsedQuantity = handleEmptyString(USED_QUANTITY[i], 0)
+        # Opesum = handleEmptyString()
+    
+        query = 'INSERT INTO quotation_process VALUES (null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
+            QUOTATION_ID,
+            ProcessId[i],
+            # UsedQuantity[i],
+            Opesum[i],
+            OpePerOpeBudgetRatio[i],
+            OpePerBudgetRatio[i],
+            SetTime[i],
+            OpeTime[i],
+            TotalOpeTime[i],
+            QuantityPerMin[i],
+        )
+        print(query)
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+
+    # insertQuotationMaterial(request)
+    # return redirect('/Quotation/')
+    
 @login_required
 def insertQuotation(request):
     if request.user.is_authenticated:
@@ -145,7 +191,7 @@ def insertQuotation(request):
         ProductVersion = request.POST.get('productver', False)
         Quantity = request.POST.get('Quantity', False)
         BudgetPerUnit = request.POST['BudgetPerUnit']
-        CostExcludeOperation = float(request.POST.get('MaterialOutsourceOtherCost', False))
+        CostExcludeOperation = float(request.POST.get('MaterialOutsourceOtherCost', False).replace(",", "") )
         OperationCost = float(request.POST.get('TotalOperationCost', False))
         ManagementCostPercentage = request.POST['ManagementCostPercentage']
         MaterialCostNumber = request.POST['MaterialCostNumber']
@@ -177,6 +223,8 @@ def insertQuotation(request):
             cursor.execute(query)
 
         insertQuotationMaterial(request)
+       
+
         return redirect('/Quotation/')
 
 def detailQuotation(request, quotation_id):
@@ -246,31 +294,45 @@ def detailQuotation(request, quotation_id):
 
     return render(request, 'editquotation.html', context)
 
-# belum jadi masih proses
+
 def insertProcess(request):
-    ProcessId = request.POST.getlist('processid', False)
-    Opesum = request.POST.getlist['opeSum']
-    OpePerOpeBudgetRatio = request.POST.getlist['operationPerOperationBudgetRatio']
-    OpePerBudgetRatio = request.POST.getlist['operationPerBudgetRatio']
-    SetTime = request.POST.getlist['setTime']
-    OpeTime = request.POST.getlist['opeTime']
-    TotalOpeTime = request.POST.getlist['totalOpeTime']
-    QuantityPerMin = request.POST.getlist['quantityPerMinute']
+    QUOTATION_ID = getLastCreatedQuotationID()
+
+    ProcessId = request.POST.getlist('ProcessId')
+    ProcessLength = len(ProcessId)
+    # Quantity = request.POST.getlist('usedQuantity')
+
     
+    Opesum = request.POST.getlist('opeSum')
+    OpePerOpeBudgetRatio = request.POST.getlist('operationPerOperationBudgetRatio')
+    OpePerBudgetRatio = request.POST.getlist('operationPerBudgetRatio')
+    SetTime = request.POST.getlist('setTime')
+    OpeTime = request.POST.getlist('opeTime')
+    TotalOpeTime = request.POST.getlist('totalOpeTime')
+    QuantityPerMin = request.POST.getlist('quantityPerMinute')
 
-    query = 'INSERT INTO quotation_process VALUES (null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
-        ProcessId,
-        Opesum,
-        OpePerOpeBudgetRatio,
-        OpePerBudgetRatio,
-        SetTime,
-        OpeTime,
-        TotalOpeTime,
-        QuantityPerMin,
-    )
+    print(Opesum)
+ 
+    print("ASDSDSAD = ", QuantityPerMin)
+    for i in range(0, ProcessLength):
+       
+        # UsedQuantity = handleEmptyString(USED_QUANTITY[i], 0)
+        # Opesum = handleEmptyString()
+    
+        query = 'INSERT INTO quotation_process VALUES (null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
+            QUOTATION_ID,
+            ProcessId[i],
+            # UsedQuantity[i],
+            Opesum[i],
+            OpePerOpeBudgetRatio[i],
+            OpePerBudgetRatio[i],
+            SetTime[i],
+            OpeTime[i],
+            TotalOpeTime[i],
+            QuantityPerMin[i],
+        )
+        with connection.cursor() as cursor:
+            cursor.execute(query)
 
-    with connection.cursor() as cursor:
-        cursor.execute(query)
-
-    insertQuotationMaterial(request)
-    return redirect('/Quotation/')
+    # insertQuotationMaterial(request)
+    # return redirect('/Quotation/')
