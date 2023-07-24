@@ -194,7 +194,6 @@ def detailQuotation(request, quotation_id):
         quotationjs = json.dumps(quotation, default=str)
 
         quotation["QUANTITY"] = int(quotation["QUANTITY"])
-
         totalBudget = quotation["QUANTITY"] * quotation["BUDGET_PER_UNIT"]
         totalCost = quotation["COST_EXCLUDE_OPERATION"] + quotation["OPERATION_COST"]
         managementCost = quotation["BUDGET_PER_UNIT"] * 0.3

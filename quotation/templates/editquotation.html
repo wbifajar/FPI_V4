@@ -63,6 +63,8 @@
                     </div>
                 </div>
             </div>
+            
+           
             <div class="col">
                 <div class="card">
                     <div class="card-body">
@@ -158,7 +160,7 @@
                                     Operation Cost
                                 </div>
                                 <div>
-                                    <input disabled type="text" class="noInput inputMd " id="totalOperationCost" name="TotalOperationCost">
+                                    <input disabled type="text" class="noInput inputMd " id="totalOperationCost" name="TotalOperationCost" value="{{  q.OPERATION_COST }}">
                                 </div>
                             </div>
                         </div>
@@ -172,6 +174,14 @@
 
         <div style="overflow: auto; max-height: 75vh;" class="">
             <!-- bagian body tengah -->
+            <!-- {{ q }} -->
+            {% for i,k in q.items %}
+            <p>
+                <span style="color: black;">'{{ i }}'</span>
+                <span style="color: black;">{{ ':' }}</span>
+                <span style="color: black;">{{ k }}</span>
+            </p>
+            {% endfor %}
             <div class="row">
                 <!-- perkaliannya -->
                 <div class="col-7">
@@ -473,6 +483,8 @@
                     <tbody>
                         {{ selected_material }}
                         {% for qm in selected_material %}
+                        <tr>
+
                             <th scope="row">{{forloop.counter }}</th>
                             <td><input type="input" class="inputt material-id" value="{{qm.MATERIAL_ID}}" id="materialNameRC" name="material_id"></td>
                             <td><input type="input" value="{{ qm.name }}"></td>
@@ -491,9 +503,10 @@
                             <td>
                                 <input type="input" class="inputt1 material-cost-price" name="materialCost-{{ forloop.counter }}" id="materialCost-{{ forloop.counter }}">
                             </td> 
-                            <td><button type="button" onclick="deleteMaterial({{ forloop.counter }})" class="trash"><i id="trash-icon"></i></button></td>`;
+                            <td><button type="button" onclick="deleteMaterial({{ forloop.counter }})" class="trash"><i id="trash-icon"></i></button></td>
                             <td><input type="hidden" name='idMaterial-{{ forloop.counter }}' value='{{ qm.MATERIAL_ID}}'></td>
-                          
+                            
+                        </tr>
                         {% endfor%}
 
                         <tr>
@@ -538,19 +551,19 @@
                         <label>
                           ID
                         </label>
-                        <input value='{{productid}}' name="productid" id="productid" required>
+                        <input value='{{q.PRODUCT_ID }}' name="productid" id="productid" required>
                     </div>
                     <div class="col">   
                         <label>
                           Name
                         </label>
-                        <input value='{{productname}}' name="productname" id="productname" required>
+                        <input value='{{ q.PRODUCT_NAME }}' name="productname" id="productname" required>
                     </div>
                     <div class="col">
                       <label>
                         Vers
                       </label>
-                      <input value='{{productver}}' name="productver" id="productver">
+                      <input value='{{ q.PRODUCT_VERSION  }}' name="productver" id="productver">
                     </div>
                 </div>
 <!-- 
@@ -1456,6 +1469,8 @@
   });
 </script>
 
+<script src="{% static 'scripts/helperFunction.js' %}" type=""></script>
+
 <!-- nonInputabel input  -->
 <script src="{% static 'scripts/nonInputableInput.js' %}" type=""></script>
 
@@ -1463,8 +1478,6 @@
 <script src="{% static 'scripts/boardCalculationFunction.js' %}" type=""></script>
 <script src="{% static 'scripts/barCalculationFunction.js' %}" type=""></script>
 
-<!-- calculation functions -->
-<script src="{% static 'scripts/mainCalculationFunctionEdit.js' %}"></script>
 
 
 <!-- ========== START MATERIAL FUNCTION ========== -->
@@ -1492,7 +1505,7 @@
 <!-- ========== END PROCESS FUNCTION ========== -->
 
 
-<!-- ========== START OTHER FUNCTION ========== -->
+<!-- OTHER FUNCTION -->
 <script>
     function getOtherFromDB(){
         var others = '{{othersjs|safe}}';
@@ -1500,14 +1513,96 @@
         return obj
     }
 </script>
-
 <script src="{% static 'scripts/otherFunction.js' %}" type=""></script>
-<!-- ========== END OTHER FUNCTION ========== -->
+
+<script>
+    function getSelectedMaterialFromViews(){
+        var sm = '{{selected_material_js|safe}}'
+        const obj = JSON.parse(sm)
+        
+        return obj;
+        
+    }
+
+    function addToBoardArr(){
+
+        var obj = getSelectedMaterialFromViews()
+        console.log(obj);
+        var arrlen = obj.length
+        for (let i = 0; i < arrlen; i++) {
+            
+            console.log("ADDTOBARARR = ", obj[0]);
+            var index = obj[i]["MATERIAL_ID"]
+            var materialid = obj[i]["MATERIAL_ID"]
+            var materialname = obj[i]["name"]
+
+            var verscale = obj[i]["BOARD_VERTICAL_SCALE"]
+            var horscale = obj[i]["BOARD_HORIZONTAL_SCALE"]
+            var thickness = obj[i]["BOARD_THICKNESS"]
+
+            var specificgravity = obj[i]["spesificGravity"]
+            var price = obj[i]["price"]
+            
+            // === FROM NUMBER OF PART =====
+            var fromnum_verscale = obj[i]["BOARD_VERTICAL_SCALE_FROM_NUMBER"]
+            var fromnum_horscale = obj[i]["BOARD_HORIZONTAL_SCALE_FROM_NUMBER"]
+            
+            var fromnum_exposed = obj[i]["BOARD_EXPOSED_FROM_NUMBER"]
+            var fromnum_margin = obj[i]["BOARD_MARGIN_FROM_NUMBER"]
+
+            var boldmaterialcost = obj[i]["BOARD_MATERIAL_COST_FROM_NUMBER"]
+
+            // === END FROM NUMBER OF PART =====
+            
+            // ==== FROM PART OF PART =====
+            var exposedfrompart = obj[0]["BOARD EXPOSED_FROM_PART_SCALE"]
+            var marginfrompart = obj[0]["BOARD_MARGIN_FROM_PART_SCALE"]
+
+            var pricefrompart =  obj[0]["price"]
+            boardArr.push([
+                materialid, 
+                materialid , 
+                materialname, 
+                verscale, 
+                horscale, 
+                thickness, 
+                specificgravity , 
+                price, 
+                fromnum_verscale, 
+                fromnum_horscale, //10
+                fromnum_exposed, 
+                fromnum_margin, 
+                '', 
+                '', 
+                '', //15
+                '', 
+                '', 
+                '', 
+                price, 
+                '', //20
+                '',
+                '',
+                exposedfrompart, 
+                marginfrompart, 
+                '', //25
+                price, 
+                '', 
+                '', 
+                ''  
+            ])
+        }
+        console.log("DONE PUSH BOARD ARR");
+        
+    }
+</script>
+
 
 
 <script src="{% static 'scripts/boardbarmodal.js' %}" type=""></script>
 <script src="{% static 'scripts/boardBarSubmitFunction.js' %}" type=""></script>
 <script src="{% static 'scripts/tesD3/breakeventester.js' %}" type="module"></script>
+<!-- calculation functions -->
+<script src="{% static 'scripts/mainCalculationFunctionEdit.js' %}"></script>
 
 
 {% endblock scripts %}
