@@ -38,14 +38,15 @@ function addOther() {
     var cell6 = row.insertCell(5);
     var cell7 = row.insertCell(6);
 
-    
-    cell1.innerHTML = `<th scope="row"> <input type="text" name="otherid" value="${othersIndex}" > </th>`;
+    cell1.style.width = "15%";
+
+    cell1.innerHTML = `<th scope="row"> <input type="text" name="otherindex" value="${othersIndex}" style="background: transparent; border: none; width: 100%; > </th>`;
     cell2.innerHTML = `<td>${selectedOthers.Name}</td>`;
     cell3.innerHTML = `<td><input type="input" name="otherprice" id="otherPrice-${othersIndex}" onchange="calculateOtherPercentage(${othersIndex}, this.value)" class="inputMd"></td>`;
     cell4.innerHTML = `<td><input type="input" name="otherpercentage" class="inputPercentage" id="otherPercentage-${othersIndex}"></td>`;
     cell5.innerHTML = `<td><input type="checkbox" name="otherisperunit-${othersIndex}" id="otherCheckBox-${othersIndex}" name="otherCheckBox-${othersIndex}" onchange="calculateCostExcludeOperation()"></td>`;
     cell6.innerHTML = `<td><button type="button" onclick="deleteOther(${othersIndex})" class="trash"><i id="trash-icon"></i></button></td>`;
-    cell7.innerHTML = `<td><input type="hidden" name='othersId-${othersIndex}' value='${selectedOthers.OtherId}'></td>`;
+    cell7.innerHTML = `<td><input type="hidden" name='othersId' value='${selectedOthers.OtherId}'></td>`;
     
     callFeatherIcon();
     updateOtherLength(othersIndex);

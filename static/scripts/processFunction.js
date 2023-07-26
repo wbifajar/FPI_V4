@@ -150,8 +150,10 @@ function addProcess() {
 	var cell12 = row.insertCell(11);
 	var cell13 = row.insertCell(12);
 	
+	cell2.style.width = "5%";
+
 	cell1.innerHTML = `<th scope="row">${index}</th>`; 
-	cell2.innerHTML = `<td><input name='ProcessId' value='${selectedProcess.ProcessId}'></td>`;  
+	cell2.innerHTML = `<td><input name='ProcessId' value='${selectedProcess.ProcessId}' style="background: transparent; border: none; width: 100%;></td>`;  
 	cell3.innerHTML = `<td>${selectedProcess.Name}</td>`;
 	cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
 	cell5.innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${index})" name='opeSum' id='opeSum-${index}' value='0'></td>`;

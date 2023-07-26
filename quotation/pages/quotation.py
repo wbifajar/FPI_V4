@@ -180,7 +180,7 @@ def insertQuotationMaterial(request):
 
     QUOTATION_ID = getLastCreatedQuotationID()
     
-    OtherId = request.POST.getlist('otherid')
+    OtherId = request.POST.getlist('othersId')
     OtherLength = len(OtherId)
 
     OtherPrice = request.POST.getlist('otherprice')
@@ -197,7 +197,7 @@ def insertQuotationMaterial(request):
 
         # ni print buat ngecek doang
         print("Orderisperunit = ", perUnit_Arr, OtherIsPerUnit)
-        
+
     # OtherIsPerUnit = [1 if value == 'on' else 0 for value in OtherIsPerUnit]
 
     for i in range(0, OtherLength):
