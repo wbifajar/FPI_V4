@@ -397,6 +397,24 @@
                         </tr>
                         </thead>
                         <tbody>
+                            {% for qp in quotation_process %}
+                                <td scope="col">{{forloop.counter}}</td>
+                                <td scope="col">
+                                    <input name='ProcessId' value='{{ qp.PROCESS_ID }}'>
+                                </td>
+                                <td scope="col">{{ qp.Name }}</td>
+                                <td scope="col">Set / Proc cost@min</td>
+                                <td scope="col">
+                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum({{ forloop.counter }})" name="opeSum" id="opeSum-{{forloop.counter}}" value="{{ qp.OPESUM }}">
+                                </td>
+                                <td scope="col">Ope / Ope Budget Ratio</td>
+                                <td scope="col">Ope / Budget Ratio</td>
+                                <td scope="col">SetTime</td>
+                                <td scope="col">OpeTime</td>
+                                <td scope="col">Total OpeTime</td>
+                                <td scope="col">Quantity @min</td>
+                                <td scope="col">#</td>
+                            {% endfor %}
                         </tbody>
                         <tfoot id="total-operation">
                             <tr>
