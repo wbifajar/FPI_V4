@@ -188,7 +188,6 @@ def insertQuotationMaterial(request):
 
     perUnit_Arr = []
     for i in range(0, OtherLength):
-        #after
         OtherIsPerUnit = request.POST.get(f'otherisperunit-{i+1}', False)
        
         if OtherIsPerUnit == "on":
@@ -198,6 +197,7 @@ def insertQuotationMaterial(request):
 
         # ni print buat ngecek doang
         print("Orderisperunit = ", perUnit_Arr, OtherIsPerUnit)
+        
     # OtherIsPerUnit = [1 if value == 'on' else 0 for value in OtherIsPerUnit]
 
     for i in range(0, OtherLength):
@@ -307,12 +307,15 @@ def detailQuotation(request, quotation_id):
         selected_material_js = json.dumps(selected_material)
         print("SELECTED_MATERIAL ====> ", selected_material_js)
 
+        # detail process
         query = 'select * from quotation_process JOIN PROCESS ON QUOTATION_PROCESS.PROCESS_ID = PROCESS.ProcessID where Quotation_ID = ' + str(quotation_id)\
                 
         cursor.execute(query)
         quotation_process = cursor.fetchall()
         quotation_process_js = json.dumps(quotation_process)
         print(quotation_process)
+
+        # context
         context = { 
             'q' : quotation,
             'quotation' : quotationjs[0],

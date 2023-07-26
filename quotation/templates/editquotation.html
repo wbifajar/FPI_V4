@@ -407,13 +407,25 @@
                                 <td scope="col">
                                     <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum({{ forloop.counter }})" name="opeSum" id="opeSum-{{forloop.counter}}" value="{{ qp.OPESUM }}">
                                 </td>
-                                <td scope="col">Ope / Ope Budget Ratio</td>
-                                <td scope="col">Ope / Budget Ratio</td>
-                                <td scope="col">SetTime</td>
-                                <td scope="col">OpeTime</td>
-                                <td scope="col">Total OpeTime</td>
-                                <td scope="col">Quantity @min</td>
-                                <td scope="col">#</td>
+                                <td scope="col">
+                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOperationPerOperationBudgetRatio({{ forloop.counter }})" name="opePerOpeBudgetRatio" id="opePerOpeBudgetRatio-{{forloop.counter}}" value="{{ qp.OPE_PER_OPE_BUDGET_RATIO }}">
+                                </td>
+                                <td scope="col">
+                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOperationPerBudgetRatio({{ forloop.counter }})" name="opePerBudgetRatio" id="opePerBudgetRatio-{{forloop.counter}}" value="{{ qp.OPE_PER_BUDGET_RATIO }}">
+                                </td>
+                                <td scope="col">
+                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateBySetTime({{ forloop.counter }})" name="setTime" id="setTime-{{forloop.counter}}" value="{{ qp.SETTIME }}">
+                                </td>
+                                <td scope="col">
+                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeTime({{ forloop.counter }})" name="opeTime" id="opeTime-{{forloop.counter}}" value="{{ qp.OPETIME }}">
+                                </td>
+                                <td scope="col">
+                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByTotalOpeTime({{ forloop.counter }})" name="totalOpeTime" id="totalOpeTime-{{forloop.counter}}" value="{{ qp.TOTAL_OPETIME }}">
+                                </td>
+                                <td scope="col">
+                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByQuantityPerMin({{ forloop.counter }})" name="quantityPerMinute" id="quantityPerMinute-{{forloop.counter}}" value="{{ qp.QUANTITY_PER_MIN }}">
+                                </td>
+                                <td scope="col"><button type="button" onfocus="savePrevValue()" onclick="deleteProcess()" class="trash"><i id="trash-icon"></i></button></td>
                             {% endfor %}
                         </tbody>
                         <tfoot id="total-operation">

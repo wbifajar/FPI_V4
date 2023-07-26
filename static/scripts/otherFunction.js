@@ -38,6 +38,7 @@ function addOther() {
     var cell6 = row.insertCell(5);
     var cell7 = row.insertCell(6);
 
+    
     cell1.innerHTML = `<th scope="row"> <input type="text" name="otherid" value="${othersIndex}" > </th>`;
     cell2.innerHTML = `<td>${selectedOthers.Name}</td>`;
     cell3.innerHTML = `<td><input type="input" name="otherprice" id="otherPrice-${othersIndex}" onchange="calculateOtherPercentage(${othersIndex}, this.value)" class="inputMd"></td>`;
