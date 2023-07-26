@@ -178,6 +178,39 @@ def insertQuotationMaterial(request):
         with connection.cursor() as cursor:
             cursor.execute(query)
 
+    QUOTATION_ID = getLastCreatedQuotationID()
+    
+    OtherId = request.POST.getlist('otherid')
+    OtherLength = len(OtherId)
+
+    OtherPrice = request.POST.getlist('otherprice')
+    OtherPercentage = request.POST.getlist('otherpercentage')
+
+    perUnit_Arr = []
+    for i in range(0, OtherLength):
+        #after
+        OtherIsPerUnit = request.POST.get(f'otherisperunit-{i+1}', False)
+       
+        if OtherIsPerUnit == "on":
+            perUnit_Arr.append(1)
+        else:
+            perUnit_Arr.append(0)
+
+        # ni print buat ngecek doang
+        print("Orderisperunit = ", perUnit_Arr, OtherIsPerUnit)
+    # OtherIsPerUnit = [1 if value == 'on' else 0 for value in OtherIsPerUnit]
+
+    for i in range(0, OtherLength):
+        query = 'INSERT INTO quotation_other VALUES (null, "{}", "{}", "{}", "{}", "{}")'.format(
+            QUOTATION_ID,
+            OtherId[i],
+            OtherPrice[i],
+            OtherPercentage[i],
+            perUnit_Arr[i],
+        )
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+
     # insertQuotationMaterial(request)
     # return redirect('/Quotation/')
     
@@ -274,6 +307,12 @@ def detailQuotation(request, quotation_id):
         selected_material_js = json.dumps(selected_material)
         print("SELECTED_MATERIAL ====> ", selected_material_js)
 
+        query = 'select * from quotation_process JOIN PROCESS ON QUOTATION_PROCESS.PROCESS_ID = PROCESS.ProcessID where Quotation_ID = ' + str(quotation_id)\
+                
+        cursor.execute(query)
+        quotation_process = cursor.fetchall()
+        quotation_process_js = json.dumps(quotation_process)
+        print(quotation_process)
         context = { 
             'q' : quotation,
             'quotation' : quotationjs[0],
@@ -288,7 +327,10 @@ def detailQuotation(request, quotation_id):
 		    'partreflectcostjs' : partjs,
 
             'selected_material' : selected_material,
-            'selected_material_js' : selected_material_js
+            'selected_material_js' : selected_material_js,
+
+            'quotation_process' : quotation_process,
+            'quotation_process_js' : quotation_process_js,
         }
 
     return render(request, 'editquotation.html', context)
