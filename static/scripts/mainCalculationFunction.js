@@ -76,25 +76,8 @@ function calculateManagementCost() {
 
 function calculateCostExcludeOperation() {
     var data = getData();
-    var result = data.managementCost + data.totalMaterialCost + data.totalOutsourceCost;
-
-    for (var i = 0; i < othersIndex; i++) {
-        var otherPrice = parseFloat(document.getElementById(`otherPrice-${i + 1}`).value);
-        var otherCheckBox = document.getElementById(`otherCheckBox-${i + 1}`).checked;
-
-        if (!isNaN(otherPrice)) {
-            if (otherCheckBox == false) {
-                result += otherPrice * data.quantity;
-            } else {
-                if (data.quantity != '' && data.quantity != 0) {
-                    result += otherPrice / data.quantity;
-                } else {
-                    result += otherPrice * data.quantity;
-                }
-            }
-            // result += otherPrice;
-        }
-    }
+    var result = data.totalMaterialCost + data.totalOutsourceCost;
+    result += getTotalOtherCost();
 
     $('#materialOutsourceOtherCost').val(zeroSeparator(result));
 

@@ -192,6 +192,7 @@ function recalculateBySetTime(){
 
 
 $(function() {
+    getSelectedProcessFromDB();
     calculateTotalBudget();
     calculateTotalMaterialCost();
     calculateTotalOursourceCost();

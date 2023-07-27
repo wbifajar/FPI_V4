@@ -47,6 +47,17 @@
                         </a>
                     </div>
                     <div class="col mt-2 mb-2">
+
+                        <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;" name="quotation_status" required>
+                            <option disabled>Pick Status</option>
+                            <option value="1" style="color: #000000;padding: 20px;" > Draft </option>
+                            <option value="2" style="color: #337ab7;padding: 20px;" > Accepted </option>
+                            <option value="3" style="color: #5cb85c;padding: 20px;" > Submitted </option>
+                            <option value="4" style="color: #f0ad4e;padding: 20px;" > Rejected </option>
+                            <option value="5" style="color: #cc0000;padding: 20px;" > Expired </option>
+                        </select>
+
+<!--                         
                         <div class="dropdown">
                             <a class="btn btn-secondary dropdown-toggle" style="width: 100px;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                               Status
@@ -59,7 +70,7 @@
                               <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-warning w-100">Rejected</button></a></li>
                               <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-danger w-100">Expired</button></a></li>
                             </ul>
-                          </div>
+                          </div> -->
                     </div>
                 </div>
             </div>
@@ -176,11 +187,12 @@
             <!-- bagian body tengah -->
             <!-- {{ q }} -->
             {% for i,k in q.items %}
-            <p>
-                <span style="color: black;">'{{ i }}'</span>
-                <span style="color: black;">{{ ':' }}</span>
-                <span style="color: black;">{{ k }}</span>
-            </p>
+            <small>
+                <small style="color: black;">'{{ i }}'</small>
+                <small style="color: black;">{{ ':' }}</small>
+                <small style="color: black;">{{ k }}</small>
+                <br>
+            </small>
             {% endfor %}
             <div class="row">
                 <!-- perkaliannya -->
@@ -1457,8 +1469,8 @@
             "searching": true,
             "autoWidth": true,
             "ordering": true,
+        });
     });
-  });
   
     function getCustomer(value) {
         var elements = value.split('_');
@@ -1551,7 +1563,6 @@
         const obj = JSON.parse(sm)
         
         return obj;
-        
     }
 
     function addToBoardArr(){
@@ -1626,6 +1637,26 @@
     }
 </script>
 
+<script>
+     function getSelectedProcessFromDB(){
+        var sm = '{{ quotation_process_js|safe}}'
+        const obj = JSON.parse(sm)
+        console.log(obj);
+        return obj;
+        
+    }
+</script>
+
+<script>
+
+    $(function() {
+        var part = '{{quotation|safe}}';
+        const objq = JSON.parse(part);
+        console.log("QUOTATION_STATUS = ", objq["QUOTATION_STATUS"]);
+        console.log( $("select#select-status-option").val(objq["QUOTATION_STATUS"]) ); 
+    });
+
+</script>
 
 
 <script src="{% static 'scripts/boardbarmodal.js' %}" type=""></script>

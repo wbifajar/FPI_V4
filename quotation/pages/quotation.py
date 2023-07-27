@@ -12,7 +12,8 @@ def Quotation(request):
     cursor = connection.cursor(dictionary=True)
 
     cursor.execute('SELECT * FROM quotation \
-                    LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer')
+                    LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
+                   ORDER BY QUOTATION_ID DESC') #untuk sementara aja urutin dari yg paling baru
     quotation = cursor.fetchall()
     quotationjs = json.dumps(quotation, default=str)
     
@@ -72,6 +73,7 @@ def handleEmptyString(val, default_value_if_empty):
     return val
 
 def insertQuotationMaterial(request):
+    # ========== Quotation Material ==========
     BoardArr = request.POST['BoardArr'].split(',')
     BarArr = request.POST['BarArr'].split(',')
     
@@ -87,7 +89,6 @@ def insertQuotationMaterial(request):
         print("BOARDARR = ", item )
     for item in BarArrView:
         print("BARARR = ", item )
-
     
     for i in range(0, MaterialLength):
         MaterialID = MaterialList[i]
@@ -134,18 +135,13 @@ def insertQuotationMaterial(request):
             cursor.execute(query)
     print('=============================================================')
 
-
-
-
-
     print('asddsadd')
+
+def insertQuotationProcess(request):
     QUOTATION_ID = getLastCreatedQuotationID()
 
     ProcessId = request.POST.getlist('ProcessId')
     ProcessLength = len(ProcessId)
-    # Quantity = request.POST.getlist('usedQuantity')
-
-    
     Opesum = request.POST.getlist('opeSum')
     OpePerOpeBudgetRatio = request.POST.getlist('operationPerOperationBudgetRatio')
     OpePerBudgetRatio = request.POST.getlist('operationPerBudgetRatio')
@@ -178,11 +174,11 @@ def insertQuotationMaterial(request):
         with connection.cursor() as cursor:
             cursor.execute(query)
 
+def insertQuotationOther(request):
     QUOTATION_ID = getLastCreatedQuotationID()
     
     OtherId = request.POST.getlist('othersId')
     OtherLength = len(OtherId)
-
     OtherPrice = request.POST.getlist('otherprice')
     OtherPercentage = request.POST.getlist('otherpercentage')
 
@@ -211,13 +207,11 @@ def insertQuotationMaterial(request):
         with connection.cursor() as cursor:
             cursor.execute(query)
 
-    # insertQuotationMaterial(request)
-    # return redirect('/Quotation/')
-    
+
+
 @login_required
 def insertQuotation(request):
     if request.user.is_authenticated:
-        # username = request.user.username  
         CustomerID = request.POST.get('customerid', False)
         ProductID = request.POST.get('productid', False)
         ProductName = request.POST.get('productname', False)
@@ -232,8 +226,11 @@ def insertQuotation(request):
         OutsourceCostNumber = request.POST['OutsourceCostNumber']
         OutsourceCostPercentage = request.POST['OutsourceCostPercentage']
         OperationBudget = request.POST['OperationBudget'].replace(',', '')
+        Username = request.user.username
+        Status = request.POST.get('quotation_status', False)
+        print("STATUS = ", Status)
 
-        query = 'INSERT INTO Quotation VALUES ( null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
+        query = 'INSERT INTO Quotation VALUES ( null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
             CustomerID,
             ProductID,
             ProductName,
@@ -248,15 +245,18 @@ def insertQuotation(request):
             OutsourceCostNumber,
             OutsourceCostPercentage,
             OperationBudget,
-            timezone.now()
+            timezone.now(),
+            Username,
+            Status
         )
         
         print( "INSERT QUERY = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
 
+        insertQuotationProcess(request)
         insertQuotationMaterial(request)
-       
+        insertQuotationOther(request)
 
         return redirect('/Quotation/')
 
@@ -318,7 +318,7 @@ def detailQuotation(request, quotation_id):
         # context
         context = { 
             'q' : quotation,
-            'quotation' : quotationjs[0],
+            'quotation' : quotationjs,
             'TotalBudget' : totalBudget,
             'TotalCost' : totalCost,
             "ManagementCost" : managementCost,

@@ -51,6 +51,8 @@ input[type="radio"]{
     vertical-align: middle;
 }
 
+
+
 .row{
     text-align: center;
     align-items: center;
@@ -263,7 +265,7 @@ a{
     height: 7%;
     background-color: white;
     display: flex;
-    justify-content: center;
+        justify-content: center;
     align-items: center;
     left: 29.2%;
     top: 37.2%;
@@ -582,3 +584,12 @@ select {
   .dropdown:hover .dropdown-content {
     display: block;
   } */
+input[type="text"].noInput:focus{
+    border: none;
+    outline: none;
+}
+
+input[type="text"].noInput:hover{
+    border: none;
+    cursor: default;
+}

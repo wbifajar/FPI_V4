@@ -43,7 +43,7 @@
                 <th>Qty</th>
                 <th>Price</th>
                 <th>Total</th>
-                <th>Created By</th>
+                <th>Created At</th>
                 <th>Expired Date</th>
                 <th>Log</th>
                 <th>Status</th>
@@ -61,9 +61,9 @@
                 <td>{{ q.QUANTITY }}</td>
                 <td>{{ q.BUDGET_PER_UNIT }}</td>
                 <td>{{ q.TOTAL }}</td>
-                <td>{{ q.CREATEDAT }}</td>
+                <td>{{ q.CREATED_AT }}</td>
                 <td>{{ q.EXPIRED }}</td>
-                <td>Last modified by DEVIN</td>
+                <td>Last modified by {{ q.ACTIVITY_LOG }}</td>
                 <td>
                   <button type="button" class="btn btn-outline-success">Accepted</button>
                 </td>
