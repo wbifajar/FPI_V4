@@ -36,42 +36,27 @@
         {% csrf_token %}
         <!-- bagian paling atas yang tidak bisa ke scroll -->
         <div class="row">
-            <div class="col-sm-2 text-center">
-                <div class="row">
-                    <div class="col mt-2 mb-2">
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 100px;">Customer</button>
-                    </div>
-                    <div class="col mt-2 mb-2">
-                        <a href="#" class="">
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px;">Products</button>
-                        </a>
-                    </div>
-                    <div class="col mt-2 mb-2">
-
-                        <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;" name="quotation_status" required>
-                            <option disabled>Pick Status</option>
-                            <option value="1" style="color: #000000;padding: 20px;" > Draft </option>
-                            <option value="2" style="color: #337ab7;padding: 20px;" > Accepted </option>
-                            <option value="3" style="color: #5cb85c;padding: 20px;" > Submitted </option>
-                            <option value="4" style="color: #f0ad4e;padding: 20px;" > Rejected </option>
-                            <option value="5" style="color: #cc0000;padding: 20px;" > Expired </option>
-                        </select>
-
-<!--                         
-                        <div class="dropdown">
-                            <a class="btn btn-secondary dropdown-toggle" style="width: 100px;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                              Status
-                            </a>
-                          
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-primary w-100">Accepted</button></a></li>
-                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-dark w-100">Draft</button></a></li>
-                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-success w-100">Submitted</button></a></li>
-                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-warning w-100">Rejected</button></a></li>
-                              <li><a class="dropdown-item w-100" href="#"><button type="button" class="btn btn-outline-danger w-100">Expired</button></a></li>
-                            </ul>
-                          </div> -->
-                    </div>
+            <div class="col-sm-2 text-center" style="display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;">
+                <div class="row mt-2 mb-2">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 100px;">Customer</button>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <a href="#" class="">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px;">Products</button>
+                    </a>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;" name="quotation_status" required>
+                        <option disabled>Pick Status</option>
+                        <option value="1" style="color: #000000;padding: 20px;" > Draft </option>
+                        <option value="2" style="color: #337ab7;padding: 20px;" > Accepted </option>
+                        <option value="3" style="color: #5cb85c;padding: 20px;" > Submitted </option>
+                        <option value="4" style="color: #f0ad4e;padding: 20px;" > Rejected </option>
+                        <option value="5" style="color: #cc0000;padding: 20px;" > Expired </option>
+                    </select>
                 </div>
             </div>
             
@@ -364,22 +349,22 @@
                                     {% for qo in quotation_other %}
                                     <tr>
                                         <td>
-                                            <input disabled type="text" name="otherid" style="background: transparent; border: none; width: 100%;" value="{{forloop.counter}}">
+                                            <input disabled type="text" class="otherData" name="otherid" style="background: transparent; border: none; width: 100%;" value="{{forloop.counter}}">
                                         </td>
                                         <td>
-                                            {{qo.Name}}
+                                            <input  disabled type="text" class="otherData inputMd" style="background: transparent; border: none; width: 100%;" value="{{qo.Name}}"></input>
                                         </td>
                                         <td>
-                                            <input type="input" name='otherprice' value='{{qo.OTHER_PRICE}}'>
+                                            <input class="otherDataInput inputMd" type="input" name='otherprice' value='{{qo.OTHER_PRICE}}'>
                                         </td>
                                         <td>
-                                            <input type="input" name='otherpercentage' value='{{qo.OTHER_PERCENTAGE}}'>
+                                            <input class="otherDataInput inputPercentageOther" type="input" onchange="calculateOtherPercentage({{forloop.counter}})" name='otherpercentage' value='{{qo.OTHER_PERCENTAGE}}'>
                                         </td>
                                         <td>
-                                            <input type="checkbox" name='otherunit' value='{{qo.OTHER_UNIT}}'>
+                                            <input class="otherData" type="checkbox" name='otherunit' value='{{qo.OTHER_UNIT}}'>
                                         </td>
                                         <td>
-                                            <button type="button" name='otherdelete' value='{{qo.OTHER_DELETE}}'>
+                                            <button type="button" onclick="deleteOther()" class="trash"><i class="trashimgicon borderNoneOther" data-feather="trash-2"></i></button>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -433,34 +418,34 @@
                         <tbody>
                             {% for qp in quotation_process %}
                             <tr>
-                                <td scope="col">{{forloop.ss';counter}}</td>
+                                <td scope="col">{{forloop.counter}}</td>
                                 <td scope="col" style="width: 5%;">
-                                    <input name='ProcessId' style="background: transparent; border: none; width: 100%;" value='{{ qp.PROCESS_ID }}' disabled>
+                                    <input name='ProcessId' style="background: transparent; border: none; width: 100%;" value='{{ qp.PROCESS_ID }}'>
                                 </td>
                                 <td scope="col">{{ qp.Name }}</td>
-                                <td scope="col">Set / Proc cost@min</td>
+                                <td scope="col">{{ qp.SettingCost }} / {{ qp.ProcessCost }}</td>
                                 <td scope="col">
                                     <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum({{ forloop.counter }})" name="opeSum" id="opeSum-{{forloop.counter}}" value="{{ qp.OPESUM }}">
                                 </td>
                                 <td scope="col">
-                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOperationPerOperationBudgetRatio({{ forloop.counter }})" name="opePerOpeBudgetRatio" id="opePerOpeBudgetRatio-{{forloop.counter}}" value="{{ qp.OPE_PER_OPE_BUDGET_RATIO }}">
+                                    <input type="text" class="operationInputMd" onchange="calculateByOperationPerOperationBudgetRatio({{ forloop.counter }})" name="opePerOpeBudgetRatio" id="opePerOpeBudgetRatio-{{forloop.counter}}" value="{{ qp.OPE_PER_OPE_BUDGET_RATIO }}">
                                 </td>
                                 <td scope="col">
-                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOperationPerBudgetRatio({{ forloop.counter }})" name="opePerBudgetRatio" id="opePerBudgetRatio-{{forloop.counter}}" value="{{ qp.OPE_PER_BUDGET_RATIO }}">
+                                    <input type="text" class="operationInputMd" onchange="calculateByOperationPerBudgetRatio({{ forloop.counter }})" name="opePerBudgetRatio" id="opePerBudgetRatio-{{forloop.counter}}" value="{{ qp.OPE_PER_BUDGET_RATIO }}">
                                 </td>
                                 <td scope="col">
-                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateBySetTime({{ forloop.counter }})" name="setTime" id="setTime-{{forloop.counter}}" value="{{ qp.SETTIME }}">
+                                    <input type="text" class="operationInputMd" onchange="calculateBySetTime({{ forloop.counter }})" name="setTime" id="setTime-{{forloop.counter}}" value="{{ qp.SETTIME }}">
                                 </td>
                                 <td scope="col">
-                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeTime({{ forloop.counter }})" name="opeTime" id="opeTime-{{forloop.counter}}" value="{{ qp.OPETIME }}">
+                                    <input type="text" class="operationInputMd" onchange="calculateByOpeTime({{ forloop.counter }})" name="opeTime" id="opeTime-{{forloop.counter}}" value="{{ qp.OPETIME }}">
                                 </td>
                                 <td scope="col">
-                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByTotalOpeTime({{ forloop.counter }})" name="totalOpeTime" id="totalOpeTime-{{forloop.counter}}" value="{{ qp.TOTAL_OPETIME }}">
+                                    <input type="text" class="operationInputMd" onchange="calculateByTotalOpeTime({{ forloop.counter }})" name="totalOpeTime" id="totalOpeTime-{{forloop.counter}}" value="{{ qp.TOTAL_OPETIME }}">
                                 </td>
                                 <td scope="col">
-                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByQuantityPerMin({{ forloop.counter }})" name="quantityPerMinute" id="quantityPerMinute-{{forloop.counter}}" value="{{ qp.QUANTITY_PER_MIN }}">
+                                    <input type="text" class="operationInputMd" onchange="calculateByQuantityPerMin({{ forloop.counter }})" name="quantityPerMinute" id="quantityPerMinute-{{forloop.counter}}" value="{{ qp.QUANTITY_PER_MIN }}">
                                 </td>
-                                <td scope="col"><button type="button" onfocus="savePrevValue()" onclick="deleteProcess()" class="trash"><i id="trash-icon"></i></button></td>
+                                <td scope="col"><button type="button" onclick="deleteProcess()" class="trash"><i data-feather="trash-2"></i></button></td>
                             </tr>
                             {% endfor %}
                         </tbody>
