@@ -81,6 +81,8 @@ def insertQuotationMaterial(request):
 
     MaterialList = request.POST.getlist('material_id')
     MaterialLength = len(MaterialList)
+    if(MaterialLength == 0) : return
+
     print(MaterialLength)
     USED_QUANTITY = request.POST.getlist('usedQuantity')
     BoardArrView = [BoardArr[i:i+29] for i in range(0, len(BoardArr), 29)]
@@ -255,8 +257,8 @@ def insertQuotation(request):
             cursor.execute(query)
 
         insertQuotationProcess(request)
-        insertQuotationMaterial(request)
         insertQuotationOther(request)
+        insertQuotationMaterial(request)
 
         return redirect('/Quotation/')
 
