@@ -40,7 +40,7 @@ function addOther() {
 
     cell1.style.width = "15%";
 
-    cell1.innerHTML = `<th scope="row"> <input type="text" name="otherindex" value="${othersIndex}" style="background: transparent; border: none; width: 100%; > </th>`;
+    cell1.innerHTML = `<th scope="row">${othersIndex}</th>`;
     cell2.innerHTML = `<td>${selectedOthers.Name}</td>`;
     cell3.innerHTML = `<td><input type="input" name="otherprice" id="otherPrice-${othersIndex}" onchange="calculateOtherPercentage(${othersIndex}, this.value)" class="inputMd"></td>`;
     cell4.innerHTML = `<td><input type="input" name="otherpercentage" class="inputPercentage" id="otherPercentage-${othersIndex}"></td>`;

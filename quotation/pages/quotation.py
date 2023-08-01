@@ -308,12 +308,18 @@ def detailQuotation(request, quotation_id):
         print("SELECTED_MATERIAL ====> ", selected_material_js)
 
         # detail process
-        query = 'select * from quotation_process JOIN PROCESS ON QUOTATION_PROCESS.PROCESS_ID = PROCESS.ProcessID where Quotation_ID = ' + str(quotation_id)\
+        query = 'select * from quotation_process JOIN PROCESS ON QUOTATION_PROCESS.PROCESS_ID = PROCESS.ProcessID where Quotation_ID = ' + str(quotation_id)
                 
         cursor.execute(query)
         quotation_process = cursor.fetchall()
         quotation_process_js = json.dumps(quotation_process)
         print(quotation_process)
+
+        # detail other
+        queryOther = 'select * from quotation_other JOIN OTHER ON quotation_other.OTHER_ID = OTHER.OtherId where Quotation_ID =' + str(quotation_id)
+        cursor.execute(queryOther)
+        quotation_other = cursor.fetchall()
+        quotation_other_js = json.dumps(quotation_other)
 
         # context
         context = { 
@@ -334,6 +340,9 @@ def detailQuotation(request, quotation_id):
 
             'quotation_process' : quotation_process,
             'quotation_process_js' : quotation_process_js,
+
+            'quotation_other' : quotation_other,
+            'quotation_other_js' : quotation_other_js,
         }
 
     return render(request, 'editquotation.html', context)
