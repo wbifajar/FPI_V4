@@ -43,7 +43,7 @@ function addOther() {
     cell1.innerHTML = `<th scope="row">${othersIndex}</th>`;
     cell2.innerHTML = `<td>${selectedOthers.Name}</td>`;
     cell3.innerHTML = `<td><input type="input" name="otherprice" id="otherPrice-${othersIndex}" onchange="calculateOtherPercentage(${othersIndex}, this.value)" class="inputMd"></td>`;
-    cell4.innerHTML = `<td><input type="input" name="otherpercentage" class="inputPercentage" id="otherPercentage-${othersIndex}"></td>`;
+    cell4.innerHTML = `<td><input type="input" name="otherpercentage" class="inputPercentage inputMd" id="otherPercentage-${othersIndex}"></td>`;
     cell5.innerHTML = `<td><input type="checkbox" name="otherisperunit-${othersIndex}" id="otherCheckBox-${othersIndex}" name="otherCheckBox-${othersIndex}" onchange="calculateCostExcludeOperation()"></td>`;
     cell6.innerHTML = `<td><button type="button" onclick="deleteOther(${othersIndex})" class="trash"><i id="trash-icon"></i></button></td>`;
     cell7.innerHTML = `<td><input type="hidden" name='othersId' value='${selectedOthers.OtherId}'></td>`;
@@ -76,7 +76,7 @@ function deleteOther(rowindex){
         table.rows[i].cells[2].innerHTML = `<td><input type="input" id="otherPrice-${i + 1}" onchange="calculateOtherPercentage(${i + 1}, this.value)" class="inputMd" value=${selectedOthersValue} ></td>`;
         table.rows[i].cells[3].innerHTML = `<td><input type="input" class="inputPercentage" id="otherPercentage-${i + 1}" value="${selectedOthersPercentage}"></td>`;
         table.rows[i].cells[4].innerHTML = `<td><input type="checkbox" id="otherCheckBox-${i+1}" name="otherCheckBox-${i+1}" onchange="calculateCostExcludeOperation()" ${selectedOthersCheckbox}></td>`;
-        table.rows[i].cells[5].innerHTML = `<td><button type="button" onclick="deleteOther(${i+1})" class="trash"><i id="trash-icon"></i></button></td>`;
+        table.rows[i].cells[5].innerHTML = `<td><button type="button" onclick="deleteOther(${i+1})" class="trash"><i data-feather="trash-2"></i></button></td>`;
         callFeatherIcon();
     }
 

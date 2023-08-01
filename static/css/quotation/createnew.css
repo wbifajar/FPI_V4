@@ -29,6 +29,9 @@ input {
     width: 45px !important;
 }
 
+.inputPercentageOther{
+    width: 40px !important;
+}
 .inputSearch{
     height: 30px !important;
     margin-right: 1%;
@@ -121,12 +124,30 @@ input[type="radio"]{
 }
 
 .trash{
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     background-color: transparent;
     border: none;
     margin: 0 !important;
     padding: 0 !important;
+}
+
+.trashimgicon{
+    vertical-align: middle;
+    width: 24px !important;
+    height: 24px !important;
+    border: none;
+    background-color: transparent;
+}
+
+.otherData{
+    vertical-align: middle;
+    border: none;
+    background-color: transparent;
+}
+
+.otherDataInput{
+    vertical-align: middle;
 }
 
 .btncreate{

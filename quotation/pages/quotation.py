@@ -315,7 +315,7 @@ def detailQuotation(request, quotation_id):
         cursor.execute(query)
         quotation_process = cursor.fetchall()
         quotation_process_js = json.dumps(quotation_process)
-        print(quotation_process)
+        print("quotation process = ", quotation_process)
 
         # detail other
         queryOther = 'select * from quotation_other JOIN OTHER ON quotation_other.OTHER_ID = OTHER.OtherId where Quotation_ID =' + str(quotation_id)
