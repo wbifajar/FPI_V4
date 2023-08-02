@@ -203,6 +203,6 @@ $(function() {
         calculateByUsedQuantity(i+1);
     }
 
-    getSelectedMaterialFromViews();
+    getQuotationMaterialFromViews();
     addToBoardArr();
 });

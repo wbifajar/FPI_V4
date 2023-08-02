@@ -283,35 +283,27 @@ def detailQuotation(request, quotation_id):
         # totalMaterialCost =  quotation["MATERIAL_COST_NUMBER"] * ( quotation["MATERIAL_COST_PERCENTAGE"] / 100 )
         # totalOutsourceCost = quotation["OUTSOURCE_COST_NUMBER"] * ( quotation["OUTSOURCE_COST_PERCENTAGE"] / 100 )
         
-        query = 'SELECT * fROM quotation_material \
-                LEFT JOIN PART ON PART.idPART = QUOTATION_MATERIAL.MATERIAL_ID \
-                WHERE Quotation_ID = ' + str(quotation_id)
-        
+        #detail part
+        query = 'SELECT * FROM part'
+
         cursor.execute(query)
-        material = cursor.fetchall()
-        materialjs = json.dumps(material, default=str)
-        
-        for item in material:
-            item["MATERIAL_COST"] = float(item["USED_QUANTITY"]) * item["price"]
-            print(item)
-       
-
-            
-        cursor.execute('select * from part')
-        part = cursor.fetchall()
-        partjs = json.dumps(part)
-
+        part_reflect_cost = cursor.fetchall()
+        part_reflect_cost_js = json.dumps(part_reflect_cost)
+  
+        #detail material
         query = 'SELECT * FROM quotation_material \
                 LEFT JOIN PART ON PART.idPART = QUOTATION_MATERIAL.MATERIAL_ID \
                 WHERE Quotation_ID = ' + str(quotation_id)
         
         cursor.execute(query)
-        selected_material = cursor.fetchall()
-        selected_material_js = json.dumps(selected_material)
-        print("SELECTED_MATERIAL ====> ", selected_material_js)
+        quotation_material = cursor.fetchall()
+        quotation_material_js = json.dumps(quotation_material)
+        print("quotation_MATERIAL ====> ", quotation_material_js)
 
         # detail process
-        query = 'select * from quotation_process JOIN PROCESS ON QUOTATION_PROCESS.PROCESS_ID = PROCESS.ProcessID where Quotation_ID = ' + str(quotation_id)
+        query = 'select * from quotation_process \
+                JOIN PROCESS ON QUOTATION_PROCESS.PROCESS_ID = PROCESS.ProcessID \
+                where Quotation_ID = ' + str(quotation_id)
                 
         cursor.execute(query)
         quotation_process = cursor.fetchall()
@@ -332,14 +324,14 @@ def detailQuotation(request, quotation_id):
             'TotalCost' : totalCost,
             "ManagementCost" : managementCost,
           
-            'material' : material,
-            'materialjs' : materialjs,
+            # 'material' : material,
+            # 'materialjs' : materialjs,
 
-            'partreflectcost' : part,
-		    'partreflectcostjs' : partjs,
+            'partreflectcost' : part_reflect_cost,
+		    'partreflectcostjs' : part_reflect_cost_js,
 
-            'selected_material' : selected_material,
-            'selected_material_js' : selected_material_js,
+            'quotation_material' : quotation_material,
+            'quotation_material_js' : quotation_material_js,
 
             'quotation_process' : quotation_process,
             'quotation_process_js' : quotation_process_js,

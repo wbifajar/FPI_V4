@@ -43,7 +43,6 @@ function deleteProcess(rowindex) {
     table.rows[i].cells[11].innerHTML = `<td><button type="button" onclick="deleteProcess(${i + 1})" class="trash"><i id="trash-icon"></i></button></td>`;
 
 
-
     callFeatherIcon();
   }
 
