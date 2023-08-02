@@ -4,6 +4,7 @@ from ..databaseConnect import *
 from datetime import timedelta, datetime
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+
 import json
 
 def Quotation(request):
@@ -22,6 +23,7 @@ def Quotation(request):
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
         item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=10)
+
 
 
     context = {
