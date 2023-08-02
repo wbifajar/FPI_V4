@@ -4,6 +4,7 @@ from ..databaseConnect import *
 from datetime import timedelta, datetime
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+
 import json
 
 def Quotation(request):
@@ -22,6 +23,7 @@ def Quotation(request):
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
         item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=10)
+
 
 
     context = {
@@ -143,7 +145,7 @@ def insertQuotationMaterial(request):
 def insertQuotationProcess(request):
     QUOTATION_ID = getLastCreatedQuotationID()
 
-    ProcessId = request.POST.getlist('ProcessId')
+    ProcessId = request.POST.getlist('ProcessIdabcd')
     ProcessLength = len(ProcessId)
     Opesum = request.POST.getlist('opeSum')
     OpePerOpeBudgetRatio = request.POST.getlist('operationPerOperationBudgetRatio')
@@ -153,7 +155,8 @@ def insertQuotationProcess(request):
     TotalOpeTime = request.POST.getlist('totalOpeTime')
     QuantityPerMin = request.POST.getlist('quantityPerMinute')
 
-    print("ORICIANISBIFBSAIBF")
+    
+    print("quotation process = ", ProcessId)
     print(ProcessId)
     print("QPM = ", QuantityPerMin)
     for i in range(0, ProcessLength):
@@ -173,7 +176,7 @@ def insertQuotationProcess(request):
             TotalOpeTime[i],
             QuantityPerMin[i],
         )
-        print(query)
+        print("QUOATION PROCESS query = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
 
@@ -309,6 +312,12 @@ def detailQuotation(request, quotation_id):
         quotation_process = cursor.fetchall()
         quotation_process_js = json.dumps(quotation_process)
         print("quotation process = ", quotation_process)
+
+        # detail other
+        queryOther = 'select * from quotation_other JOIN OTHER ON quotation_other.OTHER_ID = OTHER.OtherId where Quotation_ID =' + str(quotation_id)
+        cursor.execute(queryOther)
+        quotation_other = cursor.fetchall()
+        quotation_other_js = json.dumps(quotation_other)
 
         # detail other
         queryOther = 'select * from quotation_other JOIN OTHER ON quotation_other.OTHER_ID = OTHER.OtherId where Quotation_ID =' + str(quotation_id)

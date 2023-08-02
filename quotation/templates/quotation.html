@@ -65,8 +65,17 @@
                 <td>{{ q.EXPIRED }}</td>
                 <td>Last modified by {{ q.ACTIVITY_LOG }}</td>
                 <td>
-                  <button type="button" class="btn btn-outline-success" disabled>{{q.QUOTATION_STATUS}}</button>
+                  <button type="button" class="btn"
+                    style="color: 
+                      {% if q.QUOTATION_STATUS == 'Draft' %} #000000;
+                      {% elif q.QUOTATION_STATUS == 'Accepted' %} #337ab7;
+                      {% elif q.QUOTATION_STATUS == 'Submitted' %} #5cb85c;
+                      {% elif q.QUOTATION_STATUS == 'Rejected' %} #f0ad4e;
+                      {% elif q.QUOTATION_STATUS == 'Expired' %} #cc0000;
+                      {% endif %}"
+                    disabled>{{q.QUOTATION_STATUS}}</button>
                 </td>
+                         
               </tr>
               {% endfor %}
             </tbody>
