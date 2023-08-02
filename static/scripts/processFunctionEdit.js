@@ -46,5 +46,6 @@ function addProcessToTableFromDB(){
 }
 
 $(function(){
-    addProcessToTableFromDB()
+    addProcessToTableFromDB();
+    totalOperations();
 })
