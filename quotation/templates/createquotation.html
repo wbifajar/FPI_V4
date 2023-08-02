@@ -37,7 +37,7 @@
         {% csrf_token %}
         <!-- bagian paling atas yang tidak bisa ke scroll -->
         <div class="row">
-            <div class="col-sm-2 text-center">
+            <!-- <div class="col-sm-2 text-center">
                 <div class="row">
                     <div class="col mt-2 mb-2">
                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 120px;">Customer</button>
@@ -57,19 +57,35 @@
                             <option value="5" style="color: #cc0000;padding: 20px;"> Expired</option>
                         </select>
 
-                        <!-- <div class="dropdown">
-                        <button class="dropdown-button btn btn-secondary">Draft</button>
-                        <div class="dropdown-content">
-                            <a href="#" class="dropdown-item" data-color="#4CAF50">Option 1</a>
-                            <a href="#" class="dropdown-item" data-color="#FF9800">Option 2</a>
-                            <a href="#" class="dropdown-item" data-color="#2196F3">Option 3</a>
-                            <a href="#" class="dropdown-item" data-color="#E91E63">Option 4</a>
-                            <a href="#" class="dropdown-item" data-color="#9C27B0">Option 5</a>
-                          </div>
-                        </div> -->
                     </div>
                 </div>
+            </div> -->
+
+            
+            <div class="col-sm-2 text-center" style="display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;">
+                <div class="row mt-2 mb-2">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 100px;">Customer</button>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <a href="#" class="">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px;">Products</button>
+                    </a>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;" name="quotation_status" required>
+                        <option disabled>Pick Status</option>
+                        <option value="1" style="color: #000000;padding: 20px;" > Draft </option>
+                        <option value="2" style="color: #337ab7;padding: 20px;" > Accepted </option>
+                        <option value="3" style="color: #5cb85c;padding: 20px;" > Submitted </option>
+                        <option value="4" style="color: #f0ad4e;padding: 20px;" > Rejected </option>
+                        <option value="5" style="color: #cc0000;padding: 20px;" > Expired </option>
+                    </select>
+                </div>
             </div>
+
             <div class="col">
                 <div class="card">
                     <div class="card-body">
