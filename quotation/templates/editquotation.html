@@ -59,8 +59,7 @@
                     </select>
                 </div>
             </div>
-            
-           
+             
             <div class="col">
                 <div class="card">
                     <div class="card-body">
@@ -346,28 +345,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    {% for qo in quotation_other %}
-                                    <tr>
-                                        <td>
-                                            <input disabled type="text" class="otherData" name="otherid" style="background: transparent; border: none; width: 100%;" value="{{forloop.counter}}">
-                                        </td>
-                                        <td>
-                                            <input  disabled type="text" class="otherData inputMd" style="background: transparent; border: none; width: 100%;" value="{{qo.Name}}"></input>
-                                        </td>
-                                        <td>
-                                            <input class="otherDataInput inputMd" type="input" name='otherprice' value='{{qo.OTHER_PRICE}}'>
-                                        </td>
-                                        <td>
-                                            <input class="otherDataInput inputPercentageOther" type="input" onchange="calculateOtherPercentage({{forloop.counter}})" name='otherpercentage' value='{{qo.OTHER_PERCENTAGE}}'>
-                                        </td>
-                                        <td>
-                                            <input class="otherData" type="checkbox" name='otherunit' value='{{qo.OTHER_UNIT}}'>
-                                        </td>
-                                        <td>
-                                            <button type="button" onclick="deleteOther()" class="trash"><i class="trashimgicon borderNoneOther" data-feather="trash-2"></i></button>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
                             </tbody>
                             </table>
                         </div>
@@ -416,38 +393,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                            {% for qp in quotation_process %}
-                            <tr>
-                                <td scope="col">{{forloop.counter}}</td>
-                                <td scope="col" style="width: 5%;">
-                                    <input name='ProcessId' style="background: transparent; border: none; width: 100%;" value='{{ qp.PROCESS_ID }}'>
-                                </td>
-                                <td scope="col">{{ qp.Name }}</td>
-                                <td scope="col">{{ qp.SettingCost }} / {{ qp.ProcessCost }}</td>
-                                <td scope="col">
-                                    <input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum({{ forloop.counter }})" name="opeSum" id="opeSum-{{forloop.counter}}" value="{{ qp.OPESUM }}">
-                                </td>
-                                <td scope="col">
-                                    <input type="text" class="operationInputMd" onchange="calculateByOperationPerOperationBudgetRatio({{ forloop.counter }})" name="opePerOpeBudgetRatio" id="opePerOpeBudgetRatio-{{forloop.counter}}" value="{{ qp.OPE_PER_OPE_BUDGET_RATIO }}">
-                                </td>
-                                <td scope="col">
-                                    <input type="text" class="operationInputMd" onchange="calculateByOperationPerBudgetRatio({{ forloop.counter }})" name="opePerBudgetRatio" id="opePerBudgetRatio-{{forloop.counter}}" value="{{ qp.OPE_PER_BUDGET_RATIO }}">
-                                </td>
-                                <td scope="col">
-                                    <input type="text" class="operationInputMd" onchange="calculateBySetTime({{ forloop.counter }})" name="setTime" id="setTime-{{forloop.counter}}" value="{{ qp.SETTIME }}">
-                                </td>
-                                <td scope="col">
-                                    <input type="text" class="operationInputMd" onchange="calculateByOpeTime({{ forloop.counter }})" name="opeTime" id="opeTime-{{forloop.counter}}" value="{{ qp.OPETIME }}">
-                                </td>
-                                <td scope="col">
-                                    <input type="text" class="operationInputMd" onchange="calculateByTotalOpeTime({{ forloop.counter }})" name="totalOpeTime" id="totalOpeTime-{{forloop.counter}}" value="{{ qp.TOTAL_OPETIME }}">
-                                </td>
-                                <td scope="col">
-                                    <input type="text" class="operationInputMd" onchange="calculateByQuantityPerMin({{ forloop.counter }})" name="quantityPerMinute" id="quantityPerMinute-{{forloop.counter}}" value="{{ qp.QUANTITY_PER_MIN }}">
-                                </td>
-                                <td scope="col"><button type="button" onclick="deleteProcess()" class="trash"><i data-feather="trash-2"></i></button></td>
-                            </tr>
-                            {% endfor %}
                         </tbody>
                         <tfoot id="total-operation">
                             <tr>
@@ -1654,17 +1599,25 @@
         return obj;
         
     }
+
+    function getQuotationOtherFromDB(){
+        var sm = '{{ quotation_other_js|safe}}'
+        const obj = JSON.parse(sm)
+        console.log(obj);
+        return obj;
+        
+    }
+
+    
 </script>
 
 <script>
-
     $(function() {
         var part = '{{quotation|safe}}';
         const objq = JSON.parse(part);
         console.log("QUOTATION_STATUS = ", objq["QUOTATION_STATUS"]);
         console.log( $("select#select-status-option").val(objq["QUOTATION_STATUS"]) ); 
     });
-
 </script>
 
 
@@ -1673,6 +1626,13 @@
 <script src="{% static 'scripts/tesD3/breakeventester.js' %}" type="module"></script>
 <!-- calculation functions -->
 <script src="{% static 'scripts/mainCalculationFunctionEdit.js' %}"></script>
+
+<!-- edit function other -->
+<script src="{% static 'scripts/otherFunctionEdit.js' %}"></script>
+
+<!-- edit function process -->
+<script src="{% static 'scripts/processFunctionEdit.js' %}"></script>
+
 
 
 {% endblock scripts %}
