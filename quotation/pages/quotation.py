@@ -23,6 +23,7 @@ def Quotation(request):
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
         item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=10)
 
+
     context = {
         "quotation": quotation,
         "quotationjs": quotationjs,

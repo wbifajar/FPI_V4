@@ -51,8 +51,6 @@ function addOther() {
     callFeatherIcon();
     updateOtherLength(othersIndex);
     $('#otherName').val('');
-
-
     
     return false;
 }

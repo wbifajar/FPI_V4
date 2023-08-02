@@ -152,7 +152,7 @@ function addProcess() {
 	var cell13 = row.insertCell(12);
 	
 	cell2.style.width = "5%";
-	console.log(selectedProcess);
+
 	cell1.innerHTML = `<th scope="row">${index}</th>`; 
 	cell2.innerHTML = `<td><input type="text" name='ProcessId' value='${selectedProcess.ProcessId}' style="background: transparent; border: none; width: 100%;"></td>`; 
 	cell3.innerHTML = `<td>${selectedProcess.Name}</td>`;
@@ -164,7 +164,7 @@ function addProcess() {
 	cell9.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateByOpeTime(${index})" class="operationInputMd" name='opeTime' id='opeTime-${index}'></td>`;
 	cell10.innerHTML = `<td><input type="text" value="00:00:00" class="operationInputMd" onchange="calculateByTotalOpeTime(${index})" name='totalOpeTime' id='totalOpeTime-${index}'></td>`;
 	cell11.innerHTML = `<td><input type="text" class="inputS" onchange="calculateByQuantityPerMin(${index})" name='quantityPerMinute' id='quantityPerMinute-${index}'></td>`;
-	cell12.innerHTML = `<td><button type="button" onclick="deleteProcess(${index})" class="trash"><i data-feather="trash-2"></i></button></td>`;
+	cell12.innerHTML = `<td><button type="button" onclick="deleteProcess(${index})" class="trash"><i id="trash-icon"></i></button></td>`;
 	cell13.innerHTML = `<td><input type="hidden" name='processId-${index}' value='${index}'></td>`;
 
 	callFeatherIcon();
