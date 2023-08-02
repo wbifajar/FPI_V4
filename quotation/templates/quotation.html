@@ -65,7 +65,7 @@
                 <td>{{ q.EXPIRED }}</td>
                 <td>Last modified by {{ q.ACTIVITY_LOG }}</td>
                 <td>
-                  <button type="button" class="btn btn-outline-success">Accepted</button>
+                  <button type="button" class="btn btn-outline-success" disabled>{{q.QUOTATION_STATUS}}</button>
                 </td>
               </tr>
               {% endfor %}

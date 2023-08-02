@@ -1,4 +1,4 @@
-// buat others 
+ // buat others 
 var othersIndex = 0;
 const othersList = [];
 
