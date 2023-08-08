@@ -28,7 +28,7 @@ function getData() {
 
         'operationBudget': replaceNanValue( removeNonDigit($('#operationBudget').val()) , ''),
     }
-    console.log(data);
+    console.log(data, getFuncName() );
     return data;
 }
 

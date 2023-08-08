@@ -32,7 +32,7 @@
 
 <div class="container mt-3" >
     <!-- <form action="/save-quotation" method="POST"> -->
-    <form action="/Quotation/submittes/" method="POST">
+    <form action="/Quotation/update-quotation/{{ q.QUOTATION_ID }}" method="POST">
         {% csrf_token %}
         <!-- bagian paling atas yang tidak bisa ke scroll -->
         <div class="row">
@@ -51,11 +51,11 @@
                 <div class="row mt-2 mb-2">
                     <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;" name="quotation_status" required>
                         <option disabled>Pick Status</option>
-                        <option value="1" style="color: #000000;padding: 20px;" > Draft </option>
-                        <option value="2" style="color: #337ab7;padding: 20px;" > Accepted </option>
-                        <option value="3" style="color: #5cb85c;padding: 20px;" > Submitted </option>
-                        <option value="4" style="color: #f0ad4e;padding: 20px;" > Rejected </option>
-                        <option value="5" style="color: #cc0000;padding: 20px;" > Expired </option>
+                        <option value="Draft" style="color: #000000;padding: 20px;" > Draft </option>
+                        <option value="Accepted" style="color: #337ab7;padding: 20px;" > Accepted </option>
+                        <option value="Submitted" style="color: #5cb85c;padding: 20px;" > Submitted </option>
+                        <option value="Rejected" style="color: #f0ad4e;padding: 20px;" > Rejected </option>
+                        <option value="Expired" style="color: #cc0000;padding: 20px;" > Expired </option>
                     </select>
                 </div>
             </div>
@@ -138,7 +138,7 @@
                                     Material + Outsorce + Other
                                 </div>
                                 <div>
-                                    <input disabled type="text" class="noInput " id="materialOutsourceOtherCost" name="MaterialOutsourceOtherCost">
+                                    <input type="text" class="noInput " id="materialOutsourceOtherCost" name="MaterialOutsourceOtherCost">
                                 </div>
                             </div>
 
@@ -442,7 +442,7 @@
             </div>
 
             <div class="btncreate" style="display: flex; justify-content: space-between; justify-content: right;">
-                <button type="submit" class="btn btn-secondary">Submit Quotation</button>
+                <button type="submit" class="btn btn-secondary">Update Quotation</button>
             </div> 
         </div>
 
@@ -580,13 +580,13 @@
                         <label>
                           ID
                         </label>
-                        <input value='{{customerid}}' name="customerid" id="customerid" required>
+                        <input value='{{ q.CUSTOMER_ID }}' name="customerid" id="customerid" required>
                     </div>
                     <div class="col">
                         <label>
                           Name
                         </label>
-                        <input value='{{customername}}' name="customername" id="customername" required>
+                        <input value='{{ q.customerName }}' name="customername" id="customername" required>
                     </div>
                     <div class="col">
                       <label>

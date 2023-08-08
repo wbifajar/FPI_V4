@@ -33,7 +33,7 @@ function deleteProcess(rowindex) {
     table.rows[i].cells[1].innerHTML = `<td>${selectedProcessId}</td>`;  
     table.rows[i].cells[2].innerHTML = `<td>${selectedProcessName}</td>`;
     table.rows[i].cells[3].innerHTML = `<td>${selectedProcessCost}</td>`;
-    table.rows[i].cells[4].innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${i + 1})" name='opeSum-${i + 1}' id='opeSum-${i + 1}' value=${selectedOpeSum}></td>`;
+    table.rows[i].cells[4].innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue(${i + 1})" onchange="calculateByOpeSum(${i + 1})" name='opeSum-${i + 1}' id='opeSum-${i + 1}' value=${selectedOpeSum}></td>`;
     table.rows[i].cells[5].innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio-${i + 1}' onchange="calculateByOperationPerOperationBudgetRatio(${i + 1})" id='operationPerOperationBudgetRatio-${i + 1}' value=${selectedPerOpeBudgetRatio}> %</td>`;
     table.rows[i].cells[6].innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${i + 1}' onchange="calculateByOperationPerBudgetRatio(${i + 1})" id='operationPerBudgetRatio-${i + 1}' value=${selectedPerBudgetRatio}> %</td>`;
     table.rows[i].cells[7].innerHTML = `<td><input type="text" onchange="calculateBySetTime(${i + 1})" class="operationInputMd" name='setTime-${i + 1}' id='setTime-${i + 1}' value=${selectedSetTime}></td>`;
@@ -133,8 +133,7 @@ function addProcess() {
 	// alter table to add process 	
 	var table = document.getElementById("processTable").getElementsByTagName('tbody')[0];
 	index++;
-	console.log(selectedProcess)
- 
+
 	var row = table.insertRow(-1);
 	var cell1 = row.insertCell(0);
 	var cell2 = row.insertCell(1);
@@ -156,7 +155,7 @@ function addProcess() {
 	cell2.innerHTML = `<td><input type="text" name='ProcessId' value='${selectedProcess.ProcessId}' style="background: transparent; border: none; width: 100%;"></td>`; 
 	cell3.innerHTML = `<td>${selectedProcess.Name}</td>`;
 	cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
-	cell5.innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${index})" name='opeSum' id='opeSum-${index}' value='0'></td>`;
+	cell5.innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue(${index})" onchange="calculateByOpeSum(${index})" name='opeSum' id='opeSum-${index}' value='0'></td>`;
 	cell6.innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio' onchange="calculateByOperationPerOperationBudgetRatio(${index})" id='operationPerOperationBudgetRatio-${index}'> %</td>`;
 	cell7.innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio' onchange="calculateByOperationPerBudgetRatio(${index})" id='operationPerBudgetRatio-${index}'> %</td>`;
 	cell8.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateBySetTime(${index})" class="operationInputMd" name='setTime' id='setTime-${index}'></td>`;
@@ -187,6 +186,7 @@ function setProcessData( index, opeSum, operationPerOperationBudgetRatio, operat
 function calculateOperationPerOperationBudgetRatio(opeSum, operationBudget) {
 	var result = (opeSum / operationBudget) * 100;
 	var resultFixed = result.toFixed(2);
+	console.log(opeSum, operationBudget, getFuncName());
 	return resultFixed;
 }
 
@@ -257,14 +257,8 @@ function calculateBySetTime(index) {
 		var opeSum = (setTimeSec * process.SettingCost) / (60 * data.quantity);
 		$(`#opeSum-${index}`).val(opeSum);
 		var operationPerOperationBudgetRatio =
-			calculateOperationPerOperationBudgetRatio(
-			opeSum,
-			data.operationBudget
-			);
-		var operationPerBudgetRatio = calculateOpePerBudgetRatio(
-			opeSum,
-			data.budgetPerUnit
-		);
+			calculateOperationPerOperationBudgetRatio(opeSum, data.operationBudget);
+		var operationPerBudgetRatio = calculateOpePerBudgetRatio(opeSum, data.budgetPerUnit);
 		var opeTime = "00:00:00";
 		var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
 		var quantityPerMinute = calculateQuantityPerMinute(opeTime);
@@ -314,9 +308,9 @@ function calculateBySetTime(index) {
 	totalOperations();
 }
 
-function savePrevValue() {
+function savePrevValue(i) {
 //   console.log("Saving value " + $("#opeSum-1").val());
-  $("#opeSum-1").data("val", $("#opeSum-1").val());
+  $("#opeSum-"+i).data("val", $("#opeSum-"+i).val());
 }
 
 function getTotalOpeSumFromSetTimeAndOpeTime(index) {
@@ -344,7 +338,9 @@ function calculateByOpeSum(index) {
 	//   console.log( 'prev = ', $('#opeSum-1').data('val') );
 
 	if (processData.setTime != "" && processData.setTime != "00:00:00") {
+		console.log("ENTER HERE 1");
 		if (curr > prev) {
+			console.log("atas run 1.1");
 			var operationPerOperationBudgetRatio = calculateOperationPerOperationBudgetRatio(curr, data.operationBudget);
 			var operationPerBudgetRatio = calculateOpePerBudgetRatio( processData.opeSum, data.budgetPerUnit );
 			var opeTime = calculateOpeTime( processData.opeSum - prev, process.ProcessCost );
@@ -353,17 +349,12 @@ function calculateByOpeSum(index) {
 		//   console.log("run", prev - processData.opeSum);
 			console.log("run 1.1");
 		} else if (curr <= prev) {
+			console.log("atas run 1.2");
+
 			var opeSum =
 			processData.opeSum - (processData.setTime * process.setCost) / 60;
-			var operationPerOperationBudgetRatio =
-			calculateOperationPerOperationBudgetRatio(
-				curr,
-				data.operationBudget
-			);
-			var operationPerBudgetRatio = calculateOpePerBudgetRatio(
-			processData.opeSum,
-			data.budgetPerUnit
-			);
+			var operationPerOperationBudgetRatio = calculateOperationPerOperationBudgetRatio(curr, data.operationBudget);
+			var operationPerBudgetRatio = calculateOpePerBudgetRatio(processData.opeSum, data.budgetPerUnit);
 
 			var f = getTotalOpeSumFromSetTimeAndOpeTime(index);
 			//   console.log("rest money = ", f);
@@ -389,12 +380,15 @@ function calculateByOpeSum(index) {
 					opeTime,
 					totalOpeTime,
 					quantityPerMinute
-					);
-					return;
-				}
+				);
+				totalOperations();
+				restOperations();
+				return;
+			}
 				
 			console.log("run 1.2");
 		} else if (processData.opeTime == "" || processData.opeTime == "00:00:00") {
+			console.log("atas run 1.3");
 			var operationPerOperationBudgetRatio =
 			calculateOperationPerOperationBudgetRatio( curr, data.operationBudget );
 			var operationPerBudgetRatio = calculateOpePerBudgetRatio( processData.opeSum, data.budgetPerUnit );
@@ -403,6 +397,7 @@ function calculateByOpeSum(index) {
 			var quantityPerMinute = 0;
 		  	console.log("run 1.3");
 		} else {
+			console.log("atas run 1.4");
 			var opeSum =
 			processData.opeSum - (processData.setTime * process.setCost) / 60;
 			var operationPerOperationBudgetRatio = calculateOperationPerOperationBudgetRatio( curr, data.operationBudget );
@@ -410,16 +405,15 @@ function calculateByOpeSum(index) {
 			var opeTime = calculateOpeTime(opeSum, process.ProcessCost);
 			var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
 			var quantityPerMinute = calculateQuantityPerMinute(opeTime);
+			console.log("run 1.4");
 			
 			// ope sum - calculate ope sum by settime
 			// lalu hasilnya baru dipake buat ngitung opetime
 			// ambil data opesum sekarang yang sudah diubah oleh settime += calculate opesum by ope time
-			// console.log("run 1.4");
 		}
 			// console.log('OnChange1 :: oldValue: ' + document.getElementById('opeSum-1').oldValue + ', newValue: ' + index.newValue);
-
-		// console.log("flag 1 = ", processData.setTime);
 	} else {
+		console.log("ENTER HERE 2");
 		var operationPerOperationBudgetRatio = calculateOperationPerOperationBudgetRatio(curr,data.operationBudget);
 		var operationPerBudgetRatio = calculateOpePerBudgetRatio(
 			processData.opeSum,
@@ -428,7 +422,7 @@ function calculateByOpeSum(index) {
 		var opeTime = calculateOpeTime(processData.opeSum, process.ProcessCost);
 		var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
 		var quantityPerMinute = calculateQuantityPerMinute(opeTime);
-		// console.log("run 2");
+		console.log("RUN 2.1");
 	}
 
 	setProcessData(
@@ -574,51 +568,50 @@ function calculateByQuantityPerMin(index){
 }
 
 function totalOperations(){
-
-  var totalOpeSum = 0
-  var totalOpePerOpeBudgetRatio = 0
-  var totalOpePerBudgetRatio = 0
-  var totalSetTime = 0
-  var totalOpeTime  = 0
-  var totalTotalOpeTime = 0
-  var processList = $('#processTable tr');
-  var processLength = processList.length - 2;
-
-
-  for (let index = 1; index < processLength; index++) {
-    var elel = $(processList[index]).children() 
-    // console.log( elel );
-    // console.log( $(elel[5]).children().val().split('%') );
-
-    totalOpeSum += parseInt($(elel[4]).children().val())
-    totalOpePerOpeBudgetRatio += parseFloat(  $(elel[5]).children().val().split('%')[0] )
-    totalOpePerBudgetRatio += parseFloat(  $(elel[6]).children().val().split('%')[0] )
-    totalSetTime += parseInt(convertDateTimeToSeconds($(elel[7]).children().val()))
-    
-    totalOpeTime += parseInt(convertDateTimeToSeconds($(elel[8]).children().val()))
-
-    // totalSetTime = new Date(totalSetTime * 1000).toISOString().slice(11, 19);
-
-    totalTotalOpeTime += parseInt(convertDateTimeToSeconds($(elel[9]).children().val()))
-  }
-  
-  
-  $('#operationCost').val(zeroSeparator(totalOpeSum));
-  var costExcludeOperation = $('#materialOutsourceOtherCost').val().replaceAll(',', '')
-  totalCost = parseFloat(totalOpeSum) + parseFloat(costExcludeOperation);
-  $('#totalCost').val(zeroSeparator (totalCost));
+	console.log(getFuncName(), "function entered");
+	var totalOpeSum = 0
+	var totalOpePerOpeBudgetRatio = 0
+	var totalOpePerBudgetRatio = 0
+	var totalSetTime = 0
+	var totalOpeTime  = 0
+	var totalTotalOpeTime = 0
+	var processList = $('#processTable tr');
+	var processLength = processList.length - 2;
 
 
+	for (let index = 1; index < processLength; index++) {
+		var elel = $(processList[index]).children() 
+		// console.log("KEKKETKLFADSHNUF = ", elel[4] );
+		// console.log( $(elel[5]).children().val().split('%') );
 
-  $('#totalOpeSum').text(totalOpeSum);
-  $('#totalOpePerOpe').text(totalOpePerOpeBudgetRatio.toFixed(5) + ' %' )
-  $('#totalOpePerBudget').text(totalOpePerBudgetRatio.toFixed(5) + ' %')
-  $('#totalSetTime').text( convertSecondsToDateTime(totalSetTime) );
-  $('#totalOpeTime').text( convertSecondsToDateTime(totalOpeTime) );
-  $('#totalTotalOpeTime').text( convertSecondsToDateTime(totalTotalOpeTime) );
+		totalOpeSum += parseInt( $(elel[4]).children().val() )
+		console.log("TOTALOPESUM EACH = ", totalOpeSum, getFuncName());
+		totalOpePerOpeBudgetRatio += parseFloat(  $(elel[5]).children().val().split('%')[0] )
+		totalOpePerBudgetRatio += parseFloat(  $(elel[6]).children().val().split('%')[0] )
+		totalSetTime += parseInt(convertDateTimeToSeconds($(elel[7]).children().val()))
+		
+		totalOpeTime += parseInt(convertDateTimeToSeconds($(elel[8]).children().val()))
 
-  $('#totalOperationCost').val(totalOpeSum)
-  restOperations();
+		// totalSetTime = new Date(totalSetTime * 1000).toISOString().slice(11, 19);
+
+		totalTotalOpeTime += parseInt(convertDateTimeToSeconds($(elel[9]).children().val()))
+	}
+
+
+	$('#operationCost').val(zeroSeparator(totalOpeSum));
+	var costExcludeOperation = $('#materialOutsourceOtherCost').val().replaceAll(',', '')
+	totalCost = parseFloat(totalOpeSum) + parseFloat(costExcludeOperation);
+	$('#totalCost').val(zeroSeparator (totalCost));
+
+	$('#totalOpeSum').text(totalOpeSum);
+	$('#totalOpePerOpe').text(totalOpePerOpeBudgetRatio.toFixed(5) + ' %' )
+	$('#totalOpePerBudget').text(totalOpePerBudgetRatio.toFixed(5) + ' %')
+	$('#totalSetTime').text( convertSecondsToDateTime(totalSetTime) );
+	$('#totalOpeTime').text( convertSecondsToDateTime(totalOpeTime) );
+	$('#totalTotalOpeTime').text( convertSecondsToDateTime(totalTotalOpeTime) );
+
+	$('#totalOperationCost').val(totalOpeSum)
+	restOperations();
   
 }
 
