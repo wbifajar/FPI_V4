@@ -1,7 +1,7 @@
 function addProcessToTableFromDB(){     
   
     const obj = getSelectedProcessFromDB();
-    console.log(obj);
+    // console.log(obj);
     
     
     obj.forEach((element, index) => {
@@ -49,7 +49,7 @@ function addProcessToTableFromDB(){
         $('#processName').val('');
         return false;
     });
-    console.log("PROCESSSLISTTTTT = ",processList)
+    // console.log("PROCESSSLISTTTTT = ",processList)
 }
 
 $(function(){
@@ -157,7 +157,7 @@ function deleteProcess(rowindex) {
       var selectedOpeTime = $('table#processTable tbody tr').eq(i).children().eq(8).children().val()
       var selectedTotalTime = $('table#processTable tbody tr').eq(i).children().eq(9).children().val()
       var selectedQtyPerMin = $('table#processTable tbody tr').eq(i).children().eq(10).children().val()
-      console.log("SELECTED PROCESS = ", selectedProcessCost);
+      // console.log("SELECTED PROCESS = ", selectedProcessCost);
       // cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
   
   
@@ -313,7 +313,7 @@ function calculateBySetTime(index) {
 
 
 	if (processData.opeSum == "" && processData.opeSum == 0) {
-		console.log('calculatebysettime first condition');
+		// console.log('calculatebysettime first condition');
 		var setTimeSec = convertDateTimeToSeconds(processData.setTime)
 		var opeSum = (setTimeSec * process.SettingCost) / (60 * data.quantity);
 		$(`#opeSum-${index}`).val(opeSum);
@@ -412,7 +412,7 @@ function calculateByOpeSum(index) {
 			var totalOpeTime = calculateTotalOpeTime(opeTime, data.quantity);
 			var quantityPerMinute = calculateQuantityPerMinute(opeTime);
 		//   console.log("run", prev - processData.opeSum);
-			console.log("run 1.1");
+			// console.log("run 1.1");
 		} else if (curr <= prev) {
 			var opeSum =
 			processData.opeSum - (processData.setTime * process.setCost) / 60;
@@ -454,7 +454,7 @@ function calculateByOpeSum(index) {
 					return;
 				}
 				
-			console.log("run 1.2");
+			// console.log("run 1.2");
 		} else if (processData.opeTime == "" || processData.opeTime == "00:00:00") {
 			var operationPerOperationBudgetRatio =
 			calculateOperationPerOperationBudgetRatio( curr, data.operationBudget );
@@ -462,7 +462,7 @@ function calculateByOpeSum(index) {
 			var opeTime = "00:00:00";
 			var totalOpeTime = "00:00:00";
 			var quantityPerMinute = 0;
-		  	console.log("run 1.3");
+		  	// console.log("run 1.3");
 		} else {
 			var opeSum =
 			processData.opeSum - (processData.setTime * process.setCost) / 60;
@@ -598,8 +598,8 @@ function calculateByTotalOpeTime(index){
   $('#opeTime-' + index).val(opetime)
   calculateByOpeTime(index)
 
-  console.log("OPETIMESECOND = ", opetimeseconds);
-  console.log("totaloptime = ", totalopetime);
+  // console.log("OPETIMESECOND = ", opetimeseconds);
+  // console.log("totaloptime = ", totalopetime);
 
 
 }

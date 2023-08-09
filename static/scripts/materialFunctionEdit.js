@@ -122,7 +122,7 @@ function addMaterial() {
     var table = document.getElementById("materialTable").getElementsByTagName('tbody')[0];
     var materialTableLength = $('table#materialTable > tbody tr:not(:last-child)').length;
     materialIndex++;
-    console.log("MATERUAL TABLE ELNGTH = ", materialTableLength);
+    // console.log("MATERUAL TABLE ELNGTH = ", materialTableLength);
 
     var row = table.insertRow(materialTableLength);
     var cell1 = row.insertCell(0);
@@ -194,8 +194,8 @@ function deleteMaterial(rowindex){
         var used_qty = $('table#materialTable tbody tr').eq(i).children().eq(4).children().eq(0).val()  
         var selected_material_price = $('table#materialTable tbody tr').eq(i).children().eq(5).children().text()
         var selected_material_cost_price = $('table#materialTable tbody tr').eq(i).children().eq(6).children().val()
-        console.log("DELETD SELECTED MATERIAL COST PRICE = ", used_qty );
-        console.log("DELETD SELECTED MATERIAL PRICE = ", selected_material_price );
+        // console.log("DELETD SELECTED MATERIAL COST PRICE = ", used_qty );
+        // console.log("DELETD SELECTED MATERIAL PRICE = ", selected_material_price );
         
         table.rows[i].cells[4].innerHTML = `<td><input type="input" class="inputt1 material-used-process" onchange="calculateByUsedQuantity(${i+1})" name="usedQuantity-${i+1}" id="usedQuantity-${i+1}" value=${used_qty}><a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${i+1}" data-bs-index="${ selected_material_id }" ><img class="imgcalcu" src="/static/images/calculator.png"></a></td>;`
         // table.rows[i].cells[5].innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${i+1})" name="materialNumber-${i+1}" id="materialNumber-${i+1}" value="0"></td>`;
@@ -224,10 +224,10 @@ function calculateByUsedQuantity(materialIndex){
     var data = getMaterialData(materialIndex);
     var material = materialList[materialIndex-1];
     
-    console.log(material);
+    // console.log(material);
     var materialCost = calculateMaterialCost(data.usedQuantity, material.price);
     $(`#materialCost-${materialIndex}`).val(materialCost);
-    console.log('MATERIAL COST = ', materialCost);
+    // console.log('MATERIAL COST = ', materialCost);
     updateTotalMaterialCostOnModal();
 }
 

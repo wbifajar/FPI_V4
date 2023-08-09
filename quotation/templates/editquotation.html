@@ -71,7 +71,7 @@
                                     Quantity
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="quantity" name="Quantity" value="{{ q.QUANTITY }}" onchange="calculateTotalBudget();">
+                                    <input class="" type="text" id="quantity" name="Quantity" value="{{ q.Quantity }}" onchange="calculateTotalBudget()">
                                 </div>
                             </div>
                     
@@ -1493,18 +1493,15 @@
     function getQuotationMaterialFromViews(){
         var sm = '{{quotation_material_js|safe}}'
         const obj = JSON.parse(sm)
-        console.log("ASFASFAFSASFS========FFSF = ", obj);
         return obj;
     }
 
     function addToBoardArr(){
 
         var obj = getQuotationMaterialFromViews()
-        console.log(obj);
         var arrlen = obj.length
         for (let i = 0; i < arrlen; i++) {
             
-            console.log("ADDTOBARARR = ", obj[0]);
             var index = obj[i]["MATERIAL_ID"]
             var materialid = obj[i]["MATERIAL_ID"]
             var materialname = obj[i]["name"]
@@ -1564,7 +1561,6 @@
                 ''  
             ])
         }
-        console.log("DONE PUSH BOARD ARR");
         
     }
 </script>
@@ -1573,7 +1569,6 @@
      function getSelectedProcessFromDB(){
         var sm = '{{ quotation_process_js|safe}}'
         const obj = JSON.parse(sm)
-        console.log(obj);
         return obj;
         
     }
@@ -1581,7 +1576,6 @@
     function getQuotationOtherFromDB(){
         var sm = '{{ quotation_other_js|safe}}'
         const obj = JSON.parse(sm)
-        console.log(obj);
         return obj;
         
     }
@@ -1593,8 +1587,6 @@
     $(function() {
         var part = '{{quotation|safe}}';
         const objq = JSON.parse(part);
-        console.log("QUOTATION_STATUS = ", objq["QUOTATION_STATUS"]);
-        console.log( $("select#select-status-option").val(objq["QUOTATION_STATUS"]) ); 
     });
 </script>
 

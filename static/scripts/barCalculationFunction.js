@@ -32,8 +32,6 @@ function getPartBar(val){
     const obj = JSON.parse(part);
     var selectedPart = obj.find(element => element.name == partName);
 
-
-    console.log(selectedPart);
     $('#BarMaterialId').val(selectedPart.idPart);
     $('#BarMaterialSpesificGravity').val(selectedPart.spesificGravity);
     $('#BarMaterialPrice').val(selectedPart.price);
@@ -128,7 +126,6 @@ function calculateNumOfQty(){
     }else{
         var bar_used_qty = 1 / bar_num;
         var bar_scala_new = bar_calcnum_round_ba - bar_calcnum_exposed - bar_calcnum_edge_loss - ((bar_partscale+bar_kerf_loss) * bar_num)
-        // console.log( bar_calcnum_round_ba, bar_calcnum_exposed, bar_calcnum_edge_loss, bar_partscale, bar_kerf_loss , bar_num)
     }
     $('#BarCalcNumScla').val(bar_scala_new);
     $('#BarCalcNumUsedQty').val(bar_used_qty.toFixed(5));

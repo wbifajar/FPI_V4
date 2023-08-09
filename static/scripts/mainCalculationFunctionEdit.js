@@ -39,7 +39,6 @@ function zeroSeparator(val) {
 function calculateBudgetAvailable() {
     var totalBudget = $('#totalBudget').val().replaceAll(',', '')
     var costExcludeOperation = $('#materialOutsourceOtherCost').val().replaceAll(',', '')
-    // console.log( "costExcludeOperation = ", costExcludeOperation);
     var costAvailable = parseFloat(totalBudget) - parseFloat(costExcludeOperation)
     // console.log('total cost available before other cost = ', totalBudget );
     return costAvailable
@@ -112,7 +111,7 @@ function getTotalOtherCost() {
     var data = getData();
     var result = 0;
     var othersIndexLen = $('table#othersTable > tbody tr').length
-    console.log("othersIndexLen = ", othersIndexLen);
+    // console.log("othersIndexLen = ", othersIndexLen);
     for (var i = 0; i < othersIndexLen; i++) {
         var otherPrice = parseFloat(document.getElementById(`otherPrice-${i + 1}`).value);
         var otherCheckBox = document.getElementById(`otherCheckBox-${i + 1}`).checked;
@@ -130,7 +129,7 @@ function getTotalOtherCost() {
             // result += otherPrice;
         }
 
-        console.log(result);
+        // console.log(result);
     }
 
     return result
