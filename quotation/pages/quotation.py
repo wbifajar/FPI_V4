@@ -57,7 +57,59 @@ def Quotation(request):
 
                 # Pass the quotation data to the template for pre-filling the form fields
                 context['edit_quotation'] = quotation_data
+
+        elif action == 'createPDF':
+            selected_quotation_id = request.POST.get('selected_quotation')
+
+            if selected_quotation_id:
+                # Retrieve the quotation data based on the selected ID
+                cursor.execute('SELECT * FROM quotation WHERE Quotation_ID = %s', (selected_quotation_id,))
+                quotation_data = cursor.fetchone()
+
+                # Pass the quotation data to the template for pre-filling the form fields
+                context['pdf_quotation'] = quotation_data
+
     return render(request, 'quotation.html', context)
+
+def createPDFQuotation(request, quotation_id):
+    if request.user.is_authenticated:
+        connection = connect()
+        cursor = connection.cursor(dictionary=True)
+
+        query = 'SELECT * FROM quotation \
+                        LEFT JOIN product ON quotation.Product_ID = product.idProduct \
+                        LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
+                       Where Quotation_ID = ' + str(quotation_id)
+        
+        cursor.execute(query)
+        quotation = cursor.fetchall()
+        quotation = quotation[0]
+        quotationjs = json.dumps(quotation, default=str)
+
+        quantity = int(quotation['QUANTITY'])
+        budgetPerUnit = int(quotation['BUDGET_PER_UNIT'])
+        expired = quotation['CREATED_AT'] + timedelta(days=10)
+        expiredFormat = expired.strftime("%d/%m/%Y")
+        createdAtFormat = quotation['CREATED_AT'].strftime("%d/%m/%Y")
+        amount = quantity * budgetPerUnit
+        ppn = int(amount*0.11)
+        total = int(amount + ppn)
+
+
+        context = { 
+            'q' : quotation,
+            'quotation' : quotationjs[0],
+            'expired' : expired,
+            'expiredFormat' : expiredFormat,
+            'createdAtFormat' : createdAtFormat,
+            'amount' : amount,
+            'quantity' : quantity,
+            'budgetPerUnit' : budgetPerUnit,
+            'ppn' : ppn,
+            'total' : total,
+        }
+
+    return render(request, 'pdfquotation.html', context)
 
 def getLastCreatedQuotationID():
     connection = connect()
@@ -341,7 +393,7 @@ def detailQuotation(request, quotation_id):
 
     return render(request, 'editquotation.html', context)
 
-    # ========== Update Quotation Other ==========
+# ========== Update Quotation Other ==========
 def updateQuotationOther(request, quotation_id):
     QUOTATION_ID = getLastCreatedQuotationID()
     
@@ -384,6 +436,36 @@ def updateQuotationOther(request, quotation_id):
         with connection.cursor() as cursor:
             cursor.execute(query)
 
+# ========== Update Quotation Process ==========
+def updateQuotationProcess(request, quotation_id):
+    QUOTATION_ID = getLastCreatedQuotationID()
+    
+    ProcessId = request.POST.getlist('ProcessId')
+    ProcessLength = len(ProcessId)
+    Opesum = request.POST.getlist('opeSum')
+    OpePerOpeBudgetRatio = request.POST.getlist('operationPerOperationBudgetRatio')
+    OpePerBudgetRatio = request.POST.getlist('operationPerBudgetRatio')
+    SetTime = request.POST.getlist('setTime')
+    OpeTime = request.POST.getlist('opeTime')
+    TotalOpeTime = request.POST.getlist('totalOpeTime')
+    QuantityPerMin = request.POST.getlist('quantityPerMinute')
+
+    for i in range(0, ProcessLength):
+        query = f'UPDATE quotation_process \
+            SET \
+            PROCESS_ID = "{ProcessId[i]}", \
+            OPESUM =  "{Opesum[i]}", \
+            OPE_PER_OPE_BUDGET_RATIO =  "{OpePerOpeBudgetRatio[i]}", \
+            OPE_PER_BUDGET_RATIO =  "{OpePerBudgetRatio [i]}", \
+            SETTIME =  "{SetTime [i]}", \
+            OPETIME =  "{OpeTime[i]}", \
+            TOTAL_OPETIME =  "{TotalOpeTime[i]}", \
+            QUANTITY_PER_MIN =  "{QuantityPerMin[i]}" \
+            WHERE QUOTATION_ID = "{quotation_id}" AND PROCESS_ID = "{ProcessId[i]}"'
+        
+        print("Update Query process = ", query)
+        with connection.cursor() as cursor:
+            cursor.execute(query)
 
 def updateQuotation(request, quotation_id):
     # return HttpResponse('asdasf')
@@ -430,6 +512,7 @@ def updateQuotation(request, quotation_id):
             cursor.execute(query)
             
         updateQuotationOther(request, quotation_id)
+        updateQuotationProcess(request, quotation_id)
         return redirect('/Quotation/')
     
 

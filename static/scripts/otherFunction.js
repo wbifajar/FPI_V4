@@ -69,7 +69,7 @@ function deleteOther(rowindex){
         var selectedOthersValue = $('table#othersTable tbody tr').eq(i).children().eq(2).children().val()
         var selectedOthersPercentage = $('table#othersTable tbody tr').eq(i).children().eq(3).children().val()
         var selectedOthersCheckbox = $('table#othersTable tbody tr').eq(i).children().eq(4).children()[0].checked == true ? 'checked' : ''
-        console.log("SELECTED = ", selectedOthersCheckbox)
+        // console.log("SELECTED = ", selectedOthersCheckbox)
 
         table.rows[i].cells[2].innerHTML = `<td><input type="input" id="otherPrice-${i + 1}" onchange="calculateOtherPercentage(${i + 1}, this.value)" class="inputMd" value=${selectedOthersValue} ></td>`;
         table.rows[i].cells[3].innerHTML = `<td><input type="input" class="inputPercentage" id="otherPercentage-${i + 1}" value="${selectedOthersPercentage}"></td>`;
