@@ -11,3 +11,7 @@ function replaceInfinityValue(val, new_val){
     if(val == Infinity) return new_val
     return val
 }
+
+function getFuncName() {
+    return getFuncName.caller.name
+}

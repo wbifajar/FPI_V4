@@ -54,7 +54,6 @@ function addProcessToTableFromDB(){
 
 $(function(){
     addProcessToTableFromDB()
-
 })
 
 function updateProcessLength(index) {

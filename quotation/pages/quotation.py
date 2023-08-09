@@ -4,6 +4,7 @@ from ..databaseConnect import *
 from datetime import timedelta, datetime
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.http import HttpResponse
 import json
 
 def Quotation(request):
@@ -22,6 +23,7 @@ def Quotation(request):
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
         item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=10)
+
 
 
     context = {
@@ -68,7 +70,7 @@ def getLastCreatedQuotationID():
     quotation_id = quotation[0]["QUOTATION_ID"]
     return quotation_id
 
-def handleEmptyString(val, default_value_if_empty):
+def handleEmptyString(val , default_value_if_empty):
     if val == '':
         return default_value_if_empty
     return val
@@ -136,9 +138,7 @@ def insertQuotationMaterial(request):
         print( "MaterialList = ", query )
         with connection.cursor() as cursor:
             cursor.execute(query)
-    print('=============================================================')
-
-    print('asddsadd')
+   
 
 def insertQuotationProcess(request):
     QUOTATION_ID = getLastCreatedQuotationID()
@@ -153,9 +153,7 @@ def insertQuotationProcess(request):
     TotalOpeTime = request.POST.getlist('totalOpeTime')
     QuantityPerMin = request.POST.getlist('quantityPerMinute')
 
-    print("ORICIANISBIFBSAIBF")
-    print(ProcessId)
-    print("QPM = ", QuantityPerMin)
+  
     for i in range(0, ProcessLength):
        
         # UsedQuantity = handleEmptyString(USED_QUANTITY[i], 0)
@@ -173,7 +171,7 @@ def insertQuotationProcess(request):
             TotalOpeTime[i],
             QuantityPerMin[i],
         )
-        print(query)
+        print("QUOATION PROCESS query = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
 
@@ -268,8 +266,9 @@ def detailQuotation(request, quotation_id):
         connection = connect()
         cursor = connection.cursor(dictionary=True)
 
+        #detail quotation
         query = 'SELECT * FROM quotation \
-                        LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
+                    LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
                        Where Quotation_ID = ' + str(quotation_id)
         cursor.execute(query)
         quotation = cursor.fetchall()
@@ -283,14 +282,14 @@ def detailQuotation(request, quotation_id):
         # totalMaterialCost =  quotation["MATERIAL_COST_NUMBER"] * ( quotation["MATERIAL_COST_PERCENTAGE"] / 100 )
         # totalOutsourceCost = quotation["OUTSOURCE_COST_NUMBER"] * ( quotation["OUTSOURCE_COST_PERCENTAGE"] / 100 )
         
-        #detail part
+        #data part
         query = 'SELECT * FROM part'
 
         cursor.execute(query)
         part_reflect_cost = cursor.fetchall()
         part_reflect_cost_js = json.dumps(part_reflect_cost)
   
-        #detail material
+        #detail quotation material
         query = 'SELECT * FROM quotation_material \
                 LEFT JOIN PART ON PART.idPART = QUOTATION_MATERIAL.MATERIAL_ID \
                 WHERE Quotation_ID = ' + str(quotation_id)
@@ -298,9 +297,9 @@ def detailQuotation(request, quotation_id):
         cursor.execute(query)
         quotation_material = cursor.fetchall()
         quotation_material_js = json.dumps(quotation_material)
-        print("quotation_MATERIAL ====> ", quotation_material_js)
+        # print("quotation_MATERIAL ====> ", quotation_material_js)
 
-        # detail process
+        # detail quotation process
         query = 'select * from quotation_process \
                 JOIN PROCESS ON QUOTATION_PROCESS.PROCESS_ID = PROCESS.ProcessID \
                 where Quotation_ID = ' + str(quotation_id)
@@ -308,13 +307,16 @@ def detailQuotation(request, quotation_id):
         cursor.execute(query)
         quotation_process = cursor.fetchall()
         quotation_process_js = json.dumps(quotation_process)
-        print("quotation process = ", quotation_process)
+        # print("quotation process = ", quotation_process)
 
-        # detail other
-        queryOther = 'select * from quotation_other JOIN OTHER ON quotation_other.OTHER_ID = OTHER.OtherId where Quotation_ID =' + str(quotation_id)
-        cursor.execute(queryOther)
+        # detail quotation other
+        query = 'select * from quotation_other \
+                    JOIN OTHER ON quotation_other.OTHER_ID = OTHER.OtherId \
+                    where Quotation_ID =' + str(quotation_id)
+        cursor.execute(query)
         quotation_other = cursor.fetchall()
         quotation_other_js = json.dumps(quotation_other)
+        # print("quotation other = ", quotation_other)
 
         # context
         context = { 
@@ -323,9 +325,6 @@ def detailQuotation(request, quotation_id):
             'TotalBudget' : totalBudget,
             'TotalCost' : totalCost,
             "ManagementCost" : managementCost,
-          
-            # 'material' : material,
-            # 'materialjs' : materialjs,
 
             'partreflectcost' : part_reflect_cost,
 		    'partreflectcostjs' : part_reflect_cost_js,
@@ -342,45 +341,95 @@ def detailQuotation(request, quotation_id):
 
     return render(request, 'editquotation.html', context)
 
-
-def insertProcess(request):
+    # ========== Update Quotation Other ==========
+def updateQuotationOther(request, quotation_id):
     QUOTATION_ID = getLastCreatedQuotationID()
-
-    ProcessId = request.POST.getlist('ProcessId')
-    ProcessLength = len(ProcessId)
-    # Quantity = request.POST.getlist('usedQuantity')
-
     
-    Opesum = request.POST.getlist('opeSum')
-    OpePerOpeBudgetRatio = request.POST.getlist('operationPerOperationBudgetRatio')
-    OpePerBudgetRatio = request.POST.getlist('operationPerBudgetRatio')
-    SetTime = request.POST.getlist('setTime')
-    OpeTime = request.POST.getlist('opeTime')
-    TotalOpeTime = request.POST.getlist('totalOpeTime')
-    QuantityPerMin = request.POST.getlist('quantityPerMinute')
+    OtherId = request.POST.getlist('othersId')
+    OtherLength = len(OtherId)
+    OtherPrice = request.POST.getlist('otherprice')
+    OtherPercentage = request.POST.getlist('otherpercentage')
 
-    print(Opesum)
- 
-    print("ASDSDSAD = ", QuantityPerMin)
-    for i in range(0, ProcessLength):
+    perUnit_Arr = []
+    for i in range(0, OtherLength):
+        OtherIsPerUnit = request.POST.get(f'otherisperunit-{i+1}', False)
        
-        # UsedQuantity = handleEmptyString(USED_QUANTITY[i], 0)
-        # Opesum = handleEmptyString()
-    
-        query = 'INSERT INTO quotation_process VALUES (null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
-            QUOTATION_ID,
-            ProcessId[i],
-            # UsedQuantity[i],
-            Opesum[i],
-            OpePerOpeBudgetRatio[i],
-            OpePerBudgetRatio[i],
-            SetTime[i],
-            OpeTime[i],
-            TotalOpeTime[i],
-            QuantityPerMin[i],
+        if OtherIsPerUnit == "on":
+            perUnit_Arr.append(1)
+        else:
+            perUnit_Arr.append(0)
+
+        # ni print buat ngecek doang
+        print("Orderisperunit = ", perUnit_Arr, OtherIsPerUnit)
+
+    # OtherIsPerUnit = [1 if value == 'on' else 0 for value in OtherIsPerUnit]
+
+    for i in range(0, OtherLength):
+        query = 'UPDATE quotation_other \
+            SET \
+            OTHER_ID = "{}", \
+            OTHER_PRICE =  "{}", \
+            OTHER_PERCENTAGE =  "{}", \
+            OTHER_IS_PER_UNIT =  "{}" \
+            WHERE QUOTATION_ID = "{}" AND OTHER_ID = "{}"'.format(
+            
+            OtherId[i],
+            OtherPrice[i],
+            OtherPercentage[i],
+            perUnit_Arr[i],
+            quotation_id,
+            OtherId[i]  
         )
+        print("Update Query = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
 
-    # insertQuotationMaterial(request)
-    # return redirect('/Quotation/')
+
+def updateQuotation(request, quotation_id):
+    # return HttpResponse('asdasf')
+    if request.user.is_authenticated:
+        CustomerID = request.POST.get('customerid', False)
+        ProductID = request.POST.get('productid', False)
+        ProductName = request.POST.get('productname', False)
+        ProductVersion = request.POST.get('productver', False)
+        Quantity = request.POST.get('Quantity', False)
+        BudgetPerUnit = request.POST['BudgetPerUnit']
+        CostExcludeOperation = float(request.POST.get('MaterialOutsourceOtherCost', False).replace(",", "") )
+        OperationCost = float(request.POST.get('TotalOperationCost', False))
+        ManagementCostPercentage = request.POST['ManagementCostPercentage']
+        MaterialCostNumber = request.POST['MaterialCostNumber']
+        MaterialCostPercentage = request.POST['MaterialCostPercentage']
+        OutsourceCostNumber = request.POST['OutsourceCostNumber']
+        OutsourceCostPercentage = request.POST['OutsourceCostPercentage']
+        OperationBudget = request.POST['OperationBudget'].replace(',', '')
+        Username = request.user.username
+        Status = request.POST.get('quotation_status', False)
+        print("STATUS = ", Status)
+
+        query = f'UPDATE Quotation \
+            SET PRODUCT_ID = "{ ProductID }", \
+                PRODUCT_NAME = "{ ProductName }", \
+                PRODUCT_VERSION = "{ ProductVersion }", \
+                QUANTITY = "{ Quantity }", \
+                BUDGET_PER_UNIT = "{ BudgetPerUnit }", \
+                COST_EXCLUDE_OPERATION = "{  CostExcludeOperation }", \
+                OPERATION_COST = "{ OperationCost }", \
+                MANAGEMENT_COST_PERCENTAGE = "{ ManagementCostPercentage }", \
+                MATERIAL_COST_NUMBER = "{ MaterialCostNumber }", \
+                MATERIAL_COST_PERCENTAGE = "{ MaterialCostPercentage }", \
+                OUTSOURCE_COST_NUMBER = "{ OutsourceCostNumber }", \
+                OUTSOURCE_COST_PERCENTAGE = "{ OutsourceCostPercentage }", \
+                OPERATION_BUDGET = "{ OperationBudget }", \
+                CREATED_AT = "{  timezone.now() }", \
+                ACTIVITY_LOG = "{ Username }", \
+                QUOTATION_STATUS = "{ Status }" \
+                WHERE QUOTATION_ID = { quotation_id }'
+        
+        print( "UPDATE QUERY = ", query)
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            
+        updateQuotationOther(request, quotation_id)
+        return redirect('/Quotation/')
+    
+
