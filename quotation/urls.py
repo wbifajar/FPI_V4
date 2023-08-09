@@ -10,5 +10,7 @@ urlpatterns = [
     path('insert-form/', views.InsertForm, name="InsertDB"),
     path('submittes/', views.insertQuotation, name="testes"),
     path('detail/<int:quotation_id>', views.detailQuotation, name="DetailQuotation"),
+    path('update-quotation/<int:quotation_id>', views.updateQuotation, name="updateQuotation"),
+    path('createPDF/<int:quotation_id>', views.createPDFQuotation, name="createPDFQuotation")
     # path('line-graph/', views.line_graph, name='line_graph'),
 ] 

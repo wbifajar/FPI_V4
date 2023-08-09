@@ -32,7 +32,7 @@
 
 <div class="container mt-3" >
     <!-- <form action="/save-quotation" method="POST"> -->
-    <form action="/Quotation/submittes/" method="POST">
+    <form action="/Quotation/update-quotation/{{ q.QUOTATION_ID }}" method="POST">
         {% csrf_token %}
         <!-- bagian paling atas yang tidak bisa ke scroll -->
         <div class="row">
@@ -51,11 +51,11 @@
                 <div class="row mt-2 mb-2">
                     <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;" name="quotation_status" required>
                         <option disabled>Pick Status</option>
-                        <option value="1" style="color: #000000;padding: 20px;" > Draft </option>
-                        <option value="2" style="color: #337ab7;padding: 20px;" > Accepted </option>
-                        <option value="3" style="color: #5cb85c;padding: 20px;" > Submitted </option>
-                        <option value="4" style="color: #f0ad4e;padding: 20px;" > Rejected </option>
-                        <option value="5" style="color: #cc0000;padding: 20px;" > Expired </option>
+                        <option value="Draft" style="color: #000000;padding: 20px;" > Draft </option>
+                        <option value="Accepted" style="color: #337ab7;padding: 20px;" > Accepted </option>
+                        <option value="Submitted" style="color: #5cb85c;padding: 20px;" > Submitted </option>
+                        <option value="Rejected" style="color: #f0ad4e;padding: 20px;" > Rejected </option>
+                        <option value="Expired" style="color: #cc0000;padding: 20px;" > Expired </option>
                     </select>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                                     Quantity
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="quantity" name="Quantity" value="{{ q.QUANTITY }}" onchange="calculateTotalBudget();">
+                                    <input class="" type="text" id="quantity" name="Quantity" value="{{ q.Quantity }}" onchange="calculateTotalBudget()">
                                 </div>
                             </div>
                     
@@ -138,7 +138,7 @@
                                     Material + Outsorce + Other
                                 </div>
                                 <div>
-                                    <input disabled type="text" class="noInput " id="materialOutsourceOtherCost" name="MaterialOutsourceOtherCost">
+                                    <input type="text" class="noInput " id="materialOutsourceOtherCost" name="MaterialOutsourceOtherCost">
                                 </div>
                             </div>
 
@@ -442,7 +442,7 @@
             </div>
 
             <div class="btncreate" style="display: flex; justify-content: space-between; justify-content: right;">
-                <button type="submit" class="btn btn-secondary">Submit Quotation</button>
+                <button type="submit" class="btn btn-secondary">Update Quotation</button>
             </div> 
         </div>
 
@@ -477,33 +477,8 @@
                       </tr>
                     </thead>
                     <tbody>
-                        {{ selected_material }}
-                        {% for qm in selected_material %}
-                        <tr>
-
-                            <th scope="row">{{forloop.counter }}</th>
-                            <td><input type="input" class="inputt material-id" value="{{qm.MATERIAL_ID}}" id="materialNameRC" name="material_id"></td>
-                            <td><input type="input" value="{{ qm.name }}"></td>
-                            <td><input type="input" list="process" class="inputt1"></td>
-                            <td>
-                                <input type="input" class="inputt1 material-used-process" 
-                                onchange="calculateByUsedQuantity({{ forloop.counter }})"
-                                name="usedQuantity" 
-                                id="usedQuantity-{{ forloop.counter }}"
-                                value="{{ qm.USED_QUANTITY }}">
-                                <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-{{ forloop.counter }}" data-bs-index="{{ qm.idPart }}" >
-                                    <img class="imgcalcu" src="/static/images/calculator.png">
-                                </a>
-                            </td>
-                            <td><p class="material-price"> {{ qm.price }} </p></td>
-                            <td>
-                                <input type="input" class="inputt1 material-cost-price" name="materialCost-{{ forloop.counter }}" id="materialCost-{{ forloop.counter }}">
-                            </td> 
-                            <td><button type="button" onclick="deleteMaterial({{ forloop.counter }})" class="trash"><i id="trash-icon"></i></button></td>
-                            <td><input type="hidden" name='idMaterial-{{ forloop.counter }}' value='{{ qm.MATERIAL_ID}}'></td>
-                            
-                        </tr>
-                        {% endfor%}
+                        {{ quotation_material }}
+                       
 
                         <tr>
                             <th scope="row"></th>
@@ -605,13 +580,13 @@
                         <label>
                           ID
                         </label>
-                        <input value='{{customerid}}' name="customerid" id="customerid" required>
+                        <input value='{{ q.CUSTOMER_ID }}' name="customerid" id="customerid" required>
                     </div>
                     <div class="col">
                         <label>
                           Name
                         </label>
-                        <input value='{{customername}}' name="customername" id="customername" required>
+                        <input value='{{ q.customerName }}' name="customername" id="customername" required>
                     </div>
                     <div class="col">
                       <label>
@@ -758,7 +733,7 @@
                     </div>
                 </div>
 
-                <!-- from number of & from part scale-->
+                <!-- from number off & from part scale-->
                 <div class="row jarak">
                     <div class="col">
                         <div class="card">
@@ -1485,7 +1460,7 @@
         return obj;
     }
 </script>
-<script src="{% static 'scripts/materialFunction.js' %}" type=""></script>
+<script src="{% static 'scripts/materialFunctionEdit.js' %}" type=""></script>
 <!-- ========== END MATERIAL FUNCTION ========== -->
 
 
@@ -1497,7 +1472,10 @@
         return obj;
     }
 </script>
-<script src="{% static 'scripts/processFunction.js' %}" type=""></script>
+<!-- <script src="{% static 'scripts/processFunction.js' %}"></script> -->
+
+<!-- edit function process -->
+<script src="{% static 'scripts/processFunctionEdit.js' %}"></script>
 <!-- ========== END PROCESS FUNCTION ========== -->
 
 
@@ -1509,24 +1487,21 @@
         return obj
     }
 </script>
-<script src="{% static 'scripts/otherFunction.js' %}" type=""></script>
+<!-- <script src="{% static 'scripts/otherFunction.js' %}" type=""></script> -->
 
 <script>
-    function getSelectedMaterialFromViews(){
-        var sm = '{{selected_material_js|safe}}'
+    function getQuotationMaterialFromViews(){
+        var sm = '{{quotation_material_js|safe}}'
         const obj = JSON.parse(sm)
-        
         return obj;
     }
 
     function addToBoardArr(){
 
-        var obj = getSelectedMaterialFromViews()
-        console.log(obj);
+        var obj = getQuotationMaterialFromViews()
         var arrlen = obj.length
         for (let i = 0; i < arrlen; i++) {
             
-            console.log("ADDTOBARARR = ", obj[0]);
             var index = obj[i]["MATERIAL_ID"]
             var materialid = obj[i]["MATERIAL_ID"]
             var materialname = obj[i]["name"]
@@ -1586,7 +1561,6 @@
                 ''  
             ])
         }
-        console.log("DONE PUSH BOARD ARR");
         
     }
 </script>
@@ -1595,7 +1569,6 @@
      function getSelectedProcessFromDB(){
         var sm = '{{ quotation_process_js|safe}}'
         const obj = JSON.parse(sm)
-        console.log(obj);
         return obj;
         
     }
@@ -1603,7 +1576,6 @@
     function getQuotationOtherFromDB(){
         var sm = '{{ quotation_other_js|safe}}'
         const obj = JSON.parse(sm)
-        console.log(obj);
         return obj;
         
     }
@@ -1615,8 +1587,6 @@
     $(function() {
         var part = '{{quotation|safe}}';
         const objq = JSON.parse(part);
-        console.log("QUOTATION_STATUS = ", objq["QUOTATION_STATUS"]);
-        console.log( $("select#select-status-option").val(objq["QUOTATION_STATUS"]) ); 
     });
 </script>
 
@@ -1630,8 +1600,6 @@
 <!-- edit function other -->
 <script src="{% static 'scripts/otherFunctionEdit.js' %}"></script>
 
-<!-- edit function process -->
-<script src="{% static 'scripts/processFunctionEdit.js' %}"></script>
 
 
 

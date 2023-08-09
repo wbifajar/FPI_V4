@@ -22,7 +22,7 @@ $('#graphnumber').on('change', function (){
     + othercost
     + procccost
 
-    console.log(othercost, procccost);
+    // console.log(othercost, procccost);
     data.push({
       "division": "Sell Unit Price",
       "date": i+1,
@@ -31,8 +31,8 @@ $('#graphnumber').on('change', function (){
     
   }
 
-  console.log(totalMaterialCost, totalOutsourceCost);
-  console.log(data);
+  // console.log(totalMaterialCost, totalOutsourceCost);
+  // console.log(data);
   updateGraph(data);
 })
 
@@ -212,12 +212,12 @@ svg.append("g")
       .attr("stroke-linecap", "round")
       .style("mix-blend-mode", "multiply")
       .attr("d", line);
-  console.log(groups);
+  // console.log(groups);
 
   //draw the dots
  
   // Add an invisible layer for the interactive tip.
-  console.log(d => d,quantity);
+  // console.log(d => d,quantity);
   const dot = svg.append("g")
       .attr("display", "none");
 

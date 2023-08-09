@@ -29,7 +29,7 @@
               <a href="{% url 'CreateNew' %}"><button type="button" class="btn btn-secondary">Create New Quotation</button></a>
               <button type="button" name="action" value="edit" class="btn btn-secondary" id="edit-button">Edit/Detail</button>
               <button type="submit" name="action" value="delete" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
-              <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create PDF</button></a>
+              <a href="#"><button value="createPDF" type="button" class="btn btn-secondary" id="createPDF">Create PDF</button></a>
             </div>
           </div>
       
@@ -80,6 +80,9 @@
               {% endfor %}
             </tbody>
           </table>
+
+          <input type="hidden" name="action" value="createPDF">
+          <input type="hidden" name="selected_quotation" value="{{ pdf_quotation.Quotation_ID }}">
       
           {% if edit_quotation %}
           <input type="hidden" name="action" value="edit">
@@ -112,9 +115,9 @@
     });
 
     var data = table.rows().data();
-    let quotationlengh = parseInt(data.length);
+    let quotationlength = parseInt(data.length);
 
-    for (let i=0 ; i<quotationlengh ; i++){
+    for (let i=0 ; i<quotationlength ; i++){
         price = data[i][5];
         price = currency(price);
 
@@ -126,7 +129,7 @@
     }
 
     $('#myTable').dataTable().fnClearTable();   
-    for (let i=0 ; i<quotationlengh ; i++){
+    for (let i=0 ; i<quotationlength ; i++){
         $('#myTable').dataTable().fnAddData(data[i]);
     }
   });
@@ -182,6 +185,39 @@
     q_id = $('.form-check-input:checkbox:checked').val()
     location.href = '/Quotation/detail/' + q_id
   
+  })
+</script>
+
+<script>
+  $('#createPDF').on('click', function(){
+    var q_id = $('.form-check-input:checkbox:checked')
+
+    if(q_id.length > 1)  
+    {
+      var firstCheckboxName = checkboxes.first().attr('selected_quotation');
+      var sameName = true;
+      console.log('tes selected name' , firstCheckboxName)
+
+      checkboxes.each(function() {
+          if ($(this).attr('selected_quotation') !== firstCheckboxName) {
+              sameName = false;
+              return false; // Exit the loop early
+          }
+      });
+
+      if (!sameName) {
+        alert('Selected checkboxes should have the same name.');
+      }
+
+      return;
+
+    }else if(q_id.length == 0){
+      alert('Please pick one file only to create the pdf')
+      return;
+    }
+
+    q_id = $('.form-check-input:checkbox:checked').val()
+    location.href = '/Quotation/createPDF/' + q_id
   })
 </script>
 {% endblock scripts %}

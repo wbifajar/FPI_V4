@@ -14,7 +14,6 @@ modal1.addEventListener('show.bs.modal', event => {
 
     modalTitle.textContent = `New message to ${recipient}`
  
-    console.log($('#show-modal-board'));
     $('#show-modal-board').attr('data-bs-index', recipient)
     $('#show-modal-bar').attr('data-bs-index', recipient)
 })
@@ -27,9 +26,7 @@ const modal3 = document.getElementById('exampleModal3')
 // find index of material id in array of board input value (if existed) if not return -1
 function findIndexOfMaterialId(arr, num){
     for(var i = 0; i < arr.length; i++){
-        console.log("ADSADASD = ", arr[i][0], num)
         if(  arr[i][0] == num){
-            console.log("sama = ", arr[i][0], num)
             return i
         }
     }
@@ -210,7 +207,6 @@ modal3.addEventListener('show.bs.modal', event => {
     // fill value in bar modal if already existed before
     var index = findIndexOfMaterialId(barArr, recipient)
     if( index != -1 ){
-        console.log('ISII INI MODAL FIELD INPUTNYA', index);
         $('#BarMaterialId').val( barArr[index][1] )
         $('#BarMaterialName').val( boardArr[index][2] )
 
@@ -316,5 +312,4 @@ function updateBarArray(){
     barArr[target] = arrBarInputFieldValue
 
     $('#BarArr').val(barArr)
-    console.log(barArr);
 }

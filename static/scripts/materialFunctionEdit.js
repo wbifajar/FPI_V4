@@ -1,14 +1,81 @@
 $(document).ready(function () {
     updateTotalMaterialCostOnModal();
-   
+    addQuotationMaterialToTableFromDB();
     // boardArr.push([
     //     obj[0]['MATERIAL_ID'], selectedMaterial.idPart , selectedMaterial.name, '', '', '', selectedMaterial.spesificGravity , selectedMaterial.price, '', '', '', 
     //     '', '', '', '', '', '', '', selectedMaterial.price, '', '',
     //     '', '', '', '', selectedMaterial.price, '', '', ''  
-    // ])
-       
-    
+    // ])      
 });
+
+function addQuotationMaterialToTableFromDB(){
+    const obj = getQuotationMaterialFromViews();
+    obj.forEach( (element, index) => {
+        // get material database from py file 
+        const obj = getMaterialFromDB();
+        var selectedMaterial = obj.find(el => el.idPart == element.idPart);
+        
+        if(selectedMaterial == undefined){
+            return false;
+        }
+        
+        materialList.push(selectedMaterial);
+    
+        // alter table to add process 
+        var table = document.getElementById("materialTable").getElementsByTagName('tbody')[0];
+        var materialTableLength = $('table#materialTable > tbody tr:not(:last-child)').length;
+        materialIndex++;
+        // console.log("MATERUAL TABLE ELNGTH = ", materialTableLength);
+
+        var row = table.insertRow(materialTableLength);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+        var cell7 = row.insertCell(6);
+        var cell8 = row.insertCell(7);
+        var cell9 = row.insertCell(8);
+
+        cell1.outerHTML = `<th class="th" scope="row">${index+1}</th>`;
+        cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${element.idPart}" id="materialNameRC" name="material_id"></td>`;
+        cell3.innerHTML = `<td><input type="input" value="${element.name}"></td>`;
+        cell4.innerHTML = `<td><input type="input" list="process" class="inputt1"></td>`;
+        cell5.innerHTML = `<td>
+                            <input type="input" class="inputt1 material-used-process" 
+                            onchange="calculateByUsedQuantity(${index+1})" 
+                            name="usedQuantity" 
+                            id="usedQuantity-${index+1}"
+                            value="${element.USED_QUANTITY}">
+                                <a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${index+1}" data-bs-index="${element.idPart}" >
+                                    <img class="imgcalcu" src="/static/images/calculator.png">
+                                </a>
+                            </td>`;
+        cell6.innerHTML = `<td> <p class="material-price"> ${element.price} </p> </td>`;
+        cell7.innerHTML = `<td><input type="input" class="inputt1 material-cost-price" value="${element.USED_QUANTITY * element.price}" name="materialCost-${index+1}" id=materialCost-${index+1}></td>`;
+        cell8.innerHTML = `<td><button type="button" onclick="deleteMaterial(${index+1});" class="trash"><i id="trash-icon"></i></button></td>`;
+        cell9.innerHTML = `<td><input type="hidden" name='idMaterial-${index+1}' value='${element.idPart}'></td>`;
+    
+        callFeatherIcon();
+        updateMaterialLength(index);
+        $('#searchName').val('');
+
+        // add empty array to boardArr array dan barArr array
+        // with some default value from DB : material id, name, gravity, price 
+        boardArr.push([
+            element.idPart, element.idPart , element.name, '', '', '', element.spesificGravity , element.price, '', '', '', 
+            '', '', '', '', '', '', '', element.price, '', '',
+            '', '', '', '', element.price, '', '', ''  
+        ])
+
+        barArr.push([
+            element.idPart, element.idPart, element.name, '', '', element.spesificGravity, element.price, '', '', '',
+            '', '', '', '', '', '', '', '', '', '',
+            '', '', '', '', '', '', '',
+        ])
+    });
+}
 
 function getMaterialData(materialIndex){
      
@@ -55,7 +122,7 @@ function addMaterial() {
     var table = document.getElementById("materialTable").getElementsByTagName('tbody')[0];
     var materialTableLength = $('table#materialTable > tbody tr:not(:last-child)').length;
     materialIndex++;
-    console.log("MATERUAL TABLE ELNGTH = ", materialTableLength);
+    // console.log("MATERUAL TABLE ELNGTH = ", materialTableLength);
 
     var row = table.insertRow(materialTableLength);
     var cell1 = row.insertCell(0);
@@ -127,8 +194,8 @@ function deleteMaterial(rowindex){
         var used_qty = $('table#materialTable tbody tr').eq(i).children().eq(4).children().eq(0).val()  
         var selected_material_price = $('table#materialTable tbody tr').eq(i).children().eq(5).children().text()
         var selected_material_cost_price = $('table#materialTable tbody tr').eq(i).children().eq(6).children().val()
-        console.log("DELETD SELECTED MATERIAL COST PRICE = ", used_qty );
-        console.log("DELETD SELECTED MATERIAL PRICE = ", selected_material_price );
+        // console.log("DELETD SELECTED MATERIAL COST PRICE = ", used_qty );
+        // console.log("DELETD SELECTED MATERIAL PRICE = ", selected_material_price );
         
         table.rows[i].cells[4].innerHTML = `<td><input type="input" class="inputt1 material-used-process" onchange="calculateByUsedQuantity(${i+1})" name="usedQuantity-${i+1}" id="usedQuantity-${i+1}" value=${used_qty}><a data-bs-toggle="modal" data-bs-target="#exampleModal1" id="modal-${i+1}" data-bs-index="${ selected_material_id }" ><img class="imgcalcu" src="/static/images/calculator.png"></a></td>;`
         // table.rows[i].cells[5].innerHTML = `<td><input type="input" class="inputt1" onchange="calculateByNumber(${i+1})" name="materialNumber-${i+1}" id="materialNumber-${i+1}" value="0"></td>`;
@@ -157,10 +224,10 @@ function calculateByUsedQuantity(materialIndex){
     var data = getMaterialData(materialIndex);
     var material = materialList[materialIndex-1];
     
-    console.log(material);
+    // console.log(material);
     var materialCost = calculateMaterialCost(data.usedQuantity, material.price);
     $(`#materialCost-${materialIndex}`).val(materialCost);
-    console.log('MATERIAL COST = ', materialCost);
+    // console.log('MATERIAL COST = ', materialCost);
     updateTotalMaterialCostOnModal();
 }
 

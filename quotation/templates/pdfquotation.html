@@ -19,6 +19,7 @@
 {% endblock head %}
 
 {% block content %}
+<form action="/Quotation/createPDF/" method="POST">
 <div class="container jarak" >
     <div class="card" id="form">
         <div class="card-body">
@@ -39,19 +40,19 @@
                 <div class="fw-bold">To</div>
                 <div class="col-xl-8">
                   <ul class="list-unstyled">
-                    <li class="fw-bold">PT SHIMA TRADING INDONESIA</li>
+                    <li class="fw-bold">{{q.customerName}}</li>
                     <li class="col-xl-4" style="line-break: loose;">
-                        Alamanda Tower Lt.20 Unit A 
+                        <!-- Alamanda Tower Lt.20 Unit A 
                         Jl. TB. Simatupang Kav 23-24
                         Jakarta Selatan DKI Jakarta
-                        ID 12430
+                        ID 12430 -->{{q.customerAddress}}
                     </li>
                     <li >Tax ID : 66.995.276.4-016.000</li>
                   </ul>
                 </div>
                 <div class="col-xl-4 text-end">
                   <ul class="list-unstyled">
-                    <li class="fw-bold">PT WALK BRAINS INDONESIA</li>
+                    <li class="fw-bold">PT. Walk Brains Indonesia</li>
                     <li style="line-break: loose;">
                         MidPlaza II 16th FI Jl. Jend. Sudirman Kav 10-11
                         Jakarta DKI Jakarta 62 10220
@@ -67,10 +68,10 @@
                 <div>
                   <ul class="list-unstyled">
                     <li class="col-xl-3" style="line-break: loose;">
-                        Alamanda Tower Lt.20 Unit A 
+                        <!-- Alamanda Tower Lt.20 Unit A 
                         Jl. TB. Simatupang Kav 23-24
                         Jakarta Selatan DKI Jakarta
-                        ID 12430
+                        ID 12430 --> {{q.customerAddress}}
                     </li>
                     <li >Tax ID : 66.995.276.4-016.000</li>
                   </ul>
@@ -80,8 +81,8 @@
               <div class="row" style="margin-top: 3%;">
                 <div>
                   <ul class="list-unstyled">
-                    <li >Estimate Date : 2022-10-07</li>
-                    <li >Expiry Date : 2022-10-31</li>
+                    <li >Estimate Date : {{createdAtFormat}}</li>
+                    <li >Expiry Date : {{expiredFormat}}</li>
                   </ul>
                 </div>
               </div>
@@ -101,13 +102,13 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row">1</th>
-                      <td>Product Code</td>
-                      <td>Product Name</td>
+                      <td>{{q.PRODUCT_ID}}</td>
+                      <td>{{q.PRODUCT_ID}}</td>
+                      <td>{{q.PRODUCT_NAME}}</td>
                       <td>IDR</td>
-                      <td class="text-end">60</td>
-                      <td class="text-end">10000</td>
-                      <td class="text-end">600000</td>
+                      <td class="text-end">{{quantity}}</td>
+                      <td class="text-end">{{budgetPerUnit}}</td>
+                      <td class="text-end">{{amount}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -142,11 +143,11 @@
                     </div>
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <p class="text-black">PPN(11%)</p>
-                        <p class="text-end">$110</p>
+                        <p class="text-end">{{ppn}}</p>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <p class="text-black">Total Amount</p>
-                        <p class="text-end">$1220</p>
+                        <p class="text-end">{{total}}</p>
                     </div>
                 </div>
               </div>
@@ -175,7 +176,7 @@
         <input type="button" onclick="HTMLtoPDF()" class="btn btn-secondary btn_print" value="Create PDF"></input>
     </div> 
 </div>
-
+</form>
 {% endblock content %}
 
 

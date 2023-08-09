@@ -76,7 +76,8 @@
                 </div>
                 <div class="row mt-2 mb-2">
                     <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;" name="quotation_status" required>
-                        <option disabled>Pick Status</option>
+                        <option selected disabled>Pick Status</option>
+                        <option value="" selected disabled>Pick Status</option>
                         <option value="Draft" style="color: #000000;padding: 20px;" > Draft </option>
                         <option value="Accepted" style="color: #337ab7;padding: 20px;" > Accepted </option>
                         <option value="Submitted" style="color: #5cb85c;padding: 20px;" > Submitted </option>
@@ -96,7 +97,7 @@
                                     Quantity
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="quantity" name="Quantity" onchange="calculateTotalBudget();">
+                                    <input class="" type="text" id="quantity" name="Quantity" onchange="calculateTotalBudget()">
                                 </div>
                             </div>
                     
@@ -111,7 +112,7 @@
                                     Budget/Unit
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="budgetPerUnit" name="BudgetPerUnit" onchange="calculateTotalBudget()" value="0">
+                                    <input class="" type="text" id="budgetPerUnit" name="BudgetPerUnit" onchange="calculateTotalBudget()" value="10000">
                                 </div>
                             </div>
                     
@@ -377,7 +378,7 @@
                             
                          
                             Operation Budget
-                            <input style="margin-left: 3%;" type="text" class="inputMd noInput" id="operationBudget" name="OperationBudget" >
+                            <input style="margin-left: 3%;" type="text" class="inputMd noInput" id="operationBudget" name="OperationBudget" value="10000">
                         </div>
                         <div style="display: flex; justify-content: right; width: 100%;">
                             <input type="input" list="process" id="processName" placeholder="Search ..." class="inputSearch">
@@ -1426,7 +1427,6 @@
             const selectedColor = selectedOption.style.color;
 
             selectElement.style.color = selectedColor;
-            // console.log("Selected option color:", selectedColor);
         });
     });
     // const dropdownButton = document.querySelector(".dropdown-button");
