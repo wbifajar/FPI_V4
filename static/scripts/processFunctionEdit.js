@@ -140,8 +140,10 @@ function deleteProcess(rowindex) {
   
     // remove item from array and fixing the index
     processList.splice(rowindex - 1, 1);
-    index -= 1;
-    for (var i = 0; i < index; i++) {
+    
+    var processTableLength = $('table#processTable > tbody tr').length;
+    // index -= 1;
+    for (var i = 0; i < processTableLength; i++) {
       table.rows[i].cells[0].innerHTML = `<th scope="row">${i + 1}</th>`;
        
       
