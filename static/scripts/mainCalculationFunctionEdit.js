@@ -60,7 +60,7 @@ function calculateTotalBudget() {
     var costAvailable = calculateBudgetAvailable();
 
     $('#restOpeSum').text(zeroSeparator(costAvailable))
-    recalculateBySetTime();
+    // recalculateBySetTime();
     calculateCalculationResult();
 }
 
