@@ -39,7 +39,7 @@ def Quotation(request):
 
             if selected_quotation_id:
                 # Perform delete operation
-                for i in range (0, len(selected_quotation_id)):
+                for i in range (0, len(selected_quotation_id)-1):
                     query = 'DELETE FROM quotation WHERE Quotation_ID = ' + selected_quotation_id[i]
                     cursor.execute(query)
                     connection.commit()
@@ -349,7 +349,7 @@ def detailQuotation(request, quotation_id):
         cursor.execute(query)
         quotation_material = cursor.fetchall()
         quotation_material_js = json.dumps(quotation_material)
-        # print("quotation_MATERIAL ====> ", quotation_material_js)
+        print("quotation_MATERIAL ====> ", quotation_material_js)
 
         # detail quotation process
         query = 'select * from quotation_process \
@@ -393,7 +393,72 @@ def detailQuotation(request, quotation_id):
 
     return render(request, 'editquotation.html', context)
 
-# ========== Update Quotation Other ==========
+def updateQuotationMaterial(request, quotation_id):
+    # ========== Quotation Material ==========
+    BoardArr = request.POST['BoardArr'].split(',')
+    BarArr = request.POST['BarArr'].split(',')
+    
+    QUOTATION_ID = getLastCreatedQuotationID()
+
+    MaterialList = request.POST.getlist('material_id')
+    MaterialLength = len(MaterialList)
+    if(MaterialLength == 0) : return
+
+    print(MaterialLength)
+    USED_QUANTITY = request.POST.getlist('usedQuantity')
+    BoardArrView = [BoardArr[i:i+29] for i in range(0, len(BoardArr), 29)]
+    BarArrView = [BarArr[i:i+27] for i in range(0, len(BarArr), 29)]
+    for item in BoardArrView:
+        print("BOARDARR = ", item )
+    for item in BarArrView:
+        print("BARARR = ", item )
+    
+    for i in range(0, MaterialLength):
+        MaterialID = MaterialList[i]
+        UsedQuantity = handleEmptyString(USED_QUANTITY[i], 0)
+        BoardVerticalScale = handleEmptyString(BoardArr[i * 29 + 3], 0) #1
+        BoardHorizontalScale = handleEmptyString(BoardArr[i * 29 + 4], 0) #2
+        BoardThickness = handleEmptyString(BoardArr[i * 29 + 5], 0) #3
+        BoardVerticalScaleFromNumber = handleEmptyString(BoardArr[i * 29 + 8], 0) #4
+        BoardHorizontalScaleFromNumber = handleEmptyString(BoardArr[i * 29 + 9], 0) #5
+        BoardExposedFromNumber = handleEmptyString(BoardArr[i * 29 + 10], 0) #6
+        BoardMarginFromNumber = handleEmptyString(BoardArr[i * 29 + 11], 0) #7
+        BoardMaterialCostFromNumber = handleEmptyString(BoardArr[i * 29 + 20], 0) #8
+        BoardExposedFromPartScale = handleEmptyString(BoardArr[i * 29 + 22], 0) #9
+        BoardMarginFromPartScale = handleEmptyString(BoardArr[i * 29 + 23], 0) #10
+        BarPartScalp = handleEmptyString(BarArr[i * 27 + 12], 0) #11
+        BarDiameter = handleEmptyString(BarArr[i * 27 + 4], 0) #12
+        BarExposed = handleEmptyString(BarArr[i * 27 + 7], 0) #13
+        BarLength = handleEmptyString(BarArr[i * 27 + 8], 0) #14
+        BarEdgeLoss = handleEmptyString(BarArr[i * 27 + 9], 0) #15
+        BarKeftLoss = handleEmptyString(BarArr[i * 27 + 15], 0) #16
+        query =  f'UPDATE quotation_material SET \
+            MATERIAL_ID = { MaterialID }, \
+            USED_QUANTITY = { UsedQuantity }, \
+            BOARD_VERTICAL_SCALE = { BoardVerticalScale }, \
+            BOARD_HORIZONTAL_SCALE = { BoardHorizontalScale }, \
+            BOARD_THICKNESS = { BoardThickness }, \
+            BOARD_VERTICAL_SCALE_FROM_NUMBER = { BoardVerticalScaleFromNumber }, \
+            BOARD_HORIZONTAL_SCALE_FROM_NUMBER = { BoardHorizontalScaleFromNumber }, \
+            BOARD_EXPOSED_FROM_NUMBER = { BoardExposedFromNumber }, \
+            BOARD_MARGIN_FROM_NUMBER = { BoardMarginFromNumber }, \
+            BOARD_MATERIAL_COST_FROM_NUMBER = { BoardMaterialCostFromNumber }, \
+            BOARD_EXPOSED_FROM_PART_SCALE = { BoardExposedFromPartScale }, \
+            BOARD_MARGIN_FROM_PART_SCALE = { BoardMarginFromPartScale }, \
+            BAR_PART_SCALP = { BarPartScalp }, \
+            BAR_DIAMETER = { BarDiameter }, \
+            BAR_EXPOSED = { BarExposed }, \
+            BAR_LENGTH = { BarLength }, \
+            BAR_EDGE_LOSS = { BarEdgeLoss }, \
+            BAR_KEFT_LOSS = { BarKeftLoss } \
+            WHERE QUOTATION_ID = {quotation_id} AND MATERIAL_ID = {MaterialID}'
+        
+        print( "MaterialList = ", query )
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+   
+
+    # ========== Update Quotation Other ==========
 def updateQuotationOther(request, quotation_id):
     QUOTATION_ID = getLastCreatedQuotationID()
     
@@ -512,7 +577,9 @@ def updateQuotation(request, quotation_id):
             cursor.execute(query)
             
         updateQuotationOther(request, quotation_id)
+        updateQuotationMaterial(request, quotation_id)
         updateQuotationProcess(request, quotation_id)
+
         return redirect('/Quotation/')
     
 
