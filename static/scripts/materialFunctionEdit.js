@@ -25,7 +25,7 @@ function addQuotationMaterialToTableFromDB(){
         var table = document.getElementById("materialTable").getElementsByTagName('tbody')[0];
         var materialTableLength = $('table#materialTable > tbody tr:not(:last-child)').length;
         materialIndex++;
-        console.log("MATERUAL TABLE ELNGTH = ", materialTableLength);
+        // console.log("MATERUAL TABLE ELNGTH = ", materialTableLength);
 
         var row = table.insertRow(materialTableLength);
         var cell1 = row.insertCell(0);
