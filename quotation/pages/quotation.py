@@ -8,7 +8,6 @@ from django.http import HttpResponse
 import json
 
 def Quotation(request):
-
     connection = connect()
     cursor = connection.cursor(dictionary=True)
 
@@ -23,6 +22,15 @@ def Quotation(request):
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
         item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=10)
+        item['QUOTATION_ID'] = item['QUOTATION_ID']
+        item['QUOTATION_STATUS'] = item['QUOTATION_STATUS']
+
+
+    # Extract only the required fields for JSON serialization
+    # quotation_data = [{'QUOTATION_ID': q['QUOTATION_ID'], 'QUOTATION_STATUS': q['QUOTATION_STATUS']} for q in quotation]
+
+    # Serialize quotation data to JSON
+    # quotationjs = json.dumps(quotation_data, default=str)
 
 
 
@@ -62,11 +70,19 @@ def Quotation(request):
             selected_quotation_id = request.POST.get('selected_quotation')
 
             if selected_quotation_id:
-                # Retrieve the quotation data based on the selected ID
-                cursor.execute('SELECT * FROM quotation WHERE Quotation_ID = %s', (selected_quotation_id,))
-                quotation_data = cursor.fetchone()
+                # Perform delete operation
+                for i in range (0, len(selected_quotation_id)-1):
+                    query = 'SELECT * FROM quotation WHERE Quotation_ID = ' + selected_quotation_id[i]
+                    cursor.execute(query)
+                    connection.commit()
+                    print(query)
 
-                # Pass the quotation data to the template for pre-filling the form fields
+            # if selected_quotation_id:
+            #     # Retrieve the quotation data based on the selected ID
+            #     cursor.execute('SELECT * FROM quotation WHERE Quotation_ID = %s', (selected_quotation_id,))
+            #     quotation_data = cursor.fetchone()
+
+            #     # Pass the quotation data to the template for pre-filling the form fields
                 context['pdf_quotation'] = quotation_data
 
     return render(request, 'quotation.html', context)
@@ -482,21 +498,14 @@ def updateQuotationOther(request, quotation_id):
     # OtherIsPerUnit = [1 if value == 'on' else 0 for value in OtherIsPerUnit]
 
     for i in range(0, OtherLength):
-        query = 'UPDATE quotation_other \
+        query = f'UPDATE quotation_other \
             SET \
-            OTHER_ID = "{}", \
-            OTHER_PRICE =  "{}", \
-            OTHER_PERCENTAGE =  "{}", \
-            OTHER_IS_PER_UNIT =  "{}" \
-            WHERE QUOTATION_ID = "{}" AND OTHER_ID = "{}"'.format(
-            
-            OtherId[i],
-            OtherPrice[i],
-            OtherPercentage[i],
-            perUnit_Arr[i],
-            quotation_id,
-            OtherId[i]  
-        )
+            OTHER_ID = "{OtherId[i]}", \
+            OTHER_PRICE =  "{OtherPrice[i]}", \
+            OTHER_PERCENTAGE =  "{OtherPercentage[i]}", \
+            OTHER_IS_PER_UNIT =  "{perUnit_Arr[i]}" \
+            WHERE QUOTATION_ID = "{quotation_id}" AND OTHER_ID = "{OtherId[i]}"'
+        
         print("Update Query = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)

@@ -65,15 +65,7 @@
                 <td>{{ q.EXPIRED }}</td>
                 <td>Last modified by {{ q.ACTIVITY_LOG }}</td>
                 <td>
-                  <button type="button" class="btn"
-                    style="color: 
-                      {% if q.QUOTATION_STATUS == 'Draft' %} #000000;
-                      {% elif q.QUOTATION_STATUS == 'Accepted' %} #337ab7;
-                      {% elif q.QUOTATION_STATUS == 'Submitted' %} #5cb85c;
-                      {% elif q.QUOTATION_STATUS == 'Rejected' %} #f0ad4e;
-                      {% elif q.QUOTATION_STATUS == 'Expired' %} #cc0000;
-                      {% endif %}"
-                    disabled>{{q.QUOTATION_STATUS}}</button>
+                  <button type="button" class="btn" id="quotationButton-{{ q.QUOTATION_ID }}" disabled>{{ q.QUOTATION_STATUS }}</button>
                 </td>
                          
               </tr>
@@ -153,20 +145,6 @@
   </script>
 
 <script>
-    // document.getElementById('DeleteQuotation').addEventListener('click', function() {
-    //   var selectedQuotation = document.querySelector('input[name="selected_quotation"]:checked');
-    //   if (selectedQuotation) {
-    //     document.getElementById('SelectedQuotationId').value = selectedQuotation.value;
-    //     document.querySelector('input[name="action"]').value = 'delete';
-    //   } else {
-    //     // No quotation is selected
-    //     alert('Please select a quotation to delete.');
-    //     return false; // Prevent form submission
-    //   }
-    // });
-  </script>
-
-<script>
   $('#edit-button').on('click', function(){
     // var q_id = $('input[type="checkbox"]:checked').val()
     var q_id = $('.form-check-input:checkbox:checked')
@@ -194,22 +172,49 @@
 
     if(q_id.length > 1)  
     {
-      var firstCheckboxName = checkboxes.first().attr('selected_quotation');
-      var sameName = true;
-      console.log('tes selected name' , firstCheckboxName)
-
-      checkboxes.each(function() {
-          if ($(this).attr('selected_quotation') !== firstCheckboxName) {
-              sameName = false;
-              return false; // Exit the loop early
-          }
+      var arr=[];
+      $.each($("input[name='selected_quotation']:checked"), function(){
+          arr.push($(this).val());
       });
+      console.log("Your selected languages are: " + arr.join(", "));
 
-      if (!sameName) {
-        alert('Selected checkboxes should have the same name.');
-      }
+      // var checkbox = document.getElementsByName('selected_quotation');
 
-      return;
+      // var result = "";
+      // for(var i=0; i<checkbox.length; i++){
+      //   if (checkboxes[i].checked) {
+      //       result += checkboxes[i].value;
+      //   }
+      //   console.log(result);
+      // }
+
+      // const checkboxes = document.querySelectorAll('input[name="selected_quotation"]');
+      // // const selectedFruits = document.getElementById('selectedFruits');
+
+      // checkboxes.forEach(checkbox => {
+      //   checkbox.addEventListener('change', function() {
+      //     const selectedCheckboxes = document.querySelectorAll('input[name="selected_quotation"]:checked');
+      //     const selectedValues = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+      //     selectedFruits.textContent = selectedValues.join(', ');
+      //   });
+      // });
+
+      // var firstCheckboxName = checkboxes.first().attr('selected_quotation');
+      // var sameName = true;
+      // console.log('tes selected name' , firstCheckboxName)
+
+      // checkboxes.each(function() {
+      //     if ($(this).attr('selected_quotation') !== firstCheckboxName) {
+      //         sameName = false;
+      //         return false; // Exit the loop early
+      //     }
+      // });
+
+      // if (!sameName) {
+      //   alert('Selected checkboxes should have the same name.');
+      // }
+
+      // return;
 
     }else if(q_id.length == 0){
       alert('Please pick one file only to create the pdf')
@@ -219,5 +224,31 @@
     q_id = $('.form-check-input:checkbox:checked').val()
     location.href = '/Quotation/createPDF/' + q_id
   })
+</script>
+
+<script>
+  var quotationData = JSON.parse('{{ quotationjs|escapejs }}');
+
+  for (var i = 0; i < quotationData.length; i++) {
+    (function() {
+      var q = quotationData[i];
+      var quotationButton = document.getElementById("quotationButton-" + q.QUOTATION_ID);
+      var quotationStatus = q.QUOTATION_STATUS;
+
+      quotationButton.style.color = getColorCode(quotationStatus);
+
+      function getColorCode(status) {
+        const colorCodes = {
+          Draft: "#000000",
+          Accepted: "#337ab7",
+          Submitted: "#5cb85c",
+          Rejected: "#f0ad4e",
+          Expired: "#cc0000",
+        };
+
+        return colorCodes[status] || "";
+      }
+    })();
+  }
 </script>
 {% endblock scripts %}
