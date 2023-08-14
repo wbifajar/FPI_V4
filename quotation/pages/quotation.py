@@ -8,23 +8,26 @@ from django.http import HttpResponse
 import json
 
 def Quotation(request):
-
     connection = connect()
     cursor = connection.cursor(dictionary=True)
 
     cursor.execute('SELECT * FROM quotation \
                     LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
-                   ORDER BY QUOTATION_ID DESC') #untuk sementara aja urutin dari yg paling baru
+                   ORDER BY QUOTATION_ID DESC')  # untuk sementara aja urutin dari yg paling baru
     quotation = cursor.fetchall()
-    quotationjs = json.dumps(quotation, default=str)
-    
+
+    # Modify and calculate values for each quotation
     for item in quotation:
         item['QUANTITY'] = int(item['QUANTITY'])
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
         item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=10)
 
+    # Extract only the required fields for JSON serialization
+    quotation_data = [{'QUOTATION_ID': q['QUOTATION_ID'], 'QUOTATION_STATUS': q['QUOTATION_STATUS']} for q in quotation]
 
+    # Serialize quotation data to JSON
+    quotationjs = json.dumps(quotation_data, default=str)
 
     context = {
         "quotation": quotation,

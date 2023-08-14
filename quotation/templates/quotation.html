@@ -29,7 +29,7 @@
               <a href="{% url 'CreateNew' %}"><button type="button" class="btn btn-secondary">Create New Quotation</button></a>
               <button type="button" name="action" value="edit" class="btn btn-secondary" id="edit-button">Edit/Detail</button>
               <button type="submit" name="action" value="delete" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
-              <a href="#"><button value="createPDF" type="button" class="btn btn-secondary" id="createPDF">Create PDF</button></a>
+              <a href="{% url 'PDFQuotation' %}"><button type="button" class="btn btn-secondary">Create PDF</button></a>
             </div>
           </div>
       
@@ -65,24 +65,13 @@
                 <td>{{ q.EXPIRED }}</td>
                 <td>Last modified by {{ q.ACTIVITY_LOG }}</td>
                 <td>
-                  <button type="button" class="btn"
-                    style="color: 
-                      {% if q.QUOTATION_STATUS == 'Draft' %} #000000;
-                      {% elif q.QUOTATION_STATUS == 'Accepted' %} #337ab7;
-                      {% elif q.QUOTATION_STATUS == 'Submitted' %} #5cb85c;
-                      {% elif q.QUOTATION_STATUS == 'Rejected' %} #f0ad4e;
-                      {% elif q.QUOTATION_STATUS == 'Expired' %} #cc0000;
-                      {% endif %}"
-                    disabled>{{q.QUOTATION_STATUS}}</button>
+                  <button type="button" class="btn" id="quotationButton-{{ q.QUOTATION_ID }}" disabled>{{ q.QUOTATION_STATUS }}</button>
                 </td>
                          
               </tr>
               {% endfor %}
             </tbody>
           </table>
-
-          <input type="hidden" name="action" value="createPDF">
-          <input type="hidden" name="selected_quotation" value="{{ pdf_quotation.Quotation_ID }}">
       
           {% if edit_quotation %}
           <input type="hidden" name="action" value="edit">
@@ -106,6 +95,34 @@
 </script>
 
 <script>
+  var quotationData = JSON.parse('{{ quotationjs|escapejs }}');
+
+  for (var i = 0; i < quotationData.length; i++) {
+    (function() {
+      var q = quotationData[i];
+      var quotationButton = document.getElementById("quotationButton-" + q.QUOTATION_ID);
+      var quotationStatus = q.QUOTATION_STATUS;
+
+      quotationButton.style.color = getColorCode(quotationStatus);
+
+      function getColorCode(status) {
+        const colorCodes = {
+          Draft: "#000000",
+          Accepted: "#337ab7",
+          Submitted: "#5cb85c",
+          Rejected: "#f0ad4e",
+          Expired: "#cc0000",
+        };
+
+        return colorCodes[status] || "";
+      }
+    })();
+  }
+</script>
+
+
+
+<script>
   $(document).ready(function () {
     var table = $('#myTable').DataTable({});
 
@@ -115,9 +132,9 @@
     });
 
     var data = table.rows().data();
-    let quotationlength = parseInt(data.length);
+    let quotationlengh = parseInt(data.length);
 
-    for (let i=0 ; i<quotationlength ; i++){
+    for (let i=0 ; i<quotationlengh ; i++){
         price = data[i][5];
         price = currency(price);
 
@@ -129,7 +146,7 @@
     }
 
     $('#myTable').dataTable().fnClearTable();   
-    for (let i=0 ; i<quotationlength ; i++){
+    for (let i=0 ; i<quotationlengh ; i++){
         $('#myTable').dataTable().fnAddData(data[i]);
     }
   });
@@ -185,39 +202,6 @@
     q_id = $('.form-check-input:checkbox:checked').val()
     location.href = '/Quotation/detail/' + q_id
   
-  })
-</script>
-
-<script>
-  $('#createPDF').on('click', function(){
-    var q_id = $('.form-check-input:checkbox:checked')
-
-    if(q_id.length > 1)  
-    {
-      var firstCheckboxName = checkboxes.first().attr('selected_quotation');
-      var sameName = true;
-      console.log('tes selected name' , firstCheckboxName)
-
-      checkboxes.each(function() {
-          if ($(this).attr('selected_quotation') !== firstCheckboxName) {
-              sameName = false;
-              return false; // Exit the loop early
-          }
-      });
-
-      if (!sameName) {
-        alert('Selected checkboxes should have the same name.');
-      }
-
-      return;
-
-    }else if(q_id.length == 0){
-      alert('Please pick one file only to create the pdf')
-      return;
-    }
-
-    q_id = $('.form-check-input:checkbox:checked').val()
-    location.href = '/Quotation/createPDF/' + q_id
   })
 </script>
 {% endblock scripts %}
