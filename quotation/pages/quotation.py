@@ -22,6 +22,15 @@ def Quotation(request):
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
         item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=10)
+        item['QUOTATION_ID'] = item['QUOTATION_ID']
+        item['QUOTATION_STATUS'] = item['QUOTATION_STATUS']
+
+
+    # Extract only the required fields for JSON serialization
+    # quotation_data = [{'QUOTATION_ID': q['QUOTATION_ID'], 'QUOTATION_STATUS': q['QUOTATION_STATUS']} for q in quotation]
+
+    # Serialize quotation data to JSON
+    # quotationjs = json.dumps(quotation_data, default=str)
 
     # Extract only the required fields for JSON serialization
     quotation_data = [{'QUOTATION_ID': q['QUOTATION_ID'], 'QUOTATION_STATUS': q['QUOTATION_STATUS']} for q in quotation]
@@ -42,7 +51,7 @@ def Quotation(request):
 
             if selected_quotation_id:
                 # Perform delete operation
-                for i in range (0, len(selected_quotation_id)):
+                for i in range (0, len(selected_quotation_id)-1):
                     query = 'DELETE FROM quotation WHERE Quotation_ID = ' + selected_quotation_id[i]
                     cursor.execute(query)
                     connection.commit()
@@ -62,15 +71,36 @@ def Quotation(request):
                 context['edit_quotation'] = quotation_data
 
         elif action == 'createPDF':
-            selected_quotation_id = request.POST.get('selected_quotation')
+            selected_quotation_ids = request.POST.getlist('selected_quotation')
+            pdf_data = []
 
-            if selected_quotation_id:
-                # Retrieve the quotation data based on the selected ID
-                cursor.execute('SELECT * FROM quotation WHERE Quotation_ID = %s', (selected_quotation_id,))
-                quotation_data = cursor.fetchone()
+            if selected_quotation_ids:
+                # Fetch the customer name of the first selected quotation
+                cursor.execute('SELECT Customer_Name FROM quotation WHERE Quotation_ID = %s', (selected_quotation_ids[0],))
+                customer_name = cursor.fetchone()
 
-                # Pass the quotation data to the template for pre-filling the form fields
-                context['pdf_quotation'] = quotation_data
+                if customer_name:
+                    customer_name = customer_name['Customer_Name']
+                    
+                    # Retrieve the quotation data for selected IDs with the same customer name
+                    placeholders = ','.join(['%s'] * len(selected_quotation_ids))  # Create placeholders for parameterized query
+                    query = '''
+                        SELECT *
+                        FROM quotation
+                        LEFT JOIN product ON quotation.Product_ID = product.idProduct
+                        LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer
+                        WHERE Quotation_ID IN ({}) AND Customer_Name = %s
+                    '''.format(placeholders)
+                    
+                    cursor.execute(query, selected_quotation_ids + [customer_name])
+                    pdf_data = cursor.fetchall()
+                
+                context['pdf_quotation'] = pdf_data
+
+
+
+
+
 
     return render(request, 'quotation.html', context)
 
@@ -79,40 +109,47 @@ def createPDFQuotation(request, quotation_id):
         connection = connect()
         cursor = connection.cursor(dictionary=True)
 
-        query = 'SELECT * FROM quotation \
-                        LEFT JOIN product ON quotation.Product_ID = product.idProduct \
-                        LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
-                       Where Quotation_ID = ' + str(quotation_id)
-        
-        cursor.execute(query)
-        quotation = cursor.fetchall()
-        quotation = quotation[0]
-        quotationjs = json.dumps(quotation, default=str)
+        selected_ids = quotation_id.split(',')  # Split the comma-separated IDs
+        placeholders = ','.join(['%s'] * len(selected_ids))  # Create placeholders for parameterized query
+        query = '''
+            SELECT *
+            FROM quotation
+            LEFT JOIN product ON quotation.Product_ID = product.idProduct
+            LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer
+            WHERE Quotation_ID IN ({})
+        '''.format(placeholders)
 
-        quantity = int(quotation['QUANTITY'])
-        budgetPerUnit = int(quotation['BUDGET_PER_UNIT'])
-        expired = quotation['CREATED_AT'] + timedelta(days=10)
-        expiredFormat = expired.strftime("%d/%m/%Y")
-        createdAtFormat = quotation['CREATED_AT'].strftime("%d/%m/%Y")
-        amount = quantity * budgetPerUnit
-        ppn = int(amount*0.11)
-        total = int(amount + ppn)
+        cursor.execute(query, selected_ids)
+        quotations = cursor.fetchall()
 
+        if quotations:
+            quotation = quotations[0]  # You might want to process each quotation if there are multiple
 
-        context = { 
-            'q' : quotation,
-            'quotation' : quotationjs[0],
-            'expired' : expired,
-            'expiredFormat' : expiredFormat,
-            'createdAtFormat' : createdAtFormat,
-            'amount' : amount,
-            'quantity' : quantity,
-            'budgetPerUnit' : budgetPerUnit,
-            'ppn' : ppn,
-            'total' : total,
-        }
+            quantity = int(quotation['QUANTITY'])
+            budgetPerUnit = int(quotation['BUDGET_PER_UNIT'])
+            expired = quotation['CREATED_AT'] + timedelta(days=10)
+            expiredFormat = expired.strftime("%d/%m/%Y")
+            createdAtFormat = quotation['CREATED_AT'].strftime("%d/%m/%Y")
+            amount = quantity * budgetPerUnit
+            ppn = int(amount * 0.11)
+            total = int(amount + ppn)
 
-    return render(request, 'pdfquotation.html', context)
+            context = {
+                'q': quotation,
+                'expired': expired,
+                'expiredFormat': expiredFormat,
+                'createdAtFormat': createdAtFormat,
+                'amount': amount,
+                'quantity': quantity,
+                'budgetPerUnit': budgetPerUnit,
+                'ppn': ppn,
+                'total': total,
+            }
+
+            return render(request, 'pdfquotation.html', context)
+
+    return HttpResponse('Unauthorized', status=401)  # Return an appropriate response for unauthorized users
+
 
 def getLastCreatedQuotationID():
     connection = connect()
@@ -352,7 +389,7 @@ def detailQuotation(request, quotation_id):
         cursor.execute(query)
         quotation_material = cursor.fetchall()
         quotation_material_js = json.dumps(quotation_material)
-        # print("quotation_MATERIAL ====> ", quotation_material_js)
+        print("quotation_MATERIAL ====> ", quotation_material_js)
 
         # detail quotation process
         query = 'select * from quotation_process \
@@ -396,7 +433,72 @@ def detailQuotation(request, quotation_id):
 
     return render(request, 'editquotation.html', context)
 
-# ========== Update Quotation Other ==========
+def updateQuotationMaterial(request, quotation_id):
+    # ========== Quotation Material ==========
+    BoardArr = request.POST['BoardArr'].split(',')
+    BarArr = request.POST['BarArr'].split(',')
+    
+    QUOTATION_ID = getLastCreatedQuotationID()
+
+    MaterialList = request.POST.getlist('material_id')
+    MaterialLength = len(MaterialList)
+    if(MaterialLength == 0) : return
+
+    print(MaterialLength)
+    USED_QUANTITY = request.POST.getlist('usedQuantity')
+    BoardArrView = [BoardArr[i:i+29] for i in range(0, len(BoardArr), 29)]
+    BarArrView = [BarArr[i:i+27] for i in range(0, len(BarArr), 29)]
+    for item in BoardArrView:
+        print("BOARDARR = ", item )
+    for item in BarArrView:
+        print("BARARR = ", item )
+    
+    for i in range(0, MaterialLength):
+        MaterialID = MaterialList[i]
+        UsedQuantity = handleEmptyString(USED_QUANTITY[i], 0)
+        BoardVerticalScale = handleEmptyString(BoardArr[i * 29 + 3], 0) #1
+        BoardHorizontalScale = handleEmptyString(BoardArr[i * 29 + 4], 0) #2
+        BoardThickness = handleEmptyString(BoardArr[i * 29 + 5], 0) #3
+        BoardVerticalScaleFromNumber = handleEmptyString(BoardArr[i * 29 + 8], 0) #4
+        BoardHorizontalScaleFromNumber = handleEmptyString(BoardArr[i * 29 + 9], 0) #5
+        BoardExposedFromNumber = handleEmptyString(BoardArr[i * 29 + 10], 0) #6
+        BoardMarginFromNumber = handleEmptyString(BoardArr[i * 29 + 11], 0) #7
+        BoardMaterialCostFromNumber = handleEmptyString(BoardArr[i * 29 + 20], 0) #8
+        BoardExposedFromPartScale = handleEmptyString(BoardArr[i * 29 + 22], 0) #9
+        BoardMarginFromPartScale = handleEmptyString(BoardArr[i * 29 + 23], 0) #10
+        BarPartScalp = handleEmptyString(BarArr[i * 27 + 12], 0) #11
+        BarDiameter = handleEmptyString(BarArr[i * 27 + 4], 0) #12
+        BarExposed = handleEmptyString(BarArr[i * 27 + 7], 0) #13
+        BarLength = handleEmptyString(BarArr[i * 27 + 8], 0) #14
+        BarEdgeLoss = handleEmptyString(BarArr[i * 27 + 9], 0) #15
+        BarKeftLoss = handleEmptyString(BarArr[i * 27 + 15], 0) #16
+        query =  f'UPDATE quotation_material SET \
+            MATERIAL_ID = { MaterialID }, \
+            USED_QUANTITY = { UsedQuantity }, \
+            BOARD_VERTICAL_SCALE = { BoardVerticalScale }, \
+            BOARD_HORIZONTAL_SCALE = { BoardHorizontalScale }, \
+            BOARD_THICKNESS = { BoardThickness }, \
+            BOARD_VERTICAL_SCALE_FROM_NUMBER = { BoardVerticalScaleFromNumber }, \
+            BOARD_HORIZONTAL_SCALE_FROM_NUMBER = { BoardHorizontalScaleFromNumber }, \
+            BOARD_EXPOSED_FROM_NUMBER = { BoardExposedFromNumber }, \
+            BOARD_MARGIN_FROM_NUMBER = { BoardMarginFromNumber }, \
+            BOARD_MATERIAL_COST_FROM_NUMBER = { BoardMaterialCostFromNumber }, \
+            BOARD_EXPOSED_FROM_PART_SCALE = { BoardExposedFromPartScale }, \
+            BOARD_MARGIN_FROM_PART_SCALE = { BoardMarginFromPartScale }, \
+            BAR_PART_SCALP = { BarPartScalp }, \
+            BAR_DIAMETER = { BarDiameter }, \
+            BAR_EXPOSED = { BarExposed }, \
+            BAR_LENGTH = { BarLength }, \
+            BAR_EDGE_LOSS = { BarEdgeLoss }, \
+            BAR_KEFT_LOSS = { BarKeftLoss } \
+            WHERE QUOTATION_ID = {quotation_id} AND MATERIAL_ID = {MaterialID}'
+        
+        print( "MaterialList = ", query )
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+   
+
+    # ========== Update Quotation Other ==========
 def updateQuotationOther(request, quotation_id):
     QUOTATION_ID = getLastCreatedQuotationID()
     
@@ -420,21 +522,14 @@ def updateQuotationOther(request, quotation_id):
     # OtherIsPerUnit = [1 if value == 'on' else 0 for value in OtherIsPerUnit]
 
     for i in range(0, OtherLength):
-        query = 'UPDATE quotation_other \
+        query = f'UPDATE quotation_other \
             SET \
-            OTHER_ID = "{}", \
-            OTHER_PRICE =  "{}", \
-            OTHER_PERCENTAGE =  "{}", \
-            OTHER_IS_PER_UNIT =  "{}" \
-            WHERE QUOTATION_ID = "{}" AND OTHER_ID = "{}"'.format(
-            
-            OtherId[i],
-            OtherPrice[i],
-            OtherPercentage[i],
-            perUnit_Arr[i],
-            quotation_id,
-            OtherId[i]  
-        )
+            OTHER_ID = "{OtherId[i]}", \
+            OTHER_PRICE =  "{OtherPrice[i]}", \
+            OTHER_PERCENTAGE =  "{OtherPercentage[i]}", \
+            OTHER_IS_PER_UNIT =  "{perUnit_Arr[i]}" \
+            WHERE QUOTATION_ID = "{quotation_id}" AND OTHER_ID = "{OtherId[i]}"'
+        
         print("Update Query = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
@@ -515,7 +610,9 @@ def updateQuotation(request, quotation_id):
             cursor.execute(query)
             
         updateQuotationOther(request, quotation_id)
+        updateQuotationMaterial(request, quotation_id)
         updateQuotationProcess(request, quotation_id)
+
         return redirect('/Quotation/')
     
 

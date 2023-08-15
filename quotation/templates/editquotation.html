@@ -695,7 +695,7 @@
                             <div class="row cardmodal">
                                 <div class="col">
                                     Vertical Scale
-                                    <input class="inputtt1 " type="text" onchange="calculateFunctionsBoard()" id="VerticalScaleMaterial" value="" name="VerticalScaleMaterial"> mm
+                                    <input class="inputtt1 " type="text" onchange="calculateFunctionsBoard()" id="VerticalScaleMaterial" name="VerticalScaleMaterial"> mm
                                 </div>
                                 <div class="col">
                                     Horizontal Scale
@@ -1497,9 +1497,10 @@
     }
 
     function addToBoardArr(){
-
+        console.log("BOARD ARR BEFORE = ", boardArr);
         var obj = getQuotationMaterialFromViews()
         var arrlen = obj.length
+        console.log("arrlen = ", arrlen);
         for (let i = 0; i < arrlen; i++) {
             
             var index = obj[i]["MATERIAL_ID"]
@@ -1525,11 +1526,11 @@
             // === END FROM NUMBER OF PART =====
             
             // ==== FROM PART OF PART =====
-            var exposedfrompart = obj[0]["BOARD EXPOSED_FROM_PART_SCALE"]
-            var marginfrompart = obj[0]["BOARD_MARGIN_FROM_PART_SCALE"]
+            var exposedfrompart = obj[i]["BOARD EXPOSED_FROM_PART_SCALE"]
+            var marginfrompart = obj[i]["BOARD_MARGIN_FROM_PART_SCALE"]
 
-            var pricefrompart =  obj[0]["price"]
-            boardArr.push([
+            var pricefrompart =  obj[i]["price"]
+            boardArr[i] = [
                 materialid, 
                 materialid , 
                 materialname, 
@@ -1559,9 +1560,8 @@
                 '', 
                 '', 
                 ''  
-            ])
-        }
-        
+            ]
+        }    
     }
 </script>
 

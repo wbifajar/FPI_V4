@@ -101,15 +101,17 @@
                     </tr>
                   </thead>
                   <tbody>
+                    {% for qpdf in q %}
                     <tr>
-                      <td>{{q.PRODUCT_ID}}</td>
-                      <td>{{q.PRODUCT_ID}}</td>
-                      <td>{{q.PRODUCT_NAME}}</td>
+                      <td>{{qpdf.PRODUCT_ID}}</td>
+                      <td>{{qpdf.PRODUCT_ID}}</td>
+                      <td>{{qpdf.PRODUCT_NAME}}</td>
                       <td>IDR</td>
                       <td class="text-end">{{quantity}}</td>
                       <td class="text-end">{{budgetPerUnit}}</td>
                       <td class="text-end">{{amount}}</td>
                     </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>
