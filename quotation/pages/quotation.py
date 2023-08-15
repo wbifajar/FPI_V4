@@ -122,6 +122,8 @@ def createPDFQuotation(request, quotation_id):
         cursor.execute(query, selected_ids)
         quotations = cursor.fetchall()
 
+        from datetime import timedelta
+
         if quotations:
             quotation = quotations[0]  # You might want to process each quotation if there are multiple
 
@@ -130,23 +132,33 @@ def createPDFQuotation(request, quotation_id):
             expired = quotation['CREATED_AT'] + timedelta(days=10)
             expiredFormat = expired.strftime("%d/%m/%Y")
             createdAtFormat = quotation['CREATED_AT'].strftime("%d/%m/%Y")
-            amount = quantity * budgetPerUnit
-            ppn = int(amount * 0.11)
-            total = int(amount + ppn)
+            
+            # Calculate amount for each quotation and store them in a list
+            amount_list = [(qpdf['QUANTITY'] * qpdf['BUDGET_PER_UNIT']) for qpdf in quotations]
+
+            subtotal = sum(amount_list)
+            ppn = int(subtotal * 0.11)
+            total = int(subtotal + ppn)
+
+            # Zip qs and amount_list together
+            zipped_data = zip(quotations, amount_list)
 
             context = {
                 'q': quotation,
+                'zipped_data': zipped_data,  # Pass the zipped data to the template
                 'expired': expired,
                 'expiredFormat': expiredFormat,
                 'createdAtFormat': createdAtFormat,
-                'amount': amount,
                 'quantity': quantity,
                 'budgetPerUnit': budgetPerUnit,
+                'subtotal': subtotal,
                 'ppn': ppn,
                 'total': total,
             }
 
             return render(request, 'pdfquotation.html', context)
+
+
 
     return HttpResponse('Unauthorized', status=401)  # Return an appropriate response for unauthorized users
 

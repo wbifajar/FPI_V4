@@ -32,3 +32,13 @@ tr{
     /* border-bottom: 1px solid black; */
     margin-bottom: 6%;
 }
+
+.note-textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: vertical;
+    word-wrap: break-word; /* Allow the text to wrap to the next line */
+}
+
+

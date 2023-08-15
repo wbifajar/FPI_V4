@@ -101,15 +101,15 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {% for qpdf in q %}
+                    {% for qpdf, amount in zipped_data %}
                     <tr>
                       <td>{{qpdf.PRODUCT_ID}}</td>
                       <td>{{qpdf.PRODUCT_ID}}</td>
                       <td>{{qpdf.PRODUCT_NAME}}</td>
                       <td>IDR</td>
-                      <td class="text-end">{{quantity}}</td>
-                      <td class="text-end">{{budgetPerUnit}}</td>
-                      <td class="text-end">{{amount}}</td>
+                      <td class="text-end">{{qpdf.QUANTITY}}</td>
+                      <td class="text-end">{{qpdf.BUDGET_PER_UNIT}}</td>
+                      <td class="text-end">{{ amount }}</td> <!-- Display calculated amount -->
                     </tr>
                     {% endfor %}
                   </tbody>
@@ -123,25 +123,27 @@
                           <p>Architect & Engineer</p>
                     </div> -->
                     <table class="table table-bordered">
-                        <thead>
-                            <tr>
+                      <thead>
+                          <tr>
                               <th scope="col">Notes or Special Comments :</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <!-- <td></td> -->
-                              <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus repudiandae distinctio illo nam quisquam veritatis tempore sequi laborum, non, harum ab commodi unde voluptatem dolorum, earum debitis voluptas perspiciatis adipisci!</td>
-                            </tr>
-                          </tbody>
-
-                    </table>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>
+                                  <textarea cols="5" rows="2" name="notes" id="notes" placeholder="Enter notes here..." class="note-textarea"></textarea>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  
+                  
                 </div>
 
                 <div class="col-xl-4 total">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <p class="text-start">SubTotal</p>
-                        <p class="text-end">$1110</p>
+                        <p class="text-end">{{subtotal}}</p>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <p class="text-black">PPN(11%)</p>
@@ -184,39 +186,32 @@
 
 {% block scripts %}
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>   
-<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        window.html2canvas = html2canvas;
-        window.jsPDF = window.jspdf.jsPDF;
+    function HTMLtoPDF() {
+        html2canvas(document.querySelector("#form"), {
+            allowTaint: true,
+            useCORS: true,
+            scale: 5,
+        }).then(canvas => {
+            var img = canvas.toDataURL("image/png");
 
-        function HTMLtoPDF(){
+            var doc = new jsPDF("p", "mm", "a4");
 
-            html2canvas(document.querySelector("#form"),{
-                allowTaint:true,
-                useCORS: true,
-                scale: 5,
-                quality: 4,
+            var width = doc.internal.pageSize.getWidth();
+            var height = doc.internal.pageSize.getHeight();
 
-            }).then(canvas => {
-                
-                var img = canvas.toDataURL("image/png");
+            doc.setFont('Arial');
+            doc.setFontSize(12);
+            doc.addImage(img, 'PNG', 0, 0, width, height);
+            doc.save("invoice.pdf");
+        });
+    }
+</script>
 
-                var doc = new jsPDF("p", "mm", "a4");
-
-                var width = doc.internal.pageSize.getWidth();
-                var height = doc.internal.pageSize.getHeight();
-
-                doc.setFont('Arial');
-                doc.getFontSize(12);
-                doc.addImage(img, 'PNG', 0,0, width, height);
-                doc.save("invoice");
-            });
-            
-        }
-    </script>
 
 
 {% endblock scripts %}
