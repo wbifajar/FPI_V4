@@ -133,7 +133,8 @@ function addProcess() {
 	// alter table to add process 	
 	var table = document.getElementById("processTable").getElementsByTagName('tbody')[0];
 	index++;
-
+	console.log(selectedProcess)
+ 
 	var row = table.insertRow(-1);
 	var cell1 = row.insertCell(0);
 	var cell2 = row.insertCell(1);

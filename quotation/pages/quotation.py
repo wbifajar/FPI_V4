@@ -13,10 +13,10 @@ def Quotation(request):
 
     cursor.execute('SELECT * FROM quotation \
                     LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
-                   ORDER BY QUOTATION_ID DESC') #untuk sementara aja urutin dari yg paling baru
+                   ORDER BY QUOTATION_ID DESC')  # untuk sementara aja urutin dari yg paling baru
     quotation = cursor.fetchall()
-    quotationjs = json.dumps(quotation, default=str)
-    
+
+    # Modify and calculate values for each quotation
     for item in quotation:
         item['QUANTITY'] = int(item['QUANTITY'])
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
@@ -32,7 +32,11 @@ def Quotation(request):
     # Serialize quotation data to JSON
     # quotationjs = json.dumps(quotation_data, default=str)
 
+    # Extract only the required fields for JSON serialization
+    quotation_data = [{'QUOTATION_ID': q['QUOTATION_ID'], 'QUOTATION_STATUS': q['QUOTATION_STATUS']} for q in quotation]
 
+    # Serialize quotation data to JSON
+    quotationjs = json.dumps(quotation_data, default=str)
 
     context = {
         "quotation": quotation,
@@ -67,23 +71,36 @@ def Quotation(request):
                 context['edit_quotation'] = quotation_data
 
         elif action == 'createPDF':
-            selected_quotation_id = request.POST.get('selected_quotation')
+            selected_quotation_ids = request.POST.getlist('selected_quotation')
+            pdf_data = []
 
-            if selected_quotation_id:
-                # Perform delete operation
-                for i in range (0, len(selected_quotation_id)-1):
-                    query = 'SELECT * FROM quotation WHERE Quotation_ID = ' + selected_quotation_id[i]
-                    cursor.execute(query)
-                    connection.commit()
-                    print(query)
+            if selected_quotation_ids:
+                # Fetch the customer name of the first selected quotation
+                cursor.execute('SELECT Customer_Name FROM quotation WHERE Quotation_ID = %s', (selected_quotation_ids[0],))
+                customer_name = cursor.fetchone()
 
-            # if selected_quotation_id:
-            #     # Retrieve the quotation data based on the selected ID
-            #     cursor.execute('SELECT * FROM quotation WHERE Quotation_ID = %s', (selected_quotation_id,))
-            #     quotation_data = cursor.fetchone()
+                if customer_name:
+                    customer_name = customer_name['Customer_Name']
+                    
+                    # Retrieve the quotation data for selected IDs with the same customer name
+                    placeholders = ','.join(['%s'] * len(selected_quotation_ids))  # Create placeholders for parameterized query
+                    query = '''
+                        SELECT *
+                        FROM quotation
+                        LEFT JOIN product ON quotation.Product_ID = product.idProduct
+                        LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer
+                        WHERE Quotation_ID IN ({}) AND Customer_Name = %s
+                    '''.format(placeholders)
+                    
+                    cursor.execute(query, selected_quotation_ids + [customer_name])
+                    pdf_data = cursor.fetchall()
+                
+                context['pdf_quotation'] = pdf_data
 
-            #     # Pass the quotation data to the template for pre-filling the form fields
-                context['pdf_quotation'] = quotation_data
+
+
+
+
 
     return render(request, 'quotation.html', context)
 
@@ -92,40 +109,47 @@ def createPDFQuotation(request, quotation_id):
         connection = connect()
         cursor = connection.cursor(dictionary=True)
 
-        query = 'SELECT * FROM quotation \
-                        LEFT JOIN product ON quotation.Product_ID = product.idProduct \
-                        LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
-                       Where Quotation_ID = ' + str(quotation_id)
-        
-        cursor.execute(query)
-        quotation = cursor.fetchall()
-        quotation = quotation[0]
-        quotationjs = json.dumps(quotation, default=str)
+        selected_ids = quotation_id.split(',')  # Split the comma-separated IDs
+        placeholders = ','.join(['%s'] * len(selected_ids))  # Create placeholders for parameterized query
+        query = '''
+            SELECT *
+            FROM quotation
+            LEFT JOIN product ON quotation.Product_ID = product.idProduct
+            LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer
+            WHERE Quotation_ID IN ({})
+        '''.format(placeholders)
 
-        quantity = int(quotation['QUANTITY'])
-        budgetPerUnit = int(quotation['BUDGET_PER_UNIT'])
-        expired = quotation['CREATED_AT'] + timedelta(days=10)
-        expiredFormat = expired.strftime("%d/%m/%Y")
-        createdAtFormat = quotation['CREATED_AT'].strftime("%d/%m/%Y")
-        amount = quantity * budgetPerUnit
-        ppn = int(amount*0.11)
-        total = int(amount + ppn)
+        cursor.execute(query, selected_ids)
+        quotations = cursor.fetchall()
 
+        if quotations:
+            quotation = quotations[0]  # You might want to process each quotation if there are multiple
 
-        context = { 
-            'q' : quotation,
-            'quotation' : quotationjs[0],
-            'expired' : expired,
-            'expiredFormat' : expiredFormat,
-            'createdAtFormat' : createdAtFormat,
-            'amount' : amount,
-            'quantity' : quantity,
-            'budgetPerUnit' : budgetPerUnit,
-            'ppn' : ppn,
-            'total' : total,
-        }
+            quantity = int(quotation['QUANTITY'])
+            budgetPerUnit = int(quotation['BUDGET_PER_UNIT'])
+            expired = quotation['CREATED_AT'] + timedelta(days=10)
+            expiredFormat = expired.strftime("%d/%m/%Y")
+            createdAtFormat = quotation['CREATED_AT'].strftime("%d/%m/%Y")
+            amount = quantity * budgetPerUnit
+            ppn = int(amount * 0.11)
+            total = int(amount + ppn)
 
-    return render(request, 'pdfquotation.html', context)
+            context = {
+                'q': quotation,
+                'expired': expired,
+                'expiredFormat': expiredFormat,
+                'createdAtFormat': createdAtFormat,
+                'amount': amount,
+                'quantity': quantity,
+                'budgetPerUnit': budgetPerUnit,
+                'ppn': ppn,
+                'total': total,
+            }
+
+            return render(request, 'pdfquotation.html', context)
+
+    return HttpResponse('Unauthorized', status=401)  # Return an appropriate response for unauthorized users
+
 
 def getLastCreatedQuotationID():
     connection = connect()
@@ -211,7 +235,7 @@ def insertQuotationMaterial(request):
 def insertQuotationProcess(request):
     QUOTATION_ID = getLastCreatedQuotationID()
 
-    ProcessId = request.POST.getlist('ProcessId')
+    ProcessId = request.POST.getlist('ProcessIdabcd')
     ProcessLength = len(ProcessId)
     Opesum = request.POST.getlist('opeSum')
     OpePerOpeBudgetRatio = request.POST.getlist('operationPerOperationBudgetRatio')
