@@ -121,7 +121,7 @@ def createPDFQuotation(request, quotation_id):
 
         cursor.execute(query, selected_ids)
         quotations = cursor.fetchall()
-
+       
         from datetime import timedelta
 
         if quotations:
@@ -157,8 +157,6 @@ def createPDFQuotation(request, quotation_id):
             }
 
             return render(request, 'pdfquotation.html', context)
-
-
 
     return HttpResponse('Unauthorized', status=401)  # Return an appropriate response for unauthorized users
 
@@ -247,7 +245,7 @@ def insertQuotationMaterial(request):
 def insertQuotationProcess(request):
     QUOTATION_ID = getLastCreatedQuotationID()
 
-    ProcessId = request.POST.getlist('ProcessIdabcd')
+    ProcessId = request.POST.getlist('ProcessId')
     ProcessLength = len(ProcessId)
     Opesum = request.POST.getlist('opeSum')
     OpePerOpeBudgetRatio = request.POST.getlist('operationPerOperationBudgetRatio')
@@ -386,12 +384,33 @@ def detailQuotation(request, quotation_id):
         # totalMaterialCost =  quotation["MATERIAL_COST_NUMBER"] * ( quotation["MATERIAL_COST_PERCENTAGE"] / 100 )
         # totalOutsourceCost = quotation["OUTSOURCE_COST_NUMBER"] * ( quotation["OUTSOURCE_COST_PERCENTAGE"] / 100 )
         
+        #data customer
+        query = "SELECT * FROM CUSTOMER"
+
+        cursor.execute(query)
+        customer = cursor.fetchall()
+        customer_js = json.dumps(customer)
+
         #data part
         query = 'SELECT * FROM part'
 
         cursor.execute(query)
         part_reflect_cost = cursor.fetchall()
         part_reflect_cost_js = json.dumps(part_reflect_cost)
+
+        #data other
+        query = "SELECT * FROM OTHER"
+
+        cursor.execute(query)
+        other = cursor.fetchall()
+        other_js = json.dumps(other)
+
+        #data process
+        query = "SELECT * FROM PROCESS"
+
+        cursor.execute(query)
+        process = cursor.fetchall()
+        process_js = json.dumps(process)
   
         #detail quotation material
         query = 'SELECT * FROM quotation_material \
@@ -430,6 +449,15 @@ def detailQuotation(request, quotation_id):
             'TotalCost' : totalCost,
             "ManagementCost" : managementCost,
 
+            'other' : other,
+            'other_js' : other_js,
+
+            'process' : process,
+            'process_js' : process_js,
+
+            'customer' : customer,
+            'customer_js' : customer_js,
+
             'partreflectcost' : part_reflect_cost,
 		    'partreflectcostjs' : part_reflect_cost_js,
 
@@ -449,7 +477,7 @@ def updateQuotationMaterial(request, quotation_id):
     # ========== Quotation Material ==========
     BoardArr = request.POST['BoardArr'].split(',')
     BarArr = request.POST['BarArr'].split(',')
-    
+    print("-- BOARDARR inside Update = ", BoardArr )
     QUOTATION_ID = getLastCreatedQuotationID()
 
     MaterialList = request.POST.getlist('material_id')
@@ -461,7 +489,7 @@ def updateQuotationMaterial(request, quotation_id):
     BoardArrView = [BoardArr[i:i+29] for i in range(0, len(BoardArr), 29)]
     BarArrView = [BarArr[i:i+27] for i in range(0, len(BarArr), 29)]
     for item in BoardArrView:
-        print("BOARDARR = ", item )
+        print("BOARDARR Update = ", item )
     for item in BarArrView:
         print("BARARR = ", item )
     
@@ -505,20 +533,19 @@ def updateQuotationMaterial(request, quotation_id):
             BAR_KEFT_LOSS = { BarKeftLoss } \
             WHERE QUOTATION_ID = {quotation_id} AND MATERIAL_ID = {MaterialID}'
         
-        print( "MaterialList = ", query )
+        print( "-- Update Material Query = ", query )
         with connection.cursor() as cursor:
             cursor.execute(query)
    
 
     # ========== Update Quotation Other ==========
 def updateQuotationOther(request, quotation_id):
-    QUOTATION_ID = getLastCreatedQuotationID()
-    
     OtherId = request.POST.getlist('othersId')
     OtherLength = len(OtherId)
     OtherPrice = request.POST.getlist('otherprice')
     OtherPercentage = request.POST.getlist('otherpercentage')
 
+    #save is_per_unit status
     perUnit_Arr = []
     for i in range(0, OtherLength):
         OtherIsPerUnit = request.POST.get(f'otherisperunit-{i+1}', False)
@@ -528,28 +555,63 @@ def updateQuotationOther(request, quotation_id):
         else:
             perUnit_Arr.append(0)
 
-        # ni print buat ngecek doang
-        print("Orderisperunit = ", perUnit_Arr, OtherIsPerUnit)
+    #untuk ngambil semua other id dari db
+    query = f'select OTHER_ID from quotation_other where QUOTATION_ID = {quotation_id}'
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        other_id_list_from_db = cursor.fetchall()
 
-    # OtherIsPerUnit = [1 if value == 'on' else 0 for value in OtherIsPerUnit]
+        #save  all OTHER_ID ONLY from db from this quotation in list
+        #before : ( (5,), (6, ) )
+        #after : [5, 6]
+        other_id_list_from_db = [i[0] for i in other_id_list_from_db]
+  
+    for i in range(0, len(other_id_list_from_db)):
+        if(not(str(other_id_list_from_db[i]) in OtherId)):
+            #remove yang ada di db tapi gaada di quotation
+            #Remove other list that exist in database but deleted in edited quotation
+            query = f'DELETE FROM quotation_other WHERE QUOTATION_ID = "{quotation_id}" AND OTHER_ID = "{other_id_list_from_db[i]}"'
+            with connection.cursor() as cursor:
+                cursor.execute(query)
+
+    # print("OTHER ID SISA = ", OtherId)
+    # print("OTHER PRICE SISA = ", OtherPrice)
+    # print("OTHER PERCENTAGE SISA = ", OtherPercentage)
+    # print("OTHER IS PER UNIT SISA = ", OtherIsPerUnit)
 
     for i in range(0, OtherLength):
-        query = f'UPDATE quotation_other \
-            SET \
-            OTHER_ID = "{OtherId[i]}", \
-            OTHER_PRICE =  "{OtherPrice[i]}", \
-            OTHER_PERCENTAGE =  "{OtherPercentage[i]}", \
-            OTHER_IS_PER_UNIT =  "{perUnit_Arr[i]}" \
-            WHERE QUOTATION_ID = "{quotation_id}" AND OTHER_ID = "{OtherId[i]}"'
-        
-        print("Update Query = ", query)
+        #check if current index of other list is exist in the database
+        #if exist it will update
+        #if not exist it will insert new
+        query = f'select exists (select * from quotation_other where QUOTATION_ID = {quotation_id} and OTHER_ID = {OtherId[i]}) as a;'
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            res = cursor.fetchall()
+        # print("RES ADA GA OTHER  = ", res[0][0])
+
+        if(res[0][0] == 1):
+            query = f'UPDATE quotation_other \
+                SET \
+                OTHER_ID = "{OtherId[i]}", \
+                OTHER_PRICE =  "{OtherPrice[i]}", \
+                OTHER_PERCENTAGE =  "{OtherPercentage[i]}", \
+                OTHER_IS_PER_UNIT =  "{perUnit_Arr[i]}" \
+                WHERE QUOTATION_ID = "{quotation_id}" AND OTHER_ID = "{OtherId[i]}"'
+        elif(res[0][0] == 0):
+            query = f'INSERT INTO quotation_other VALUES (null, "{quotation_id}", "{OtherId[i]}", "{OtherPrice[i]}", "{OtherPercentage[i]}", "{perUnit_Arr[i]}")'
+   
+    
+      
+
+
+        print("Update Other Query = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
 
+   
+
 # ========== Update Quotation Process ==========
 def updateQuotationProcess(request, quotation_id):
-    QUOTATION_ID = getLastCreatedQuotationID()
-    
     ProcessId = request.POST.getlist('ProcessId')
     ProcessLength = len(ProcessId)
     Opesum = request.POST.getlist('opeSum')
@@ -560,20 +622,63 @@ def updateQuotationProcess(request, quotation_id):
     TotalOpeTime = request.POST.getlist('totalOpeTime')
     QuantityPerMin = request.POST.getlist('quantityPerMinute')
 
+    #untuk ngambil semua other id dari db
+    query = f'select PROCESS_ID from quotation_process where QUOTATION_ID = {quotation_id}'
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        process_id_list_from_db = cursor.fetchall()
+
+        #save  all OTHER_ID ONLY from db from this quotation in list
+        #before : ( (5,), (6, ) )
+        #after : [5, 6]
+        process_id_list_from_db = [i[0] for i in process_id_list_from_db]
+  
+    for i in range(0, len(process_id_list_from_db)):
+        print("ASFASFASFSAF = ", str(process_id_list_from_db[i]), ProcessId)
+        if( not(str(process_id_list_from_db[i]) in ProcessId)):
+            query = f'DELETE FROM quotation_process WHERE QUOTATION_ID = "{quotation_id}" AND PROCESS_ID = "{process_id_list_from_db[i]}"'
+            with connection.cursor() as cursor:
+                cursor.execute(query)
+
+    print("PROCESS ID SISA = ", ProcessId)
+    print("PROCESS OPESUM SISA = ", Opesum)
+    print("PROCESS SETTIME SISA = ", SetTime)
+    print("PROCESS OPETIME SISA = ", OpeTime)
+
     for i in range(0, ProcessLength):
-        query = f'UPDATE quotation_process \
-            SET \
-            PROCESS_ID = "{ProcessId[i]}", \
-            OPESUM =  "{Opesum[i]}", \
-            OPE_PER_OPE_BUDGET_RATIO =  "{OpePerOpeBudgetRatio[i]}", \
-            OPE_PER_BUDGET_RATIO =  "{OpePerBudgetRatio [i]}", \
-            SETTIME =  "{SetTime [i]}", \
-            OPETIME =  "{OpeTime[i]}", \
-            TOTAL_OPETIME =  "{TotalOpeTime[i]}", \
-            QUANTITY_PER_MIN =  "{QuantityPerMin[i]}" \
-            WHERE QUOTATION_ID = "{quotation_id}" AND PROCESS_ID = "{ProcessId[i]}"'
+        #check if current index of other list is exist in the database
+        #if exist it will update
+        #if not exist it will insert new
+        query = f'select exists (select * from quotation_process where QUOTATION_ID = {quotation_id} and PROCESS_ID = {ProcessId[i]}) as a;'
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            res = cursor.fetchall()
+        if(res[0][0] == 1):
+            query = f'UPDATE quotation_process \
+                SET \
+                PROCESS_ID = "{ProcessId[i]}", \
+                OPESUM =  "{Opesum[i]}", \
+                OPE_PER_OPE_BUDGET_RATIO =  "{OpePerOpeBudgetRatio[i]}", \
+                OPE_PER_BUDGET_RATIO =  "{OpePerBudgetRatio [i]}", \
+                SETTIME =  "{SetTime [i]}", \
+                OPETIME =  "{OpeTime[i]}", \
+                TOTAL_OPETIME =  "{TotalOpeTime[i]}", \
+                QUANTITY_PER_MIN =  "{QuantityPerMin[i]}" \
+                WHERE QUOTATION_ID = "{quotation_id}" AND PROCESS_ID = "{ProcessId[i]}"'
+        elif(res[0][0] == 0):
+            query = 'INSERT INTO quotation_process VALUES (null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
+                quotation_id,
+                ProcessId[i],
+                Opesum[i],
+                OpePerOpeBudgetRatio[i],
+                OpePerBudgetRatio[i],
+                SetTime[i],
+                OpeTime[i],
+                TotalOpeTime[i],
+                QuantityPerMin[i],
+            )
         
-        print("Update Query process = ", query)
+        print("Update Process Query = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
 
