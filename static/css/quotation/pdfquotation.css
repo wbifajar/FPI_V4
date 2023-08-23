@@ -38,7 +38,7 @@ tr{
     border: none;
     outline: none;
     resize: vertical;
-    word-wrap: break-word; /* Allow the text to wrap to the next line */
+    line-break: anywhere;
 }
 
 

@@ -51,7 +51,7 @@ def Quotation(request):
 
             if selected_quotation_id:
                 # Perform delete operation
-                for i in range (0, len(selected_quotation_id)-1):
+                for i in range (0, len(selected_quotation_id)):
                     query = 'DELETE FROM quotation WHERE Quotation_ID = ' + selected_quotation_id[i]
                     cursor.execute(query)
                     connection.commit()

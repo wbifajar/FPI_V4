@@ -103,7 +103,7 @@
                   <tbody>
                     {% for qpdf, amount in zipped_data %}
                     <tr>
-                      <td>{{qpdf.PRODUCT_ID}}</td>
+                      <td>{{forloop.counter}}</td>
                       <td>{{qpdf.PRODUCT_ID}}</td>
                       <td>{{qpdf.PRODUCT_NAME}}</td>
                       <td>IDR</td>
@@ -131,7 +131,7 @@
                       <tbody>
                           <tr>
                               <td>
-                                  <textarea cols="5" rows="2" name="notes" id="notes" placeholder="Enter notes here..." class="note-textarea"></textarea>
+                                <textarea cols="50" rows="10" id="notes" name="notes" id="notes" placeholder="Enter notes here..." class="note-textarea">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus aliquid fuga dolor unde cupiditate assumenda omnis. Tempore magni iusto expedita cupiditate adipisci quod! A veniam aliquam minus nisi velit laborum architecto quisquam, nobis iusto aspernatur aperiam nemo consequuntur tempora minima aliquid modi perferendis earum eligendi! Aliquam neque eveniet doloremque minima ratione sapiente culpa, corporis mollitia eligendi fugit illum quia consequatur suscipit pariatur labore. Harum doloremque modi consequuntur adipisci minus voluptas natus culpa facilis alias ipsum delectus incidunt tempora corrupti temporibus eius sequi, cumque dignissimos quisquam! Quos odit a soluta, unde quibusdam tempora quia asperiores eum, illum voluptates repellat, debitis ipsum.</textarea>
                               </td>
                           </tr>
                       </tbody>
@@ -190,27 +190,36 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
 <script type="text/javascript">
-
     function HTMLtoPDF() {
-        html2canvas(document.querySelector("#form"), {
-            allowTaint: true,
-            useCORS: true,
-            scale: 5,
-        }).then(canvas => {
-            var img = canvas.toDataURL("image/png");
+      window.jsPDF = window.jspdf.jsPDF;
 
-            var doc = new jsPDF("p", "mm", "a4");
-
-            var width = doc.internal.pageSize.getWidth();
-            var height = doc.internal.pageSize.getHeight();
-
-            doc.setFont('Arial');
-            doc.setFontSize(12);
-            doc.addImage(img, 'PNG', 0, 0, width, height);
-            doc.save("invoice.pdf");
-        });
+      // Capture the #form element
+      html2canvas(document.querySelector("#form"), {
+        allowTaint: true,
+        useCORS: true,
+      }).then(canvas => {
+        var img = canvas.toDataURL("image/png");
+        
+        var doc = new jsPDF("p", "mm", "a4");
+        
+        var width = doc.internal.pageSize.getWidth();
+        var height = doc.internal.pageSize.getHeight();
+        
+        // You might need to adjust the font and font size to match your content
+        doc.setFont('Arial');
+        doc.setFontSize(12);
+        
+        // Add the image to the PDF
+        doc.addImage(img, 'PNG', 0, 0, width, height);
+        
+        // Save the PDF
+        doc.save("invoice.pdf");
+      }).catch(error => {
+        console.error("Error creating PDF:", error);
+      });
     }
 </script>
+
 
 
 
