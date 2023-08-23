@@ -75,7 +75,13 @@ function addQuotationMaterialToTableFromDB(){
             '', '', '', '', '', '', '',
         ])
     });
+    $('#BoardArr').val(boardArr);
+    $('#BarArr').val(barArr);
+    console.log(boardArr, barArr);
+    console.log("AFAASFAF = ", $('#BoardArr').val(),  $('#BarArr').val() );
+
 }
+
 
 function getMaterialData(materialIndex){
      
