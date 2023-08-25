@@ -192,6 +192,7 @@
 <script type="text/javascript">
 
     function HTMLtoPDF() {
+        window.jsPDF = window.jspdf.jsPDF;
         html2canvas(document.querySelector("#form"), {
             allowTaint: true,
             useCORS: true,
