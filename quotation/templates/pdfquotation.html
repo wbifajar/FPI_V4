@@ -30,7 +30,7 @@
               </div>
               <div class="col-xl-3 float-end text-end">
                 <h4 class="fw-bold">Quotation</h4>
-                <a id="content1">#QUO-003420/10/2022</a>
+                <a style="color: black; text-decoration: none;" id="content1">#QUO-003420/10/2022</a>
                 <a>SENT</a>
               </div>
             </div>
@@ -103,7 +103,7 @@
                   <tbody>
                     {% for qpdf, amount in zipped_data %}
                     <tr>
-                      <td>{{qpdf.PRODUCT_ID}}</td>
+                      <td>{{ forloop.counter}}</td>
                       <td>{{qpdf.PRODUCT_ID}}</td>
                       <td>{{qpdf.PRODUCT_NAME}}</td>
                       <td>IDR</td>
@@ -131,7 +131,8 @@
                       <tbody>
                           <tr>
                               <td>
-                                  <textarea cols="5" rows="2" name="notes" id="notes" placeholder="Enter notes here..." class="note-textarea"></textarea>
+                                <div style="width: 690px; height: 48px;" contenteditable></div>
+                                <div id="charCount" style="text-align: right;"></div>
                               </td>
                           </tr>
                       </tbody>
@@ -192,6 +193,10 @@
 <script type="text/javascript">
 
     function HTMLtoPDF() {
+      // el.style.display = 'none';
+      charCountEl.style.display = 'none';
+
+        window.jsPDF = window.jspdf.jsPDF;
         html2canvas(document.querySelector("#form"), {
             allowTaint: true,
             useCORS: true,
@@ -212,6 +217,47 @@
     }
 </script>
 
+<script>
+  const el = document.querySelector('div[contenteditable]');
+  const charCountEl = document.getElementById('charCount');
+  const maxLength = 184; // Maximum character length
+
+  // Function to update character count
+  function updateCharCount() {
+    const content = el.textContent;
+    const charCount = content.length;
+    charCountEl.textContent = `Character Count: ${charCount} / 185`;
+
+    // Truncate content if exceeding max length
+    if (charCount > maxLength) {
+      el.textContent = content.substring(0, maxLength);
+    }
+  }
+
+  // Get value from element on input events
+  el.addEventListener('input', () => {
+    updateCharCount();
+  });
+
+  // Set some value and initialize character count
+  el.textContent = '';
+  updateCharCount();
+</script>
+
+<!-- <script>
+  const el = document.querySelector('div[contenteditable]');
+
+  // Get value from element on input events
+  el.addEventListener('input', () => {
+    if (el.textContent.length > 185) {
+      el.textContent = el.textContent.substring(0, 185);
+    }
+    console.log(el.textContent);
+  });
+
+  // Set some value
+  el.textContent = '';
+</script> -->
 
 
 {% endblock scripts %}
