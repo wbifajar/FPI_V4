@@ -59,9 +59,10 @@ $(function(){
 
 
 function addProcess() {
+  var processTableLength = $('table#processTable > tbody tr').length;
 	// get process name from search input 
 	var processName = document.getElementById('processName').value;
-
+	
 	// get process database from py file 
 	const obj = getProcessFromDB();
 	var selectedProcess = obj.find(element => element.Name == processName);
@@ -90,7 +91,7 @@ function addProcess() {
 	var table = document.getElementById("processTable").getElementsByTagName('tbody')[0];
 	index++;
 
-	var row = table.insertRow(index);
+	var row = table.insertRow(processTableLength);
 	var cell1 = row.insertCell(0);
 	var cell2 = row.insertCell(1);
 	var cell3 = row.insertCell(2);
@@ -145,10 +146,8 @@ function deleteProcess(rowindex) {
     var processTableLength = $('table#processTable > tbody tr').length;
     // index -= 1;
     for (var i = 0; i < processTableLength; i++) {
-      table.rows[i].cells[0].innerHTML = `<th scope="row">${i + 1}</th>`;
-       
       
-      var selectedProcessId = $('table#processTable tbody tr').eq(i).children().eq(1).text()
+      var selectedProcessId = $('table#processTable tbody tr').eq(i).children().eq(1).children().val()
       var selectedProcessName = $('table#processTable tbody tr').eq(i).children().eq(2).text()
       var selectedProcessCost = $('table#processTable tbody tr').eq(i).children().eq(3).html()
       var selectedOpeSum = $('table#processTable tbody tr').eq(i).children().eq(4).children().val()
@@ -161,18 +160,23 @@ function deleteProcess(rowindex) {
       // console.log("SELECTED PROCESS = ", selectedProcessCost);
       // cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
   
-  
-      table.rows[i].cells[1].innerHTML = `<td>${selectedProcessId}</td>`;  
+      console.log(selectedProcessId);
+      console.log(selectedProcessName);
+     
+      table.rows[i].cells[0].innerHTML = `<th scope="row">${i+1}</th>`; 
+      table.rows[i].cells[1].innerHTML = `<td><input type="text" name='ProcessId' value='${selectedProcessId}' style="background: transparent; border: none; width: 100%;"></td>`; 
       table.rows[i].cells[2].innerHTML = `<td>${selectedProcessName}</td>`;
       table.rows[i].cells[3].innerHTML = `<td>${selectedProcessCost}</td>`;
-      table.rows[i].cells[4].innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue()" onchange="calculateByOpeSum(${i + 1})" name='opeSum-${i + 1}' id='opeSum-${i + 1}' value=${selectedOpeSum}></td>`;
-      table.rows[i].cells[5].innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio-${i + 1}' onchange="calculateByOperationPerOperationBudgetRatio(${i + 1})" id='operationPerOperationBudgetRatio-${i + 1}' value=${selectedPerOpeBudgetRatio}> %</td>`;
-      table.rows[i].cells[6].innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio-${i + 1}' onchange="calculateByOperationPerBudgetRatio(${i + 1})" id='operationPerBudgetRatio-${i + 1}' value=${selectedPerBudgetRatio}> %</td>`;
-      table.rows[i].cells[7].innerHTML = `<td><input type="text" onchange="calculateBySetTime(${i + 1})" class="operationInputMd" name='setTime-${i + 1}' id='setTime-${i + 1}' value=${selectedSetTime}></td>`;
-      table.rows[i].cells[8].innerHTML = `<td><input type="text" onchange="calculateByOpeTime(${i + 1})" class="operationInputMd" name='opeTime-${i + 1}' id='opeTime-${i + 1}' value=${selectedOpeTime}></td>`;
-      table.rows[i].cells[9].innerHTML = `<td><input type="text" class="operationInputMd" onchange="calculateByTotalOpeTime(${i + 1})" name='totalOpeTime-${i + 1}' id='totalOpeTime-${i + 1}' value=${selectedTotalTime}></td>`;
-      table.rows[i].cells[10].innerHTML = `<td><input type="text" class="inputS" onchange="calculateByQuantityPerMin(${i + 1})" name='quantityPerMinute-${i + 1}' id='quantityPerMinute-${i + 1}' value=${selectedQtyPerMin}></td>`;
-      table.rows[i].cells[11].innerHTML = `<td><button type="button" onclick="deleteProcess(${i + 1})" class="trash"><i id="trash-icon"></i></button></td>`;
+      table.rows[i].cells[4].innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue(${i+1})" onchange="calculateByOpeSum(${i+1})" name='opeSum' id='opeSum-${i+1}' value='${selectedOpeSum}'></td>`;
+      table.rows[i].cells[5].innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio' onchange="calculateByOperationPerOperationBudgetRatio(${i+1})" id='operationPerOperationBudgetRatio-${i+1}' value='${selectedPerOpeBudgetRatio}'> %</td>`;
+      table.rows[i].cells[6].innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio' onchange="calculateByOperationPerBudgetRatio(${i+1})" id='operationPerBudgetRatio-${i+1}' value='${selectedPerBudgetRatio}'> %</td>`;
+      table.rows[i].cells[7].innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateBySetTime(${i+1})" class="operationInputMd" name='setTime' id='setTime-${i+1}' value='${selectedSetTime}'></td>`;
+      table.rows[i].cells[8].innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateByOpeTime(${i+1})" class="operationInputMd" name='opeTime' id='opeTime-${i+1}' value='${selectedOpeTime}'></td>`;
+      table.rows[i].cells[9].innerHTML = `<td><input type="text" value="00:00:00" class="operationInputMd" onchange="calculateByTotalOpeTime(${i+1})" name='totalOpeTime' id='totalOpeTime-${i+1}'></td>`;
+      table.rows[i].cells[10].innerHTML = `<td><input type="text" class="inputS" onchange="calculateByQuantityPerMin(${i+1})" name='quantityPerMinute' id='quantityPerMinute-${i+1}'></td>`;
+      table.rows[i].cells[11].innerHTML = `<td><button type="button" onclick="deleteProcess(${i+1})" class="trash"><i id="trash-icon"></i></button></td>`;
+
+    
   
   
       callFeatherIcon();
@@ -652,8 +656,8 @@ function totalOperations(){
     // console.log( elel );
     // console.log( $(elel[5]).children().val().split('%') );
 
-    totalOpeSum += parseInt($(elel[4]).children().val())
-    totalOpePerOpeBudgetRatio += parseFloat(  $(elel[5]).children().val().split('%')[0] )
+    totalOpeSum +=  parseInt($(elel[4]).children().val())
+    totalOpePerOpeBudgetRatio += replaceNanValue(parseFloat(  $(elel[5]).children().val().split('%')[0] ), 0) 
     totalOpePerBudgetRatio += parseFloat(  $(elel[6]).children().val().split('%')[0] )
     totalSetTime += parseInt(convertDateTimeToSeconds($(elel[7]).children().val()))
     

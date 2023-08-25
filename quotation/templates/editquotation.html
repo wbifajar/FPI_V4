@@ -71,7 +71,7 @@
                                     Quantity
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="quantity" name="Quantity" value="{{ q.Quantity }}" onchange="calculateTotalBudget()">
+                                    <input class="" type="text" id="quantity" name="Quantity" value="{{ q.QUANTITY }}" onchange="calculateTotalBudget()">
                                 </div>
                             </div>
                     
@@ -326,7 +326,7 @@
                             <div style="display: flex; flex-basis: 40%; justify-content: right;">
                                 <input type="input" list="others" id="otherName" placeholder="Search ..." class="inputSearch ">
                                 <datalist id="others">
-                                    {% for other in others %}
+                                    {% for other in other %}
                                         <option value="{{other.Name}}">
                                     {% endfor %}
                                 </datalist>
@@ -1467,14 +1467,12 @@
 <!-- ========== START PROCESS FUNCTION ========== -->
 <script>
     function getProcessFromDB(){
-        var process = '{{processjs|safe}}';
+        var process = '{{process_js|safe}}';
         const obj = JSON.parse(process);
         return obj;
     }
 </script>
-<!-- <script src="{% static 'scripts/processFunction.js' %}"></script> -->
 
-<!-- edit function process -->
 <script src="{% static 'scripts/processFunctionEdit.js' %}"></script>
 <!-- ========== END PROCESS FUNCTION ========== -->
 
@@ -1482,12 +1480,11 @@
 <!-- OTHER FUNCTION -->
 <script>
     function getOtherFromDB(){
-        var others = '{{othersjs|safe}}';
+        var others = '{{ other_js|safe}}';
         const obj = JSON.parse(others);
         return obj
     }
 </script>
-<!-- <script src="{% static 'scripts/otherFunction.js' %}" type=""></script> -->
 
 <script>
     function getQuotationMaterialFromViews(){
@@ -1565,6 +1562,8 @@
     }
 </script>
 
+
+
 <script>
      function getSelectedProcessFromDB(){
         var sm = '{{ quotation_process_js|safe}}'
@@ -1577,7 +1576,6 @@
         var sm = '{{ quotation_other_js|safe}}'
         const obj = JSON.parse(sm)
         return obj;
-        
     }
 
     
@@ -1587,6 +1585,9 @@
     $(function() {
         var part = '{{quotation|safe}}';
         const objq = JSON.parse(part);
+
+        
+        $('#select-status-option').val(objq.QUOTATION_STATUS)
     });
 </script>
 

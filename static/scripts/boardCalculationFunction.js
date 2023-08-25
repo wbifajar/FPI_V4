@@ -108,8 +108,6 @@ function calculateFromNum(){
     $('#FromNumPreviewHorScale').text(horscale);
     $('#FromPartPreviewVerScale').text(verscale);
     $('#FromPartPreviewHorScale').text(horscale);
-
-    updateBoardArray();
 }
 
 function calculateFromPartScale(){
@@ -163,9 +161,5 @@ function calculateFromPartScale(){
     $('#WeightFromPart3').val(weightfrompart);
     $('#MaterialCostFromPart').val(materialcostfrompart);
     $('#BoldMaterialCostFromPart').val(materialcostfrompart);
-
-    
-
-    updateBoardArray(); 
 }
 
