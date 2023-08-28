@@ -12,8 +12,9 @@ def Quotation(request):
     cursor = connection.cursor(dictionary=True)
 
     cursor.execute('SELECT * FROM quotation \
-                    LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
-                   ORDER BY QUOTATION_ID DESC')  # untuk sementara aja urutin dari yg paling baru
+                LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
+                ORDER BY QUOTATION_ID DESC')  # untuk sementara aja urutin dari yg paling baru
+
     quotation = cursor.fetchall()
 
     # Modify and calculate values for each quotation
@@ -47,17 +48,17 @@ def Quotation(request):
         action = request.POST.get('action')
 
         if action == 'delete':
-            selected_quotation_id = request.POST.getlist('selected_quotation')
+            selected_quotation_ids = request.POST.getlist('selected_quotation')
 
-            if selected_quotation_id:
+            if selected_quotation_ids:
                 # Perform delete operation
-                for i in range (0, len(selected_quotation_id)):
-                    query = 'DELETE FROM quotation WHERE Quotation_ID = ' + selected_quotation_id[i]
-                    cursor.execute(query)
-                    connection.commit()
+                query = 'DELETE FROM quotation WHERE Quotation_ID IN (' + ','.join(['%s'] * len(selected_quotation_ids)) + ')'
+                cursor.execute(query, selected_quotation_ids)
+                connection.commit()
 
                 # Reload the page after successful deletion
-                return redirect('Quotation')
+                return redirect('/Quotation')
+
 
         elif action == 'edit':
             selected_quotation_id = request.POST.get('selected_quotation')
@@ -97,7 +98,39 @@ def Quotation(request):
                 
                 context['pdf_quotation'] = pdf_data
 
+        elif action == 'copyQuotation':
+            selected_quotation_id = request.POST.get('selected_quotation')
 
+            if selected_quotation_id:
+                try:
+                    # Retrieve the quotation data based on the selected ID
+                    cursor.execute('SELECT * FROM quotation WHERE QUOTATION_ID = %s', (selected_quotation_id,))
+                    quotation_data = cursor.fetchone()
+
+                    if quotation_data:
+                        # Remove the old ID from the quotation data to create a new entry
+                        copied_data = dict(quotation_data)
+                        del copied_data['QUOTATION_ID']
+
+                        # Insert the copied data as a new quotation entry and retrieve the new ID
+                        cursor.execute(
+                            'INSERT INTO quotation (CUSTOMER_ID, PRODUCT_ID, PRODUCT_NAME, PRODUCT_VERSION, QUANTITY, BUDGET_PER_UNIT, '
+                            'COST_EXCLUDE_OPERATION, OPERATION_COST, MANAGEMENT_COST_PERCENTAGE, MATERIAL_COST_NUMBER, MATERIAL_COST_PERCENTAGE, '
+                            'OUTSOURCE_COST_NUMBER, OUTSOURCE_COST_PERCENTAGE, OPERATION_BUDGET, CREATED_AT) '
+                            'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)',
+                            tuple(copied_data.values())
+                        )
+                        connection.commit()
+
+                        # Retrieve the new ID of the copied quotation
+                        new_quotation_id = cursor.lastrowid
+
+                        # Redirect to the detail page of the copied quotation
+                        return redirect('/Quotation/Detail/' + str(new_quotation_id))
+
+                except Exception as e:
+                    # Handle any errors that might occur during copying
+                    context['copy_error'] = str(e)
 
 
 

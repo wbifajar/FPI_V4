@@ -1,11 +1,16 @@
 function addOtherToTableFromDB(){     
         const obj = getQuotationOtherFromDB();
+        var otherlist = getOtherFromDB();
         // console.log(obj);
-
+        
         obj.forEach((element, index) => {
+            console.log("OTHER LIST = ", otherlist);
+            var selectedOthers = otherlist.find(el => el.OtherId == element.OTHER_ID);
+            othersList.push(selectedOthers)
+            
             // alter table to add others 
             var table = document.getElementById("othersTable").getElementsByTagName('tbody')[0];
-
+            
             var row = table.insertRow(-1);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
@@ -14,9 +19,9 @@ function addOtherToTableFromDB(){
             var cell5 = row.insertCell(4);
             var cell6 = row.insertCell(5);
             var cell7 = row.insertCell(6);
-
+            
             cell1.style.width = "15%";
-
+            
             cell1.innerHTML = `<th scope="row">${index+1}</th>`;
             cell2.innerHTML = `<td>${element.Name}</td>`;
             cell3.innerHTML = `<td><input type="input" name="otherprice" id="otherPrice-${index+1}" onchange="calculateOtherPercentage(${index+1}, this.value)" class="inputMd" value=${element.OTHER_PRICE}></td>`;
@@ -28,7 +33,9 @@ function addOtherToTableFromDB(){
             callFeatherIcon();
             updateOtherLength(index+1);
             $('#otherName').val('');
+            console.log("INITIAL OBJ_ID LIST = ", obj);
         });
+        console.log("INITIAL PUSH = ", othersList);
 }
 
 $(function(){
@@ -50,16 +57,21 @@ function addOther() {
     
     // check for duplicate others
     if(Object.entries(othersList).length != 0){
+        console.log("flag 1");
         var checkName = othersList.find(element => element.Name == otherName);
+        console.log(othersList, otherName);
         if (checkName == undefined){
+            console.log("flag 2 checkname undefined");
             othersList.push(selectedOthers);
         } else {
+            console.log(checkName, selectedOthers);
             if (checkName.OtherId == selectedOthers.OtherId){
                 return false;
             }
             othersList.push(selectedOthers);
         }
     } else {
+        console.log("flag 200 = ", selectedOthers, "ASDSADASD = ", othersList);
         othersList.push(selectedOthers);
     }
     
@@ -80,8 +92,8 @@ function addOther() {
 
     cell1.innerHTML = `<th scope="row">${othersTableLen+1}</th>`;
     cell2.innerHTML = `<td>${selectedOthers.Name}</td>`;
-    cell3.innerHTML = `<td><input type="input" name="otherprice" id="otherPrice-${othersTableLen+1}" onchange="calculateOtherPercentage(${othersTableLen+1}, this.value)" class="inputMd" ></td>`;
-    cell4.innerHTML = `<td><input type="input" name="otherpercentage" class="inputPercentage inputMd" id="otherPercentage-${othersTableLen+1}"></td>`;
+    cell3.innerHTML = `<td><input type="input" name="otherprice" id="otherPrice-${othersTableLen+1}" onchange="calculateOtherPercentage(${othersTableLen+1}, this.value)" class="inputMd" value="0"></td>`;
+    cell4.innerHTML = `<td><input type="input" name="otherpercentage" class="inputPercentage inputMd" id="otherPercentage-${othersTableLen+1}" value="0"></td>`;
     cell5.innerHTML = `<td><input type="checkbox" name="otherisperunit-${othersTableLen+1}" id="otherCheckBox-${othersTableLen+1}" name="otherCheckBox-${othersTableLen+1}" onchange="calculateCostExcludeOperation()" value="on"></td>`;
     cell6.innerHTML = `<td><button type="button" onclick="deleteOther(${othersTableLen+1})" class="trash"><i id="trash-icon"></i></button></td>`;
     cell7.innerHTML = `<td><input type="hidden" name='othersId' value='${selectedOthers.OtherId}'></td>`;
@@ -102,15 +114,16 @@ function deleteOther(rowindex){
     var othersTableLength = $('table#othersTable > tbody tr').length;
     // othersIndex-=1;
     for(var i=0 ; i< othersTableLength ; i++){
-        table.rows[i].cells[0].innerHTML = `<th scope="row">${i+1}</th>`;
-
-        var selectedOthersName = $('table#othersTable tbody tr').eq(i).children().eq(1).children().val()
+        
+        var selectedOthersName = $('table#othersTable tbody tr').eq(i).children().eq(1).text()
         var selectedOthersValue = $('table#othersTable tbody tr').eq(i).children().eq(2).children().val()
-        var selectedOthersPercentage = $('table#othersTable tbody tr').eq(i).children().eq(3).children().val()
+        var selectedOthersPercentage =  $('table#othersTable tbody tr').eq(i).children().eq(3).children().val()
         var selectedOthersCheckbox = $('table#othersTable tbody tr').eq(i).children().eq(4).children()[0].checked == true ? 'checked' : ''
-        // console.log("SELECTED = ", selectedOthersCheckbox)
-
-        table.rows[i].cells[2].innerHTML = `<td><input type="input" id="otherPrice-${i + 1}" onchange="calculateOtherPercentage(${i + 1}, this.value)" class="inputMd" value=${selectedOthersValue} name="otherprice"></td>`;
+        console.log("SELECTED = ", selectedOthersValue)
+        
+        table.rows[i].cells[0].innerHTML = `<th scope="row">${i+1}</th>`;
+        table.rows[i].cells[1].innerHTML =  `<td>${selectedOthersName}</td>`;
+        table.rows[i].cells[2].innerHTML = `<td><input type="input" id="otherPrice-${i + 1}" onchange="calculateOtherPercentage(${i + 1}, this.value)" class="inputMd" value="${selectedOthersValue}" name="otherprice"></td>`;
         table.rows[i].cells[3].innerHTML = `<td><input type="input" class="inputPercentage" id="otherPercentage-${i + 1}" value="${selectedOthersPercentage}" name="otherpercentage"></td>`;
         table.rows[i].cells[4].innerHTML = `<td><input type="checkbox" id="otherCheckBox-${i+1}" name="otherisperunit-${i+1}" onchange="calculateCostExcludeOperation()" ${selectedOthersCheckbox}></td>`;
         table.rows[i].cells[5].innerHTML = `<td><button type="button" onclick="deleteOther(${i+1})" class="trash"><i id="trash-icon"></i></button></td>`;

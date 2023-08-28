@@ -33,12 +33,18 @@ tr{
     margin-bottom: 6%;
 }
 
-.note-textarea {
+/* .note-textarea {
     width: 100%;
     border: none;
     outline: none;
     resize: vertical;
-    line-break: anywhere;
+    overflow-wrap: break-word;  Allow the text to wrap to the next line 
 }
+
+input[type=text] {
+    word-wrap: break-word;
+    word-break: break-all;
+    height: 80px;
+} */
 
 

@@ -13,24 +13,24 @@ function deleteProcess(rowindex) {
   processList.splice(rowindex - 1, 1);
   index -= 1;
   for (var i = 0; i < index; i++) {
-    table.rows[i].cells[0].innerHTML = `<th scope="row">${i + 1}</th>`;
-     
-    
-    var selectedProcessId = $('table#processTable tbody tr').eq(i).children().eq(1).text()
-    var selectedProcessName = $('table#processTable tbody tr').eq(i).children().eq(2).text()
-    var selectedProcessCost = $('table#processTable tbody tr').eq(i).children().eq(3).html()
-    var selectedOpeSum = $('table#processTable tbody tr').eq(i).children().eq(4).children().val()
-    var selectedPerOpeBudgetRatio = $('table#processTable tbody tr').eq(i).children().eq(5).children().val()
-    var selectedPerBudgetRatio = $('table#processTable tbody tr').eq(i).children().eq(6).children().val()
-    var selectedSetTime = $('table#processTable tbody tr').eq(i).children().eq(7).children().val()
-    var selectedOpeTime = $('table#processTable tbody tr').eq(i).children().eq(8).children().val()
-    var selectedTotalTime = $('table#processTable tbody tr').eq(i).children().eq(9).children().val()
-    var selectedQtyPerMin = $('table#processTable tbody tr').eq(i).children().eq(10).children().val()
-    // console.log("SELECTED PROCESS = ", selectedProcessCost);
-    // cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
-
-
-    table.rows[i].cells[1].innerHTML = `<td>${selectedProcessId}</td>`;  
+	  
+	  
+	  var selectedProcessId = $('table#processTable tbody tr').eq(i).children().eq(1).children().val()
+	  var selectedProcessName = $('table#processTable tbody tr').eq(i).children().eq(2).text()
+	  var selectedProcessCost = $('table#processTable tbody tr').eq(i).children().eq(3).html()
+	  var selectedOpeSum = $('table#processTable tbody tr').eq(i).children().eq(4).children().val()
+	  var selectedPerOpeBudgetRatio = $('table#processTable tbody tr').eq(i).children().eq(5).children().val()
+	  var selectedPerBudgetRatio = $('table#processTable tbody tr').eq(i).children().eq(6).children().val()
+	  var selectedSetTime = $('table#processTable tbody tr').eq(i).children().eq(7).children().val()
+	  var selectedOpeTime = $('table#processTable tbody tr').eq(i).children().eq(8).children().val()
+	  var selectedTotalTime = $('table#processTable tbody tr').eq(i).children().eq(9).children().val()
+	  var selectedQtyPerMin = $('table#processTable tbody tr').eq(i).children().eq(10).children().val()
+	  // console.log("SELECTED PROCESS = ", selectedProcessCost);
+	  // cell4.innerHTML = `<td>${selectedProcess.SettingCost}/${selectedProcess.ProcessCost}</td>`;
+	  
+	  
+	table.rows[i].cells[0].innerHTML = `<th scope="row">${i + 1}</th>`;
+    table.rows[i].cells[1].innerHTML = `<td><input type="text" name='ProcessId' value='${selectedProcessId}' style="background: transparent; border: none; width: 100%;"></td>`; 
     table.rows[i].cells[2].innerHTML = `<td>${selectedProcessName}</td>`;
     table.rows[i].cells[3].innerHTML = `<td>${selectedProcessCost}</td>`;
     table.rows[i].cells[4].innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue(${i + 1})" onchange="calculateByOpeSum(${i + 1})" name='opeSum-${i + 1}' id='opeSum-${i + 1}' value=${selectedOpeSum}></td>`;

@@ -6,6 +6,7 @@
 
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/static/css/quotation/quotation.css">
@@ -30,7 +31,11 @@
               <button type="button" name="action" value="edit" class="btn btn-secondary" id="edit-button">Edit/Detail</button>
               <button type="submit" name="action" value="delete" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
               <button type="button" name="action" value="createPDF" class="btn btn-secondary" id="create-pdf-button">Create PDF</button>
+              <button type="button" name="action" value="copyQuotation" class="btn btn-secondary copy-quotation-button" data-quotation-id="{{ q.QUOTATION_ID }}">Copy Quotation</button>
             </div>
+          </div>
+          <div id="result">
+
           </div>
       
           <table id="myTable" class="table table-striped table-bordered" style="width:100%">
@@ -56,11 +61,11 @@
                   <input class="form-check-input" type="checkbox" name="selected_quotation" value="{{ q.QUOTATION_ID }}" {% if edit_quotation and edit_quotation.Quotation_ID == q.Quotation_ID %}checked{% endif %}>
                 </td>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ q.customerName  }}</td>
-                <td>{{ q.PRODUCT_NAME }}</td>
-                <td>{{ q.QUANTITY }}</td>
-                <td>{{ q.BUDGET_PER_UNIT }}</td>
-                <td>{{ q.TOTAL }}</td>
+                <td name="pl" class="customerName">{{ q.customerName  }}</td>
+                <td name="pl" class="productName">{{ q.PRODUCT_NAME }}</td>
+                <td name="pl" class="quantity">{{ q.QUANTITY }}</td>
+                <td name="pl" class="budgetPerUnit">{{ q.BUDGET_PER_UNIT }}</td>
+                <td name="pl" class="totalAmount">{{ q.TOTAL }}</td>
                 <td>{{ q.CREATED_AT }}</td>
                 <td>{{ q.EXPIRED }}</td>
                 <td>Last modified by {{ q.ACTIVITY_LOG }}</td>
@@ -72,19 +77,16 @@
               {% endfor %}
             </tbody>
           </table>
+
+          <input type="hidden" name="action" value="createPDF">
+          <input type="hidden" name="selected_quotation" value="{{ pdf_quotation.Quotation_ID }}">
       
           {% if edit_quotation %}
-              <input type="hidden" name="action" value="edit">
-              <input type="hidden" name="selected_quotation" value="{{ edit_quotation.Quotation_ID }}">
-          {% elif pdf_quotation %}
-              <input type="hidden" name="action" value="createPDF">
-              {% for quotation in pdf_quotation %}
-                  <input type="hidden" name="selected_quotation" value="{{ quotation.Quotation_ID }}">
-              {% endfor %}
+          <input type="hidden" name="action" value="edit">
+          <input type="hidden" name="selected_quotation" value="{{ edit_quotation.Quotation_ID }}">
           {% else %}
-              <input type="hidden" name="action" value="delete">
+          <input type="hidden" name="action" value="delete">
           {% endif %}
-
         </div>
       </form>
   </div>
@@ -101,34 +103,6 @@
 </script>
 
 <script>
-  var quotationData = JSON.parse('{{ quotationjs|escapejs }}');
-
-  for (var i = 0; i < quotationData.length; i++) {
-    (function() {
-      var q = quotationData[i];
-      var quotationButton = document.getElementById("quotationButton-" + q.QUOTATION_ID);
-      var quotationStatus = q.QUOTATION_STATUS;
-
-      quotationButton.style.color = getColorCode(quotationStatus);
-
-      function getColorCode(status) {
-        const colorCodes = {
-          Draft: "#000000",
-          Accepted: "#337ab7",
-          Submitted: "#5cb85c",
-          Rejected: "#f0ad4e",
-          Expired: "#cc0000",
-        };
-
-        return colorCodes[status] || "";
-      }
-    })();
-  }
-</script>
-
-
-
-<script>
   $(document).ready(function () {
     var table = $('#myTable').DataTable({});
 
@@ -138,9 +112,9 @@
     });
 
     var data = table.rows().data();
-    let quotationlengh = parseInt(data.length);
+    let quotationlength = parseInt(data.length);
 
-    for (let i=0 ; i<quotationlengh ; i++){
+    for (let i=0 ; i<quotationlength ; i++){
         price = data[i][5];
         price = currency(price);
 
@@ -152,7 +126,7 @@
     }
 
     $('#myTable').dataTable().fnClearTable();   
-    for (let i=0 ; i<quotationlengh ; i++){
+    for (let i=0 ; i<quotationlength ; i++){
         $('#myTable').dataTable().fnAddData(data[i]);
     }
   });
@@ -253,9 +227,28 @@
   });
 </script>
 
+<script>
+  $(document).ready(function() {
+    $(".copy-quotation-button").click(function() {
+      // Check if at least one checkbox is selected
+      if ($("input[name='selected_quotation']:checked").length === 0) {
+        alert("Please select at least one quotation to copy.");
+        return;  // Prevent further action if no checkboxes are selected
+      }
+
+      var quotationId = $(this).data("quotation-id");
+      // Set the value of the hidden input field for selected_quotation
+      $("input[name='selected_quotation']").val(quotationId);
+      // Set the value of the hidden input field for action
+      $("input[name='action']").val('copyQuotation');
+      // Submit the form
+      $("form").submit();
+    });
+  });
+</script>
 
 
-
+  
 <script>
   var quotationData = JSON.parse('{{ quotationjs|escapejs }}');
 

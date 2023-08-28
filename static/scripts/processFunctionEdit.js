@@ -656,8 +656,8 @@ function totalOperations(){
     // console.log( elel );
     // console.log( $(elel[5]).children().val().split('%') );
 
-    totalOpeSum += parseInt($(elel[4]).children().val())
-    totalOpePerOpeBudgetRatio += parseFloat(  $(elel[5]).children().val().split('%')[0] )
+    totalOpeSum +=  parseInt($(elel[4]).children().val())
+    totalOpePerOpeBudgetRatio += replaceNanValue(parseFloat(  $(elel[5]).children().val().split('%')[0] ), 0) 
     totalOpePerBudgetRatio += parseFloat(  $(elel[6]).children().val().split('%')[0] )
     totalSetTime += parseInt(convertDateTimeToSeconds($(elel[7]).children().val()))
     

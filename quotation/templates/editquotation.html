@@ -1562,6 +1562,8 @@
     }
 </script>
 
+
+
 <script>
      function getSelectedProcessFromDB(){
         var sm = '{{ quotation_process_js|safe}}'
@@ -1583,6 +1585,9 @@
     $(function() {
         var part = '{{quotation|safe}}';
         const objq = JSON.parse(part);
+
+        
+        $('#select-status-option').val(objq.QUOTATION_STATUS)
     });
 </script>
 

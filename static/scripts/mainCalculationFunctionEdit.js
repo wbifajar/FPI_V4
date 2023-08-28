@@ -52,7 +52,8 @@ function calculateTotalBudget() {
 
     calculateManagementCost();
 
-    for (var i = 0; i < othersIndex; i++) {
+    var othersTableLen = $('table#othersTable > tbody tr').length
+    for (var i = 0; i < othersTableLen; i++) {
         otherPrice = document.getElementById('otherPrice-' + (i + 1)).value;
         calculateOtherPercentage(i + 1, otherPrice);
     }
@@ -74,25 +75,8 @@ function calculateManagementCost() {
 
 function calculateCostExcludeOperation() {
     var data = getData();
-    var result = data.managementCost + data.totalMaterialCost + data.totalOutsourceCost;
-
-    for (var i = 0; i < othersIndex; i++) {
-        var otherPrice = parseFloat(document.getElementById(`otherPrice-${i + 1}`).value);
-        var otherCheckBox = document.getElementById(`otherCheckBox-${i + 1}`).checked;
-
-        if (!isNaN(otherPrice)) {
-            if (otherCheckBox == false) {
-                result += otherPrice * data.quantity;
-            } else {
-                if (data.quantity != '' && data.quantity != 0) {
-                    result += otherPrice / data.quantity;
-                } else {
-                    result += otherPrice * data.quantity;
-                }
-            }
-            // result += otherPrice;
-        }
-    }
+    var result = data.totalMaterialCost + data.totalOutsourceCost;
+    result += getTotalOtherCost();
 
     $('#materialOutsourceOtherCost').val(zeroSeparator(result));
 
@@ -110,8 +94,7 @@ function calculateCostExcludeOperation() {
 function getTotalOtherCost() {
     var data = getData();
     var result = 0;
-    var othersIndexLen = $('table#othersTable > tbody tr').length
-    // console.log("othersIndexLen = ", othersIndexLen);
+    var othersIndexLen = $('table#othersTable > tbody tr').length;
     for (var i = 0; i < othersIndexLen; i++) {
         var otherPrice = parseFloat(document.getElementById(`otherPrice-${i + 1}`).value);
         var otherCheckBox = document.getElementById(`otherCheckBox-${i + 1}`).checked;
@@ -129,7 +112,6 @@ function getTotalOtherCost() {
             // result += otherPrice;
         }
 
-        // console.log(result);
     }
 
     return result

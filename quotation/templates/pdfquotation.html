@@ -30,7 +30,7 @@
               </div>
               <div class="col-xl-3 float-end text-end">
                 <h4 class="fw-bold">Quotation</h4>
-                <a id="content1">#QUO-003420/10/2022</a>
+                <a style="color: black; text-decoration: none;" id="content1">#QUO-003420/10/2022</a>
                 <a>SENT</a>
               </div>
             </div>
@@ -131,7 +131,8 @@
                       <tbody>
                           <tr>
                               <td>
-                                <textarea cols="50" rows="10" id="notes" name="notes" id="notes" placeholder="Enter notes here..." class="note-textarea">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus aliquid fuga dolor unde cupiditate assumenda omnis. Tempore magni iusto expedita cupiditate adipisci quod! A veniam aliquam minus nisi velit laborum architecto quisquam, nobis iusto aspernatur aperiam nemo consequuntur tempora minima aliquid modi perferendis earum eligendi! Aliquam neque eveniet doloremque minima ratione sapiente culpa, corporis mollitia eligendi fugit illum quia consequatur suscipit pariatur labore. Harum doloremque modi consequuntur adipisci minus voluptas natus culpa facilis alias ipsum delectus incidunt tempora corrupti temporibus eius sequi, cumque dignissimos quisquam! Quos odit a soluta, unde quibusdam tempora quia asperiores eum, illum voluptates repellat, debitis ipsum.</textarea>
+                                <div style="width: 690px; height: 48px;" contenteditable></div>
+                                <div id="charCount" style="text-align: right;"></div>
                               </td>
                           </tr>
                       </tbody>
@@ -191,36 +192,113 @@
 
 <script type="text/javascript">
     function HTMLtoPDF() {
-      window.jsPDF = window.jspdf.jsPDF;
+      // el.style.display = 'none';
+      charCountEl.style.display = 'none';
 
-      // Capture the #form element
-      html2canvas(document.querySelector("#form"), {
-        allowTaint: true,
-        useCORS: true,
-      }).then(canvas => {
-        var img = canvas.toDataURL("image/png");
-        
-        var doc = new jsPDF("p", "mm", "a4");
-        
-        var width = doc.internal.pageSize.getWidth();
-        var height = doc.internal.pageSize.getHeight();
-        
-        // You might need to adjust the font and font size to match your content
-        doc.setFont('Arial');
-        doc.setFontSize(12);
-        
-        // Add the image to the PDF
-        doc.addImage(img, 'PNG', 0, 0, width, height);
-        
-        // Save the PDF
-        doc.save("invoice.pdf");
-      }).catch(error => {
-        console.error("Error creating PDF:", error);
-      });
+        window.jsPDF = window.jspdf.jsPDF;
+        html2canvas(document.querySelector("#form"), {
+            allowTaint: true,
+            useCORS: true,
+            scale: 5,
+        }).then(canvas => {
+            var img = canvas.toDataURL("image/png");
+
+            var doc = new jsPDF("p", "mm", "a4");
+
+            var width = doc.internal.pageSize.getWidth();
+            var height = doc.internal.pageSize.getHeight();
+
+            doc.setFont('Arial');
+            doc.setFontSize(12);
+            doc.addImage(img, 'PNG', 0, 0, width, height);
+            doc.save("invoice.pdf");
+        });
     }
 </script>
 
+<script>
+  const el = document.querySelector('div[contenteditable]');
+  var charCountEl = document.getElementById('charCount');
+  var maxLength = 184; // Maximum character length
 
+  // Function to update character count
+  function updateCharCount() {
+    const content = el.textContent;
+    const charCount = content.length;
+    charCountEl.textContent = `Character Count: ${charCount} / 185`;
+
+    // Truncate content if exceeding max length
+    if (charCount > maxLength) {
+      el.textContent = content.substring(0, maxLength);
+    }
+  }
+
+  // Get value from element on input events
+  el.addEventListener('input', () => {
+    updateCharCount();
+  });
+
+  // Set some value and initialize character count
+  el.textContent = '';
+  updateCharCount();
+</script>
+
+<!-- <script>
+  const el = document.querySelector('div[contenteditable]');
+
+  // Get value from element on input events
+  el.addEventListener('input', () => {
+    if (el.textContent.length > 185) {
+      el.textContent = el.textContent.substring(0, 185);
+    }
+    console.log(el.textContent);
+  });
+
+  // Set some value
+  el.textContent = '';
+</script> -->
+
+<script>
+  const el = document.querySelector('div[contenteditable]');
+  const charCountEl = document.getElementById('charCount');
+  const maxLength = 184; // Maximum character length
+
+  // Function to update character count
+  function updateCharCount() {
+    const content = el.textContent;
+    const charCount = content.length;
+    charCountEl.textContent = `Character Count: ${charCount} / 185`;
+
+    // Truncate content if exceeding max length
+    if (charCount > maxLength) {
+      el.textContent = content.substring(0, maxLength);
+    }
+  }
+
+  // Get value from element on input events
+  el.addEventListener('input', () => {
+    updateCharCount();
+  });
+
+  // Set some value and initialize character count
+  el.textContent = '';
+  updateCharCount();
+</script>
+
+<!-- <script>
+  const el = document.querySelector('div[contenteditable]');
+
+  // Get value from element on input events
+  el.addEventListener('input', () => {
+    if (el.textContent.length > 185) {
+      el.textContent = el.textContent.substring(0, 185);
+    }
+    console.log(el.textContent);
+  });
+
+  // Set some value
+  el.textContent = '';
+</script> -->
 
 
 {% endblock scripts %}
