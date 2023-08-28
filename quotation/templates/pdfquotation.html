@@ -103,7 +103,7 @@
                   <tbody>
                     {% for qpdf, amount in zipped_data %}
                     <tr>
-                      <td>{{ forloop.counter}}</td>
+                      <td>{{forloop.counter}}</td>
                       <td>{{qpdf.PRODUCT_ID}}</td>
                       <td>{{qpdf.PRODUCT_NAME}}</td>
                       <td>IDR</td>
@@ -191,7 +191,6 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
 <script type="text/javascript">
-
     function HTMLtoPDF() {
       // el.style.display = 'none';
       charCountEl.style.display = 'none';
@@ -216,6 +215,48 @@
         });
     }
 </script>
+
+<script>
+  const el = document.querySelector('div[contenteditable]');
+  var charCountEl = document.getElementById('charCount');
+  var maxLength = 184; // Maximum character length
+
+  // Function to update character count
+  function updateCharCount() {
+    const content = el.textContent;
+    const charCount = content.length;
+    charCountEl.textContent = `Character Count: ${charCount} / 185`;
+
+    // Truncate content if exceeding max length
+    if (charCount > maxLength) {
+      el.textContent = content.substring(0, maxLength);
+    }
+  }
+
+  // Get value from element on input events
+  el.addEventListener('input', () => {
+    updateCharCount();
+  });
+
+  // Set some value and initialize character count
+  el.textContent = '';
+  updateCharCount();
+</script>
+
+<!-- <script>
+  const el = document.querySelector('div[contenteditable]');
+
+  // Get value from element on input events
+  el.addEventListener('input', () => {
+    if (el.textContent.length > 185) {
+      el.textContent = el.textContent.substring(0, 185);
+    }
+    console.log(el.textContent);
+  });
+
+  // Set some value
+  el.textContent = '';
+</script> -->
 
 <script>
   const el = document.querySelector('div[contenteditable]');

@@ -31,6 +31,7 @@
               <button type="button" name="action" value="edit" class="btn btn-secondary" id="edit-button">Edit/Detail</button>
               <button type="submit" name="action" value="delete" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
               <button type="button" name="action" value="createPDF" class="btn btn-secondary" id="create-pdf-button">Create PDF</button>
+              <button type="button" name="action" value="copyQuotation" class="btn btn-secondary copy-quotation-button" data-quotation-id="{{ q.QUOTATION_ID }}">Copy Quotation</button>
             </div>
           </div>
           <div id="result">
@@ -226,7 +227,28 @@
   });
 </script>
 
+<script>
+  $(document).ready(function() {
+    $(".copy-quotation-button").click(function() {
+      // Check if at least one checkbox is selected
+      if ($("input[name='selected_quotation']:checked").length === 0) {
+        alert("Please select at least one quotation to copy.");
+        return;  // Prevent further action if no checkboxes are selected
+      }
 
+      var quotationId = $(this).data("quotation-id");
+      // Set the value of the hidden input field for selected_quotation
+      $("input[name='selected_quotation']").val(quotationId);
+      // Set the value of the hidden input field for action
+      $("input[name='action']").val('copyQuotation');
+      // Submit the form
+      $("form").submit();
+    });
+  });
+</script>
+
+
+  
 <script>
   var quotationData = JSON.parse('{{ quotationjs|escapejs }}');
 
