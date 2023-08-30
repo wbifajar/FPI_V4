@@ -12,6 +12,7 @@ urlpatterns = [
     path('detail/<int:quotation_id>', views.detailQuotation, name="DetailQuotation"),
     path('update-quotation/<int:quotation_id>', views.updateQuotation, name="updateQuotation"),
     path('createPDF/<str:quotation_id>/', views.createPDFQuotation, name="createPDFQuotation"),
+    path('copy-quotation/<int:quotation_id>',    views.copyQuotation, name="copy-quotation"),
 
     # path('line-graph/', views.line_graph, name='line_graph'),
 ] 
