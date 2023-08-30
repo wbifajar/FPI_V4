@@ -125,7 +125,7 @@ def Quotation(request):
                         # Retrieve the new ID of the copied quotation
                         new_quotation_id = cursor.lastrowid
 
-                        # Redirect to the detail page of the copied quotation
+                        # Redirect to the detail page of thse copied quotation
                         return redirect('/Quotation/Detail/' + str(new_quotation_id))
 
                 except Exception as e:
@@ -344,7 +344,6 @@ def insertQuotationOther(request):
             cursor.execute(query)
 
 
-
 @login_required
 def insertQuotation(request):
     if request.user.is_authenticated:
@@ -354,7 +353,7 @@ def insertQuotation(request):
         ProductVersion = request.POST.get('productver', False)
         Quantity = request.POST.get('Quantity', False)
         BudgetPerUnit = request.POST['BudgetPerUnit']
-        CostExcludeOperation = float(request.POST.get('MaterialOutsourceOtherCost', False).replace(",", "") )
+        CostExcludeOperation = float(request.POST.get('MaterialOutsourceOtherCost', False).replace(",", ""))
         OperationCost = float(request.POST.get('TotalOperationCost', False))
         ManagementCostPercentage = request.POST['ManagementCostPercentage']
         MaterialCostNumber = request.POST['MaterialCostNumber']
@@ -364,9 +363,14 @@ def insertQuotation(request):
         OperationBudget = request.POST['OperationBudget'].replace(',', '')
         Username = request.user.username
         Status = request.POST.get('quotation_status', False)
-        print("STATUS = ", Status)
 
-        query = 'INSERT INTO Quotation VALUES ( null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
+        # Generate QuotationNo
+        today = timezone.now().strftime('%Y%m%d')
+        NumberQuotationatthatday = get_next_quotation_number(today)
+        QuotationNo = f"{today}-{NumberQuotationatthatday:04}"
+
+        # Insert the new Quotation
+        query = 'INSERT INTO Quotation VALUES ( null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
             CustomerID,
             ProductID,
             ProductName,
@@ -374,7 +378,7 @@ def insertQuotation(request):
             Quantity,
             BudgetPerUnit,
             CostExcludeOperation,
-            OperationCost,  
+            OperationCost,
             ManagementCostPercentage,
             MaterialCostNumber,
             MaterialCostPercentage,
@@ -383,10 +387,10 @@ def insertQuotation(request):
             OperationBudget,
             timezone.now(),
             Username,
-            Status
+            Status,
+            QuotationNo
         )
-        
-        print( "INSERT QUERY = ", query)
+
         with connection.cursor() as cursor:
             cursor.execute(query)
 
@@ -396,6 +400,19 @@ def insertQuotation(request):
 
         return redirect('/Quotation/')
 
+def get_next_quotation_number(today):
+    # Query the database to get the latest quotation number for the current day
+    query = "SELECT MAX(CAST(SUBSTRING_INDEX(QUOTATION_NO, '-', -1) AS SIGNED)) FROM Quotation WHERE DATE(CREATED_AT) = %s"
+    with connection.cursor() as cursor:
+        cursor.execute(query, [today])
+        result = cursor.fetchone()
+    
+    if result and result[0]:
+        return int(result[0]) + 1
+    else:
+        return 1
+
+    
 def detailQuotation(request, quotation_id):
     if request.user.is_authenticated:
         connection = connect()
