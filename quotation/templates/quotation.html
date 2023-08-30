@@ -235,14 +235,17 @@
         alert("Please select at least one quotation to copy.");
         return;  // Prevent further action if no checkboxes are selected
       }
-
+      
       var quotationId = $(this).data("quotation-id");
-      // Set the value of the hidden input field for selected_quotation
-      $("input[name='selected_quotation']").val(quotationId);
-      // Set the value of the hidden input field for action
-      $("input[name='action']").val('copyQuotation');
-      // Submit the form
-      $("form").submit();
+      var q_id = $('.form-check-input:checkbox:checked')
+      if(q_id.length > 1){
+        alert('Please pick one file only to edit')
+        return;
+      }
+
+      var url = '/Quotation/copy-quotation/' + q_id.val()
+      
+      location.href = url
     });
   });
 </script>
