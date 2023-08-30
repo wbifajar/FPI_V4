@@ -83,41 +83,9 @@
                       <option value="Expired" style="color: #cc0000;padding: 20px;"> Expired </option>
                     </select>
                   </div>
-                <div class="row mt-2 mb-2">
+                <div class="row mt-2 mb-2" style="display: flex; justify-content: center;">
                     <label for="expired-date">Expired Date:</label>
-                    <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; display: flex; justify-content: center; align-items: center;" name="quotation_expired" required>
-                        <option value="1"" selected>1 Day</option>
-                        <option value="2"" selected>2 Days</option>
-                        <option value="3"" selected>3 Days</option>  
-                        <option value="4"" selected>4 Days</option>
-                        <option value="5"" selected>5 Days</option>
-                        <option value="6"" selected>6 Days</option>
-                        <option value="7"" selected>7 Days</option>
-                        <option value="8"" selected>8 Days</option>
-                        <option value="9"" selected>9 Days</option>
-                        <option value="10"" selected>10 Days</option>
-                        <option value="11"" selected>11 Days</option>
-                        <option value="12"" selected>12 Days</option>
-                        <option value="13"" selected>13 Days</option>
-                        <option value="14"" selected>14 Days</option>
-                        <option value="15"" selected>15 Days</option>
-                        <option value="16"" selected>16 Days</option>
-                        <option value="17"" selected>17 Days</option>
-                        <option value="18"" selected>18 Days</option>
-                        <option value="19"" selected>19 Days</option>
-                        <option value="20"" selected>20 Days</option>
-                        <option value="21"" selected>21 Days</option>
-                        <option value="22"" selected>22 Days</option>
-                        <option value="23"" selected>23 Days</option>
-                        <option value="24"" selected>24 Days</option>
-                        <option value="25"" selected>25 Days</option>
-                        <option value="26"" selected>26 Days</option>
-                        <option value="27"" selected>27 Days</option>
-                        <option value="28"" selected>28 Days</option>
-                        <option value="29"" selected>29 Days</option>
-                        <option value="30"" selected>30 Days</option>
-                      </select>
-                    <!-- <input type="date" id="expired-date" name="expired_date" style="width: 100%; padding: 5px;"> -->
+                    <input type="date" id="expired-date" name="expired_date" style="width: 50%; padding: 5px;">
                 </div>
                 
             </div>
@@ -1477,13 +1445,23 @@
 </script>
 
 <script>
-    // Calculate the default date (2 weeks from today)
-    var today = new Date();
-    var defaultDate = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
-    var defaultDateString = defaultDate.toISOString().substr(0, 10);
+    // Get the input element
+    var expiredDateInput = document.getElementById('expired-date');
 
-    // Set the default value of the input field
-    document.getElementById("expired-date").value = defaultDateString;
+    // Get the current date
+    var today = new Date();
+
+    // Calculate the date two weeks from now
+    var twoWeeksLater = new Date(today.getTime() + (14 * 24 * 60 * 60 * 1000));
+
+    // Format the two weeks later date to YYYY-MM-DD
+    var formattedDate = twoWeeksLater.toISOString().split('T')[0];
+
+    // Set the min attribute to the current date
+    expiredDateInput.setAttribute('min', today.toISOString().split('T')[0]);
+
+    // Set the value to two weeks later
+    expiredDateInput.value = formattedDate;
 </script>
 
 <!-- datatable & customer function -->

@@ -393,7 +393,7 @@ def insertQuotation(request):
 
         with connection.cursor() as cursor:
             cursor.execute(query)
-
+        
         insertQuotationProcess(request)
         insertQuotationOther(request)
         insertQuotationMaterial(request)
