@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
 .login {
   background-image: url('/static/images/background.jpeg');
   background-position: center;
@@ -5,7 +7,6 @@
   width: 100vw;
   background-repeat: no-repeat;
   background-size: cover;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +16,9 @@
   width: 30vw;
   height: 75vh;
   border-radius: 15px !important;
-  font-family: 'Times New Roman', Times, serif;
+  /* font-family: 'Times New Roman', Times, serif; */
+  font-family: 'Poppins';
+  font-size: 10px;
 }
 
 .login-form-header {
