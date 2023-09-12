@@ -20,11 +20,10 @@ def Quotation(request):
 
     # Modify and calculate values for each quotation
     for item in quotation:
-        duration = item['DURATION']
         item['QUANTITY'] = int(item['QUANTITY'])
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
-        item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=duration)
+        item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=14)
         item['QUOTATION_ID'] = item['QUOTATION_ID']
         item['QUOTATION_STATUS'] = item['QUOTATION_STATUS']
 
@@ -319,7 +318,6 @@ def insertQuotation(request):
         OperationBudget = request.POST['OperationBudget'].replace(',', '')
         Username = request.user.username
         Status = request.POST.get('quotation_status', False)
-
         # Generate QuotationNo
         today = timezone.now().strftime('%Y%m%d')
         NumberQuotationatthatday = get_next_quotation_number(today)
@@ -347,8 +345,7 @@ def insertQuotation(request):
             timezone.now(),
             Username,
             Status,
-            Duration,
-            QuotationNo
+            QuotationNo,
             is_active
         )
 
