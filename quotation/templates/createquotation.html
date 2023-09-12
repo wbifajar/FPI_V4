@@ -37,30 +37,6 @@
         {% csrf_token %}
         <!-- bagian paling atas yang tidak bisa ke scroll -->
         <div class="row">
-            <!-- <div class="col-sm-2 text-center">
-                <div class="row">
-                    <div class="col mt-2 mb-2">
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 120px;">Customer</button>
-                    </div>
-                    <div class="col mt-2 mb-2">
-                        <a href="#" class="">
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 120px;">Products</button>
-                        </a>
-                    </div>
-                    <div class="col mt-2 mb-2 ">
-                        <select class="form-select" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;" name="quotation_status" required>
-                            <option selected disabled>Pick Status</option>
-                            <option value="1" style="color: #000000;padding: 20px;">Draft</option>
-                            <option value="2" style="color: #337ab7;padding: 20px;"> Accepted</option>
-                            <option value="3" style="color: #5cb85c;padding: 20px;"> Submitted</option>
-                            <option value="4" style="color: #f0ad4e;padding: 20px;"> Rejected</option>
-                            <option value="5" style="color: #cc0000;padding: 20px;"> Expired</option>
-                        </select>
-
-                    </div>
-                </div>
-            </div> -->
-
             
             <div class="col-sm-2 text-center" style="display: flex;
             flex-direction: column;
@@ -85,7 +61,7 @@
                   </div>
                 <div class="row mt-2 mb-2" style="display: flex; justify-content: center;">
                     <label for="expired-date">Expired Date:</label>
-                    <input type="date" id="expired-date" name="expired_date" style="width: 50%; padding: 5px;">
+                    <input type="date" id="expired-date" name="expired_date" style="width: 70%; margin-left: 6%; ">
                 </div>
                 
             </div>
@@ -94,7 +70,7 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <div class="row mb-2">
+                        <div class="row mb-2" style="margin-top: 1%;">
                             <div class="col">
                                 <div>
                                     Quantity
@@ -137,7 +113,7 @@
                         </div>
 
                         <!-- SECOND ROW -->
-                        <div class="row text-center">
+                        <div class="row text-center" style="margin-top: 3%;">
                             <div class="col">
                                 Calculation Result
                                 <input disabled type="text" value="0" class="noInput " id="calculationResult" name="CalculationResult">
@@ -910,7 +886,7 @@
                                 </div>
 
                                 <!-- material cost -->
-                                <div class="jarak">
+                                <div class="jarak" style="margin-top: 6%;">
                                     <div class="row">
                                         <div class="col">
                                             <h5>MATERIAL COST</h5>
@@ -1114,7 +1090,6 @@
                                     </div>
                                     <div class="col">
                                         Bar Material Name
-                                       
                                         <input class="inputtt" type="text" id="BarMaterialName" readonly>
                                     </div>
                                 </div>
@@ -1285,11 +1260,11 @@
                                 <!-- material cost -->
                                 <div class="jarak">
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col" style="margin-top: 2.5%;">
                                             <h5>MATERIAL COST</h5>
                                         </div>
                                         <div class="col">
-                                            <input type="text" readonly id="BarCalcNumBoldMaterialCost" >
+                                            <input type="text" readonly id="BarCalcNumBoldMaterialCost" style="border: none;">
                                         </div>
                                     </div>
                                 </div>
@@ -1334,13 +1309,13 @@
                                 </div>
 
                                 <!-- material cost -->
-                                <div class="jarak" style="margin-top: 25.5%;">
+                                <div class="jarak" style="margin-top: 29%;">
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col" style="margin-top: 2.5%;">
                                             <h5>MATERIAL COST</h5>
                                         </div>
                                         <div class="col">
-                                            <input type="text" id="BarFromScaleMaterialCost" readonly >
+                                            <input type="text" id="BarFromScaleMaterialCost" readonly style="border: none;">
                                         </div>
                                     </div>
                                 </div>
@@ -1406,6 +1381,11 @@
 
 
 {% block scripts %}
+<script>
+    var expiredDate = document.getElementById("#expired-date");
+    console.log("sadsad = ", expiredDate)
+</script>
+
 <!-- drop down linegraph -->
 <script>
     const dropdownElement = document.getElementById("dropdown");

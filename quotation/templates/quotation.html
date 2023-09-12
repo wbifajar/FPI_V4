@@ -26,7 +26,7 @@
         {% csrf_token %}
         <div class="card-body">
           <div style="display: flex; width: 100%;">
-            <div style="flex-basis: 60%; margin-bottom: 2%;">
+            <div style="flex-basis: 80%; margin-bottom: 2%;">
               <a href="{% url 'CreateNew' %}"><button type="button" class="btn btn-secondary">Create New Quotation</button></a>
               <button type="button" name="action" value="edit" class="btn btn-secondary" id="edit-button">Edit/Detail</button>
               <button type="submit" name="action" value="delete" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
@@ -235,14 +235,17 @@
         alert("Please select at least one quotation to copy.");
         return;  // Prevent further action if no checkboxes are selected
       }
-
+      
       var quotationId = $(this).data("quotation-id");
-      // Set the value of the hidden input field for selected_quotation
-      $("input[name='selected_quotation']").val(quotationId);
-      // Set the value of the hidden input field for action
-      $("input[name='action']").val('copyQuotation');
-      // Submit the form
-      $("form").submit();
+      var q_id = $('.form-check-input:checkbox:checked')
+      if(q_id.length > 1){
+        alert('Please pick one file only to edit')
+        return;
+      }
+
+      var url = '/Quotation/copy-quotation/' + q_id.val()
+      
+      location.href = url
     });
   });
 </script>

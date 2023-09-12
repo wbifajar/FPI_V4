@@ -55,6 +55,8 @@ function addMaterial() {
     var cell8 = row.insertCell(7);
     var cell9 = row.insertCell(8);
 
+    cell1.style.marginTop = '20px';
+
     cell1.innerHTML = `<th scope="row">${materialIndex}</th>`;
     cell2.innerHTML = `<td><input type="input" class="inputt material-id" value="${selectedMaterial.idPart}" id="materialNameRC" name="material_id"></td>`;
     cell3.innerHTML = `<td><input type="input" value="${selectedMaterial.name}"></td>`;

@@ -13,6 +13,7 @@ def Quotation(request):
 
     cursor.execute('SELECT * FROM quotation \
                 LEFT JOIN customer ON quotation.Customer_ID = customer.idCustomer \
+                WHERE IS_ACTIVE = 1 \
                 ORDER BY QUOTATION_ID DESC')  # untuk sementara aja urutin dari yg paling baru
 
     quotation = cursor.fetchall()
@@ -22,7 +23,7 @@ def Quotation(request):
         item['QUANTITY'] = int(item['QUANTITY'])
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
-        item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=10)
+        item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=14)
         item['QUOTATION_ID'] = item['QUOTATION_ID']
         item['QUOTATION_STATUS'] = item['QUOTATION_STATUS']
 
@@ -51,30 +52,18 @@ def Quotation(request):
             selected_quotation_ids = request.POST.getlist('selected_quotation')
 
             if selected_quotation_ids:
-                # Perform delete operation
-                query = 'DELETE FROM quotation WHERE Quotation_ID IN (' + ','.join(['%s'] * len(selected_quotation_ids)) + ')'
-                cursor.execute(query, selected_quotation_ids)
-                connection.commit()
-
+                for i in range (0, len(selected_quotation_ids)-1):
+                  
+                    query = 'UPDATE QUOTATION SET IS_ACTIVE = 0 WHERE QUOTATION_ID = ' + selected_quotation_ids[i]
+                    print(query)
+                    cursor.execute(query)
+                    connection.commit()
                 # Reload the page after successful deletion
                 return redirect('/Quotation')
-
-
-        elif action == 'edit':
-            selected_quotation_id = request.POST.get('selected_quotation')
-
-            if selected_quotation_id:
-                # Retrieve the quotation data based on the selected ID
-                cursor.execute('SELECT * FROM quotation WHERE Quotation_ID = %s', (selected_quotation_id,))
-                quotation_data = cursor.fetchone()
-
-                # Pass the quotation data to the template for pre-filling the form fields
-                context['edit_quotation'] = quotation_data
-
         elif action == 'createPDF':
             selected_quotation_ids = request.POST.getlist('selected_quotation')
             pdf_data = []
-
+    
             if selected_quotation_ids:
                 # Fetch the customer name of the first selected quotation
                 cursor.execute('SELECT Customer_Name FROM quotation WHERE Quotation_ID = %s', (selected_quotation_ids[0],))
@@ -98,6 +87,9 @@ def Quotation(request):
                 
                 context['pdf_quotation'] = pdf_data
 
+        elif action == 'copyQuotation':
+            selected_quotation_id = request.POST.getlist('selected_quotation')
+         
     return render(request, 'quotation.html', context)
 
 
@@ -327,13 +319,15 @@ def insertQuotation(request):
         OperationBudget = request.POST['OperationBudget'].replace(',', '')
         Username = request.user.username
         Status = request.POST.get('quotation_status', False)
-        
         # Generate QuotationNo
         today = timezone.now().strftime('%Y%m%d')
         NumberQuotationatthatday = get_next_quotation_number(today)
         QuotationNo = f"{today}-{NumberQuotationatthatday:04}"
-        
-        # Insert the new Quotation
+
+        Duration = request.POST.get('quotation_duration', False)
+        is_active = 1
+        print("STATUS = ", Status)
+
         query = 'INSERT INTO Quotation VALUES ( null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
             CustomerID,
             ProductID,
@@ -353,18 +347,17 @@ def insertQuotation(request):
             Username,
             Status,
             QuotationNo,
-            1
+            is_active
         )
 
         with connection.cursor() as cursor:
             cursor.execute(query)
-
+        
         insertQuotationProcess(request)
         insertQuotationOther(request)
         insertQuotationMaterial(request)
 
         return redirect('/Quotation/')
-
 
 def get_next_quotation_number(today):
     # Query the database to get the latest quotation number for the current day
@@ -717,6 +710,8 @@ def updateQuotation(request, quotation_id):
         OperationBudget = request.POST['OperationBudget'].replace(',', '')
         Username = request.user.username
         Status = request.POST.get('quotation_status', False)
+        Duration = request.POST.get('quotation_duration', False)
+        is_active = 1
         print("STATUS = ", Status)
 
         query = f'UPDATE Quotation \
@@ -735,11 +730,13 @@ def updateQuotation(request, quotation_id):
                 OPERATION_BUDGET = "{ OperationBudget }", \
                 CREATED_AT = "{  timezone.now() }", \
                 ACTIVITY_LOG = "{ Username }", \
-                QUOTATION_STATUS = "{ Status }" \
+                QUOTATION_STATUS = "{ Status }", \
+                DURATION = { Duration }, \
+                is_active = {is_active} \
                 WHERE QUOTATION_ID = { quotation_id }'
         
         print( "UPDATE QUERY = ", query)
-        with connection.cursor() as cursor:
+        with connection.cursor() as cursor:     
             cursor.execute(query)
             
         updateQuotationOther(request, quotation_id)
@@ -748,4 +745,36 @@ def updateQuotation(request, quotation_id):
 
         return redirect('/Quotation/')
     
+
+def copyQuotation(request,  quotation_id):
+    query = f"INSERT INTO QUOTATION ( \
+            SELECT  \
+            null, \
+            CUSTOMER_ID, \
+            PRODUCT_ID, \
+            PRODUCT_NAME, \
+            PRODUCT_VERSION, \
+            QUANTITY, \
+            BUDGET_PER_UNIT, \
+            COST_EXCLUDE_OPERATION, \
+            OPERATION_COST, \
+            MANAGEMENT_COST_PERCENTAGE, \
+            MATERIAL_COST_NUMBER, \
+            MATERIAL_COST_PERCENTAGE, \
+            OUTSOURCE_COST_NUMBER, \
+            OUTSOURCE_COST_PERCENTAGE, \
+            OPERATION_BUDGET, \
+            CREATED_AT, \
+            ACTIVITY_LOG, \
+            QUOTATION_STATUS, \
+            DURATION, \
+            is_active \
+            FROM quotation \
+            WHERE QUOTATION_ID = {quotation_id});"
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        q = cursor.fetchall()
+        
+    return redirect('/Quotation/')
+    return HttpResponse(q)
 
