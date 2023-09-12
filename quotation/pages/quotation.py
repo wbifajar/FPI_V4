@@ -98,44 +98,8 @@ def Quotation(request):
                 
                 context['pdf_quotation'] = pdf_data
 
-        elif action == 'copyQuotation':
-            selected_quotation_id = request.POST.get('selected_quotation')
-
-            if selected_quotation_id:
-                try:
-                    # Retrieve the quotation data based on the selected ID
-                    cursor.execute('SELECT * FROM quotation WHERE QUOTATION_ID = %s', (selected_quotation_id,))
-                    quotation_data = cursor.fetchone()
-
-                    if quotation_data:
-                        # Remove the old ID from the quotation data to create a new entry
-                        copied_data = dict(quotation_data)
-                        del copied_data['QUOTATION_ID']
-
-                        # Insert the copied data as a new quotation entry and retrieve the new ID
-                        cursor.execute(
-                            'INSERT INTO quotation (CUSTOMER_ID, PRODUCT_ID, PRODUCT_NAME, PRODUCT_VERSION, QUANTITY, BUDGET_PER_UNIT, '
-                            'COST_EXCLUDE_OPERATION, OPERATION_COST, MANAGEMENT_COST_PERCENTAGE, MATERIAL_COST_NUMBER, MATERIAL_COST_PERCENTAGE, '
-                            'OUTSOURCE_COST_NUMBER, OUTSOURCE_COST_PERCENTAGE, OPERATION_BUDGET, CREATED_AT) '
-                            'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)',
-                            tuple(copied_data.values())
-                        )
-                        connection.commit()
-
-                        # Retrieve the new ID of the copied quotation
-                        new_quotation_id = cursor.lastrowid
-
-                        # Redirect to the detail page of thse copied quotation
-                        return redirect('/Quotation/Detail/' + str(new_quotation_id))
-
-                except Exception as e:
-                    # Handle any errors that might occur during copying
-                    context['copy_error'] = str(e)
-
-
-
-
     return render(request, 'quotation.html', context)
+
 
 def createPDFQuotation(request, quotation_id):
     if request.user.is_authenticated:
@@ -363,14 +327,14 @@ def insertQuotation(request):
         OperationBudget = request.POST['OperationBudget'].replace(',', '')
         Username = request.user.username
         Status = request.POST.get('quotation_status', False)
-
+        
         # Generate QuotationNo
         today = timezone.now().strftime('%Y%m%d')
         NumberQuotationatthatday = get_next_quotation_number(today)
         QuotationNo = f"{today}-{NumberQuotationatthatday:04}"
-
+        
         # Insert the new Quotation
-        query = 'INSERT INTO Quotation VALUES ( null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
+        query = 'INSERT INTO Quotation VALUES ( null, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
             CustomerID,
             ProductID,
             ProductName,
@@ -388,17 +352,19 @@ def insertQuotation(request):
             timezone.now(),
             Username,
             Status,
-            QuotationNo
+            QuotationNo,
+            1
         )
 
         with connection.cursor() as cursor:
             cursor.execute(query)
-        
+
         insertQuotationProcess(request)
         insertQuotationOther(request)
         insertQuotationMaterial(request)
 
         return redirect('/Quotation/')
+
 
 def get_next_quotation_number(today):
     # Query the database to get the latest quotation number for the current day
