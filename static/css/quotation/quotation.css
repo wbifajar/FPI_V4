@@ -11,6 +11,10 @@ label {
   margin-bottom: 15%;
 }
 
+.buttonQuotation{
+  font-size: 14px;
+}
+
 table.dataTable tbody tr {
   text-align: center;
   vertical-align: middle;

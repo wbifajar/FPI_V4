@@ -43,15 +43,15 @@
             justify-content: center;
             align-items: center;">
                 <div class="row mt-2 mb-2">
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 100px;">Customer</button>
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 100px; font-size: 14px;">Customer</button>
                 </div>
                 <div class="row mt-2 mb-2">
                     <a href="#" class="">
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px;">Products</button>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px; font-size: 14px;">Products</button>
                     </a>
                 </div>
                 <div class="row mt-2 mb-2">
-                    <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;" name="quotation_status" required>
+                    <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px; font-size: 14px;" name="quotation_status" required>
                       <option value="Draft" style="color: #000000;padding: 20px;" selected> Draft </option>
                       <option value="Accepted" style="color: #337ab7;padding: 20px;"> Accepted </option>
                       <option value="Submitted" style="color: #5cb85c;padding: 20px;"> Submitted </option>
@@ -461,7 +461,7 @@
                 <input type="hidden" id="materialLength" name="materialLength">
                 <table class="table table-hover" id="materialTable">
                     <thead>
-                      <tr>
+                      <tr style="margin-bottom: -20px;">
                         <th scope="col">No</th>
                         <th scope="col">Material Code</th>
                         <th scope="col">Material Name</th>
@@ -1264,7 +1264,7 @@
                                             <h5>MATERIAL COST</h5>
                                         </div>
                                         <div class="col">
-                                            <input type="text" readonly id="BarCalcNumBoldMaterialCost" style="border: none;">
+                                            <input type="text" value="0.00" readonly id="BarCalcNumBoldMaterialCost" style="border: none;">
                                         </div>
                                     </div>
                                 </div>
@@ -1315,7 +1315,7 @@
                                             <h5>MATERIAL COST</h5>
                                         </div>
                                         <div class="col">
-                                            <input type="text" id="BarFromScaleMaterialCost" readonly style="border: none;">
+                                            <input type="text" id="BarFromScaleMaterialCost" readonly style="border: none;" value="0.00">
                                         </div>
                                     </div>
                                 </div>
