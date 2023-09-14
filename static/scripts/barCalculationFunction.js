@@ -69,8 +69,9 @@ function calculateFromScale(){
     }
     $('#BarFromScaleUsedQty').val(used_qty);
 
-    var bar_material_cost = used_qty * bar_price
-    bar_material_cost = bar_material_cost.toFixed(2);
+    var bar_material_cost = used_qty * bar_price;
+    bar_material_cost = formatMaterialCost(bar_material_cost);
+    // bar_material_cost = bar_material_cost.toFixed(2);
     $('#BarFromScaleMaterialCost').val(bar_material_cost);
 
     var half_bar_kerf_loss = bar_kerf_loss / 2
@@ -130,8 +131,9 @@ function calculateNumOfQty(){
     $('#BarCalcNumScla').val(bar_scala_new);
     $('#BarCalcNumUsedQty').val(bar_used_qty.toFixed(5));
 
-    var bold_material_cost = bar_material_cost / bar_num
-    $('#BarCalcNumBoldMaterialCost').val(bold_material_cost.toFixed(5));
+    var bold_material_cost = bar_material_cost / bar_num;
+    bold_material_cost = formatMaterialCost(bold_material_cost);
+    $('#BarCalcNumBoldMaterialCost').val(bold_material_cost);
 
     // $('#BarCalcNumPreviewExposed').text(bar_calcnum_exposed)
     // $('#BarCalcNumPreviewScla').text(bar_partscale)
@@ -139,3 +141,16 @@ function calculateNumOfQty(){
     // $('#BarCalcNumPreviewRoundBa').text(bar_calcnum_round_ba)
     updateBarArray();
 }
+
+function formatMaterialCost(materialcost) {
+    // Check if materialcost is null or Infinity
+    if (materialcost === null || materialcost === Infinity) {
+      return "0.00"; // Jika materialcost adalah null atau Infinity, kembalikan "0.00"
+    } else if (isNaN(materialcost)) {
+      return "0.00"; // Jika materialcost bukan angka (NaN), kembalikan "0.00"
+    } else {
+      // Convert to fixed with 2 decimal places if it's a valid number
+      return materialcost.toFixed(2);
+    }
+  }
+  
