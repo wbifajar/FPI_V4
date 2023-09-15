@@ -57,6 +57,7 @@
             <tbody>
               {% for q in quotation %}
               <tr>
+               
                 <td>
                   <input class="form-check-input" type="checkbox" name="selected_quotation" value="{{ q.QUOTATION_ID }}" {% if edit_quotation and edit_quotation.Quotation_ID == q.Quotation_ID %}checked{% endif %}>
                 </td>
@@ -67,7 +68,7 @@
                 <td name="pl" class="budgetPerUnit">{{ q.BUDGET_PER_UNIT }}</td>
                 <td name="pl" class="totalAmount">{{ q.TOTAL }}</td>
                 <td>{{ q.CREATED_AT }}</td>
-                <td>{{ q.EXPIRED }}</td>
+                <td>{{ q.expired_date }}</td>
                 <td>Last modified by {{ q.ACTIVITY_LOG }}</td>
                 <td>
                   <button style="font-size: 12px; min-width: 90px;" type="button" class="btn" id="quotationButton-{{ q.QUOTATION_ID }}" disabled>{{ q.QUOTATION_STATUS }}</button>
