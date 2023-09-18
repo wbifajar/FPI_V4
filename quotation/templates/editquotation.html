@@ -9,6 +9,7 @@
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/static/css/quotation/createnew.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <style>
     div.card {
@@ -41,15 +42,15 @@
             justify-content: center;
             align-items: center;">
                 <div class="row mt-2 mb-2">
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 100px;">Customer</button>
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 100px; font-size: 14px;">Customer</button>
                 </div>
                 <div class="row mt-2 mb-2">
                     <a href="#" class="">
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px;">Products</button>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px; font-size: 14px;">Products</button>
                     </a>
                 </div>
                 <div class="row mt-2 mb-2">
-                    <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;" name="quotation_status" required>
+                    <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px; font-size: 14px;" name="quotation_status" required>
                         <option disabled>Pick Status</option>
                         <option value="Draft" style="color: #000000;padding: 20px;" > Draft </option>
                         <option value="Accepted" style="color: #337ab7;padding: 20px;" > Accepted </option>
@@ -59,15 +60,15 @@
                     </select>
                 </div>
 
-                <div class="row mt-2 mb-2">
+                <div class="row mt-2 mb-2" style="display: flex; justify-content: center;">
                     <label for="expired-date">Expired Date:</label>
-                    <input type="date" id="expired-date" name="expired_date" style="width: 100%; padding: 5px;" value="{{ q.expired_date }}">
+                    <input type="date" id="expired-date" name="expired_date" style="width: 70%; margin-left: 6%;" value="{{ q.EXPIRED_DATE }}">
                 </div>
             </div>
              
             <div class="col">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" style="margin-top: 1%;">
 
                         <!-- FIRST ROW -->
                         <div class="row mb-2">
@@ -113,7 +114,7 @@
                         </div>
 
                         <!-- SECOND ROW -->
-                        <div class="row text-center">
+                        <div class="row text-center" style="margin-top: 3%;">
                             <div class="col">
                                 Calculation Result
                                 <input disabled type="text" value="0" class="noInput " id="calculationResult" name="CalculationResult">
@@ -175,14 +176,14 @@
         <div style="overflow: auto; max-height: 75vh;" class="">
             <!-- bagian body tengah -->
             <!-- {{ q }} -->
-            {% for i,k in q.items %}
+            <!-- {% for i,k in q.items %}
             <small>
                 <small style="color: black;">'{{ i }}'</small>
                 <small style="color: black;">{{ ':' }}</small>
                 <small style="color: black;">{{ k }}</small>
                 <br>
             </small>
-            {% endfor %}
+            {% endfor %} -->
             <div class="row">
                 <!-- perkaliannya -->
                 <div class="col-7">
@@ -427,12 +428,14 @@
             </div>
             
             <hr>
-            <div class="card" style="max-width: 80vw;">
+            <div class="card beptitle" id="dropdown" style="cursor: pointer; text-align: center; font-size: large; font-weight: bold;">Break Even Point Graph<i class="fas fa-caret-down"></i></div>
+            <div class="card bepgraph" style="max-width: 80vw; display: none;">
                 <div class="card-body">
                     <!-- tabel, search, button create -->
                     <div style="display: flex; align-items: center;">
                         <div class="text-center" style=" align-items:center; display: flex; width: 100%;">
                             <div class="col">
+                                
                                <h6 style="margin-top: 1%;"><b>Set Quantity Range</b></h6>
                                 <div class="row" style="justify-content: center;">
                                     <input type="text" id="graphnumber" style="width: 50%;">
@@ -444,10 +447,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>
 
             <div class="btncreate" style="display: flex; justify-content: space-between; justify-content: right;">
-                <button type="submit" class="btn btn-secondary">Update Quotation</button>
+                <button type="submit" class="btn btn-secondary" style="font-size: 14px;">Update Quotation</button>
             </div> 
         </div>
 
@@ -482,11 +485,8 @@
                       </tr>
                     </thead>
                     <tbody>
-                        {{ quotation_material }}
-                       
-
                         <tr>
-                            <th scope="row"></th>
+                            <td scope="row"></td>
                             <td></td>
                             <td></td>
                             <td></td>
