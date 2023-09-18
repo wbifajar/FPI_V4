@@ -1,7 +1,11 @@
 /* @import url('https://fonts.googleapis.com/css?family=Roboto'); */
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
 
 body {
-  font-family: 'Times New Roman', Times, sans-serif;
+  /* font-family: 'Times New Roman', Times, sans-serif; */
+  font-family: 'Poppins';
+  font-size: 10px;
   position: relative;
   display: flex;
 }

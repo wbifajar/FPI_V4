@@ -25,7 +25,7 @@ def Quotation(request):
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
         item['QUOTATION_ID'] = item['QUOTATION_ID']
         item['QUOTATION_STATUS'] = item['QUOTATION_STATUS']
-        item['expired_date'] = str(item['expired_date'])
+        item['EXPIRED_DATE'] = str(item['EXPIRED_DATE'])
 
 
     # Extract only the required fields for JSON serialization
@@ -318,14 +318,15 @@ def insertQuotation(request):
         OperationBudget = request.POST['OperationBudget'].replace(',', '')
         Username = request.user.username
         Status = request.POST.get('quotation_status', False)
-
         # Generate QuotationNo
         today = timezone.now().strftime('%Y%m%d')
         NumberQuotationatthatday = get_next_quotation_number(today)
         QuotationNo = f"{today}-{NumberQuotationatthatday:04}"
 
         ExpiredDate = request.POST.get('expired_date', False)
+     
         is_active = 1
+        
         
         print("STATUS = ", Status)
 
@@ -346,7 +347,7 @@ def insertQuotation(request):
                 "{OperationBudget}", \
                 "{timezone.now()}", \
                 "{Username}", \
-                "{ Status,}", \
+                "{Status}", \
                 "{is_active}", \
                 "{QuotationNo}", \
                 "{ExpiredDate}" )'
@@ -392,7 +393,7 @@ def detailQuotation(request, quotation_id):
         totalBudget = quotation["QUANTITY"] * quotation["BUDGET_PER_UNIT"]
         totalCost = quotation["COST_EXCLUDE_OPERATION"] + quotation["OPERATION_COST"]
         managementCost = quotation["BUDGET_PER_UNIT"] * 0.3
-        quotation['expired_date'] = str(quotation['expired_date'])
+        quotation['EXPIRED_DATE'] = str(quotation['EXPIRED_DATE'])
         # totalMaterialCost =  quotation["MATERIAL_COST_NUMBER"] * ( quotation["MATERIAL_COST_PERCENTAGE"] / 100 )
         # totalOutsourceCost = quotation["OUTSOURCE_COST_NUMBER"] * ( quotation["OUTSOURCE_COST_PERCENTAGE"] / 100 )
         
@@ -592,10 +593,11 @@ def updateQuotationOther(request, quotation_id):
     # print("OTHER PERCENTAGE SISA = ", OtherPercentage)
     # print("OTHER IS PER UNIT SISA = ", OtherIsPerUnit)
 
+
+    #check if current index of other list is exist in the database
+    #if exist it will update
+    #if not exist it will insert new
     for i in range(0, OtherLength):
-        #check if current index of other list is exist in the database
-        #if exist it will update
-        #if not exist it will insert new
         query = f'select exists (select * from quotation_other where QUOTATION_ID = {quotation_id} and OTHER_ID = {OtherId[i]}) as a;'
         with connection.cursor() as cursor:
             cursor.execute(query)

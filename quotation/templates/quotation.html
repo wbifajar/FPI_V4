@@ -16,29 +16,29 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container" style="font-size: 12px;">
   <div class="card mt-3">
       <div class="card-header" style="text-align: center;">
-          <b>Quotation Table</b>
+          <b style="font-size: 16px;">Quotation Table</b>
       </div>
 
       <form action="{% url 'Quotation' %}" method="POST">
         {% csrf_token %}
         <div class="card-body">
           <div style="display: flex; width: 100%;">
-            <div style="flex-basis: 60%; margin-bottom: 2%;">
-              <a href="{% url 'CreateNew' %}"><button type="button" class="btn btn-secondary">Create New Quotation</button></a>
-              <button type="button" name="action" value="edit" class="btn btn-secondary" id="edit-button">Edit/Detail</button>
-              <button type="submit" name="action" value="delete" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
-              <button type="button" name="action" value="createPDF" class="btn btn-secondary" id="create-pdf-button">Create PDF</button>
-              <button type="button" name="action" value="copyQuotation" class="btn btn-secondary copy-quotation-button" data-quotation-id="{{ q.QUOTATION_ID }}">Copy Quotation</button>
+            <div style="flex-basis: 80%; margin-bottom: 2%;">
+              <a href="{% url 'CreateNew' %}"><button type="button" class="btn btn-secondary" style="font-size: 14px;">Create New Quotation</button></a>
+              <button type="button" style="font-size: 14px;" name="action" value="edit" class="btn btn-secondary" id="edit-button">Edit/Detail</button>
+              <button type="submit" style="font-size: 14px;" name="action" value="delete" class="btn btn-secondary" id="DeleteQuotation">Delete</button>
+              <button type="button" style="font-size: 14px;" name="action" value="createPDF" class="btn btn-secondary" id="create-pdf-button">Create PDF</button>
+              <button type="button" style="font-size: 14px;" name="action" value="copyQuotation" class="btn btn-secondary copy-quotation-button" data-quotation-id="{{ q.QUOTATION_ID }}">Copy Quotation</button>
             </div>
           </div>
           <div id="result">
 
           </div>
       
-          <table id="myTable" class="table table-striped table-bordered" style="width:100%">
+          <table id="myTable" class="table table-striped table-bordered" style="width:100%;">
             <thead>
               <tr>
                 <th>#</th>
@@ -68,10 +68,10 @@
                 <td name="pl" class="budgetPerUnit">{{ q.BUDGET_PER_UNIT }}</td>
                 <td name="pl" class="totalAmount">{{ q.TOTAL }}</td>
                 <td>{{ q.CREATED_AT }}</td>
-                <td>{{ q.expired_date }}</td>
+                <td>{{ q.EXPIRED_DATE }}</td>
                 <td>Last modified by {{ q.ACTIVITY_LOG }}</td>
                 <td>
-                  <button type="button" class="btn" id="quotationButton-{{ q.QUOTATION_ID }}" disabled>{{ q.QUOTATION_STATUS }}</button>
+                  <button style="font-size: 12px; min-width: 90px;" type="button" class="btn" id="quotationButton-{{ q.QUOTATION_ID }}" disabled>{{ q.QUOTATION_STATUS }}</button>
                 </td>
                          
               </tr>

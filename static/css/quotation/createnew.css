@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
 input{
     height: 17px;
     text-align: center;
@@ -8,7 +9,7 @@ input{
 }
 
 body{
-    font-size: 15px;
+    font-size: 12px;
 }
 
 a{
@@ -124,8 +125,8 @@ input[type="radio"]{
 }
 
 .trash{
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     background-color: transparent;
     border: none;
     margin: 0 !important;
@@ -134,8 +135,8 @@ input[type="radio"]{
 
 .trashimgicon{
     vertical-align: middle;
-    width: 24px !important;
-    height: 24px !important;
+    width: 18px !important;
+    height: 18px !important;
     border: none;
     background-color: transparent;
 }
@@ -186,8 +187,8 @@ a{
 }
 
 .imgcalcu{
-    width: 30px !important;
-    height: 30px !important;
+    width: 25px !important;
+    height: 25px !important;
 }
 
 .btnsearch2{
@@ -564,7 +565,9 @@ select {
     background-color: white;
     color: #333;
     font-size: 14px;
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
+    font-family: 'Poppins';
+    font-size: 10px;
   }
   
   select option {

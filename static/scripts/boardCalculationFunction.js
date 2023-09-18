@@ -146,7 +146,9 @@ function calculateFromPartScale(){
     }
     weightfrompart = weightfrompart.toFixed(5);
     var materialcostfrompart = weightfrompart * price
-    materialcostfrompart = materialcostfrompart.toFixed(2);
+    
+    // materialcostfrompart = materialcostfrompart.toFixed(2);
+    materialcostfrompart = formatMaterialCost(materialcostfrompart)
 
 
     $('#FromPartScalePreviewExposed').val(exposedfrompart);
@@ -163,3 +165,24 @@ function calculateFromPartScale(){
     $('#BoldMaterialCostFromPart').val(materialcostfrompart);
 }
 
+function formatMaterialCost(materialcost) {
+    // Check if materialcost is null or Infinity
+    if (materialcost === null || materialcost === Infinity) {
+      return "0.00"; // Jika materialcost adalah null atau Infinity, kembalikan "0.00"
+    } else if (isNaN(materialcost)) {
+      return "0.00"; // Jika materialcost bukan angka (NaN), kembalikan "0.00"
+    } else {
+      // Convert to fixed with 2 decimal places if it's a valid number
+      return materialcost.toFixed(2);
+    }
+  }
+
+// function formatMaterialCost(fromnum_materialcost) {
+//     // Check if fromnum_materialcost is NaN
+//     if (isNaN(fromnum_materialcost)) {
+//       return "0.00";
+//     } else {
+//       // Convert to fixed with 2 decimal places if it's a valid number
+//       return fromnum_materialcost.toFixed(2);
+//     }
+// }

@@ -9,6 +9,7 @@
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/static/css/quotation/createnew.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <style>
     div.card {
@@ -61,7 +62,7 @@
 
                 <div class="row mt-2 mb-2">
                     <label for="expired-date">Expired Date:</label>
-                    <input type="date" id="expired-date" name="expired_date" style="width: 100%; padding: 5px;" value="{{ q.expired_date }}">
+                    <input type="date" id="expired-date" name="expired_date" style="width: 100%; padding: 5px;" value="{{ q.EXPIRED_DATE }}">
                 </div>
             </div>
              
@@ -427,12 +428,14 @@
             </div>
             
             <hr>
-            <div class="card" style="max-width: 80vw;">
+            <div class="card beptitle" id="dropdown" style="cursor: pointer; text-align: center; font-size: large; font-weight: bold;">Break Even Point Graph<i class="fas fa-caret-down"></i></div>
+            <div class="card bepgraph" style="max-width: 80vw; display: none;">
                 <div class="card-body">
                     <!-- tabel, search, button create -->
                     <div style="display: flex; align-items: center;">
                         <div class="text-center" style=" align-items:center; display: flex; width: 100%;">
                             <div class="col">
+                                
                                <h6 style="margin-top: 1%;"><b>Set Quantity Range</b></h6>
                                 <div class="row" style="justify-content: center;">
                                     <input type="text" id="graphnumber" style="width: 50%;">
@@ -444,7 +447,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>
 
             <div class="btncreate" style="display: flex; justify-content: space-between; justify-content: right;">
                 <button type="submit" class="btn btn-secondary">Update Quotation</button>
@@ -482,8 +485,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                        {{ quotation_material }}
-                       
+                    
 
                         <tr>
                             <th scope="row"></th>
@@ -1595,10 +1597,23 @@
        
     });
 </script>
+<script>
+    const dropdownElement = document.getElementById("dropdown");
+    const cardElement = document.querySelector(".bepgraph");
 
+    dropdownElement.addEventListener("click", () => {
+        if (cardElement.style.display === "none") {
+            cardElement.style.display = "block";
+        } else {
+            cardElement.style.display = "none";
+        }
+    });
+</script>
+<script src="{% static 'scripts/boardbarArrayFunction.js' %}" type=""></script>
 <script src="{% static 'scripts/boardbarmodal.js' %}" type=""></script>
 <script src="{% static 'scripts/boardBarSubmitFunction.js' %}" type=""></script>
 <script src="{% static 'scripts/tesD3/breakeventester.js' %}" type="module"></script>
+<script src="{% static 'scripts/helperFunction.js' %}" type=""></script>
 <!-- calculation functions -->
 <script src="{% static 'scripts/mainCalculationFunctionEdit.js' %}"></script>
 
