@@ -22,8 +22,7 @@ def Quotation(request):
     for item in quotation:
         item['QUANTITY'] = int(item['QUANTITY'])
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
-        item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
-        # item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=14)
+        item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])   
         item['CREATED_AT'] = item['CREATED_AT'].strftime("%d/%m/%Y")
         item['QUOTATION_ID'] = item['QUOTATION_ID']
         item['QUOTATION_STATUS'] = item['QUOTATION_STATUS']
@@ -325,9 +324,7 @@ def insertQuotation(request):
         NumberQuotationatthatday = get_next_quotation_number(today)
         QuotationNo = f"{today}-{NumberQuotationatthatday:04}"
         is_active = 1
-
         ExpiredDate = request.POST.get('expired_date', False)
-        
         print("STATUS = ", Status)
 
         query = f'INSERT INTO Quotation VALUES ( null, \
@@ -353,7 +350,6 @@ def insertQuotation(request):
                 "{ExpiredDate}" )'
         # return HttpResponse(query)
         print(query)
-
         with connection.cursor() as cursor:
             cursor.execute(query)
         
@@ -594,10 +590,11 @@ def updateQuotationOther(request, quotation_id):
     # print("OTHER PERCENTAGE SISA = ", OtherPercentage)
     # print("OTHER IS PER UNIT SISA = ", OtherIsPerUnit)
 
+
+    #check if current index of other list is exist in the database
+    #if exist it will update
+    #if not exist it will insert new
     for i in range(0, OtherLength):
-        #check if current index of other list is exist in the database
-        #if exist it will update
-        #if not exist it will insert new
         query = f'select exists (select * from quotation_other where QUOTATION_ID = {quotation_id} and OTHER_ID = {OtherId[i]}) as a;'
         with connection.cursor() as cursor:
             cursor.execute(query)

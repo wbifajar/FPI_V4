@@ -1595,10 +1595,23 @@
        
     });
 </script>
+<script>
+    const dropdownElement = document.getElementById("dropdown");
+    const cardElement = document.querySelector(".bepgraph");
 
+    dropdownElement.addEventListener("click", () => {
+        if (cardElement.style.display === "none") {
+            cardElement.style.display = "block";
+        } else {
+            cardElement.style.display = "none";
+        }
+    });
+</script>
+<script src="{% static 'scripts/boardbarArrayFunction.js' %}" type=""></script>
 <script src="{% static 'scripts/boardbarmodal.js' %}" type=""></script>
 <script src="{% static 'scripts/boardBarSubmitFunction.js' %}" type=""></script>
 <script src="{% static 'scripts/tesD3/breakeventester.js' %}" type="module"></script>
+<script src="{% static 'scripts/helperFunction.js' %}" type=""></script>
 <!-- calculation functions -->
 <script src="{% static 'scripts/mainCalculationFunctionEdit.js' %}"></script>
 
