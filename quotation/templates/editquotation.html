@@ -42,15 +42,15 @@
             justify-content: center;
             align-items: center;">
                 <div class="row mt-2 mb-2">
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 100px;">Customer</button>
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust" style="width: 100px; font-size: 14px;">Customer</button>
                 </div>
                 <div class="row mt-2 mb-2">
                     <a href="#" class="">
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px;">Products</button>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalCust1" style="width: 100px; font-size: 14px;">Products</button>
                     </a>
                 </div>
                 <div class="row mt-2 mb-2">
-                    <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px;" name="quotation_status" required>
+                    <select class="form-select" id="select-status-option" aria-label="Default select example" style="width: 100%; margin-left: 5px; box-shadow: 2px; font-size: 14px;" name="quotation_status" required>
                         <option disabled>Pick Status</option>
                         <option value="Draft" style="color: #000000;padding: 20px;" > Draft </option>
                         <option value="Accepted" style="color: #337ab7;padding: 20px;" > Accepted </option>
@@ -60,15 +60,15 @@
                     </select>
                 </div>
 
-                <div class="row mt-2 mb-2">
+                <div class="row mt-2 mb-2" style="display: flex; justify-content: center;">
                     <label for="expired-date">Expired Date:</label>
-                    <input type="date" id="expired-date" name="expired_date" style="width: 100%; padding: 5px;" value="{{ q.EXPIRED_DATE }}">
+                    <input type="date" id="expired-date" name="expired_date" style="width: 70%; margin-left: 6%;" value="{{ q.EXPIRED_DATE }}">
                 </div>
             </div>
              
             <div class="col">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" style="margin-top: 1%;">
 
                         <!-- FIRST ROW -->
                         <div class="row mb-2">
@@ -114,7 +114,7 @@
                         </div>
 
                         <!-- SECOND ROW -->
-                        <div class="row text-center">
+                        <div class="row text-center" style="margin-top: 3%;">
                             <div class="col">
                                 Calculation Result
                                 <input disabled type="text" value="0" class="noInput " id="calculationResult" name="CalculationResult">
@@ -176,14 +176,14 @@
         <div style="overflow: auto; max-height: 75vh;" class="">
             <!-- bagian body tengah -->
             <!-- {{ q }} -->
-            {% for i,k in q.items %}
+            <!-- {% for i,k in q.items %}
             <small>
                 <small style="color: black;">'{{ i }}'</small>
                 <small style="color: black;">{{ ':' }}</small>
                 <small style="color: black;">{{ k }}</small>
                 <br>
             </small>
-            {% endfor %}
+            {% endfor %} -->
             <div class="row">
                 <!-- perkaliannya -->
                 <div class="col-7">
@@ -450,7 +450,7 @@
             </div>
 
             <div class="btncreate" style="display: flex; justify-content: space-between; justify-content: right;">
-                <button type="submit" class="btn btn-secondary">Update Quotation</button>
+                <button type="submit" class="btn btn-secondary" style="font-size: 14px;">Update Quotation</button>
             </div> 
         </div>
 
@@ -488,7 +488,7 @@
                     
 
                         <tr>
-                            <th scope="row"></th>
+                            <td scope="row"></td>
                             <td></td>
                             <td></td>
                             <td></td>
