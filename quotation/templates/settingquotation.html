@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/static/css/quotation/settingquote.css">
+
+{% endblock head %}
+
+{% block content %} 
+
+<div class="container mt-3">
+    <!-- RATE -->
+    <div class="card text-center">
+        <div style="width: 97%; margin: auto;">
+            <div class="card-body">
+                <h5 class="card-title">RATE</h5>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <div>
+                            Material Rate
+                        </div>
+                        <div>
+                            <input type="text" id="materialRatePercentage" name="materialRatePercentage"> %
+                        </div>
+                    </div>
+                    
+                    <div class="col">
+                        <div>
+                            Out Source Rate
+                        </div>
+                        <div>
+                            <input type="text" id="outSourceRatePercentage" name="outSourceRatePercentage"> %
+                        </div>
+                    </div>
+                    
+                    <div class="col">
+                        <div>
+                            Management Cost Rate
+                        </div>
+                        <div>
+                            <input type="text" id="managementCostRatePercentage" name="managementCostRatePercentage"> %
+                        </div>
+                    </div>
+                    
+                    <div class="col">
+                        <div>
+                            Expired Date Default
+                        </div>
+                        <div>
+                            <input type="date" id="expiredDateDefault" name="expiredDateDefault">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MATERIAL ITEM -->
+    <div class="card text-center mt-3">
+        <div style="width: 97%; margin: auto;">
+            <div class="card-body">
+                <h5 class="card-title">MATERIAL ITEM</h5>
+                <hr>
+                <!-- TITLE MATERIAL ITEM -->
+                <div class="row mt-2 mb-3">
+                    <div class="col">
+                        <h6>
+                            From Part Scale
+                        </h6>
+                    </div>
+                    
+                    <div class="col">
+                        <h6>
+                            From Number Of
+                        </h6>
+                    </div>
+                </div>
+
+                <!-- INPUT MATERIAL ITEM -->
+                <div class="row">
+                    <div class="col">
+                        <div>
+                            Exposed
+                        </div>
+                        <div>
+                            <input type="text" id="exposedPartScaleRate" name="exposedPartScaleRate"> mm
+                        </div>
+                    </div>
+                    
+                    <div class="col">
+                        <div>
+                            Margin
+                        </div>
+                        <div>
+                            <input type="text" id="marginPartScaleRate" name="marginPartScaleRate"> mm
+                        </div>
+                    </div>
+                    
+                    <div class="col">
+                        <div>
+                            Exposed
+                        </div>
+                        <div>
+                            <input type="text" id="exposedNumOfRate" name="exposedNumOfRate"> mm
+                        </div>
+                    </div>
+                    
+                    <div class="col">
+                        <div>
+                            Margin
+                        </div>
+                        <div>
+                            <input type="text" id="marginNumOfRate" name="marginNumOfRate"> mm
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PREVIEW MATERIAL ITEM -->
+                <div class="row mt-4 mb-2">
+                    <div class="col">
+                        <h6>
+                            MARGIN (NUMBER OF)
+                        </h6>
+                        <div class="txtimg">
+                            <img style="width: 80%;" src="{% static 'images/boardmarginnumberof.png' %}">
+                            <input class="angka noInput" id="FromNumPreviewMargin1" value="0" readonly></input>
+                            <input class="angka1 noInput" id="FromNumPreviewHalfMargin1" value="0" readonly></input>
+                            <input class="angka2 noInput" id="FromNumPreviewHalfMargin2" value="0" readonly></input>
+                            <input class="angka3 noInput" id="FromNumPreviewMargin2" value="0" readonly></input>
+                            <input class="angka4 noInput" id="FromNumPreviewExposed" value="0" readonly></input>
+                            <input class="angka7 noInput" id="FromNumPreviewVerScale" value="0" readonly></input>
+                            <input class="angka8 noInput" id="FromNumPreviewHorScale" value="0" readonly></input>
+                        </div>
+                    </div>
+                    <!-- board (margin scale of preview)-->
+                    <div class="col" style="margin-left: 8%;">
+                        <h6>
+                            MARGIN (SCALE) 
+                        </h6>
+                        <div class="txtimg">
+                            <img style="width: 80%;" src="{% static 'images/boardmarginscale.png' %}">
+                            <input class="angka5 noInput" id="FromPartScalePreviewMargin" value="0" readonly></input>
+                            <input class="angka6 noInput" id="FromPartScalePreviewExposed" value="0" readonly></input>
+                            <input class="angka9 noInput" id="FromPartScalePreviewMargin1" value="0" readonly></input>
+                            <input class="angka10 noInput" id="FromPartScalePreviewHalfMargin" value="0" readonly></input>
+                            <input class="angka11 noInput" id="FromPartScalePreviewHalfMargin1" value="0" readonly></input>
+                            <input class="angka12 noInput" id="FromPartPreviewVerScale" value="0" readonly></input>
+                            <input class="angka13 noInput" id="FromPartPreviewHorScale" value="0" readonly></input>
+
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btnUpdateQuoteSet mt-3 mb-3" style="display: flex; justify-content: space-between; justify-content: right;">
+        <button type="submit" class="btn btn-secondary" style="font-size: 14px;">Set Default</button>
+    </div> 
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+{% endblock scripts %}
