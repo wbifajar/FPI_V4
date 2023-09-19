@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('base.urls')),
     path('Quotation/', include('quotation.urls')),
     path('material/', include('material.urls')),
+    path('customer/', include('customer.urls')),
 
     path('signin/',views.signin, name='signin'),
     path('signout/',views.signout, name='signout'),
