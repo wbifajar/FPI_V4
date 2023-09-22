@@ -19,11 +19,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from base import views
 
+app_name = 'material'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
     path('Quotation/', include('quotation.urls')),
-    path('material/', include('material.urls')),
+    path('material/', include('material.urls', namespace='material')),
+    path('employee/', include('employee.urls', namespace="employee")),
 
     path('signin/',views.signin, name='signin'),
     path('signout/',views.signout, name='signout'),

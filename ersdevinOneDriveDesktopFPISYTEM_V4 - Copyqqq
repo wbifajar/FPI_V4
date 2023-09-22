@@ -1,0 +1,151 @@
+[33m2ca5875[m[33m ([m[1;36mHEAD -> [m[1;32mnew-feature-update[m[33m)[m save update
+[33mcca9ae9[m[33m ([m[1;31morigin/new-feature-update[m[33m)[m update update (#75)
+[33md6319c2[m[33m ([m[1;32mdevin-temp-5[m[33m)[m minor update and fix
+[33m8bd0a51[m Merge pull request #74 from learnDD/editcss
+[33m816e6b5[m editquotation.html css
+[33mc2d080f[m update update (#73)
+[33md33ed55[m update update
+[33me3b1e06[m Merge pull request #72 from learnDD/koreksicss
+[33mb369ea2[m css correction + change nan, infinity, null value to 0.00
+[33me633792[m Merge pull request #71 from learnDD/ubahfont
+[33mb3b236e[m ubah font to poppins
+[33m8d8bac3[m Bertrand update (#68) (#69) (#70)
+[33mbf8d2ba[m Merge branch 'devin-new' into new-feature-update
+[33mca5659f[m[33m ([m[1;32mdevin-new[m[33m)[m add new column is_active on quotation, new patch when delete just set is_active to zero, test copy quotation functionality
+[33mde4da04[m Bertrand update (#68)
+[33mffecca5[m Merge pull request #66 from learnDD/bertrand-temp1
+[33m7f3f8f7[m coba bikin copy, expired, sm perbaikin beberapa code
+[33m587e8df[m Merge pull request #65 from learnDD/commentpdf
+[33m40e54f8[m[33m ([m[1;31morigin/commentpdf[m[33m)[m Merge branch 'new-feature-update' into commentpdf
+[33mb0a689a[m note pdf quotation
+[33md7c663a[m fix bug on other table on edit and create page, fix bug on process table, and fix quotation status on edit
+[33m8237443[m Merge branch 'new-feature-update' of https://github.com/learnDD/FPISv4 into createpdf
+[33m3d83593[m text quotation pdf
+[33m102fe3a[m add insert and delete function of process and other table, fix delete function in processedit and otheredit table, and some other bug fix
+[33mcab64ba[m Merge commit '553055b41161bbfb7f3f5079dcff9569b2b4e68c' into new-feature-update
+[33m48f1562[m perhitungan pdf dah bener, perbaikin note juga
+[33m553055b[m[33m ([m[1;31morigin/createpdf[m[33m, [m[1;32mcreatepdf[m[33m)[m perhitungan pdf dah bener, perbaikin note juga
+[33mec218f6[m Createpdf (#64)
+[33me0c4ad4[m create pdf min 1 dan customer harus sama ngga bisa beda
+[33m90fefb8[m latest
+[33m0aba4d4[m Merge pull request #63 from learnDD/clarapush
+[33mbdaed44[m[33m ([m[1;31morigin/clarapush[m[33m)[m fix status quotation style and change style to js
+[33m646323f[m Merge branch 'new-feature-update' of https://github.com/learnDD/FPISv4 into betoupdate
+[33m1f66d54[m fix bug on material board and update quotation py (#62)
+[33m31e4fcf[m Merge pull request #61 from learnDD/claratest1
+[33m68aedd3[m selected create pdf (one quotation)
+[33mf5b6def[m Merge pull request #60 from learnDD/claratest1
+[33m8c019ea[m process, other delete function fixed
+[33m6f59e56[m other delete function fixed
+[33mbc14a4b[m Merge pull request #59 from learnDD/claratest1
+[33mb8df7aa[m Merge branch 'new-feature-update' into claratest1
+[33mf83a579[m process, main edit function. edit, create html
+[33m495709a[m fix bug on calculateBySetTime, test update function on db and some minor code and bug fix (#58)
+[33m965b784[m Betoupdate (#57)
+[33m3e97cc3[m minor update on editquotation
+[33ma7e9d7f[m button status color
+[33m5168bea[m fix material function edit
+[33m51b3d3a[m Merge branch 'devin-new-feature-update' of https://github.com/learnDD/FPISv4 into devin-new-feature-update
+[33m4e12b69[m terbaru udh update add all edit
+[33m3d1c995[m Merge pull request #56 from learnDD/branch-clara-temporary-2
+[33m55f29dc[m status quotation
+[33maac5d0c[m Merge pull request #54 from learnDD/branch-clara-temporary-2
+[33m681d2e0[m process and other function edit
+[33mf9c0f53[m Merge pull request #53 from learnDD/branch-clara-temporary-2
+[33mfbad3d6[m memperbaiki css dan function add delete other process
+[33m8f10a05[m Devin new feature update (#51)
+[33m21a4d8f[m Merge pull request #50 from learnDD/branch-clara-temporary
+[33mb06e213[m detail other
+[33md59ed1b[m Devin new feature update (#49)
+[33m0cf2b2c[m function detail, css process other quotation
+[33m1641e8d[m detail process table
+[33m7f74416[m Merge pull request #48 from learnDD/temp-update-quotation-other
+[33m604dcf9[m[33m ([m[1;32mtemp-update-quotation-other[m[33m)[m update quotation_other and other bug fix
+[33m1558d09[m Merge pull request #47 from learnDD/temp-update-quotation-material
+[33md570b7e[m[33m ([m[1;32mtemp-update-quotation-material[m[33m)[m update quotation material on view and template and some bug fix
+[33m7b2f4b3[m final - insert process function to db
+[33m1792991[m Merge pull request #46 from learnDD/temp-fix-quotation-insert
+[33m076e52a[m[33m ([m[1;32mtemp-fix-quotation-insert[m[33m)[m update fix insert quotation-material
+[33md56cf72[m insert process function
+[33mf190e4f[m remove old second row on create quotation and rename on noninputable.js
+[33m1ef608f[m minor update and minor bug fix
+[33meb175d4[m status, css grafik
+[33m205c3ba[m rename management cost after, change position & css of the graph
+[33m79fad7e[m Merge pull request #45 from learnDD/temp-branch
+[33m90abf21[m[33m ([m[1;32mtemp-branch[m[33m)[m fix break-even graph and some bug fix
+[33mc819b83[m pembetulan css quotation, preview board part scale
+[33mfc4ae3b[m new update from mister
+[33ma7d72ef[m[33m ([m[1;31morigin/edit-delete-feature-development[m[33m, [m[1;32medit-delete-feature-development[m[33m)[m update edit feature
+[33m09312d0[m satuan sheet, kg, bar, css board
+[33mb42ad7f[m update edit feature
+[33m8c2aed0[m update edit feature for quotation (unfinished)
+[33m1986dd1[m fix insert quotation and typo on createquotation html
+[33m8f5d722[m Bertrand 3 (#41)
+[33mda9f29e[m Clara testing (#40)
+[33me3056b0[m Merge pull request #39 from learnDD/bertrand-3
+[33m85626ea[m Merge branch 'main' into bertrand-3
+[33m3ede54b[m memperbaiki center input, dan style option
+[33mbd99dc0[m Clara testing (#38)
+[33mfa0a2a7[m add kg and sheet functionality on board, add default disabled button on board, move all javascript file on static folder to static/scripts folder, rename scripts.js file and minor bug fix (#37)
+[33mf45b91e[m add readonly attribute to necessary input field on board and bar modal (#36)
+[33mff9062a[m Merge pull request #35 from learnDD/devin-testing
+[33ma210556[m code refactor and restructure and minor bug fix
+[33mf980742[m update from clara (#34)
+[33meaf4521[m update from clara
+[33m838d353[m Clara testing (#33)
+[33m950aee6[m new image for bar + add number for preview board (#32)
+[33mbaa70e5[m Merge pull request #31 from learnDD/clara-testing
+[33m5a5ed19[m revisi board and bar
+[33md4f312e[m Merge pull request #28 from learnDD/clara-testing
+[33m1628138[m Merge branch 'main' into clara-testing
+[33m2caafa3[m revisi
+[33m2037f03[m Merge pull request #27 from learnDD/devin-testing
+[33md1f0f58[m add insert to db function on quotation, get quotation list from db in quotation homepage, and minor bugfix on material function delete
+[33me3af313[m[33m ([m[1;32mclara-testing[m[33m, [m[1;32mbertrand-testing[m[33m)[m Merge pull request #26 from learnDD/devin-testing
+[33md3ba20e[m finish submit button on board bar modal
+[33m3339385[m Merge pull request #24 from learnDD/main
+[33mba9ef9f[m Merge pull request #23 from learnDD/clara-testing
+[33m67265d7[m deleted calculate by number
+[33mda243bd[m Merge pull request #19 from learnDD/clara-testing
+[33mef7ffa4[m Merge branch 'main' into clara-testing
+[33m3e796d1[m Merge pull request #20 from learnDD/devin-testing
+[33m72c747d[m pembetulan perhitungan /unit pada other, penghapusan kolom number pada table reflect cost
+[33mda5ae59[m fix delete process and add testing input database
+[33m36d7654[m Merge pull request #18 from learnDD/devin-testing
+[33m3f82b54[m Merge branch 'main' of https://github.com/learnDD/FPISv4 into devin-testing
+[33m202e4f6[m Merge pull request #17 from learnDD/clara-testing
+[33m27dff67[m add name to input field, separate function to external js, and create insert to db function for quotation (on progress)
+[33m7eb282e[m Merge pull request #14 from learnDD/clara-testing
+[33m725f2a4[m pembetulan tampilan 2
+[33m6959605[m pembetulan tampilan
+[33m5ac08c0[m Merge pull request #13 from learnDD/devin-testing
+[33mad6ad56[m fix delete process remove dbconnect
+[33mcc2c96c[m fix delete process
+[33m43433eb[m Merge pull request #12 from learnDD/devin-testing
+[33m0b9ba82[m update gitignore quotation
+[33m11bbc12[m Merge pull request #11 from learnDD/main
+[33m5c68d65[m Merge pull request #10 from learnDD/clara-testing
+[33m3ca23cc[m pembenaran css sidebar
+[33m726979e[m testing push
+[33m3fb57f3[m Merge pull request #8 from learnDD/devin-testing
+[33m7a49bc1[m check update
+[33mb9f8a53[m minor fix delete other function
+[33m6665b68[m check gitignore working
+[33m7c60f3f[m check update
+[33mb39d2df[m check update
+[33m6816bd4[m Merge pull request #1 from learnDD/new-test-final
+[33mcb4fca2[m[33m ([m[1;32mnew-test-final[m[33m)[m Merge branch 'testing-2' of https://github.com/learnDD/FPISv4
+[33m1d47103[m[33m ([m[1;32mtesting-2[m[33m)[m testing push to new branch with git ignore
+[33mc9e36a4[m check box other
+[33mb62c8b1[m pembenaran function delete other dan delete process
+[33m6b7c775[m pembenaran function delete other
+[33m2858aeb[m minor update
+[33m0aaa0a4[m fix bug on material cost table modal delete function
+[33mda60622[m minor update material cost table modal, fix calculation on operation budget, add material page (testing) and fix on board bar modal (unfinished)
+[33m4bab52d[m minor fix on material cost modal
+[33md211c53[m add total material cost function and separate material function to external js
+[33m158846e[m update used quantity on material table
+[33m307ee9d[m Minor fix on process table function
+[33m6fc13da[m Modal bar update table already working and fix process table function
+[33m14dc2d3[m update modal board, table modal, pin unpin
+[33m593361d[m first commit
