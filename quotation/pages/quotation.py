@@ -23,10 +23,11 @@ def Quotation(request):
         item['QUANTITY'] = int(item['QUANTITY'])
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
-        item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=14)
+        # item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=14)
+        item['CREATED_AT'] = item['CREATED_AT'].strftime("%Y-%m-%d")
         item['QUOTATION_ID'] = item['QUOTATION_ID']
         item['QUOTATION_STATUS'] = item['QUOTATION_STATUS']
-        item['expired_date'] = str(item['expired_date'])
+        item['EXPIRED_DATE'] = str(item['EXPIRED_DATE'])
 
 
     # Extract only the required fields for JSON serialization
@@ -327,7 +328,7 @@ def insertQuotation(request):
 
         ExpiredDate = request.POST.get('expired_date', False)
         is_active = 1
-        
+
         print("STATUS = ", Status)
 
         query = f'INSERT INTO Quotation VALUES ( null, \
@@ -347,9 +348,9 @@ def insertQuotation(request):
                 "{OperationBudget}", \
                 "{timezone.now()}", \
                 "{Username}", \
-                "{ Status,}", \
-                "{is_active}", \
+                "{Status}", \
                 "{QuotationNo}", \
+                "{is_active}", \
                 "{ExpiredDate}" )'
         # return HttpResponse(query)
         print(query)
@@ -738,7 +739,7 @@ def updateQuotation(request, quotation_id):
                 CREATED_AT = "{  timezone.now() }", \
                 ACTIVITY_LOG = "{ Username }", \
                 QUOTATION_STATUS = "{ Status }", \
-                expired_date = "{ExpiredDate }", \
+                EXPIRED_DATE = "{ExpiredDate }", \
                 is_active = {is_active} \
                 WHERE QUOTATION_ID = { quotation_id }'
         
@@ -779,8 +780,8 @@ def copyQuotation(request,  quotation_id):
             CREATED_AT, \
             ACTIVITY_LOG, \
             QUOTATION_STATUS, \
-            is_active, \
             '{QuotationNo}', \
+            is_active, \
             EXPIRED_DATE \
             FROM quotation \
             WHERE QUOTATION_ID = {quotation_id});"
