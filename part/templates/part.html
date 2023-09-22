@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/static/css/quotation/quotation.css">
+
+{% endblock head %}
+
+
+{% block content %}
+<h1>Daftar Part</h1>
+    <a href="">Tambah Part</a>
+    
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Berat Jenis</th>
+            <th>Harga</th>
+            <th>Aksi</th>
+        </tr>
+        {% for part in parts %}
+        <tr>
+            <td>{{ part.id }}</td>
+            <td>{{ part.name }}</td>
+            <td>{{ part.specific_gravity }}</td>
+            <td>{{ part.price }}</td>
+            <td>
+                <a href="">Edit</a> |
+                <a href="">Hapus</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}
+

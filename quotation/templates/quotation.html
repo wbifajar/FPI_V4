@@ -140,14 +140,6 @@
     }
 </script>
 
-<script>
-    function calculateExpiredDate() {
-      var createdDate = document.getElementById("createdDate").value;
-      var expiredDate = new Date(createdDate);
-      expiredDate.setDate(expiredDate.getDate() + 10);
-      document.getElementById("expiredDate").value = expiredDate.toISOString().split('T')[0];
-    }
-  </script>
 
 <script>
   $('#edit-button').on('click', function(){
