@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db import connection
 from ..databaseConnect import *
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, date
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.http import HttpResponse
@@ -22,11 +22,13 @@ def Quotation(request):
     for item in quotation:
         item['QUANTITY'] = int(item['QUANTITY'])
         item['BUDGET_PER_UNIT'] = int(item['BUDGET_PER_UNIT'])
-        item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])
-        # item['EXPIRED'] = (item['CREATED_AT']) + timedelta(days=14)
-        item['CREATED_AT'] = item['CREATED_AT'].strftime("%Y-%m-%d")
+        item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])   
+        item['CREATED_AT'] = item['CREATED_AT'].strftime("%d/%m/%Y")
         item['QUOTATION_ID'] = item['QUOTATION_ID']
-        item['QUOTATION_STATUS'] = item['QUOTATION_STATUS']
+   
+        
+        if(date.today() > item["EXPIRED_DATE"]):
+            item['QUOTATION_STATUS'] = "Expired"
         item['EXPIRED_DATE'] = str(item['EXPIRED_DATE'])
 
 
@@ -325,10 +327,8 @@ def insertQuotation(request):
         today = timezone.now().strftime('%Y%m%d')
         NumberQuotationatthatday = get_next_quotation_number(today)
         QuotationNo = f"{today}-{NumberQuotationatthatday:04}"
-
-        ExpiredDate = request.POST.get('expired_date', False)
         is_active = 1
-
+        ExpiredDate = request.POST.get('expired_date', False)
         print("STATUS = ", Status)
 
         query = f'INSERT INTO Quotation VALUES ( null, \
@@ -354,7 +354,6 @@ def insertQuotation(request):
                 "{ExpiredDate}" )'
         # return HttpResponse(query)
         print(query)
-
         with connection.cursor() as cursor:
             cursor.execute(query)
         
@@ -395,7 +394,7 @@ def detailQuotation(request, quotation_id):
         totalBudget = quotation["QUANTITY"] * quotation["BUDGET_PER_UNIT"]
         totalCost = quotation["COST_EXCLUDE_OPERATION"] + quotation["OPERATION_COST"]
         managementCost = quotation["BUDGET_PER_UNIT"] * 0.3
-        quotation['expired_date'] = str(quotation['expired_date'])
+        quotation['EXPIRED_DATE'] = str(quotation['EXPIRED_DATE'])
         # totalMaterialCost =  quotation["MATERIAL_COST_NUMBER"] * ( quotation["MATERIAL_COST_PERCENTAGE"] / 100 )
         # totalOutsourceCost = quotation["OUTSOURCE_COST_NUMBER"] * ( quotation["OUTSOURCE_COST_PERCENTAGE"] / 100 )
         
@@ -509,6 +508,28 @@ def updateQuotationMaterial(request, quotation_id):
     for item in BarArrView:
         print("BARARR = ", item )
     
+
+    # #untuk ngambil semua material id dari db buat di compare
+    # query = f'select MATERIAL_ID from quotation_material where QUOTATION_ID = {quotation_id}'
+    # with connection.cursor() as cursor:
+    #     cursor.execute(query)
+    #     material_id_list_from_db = cursor.fetchall()
+
+    #     #save  all MATERIAL_ID ONLY from db from this quotation in list
+    #     #before : ( (5,), (6, ) )
+    #     #after : [5, 6]
+    #     material_id_list_from_db = [i[0] for i in material_id_list_from_db]
+
+    # #apus yang di remove dari table
+    # for i in range(0, len(material_id_list_from_db)):
+    #     if(not(str(material_id_list_from_db[i]) in MaterialList)):
+    #         #remove yang ada di db tapi gaada di quotation
+    #         #Remove material list that exist in database but deleted in edited quotation
+    #         query = f'DELETE FROM quotation_material WHERE QUOTATION_ID = "{quotation_id}" AND MATERIAL_ID = "{material_id_list_from_db[i]}"'
+    #         with connection.cursor() as cursor:
+    #             cursor.execute(query)
+
+
     for i in range(0, MaterialLength):
         MaterialID = MaterialList[i]
         UsedQuantity = handleEmptyString(USED_QUANTITY[i], 0)
@@ -595,10 +616,11 @@ def updateQuotationOther(request, quotation_id):
     # print("OTHER PERCENTAGE SISA = ", OtherPercentage)
     # print("OTHER IS PER UNIT SISA = ", OtherIsPerUnit)
 
+
+    #check if current index of other list is exist in the database
+    #if exist it will update
+    #if not exist it will insert new
     for i in range(0, OtherLength):
-        #check if current index of other list is exist in the database
-        #if exist it will update
-        #if not exist it will insert new
         query = f'select exists (select * from quotation_other where QUOTATION_ID = {quotation_id} and OTHER_ID = {OtherId[i]}) as a;'
         with connection.cursor() as cursor:
             cursor.execute(query)
@@ -739,7 +761,7 @@ def updateQuotation(request, quotation_id):
                 CREATED_AT = "{  timezone.now() }", \
                 ACTIVITY_LOG = "{ Username }", \
                 QUOTATION_STATUS = "{ Status }", \
-                EXPIRED_DATE = "{ExpiredDate }", \
+                EXPIRED_DATE = "{ ExpiredDate }", \
                 is_active = {is_active} \
                 WHERE QUOTATION_ID = { quotation_id }'
         
