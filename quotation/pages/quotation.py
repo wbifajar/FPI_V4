@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db import connection
 from ..databaseConnect import *
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, date
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.http import HttpResponse
@@ -25,7 +25,10 @@ def Quotation(request):
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])   
         item['CREATED_AT'] = item['CREATED_AT'].strftime("%d-%m-%Y")
         item['QUOTATION_ID'] = item['QUOTATION_ID']
-        item['QUOTATION_STATUS'] = item['QUOTATION_STATUS']
+   
+        
+        if(date.today() > item["EXPIRED_DATE"]):
+            item['QUOTATION_STATUS'] = "Expired"
         item['EXPIRED_DATE'] = str(item['EXPIRED_DATE'].strftime("%d-%m-%Y"))
 
 
@@ -504,6 +507,28 @@ def updateQuotationMaterial(request, quotation_id):
     for item in BarArrView:
         print("BARARR = ", item )
     
+
+    # #untuk ngambil semua material id dari db buat di compare
+    # query = f'select MATERIAL_ID from quotation_material where QUOTATION_ID = {quotation_id}'
+    # with connection.cursor() as cursor:
+    #     cursor.execute(query)
+    #     material_id_list_from_db = cursor.fetchall()
+
+    #     #save  all MATERIAL_ID ONLY from db from this quotation in list
+    #     #before : ( (5,), (6, ) )
+    #     #after : [5, 6]
+    #     material_id_list_from_db = [i[0] for i in material_id_list_from_db]
+
+    # #apus yang di remove dari table
+    # for i in range(0, len(material_id_list_from_db)):
+    #     if(not(str(material_id_list_from_db[i]) in MaterialList)):
+    #         #remove yang ada di db tapi gaada di quotation
+    #         #Remove material list that exist in database but deleted in edited quotation
+    #         query = f'DELETE FROM quotation_material WHERE QUOTATION_ID = "{quotation_id}" AND MATERIAL_ID = "{material_id_list_from_db[i]}"'
+    #         with connection.cursor() as cursor:
+    #             cursor.execute(query)
+
+
     for i in range(0, MaterialLength):
         MaterialID = MaterialList[i]
         UsedQuantity = handleEmptyString(USED_QUANTITY[i], 0)

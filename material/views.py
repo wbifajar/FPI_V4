@@ -24,10 +24,48 @@ def index(request):
 
     return HttpResponse(template.render(context, request))
 
-def InsertForm(request):
-    nama = request.POST['nama']
+def insert(request):
+    return render(request, "material_insert.html")
+
+def store(request):
+    nama = request.POST['name']
     price = request.POST['price']
     with connection.cursor() as cursor:
-        query = 'Insert Into Material values (null, "{}", {})'.format(nama, price)
+        query = f'Insert Into Material values (null, "{nama}", "{price}")'
         cursor.execute( query )
+    return redirect('/material')
+
+def edit(request, material_id):
+    connection = connect()
+    cursor = connection.cursor(dictionary=True)
+
+    query = 'SELECT * FROM MATERIAL WHERE idMaterial = ' + str(material_id)
+    cursor.execute( query )
+    res = cursor.fetchone()
+    print( "ASFASDFSAFAS = ", res)
+    context = {
+        'material' : res, 
+    }
+
+    return render(request, 'edit.html', context)
+
+def update(request, material_id):
+    MaterialName = request.POST.get('name', False)
+    MaterialPrice = request.POST.get('price', False)
+    query = f'UPDATE MATERIAL \
+        SET \
+        Name = "{MaterialName}", \
+        Price = "{MaterialPrice}" \
+        WHERE idMaterial = "{material_id}"'
+    print(query)
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+    return redirect('/material')
+
+def delete(request, material_id):
+    query = f'DELETE FROM MATERIAL WHERE idMaterial = {material_id}'
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+
     return redirect('/material')
