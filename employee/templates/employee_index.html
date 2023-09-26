@@ -26,8 +26,8 @@
 <div class="container mt-3">
    
     <button onclick="location.href='/employee/insert'" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i data-feather="plus"></i> Add Employee </button>
-
-    <table class="table table-hover table-bordered border-secondary" style="width: 90%; margin: 0 auto;">
+    <div id="result"></div>
+    <table class="table table-hover table-bordered border-secondary" style="width: 90%; margin: 0 auto;" id="myTable">
         <thead>
             <tr>
                 <th scope="col">Employee ID</th>
@@ -82,6 +82,21 @@
 {% endblock content %}
 
 {% block scripts %}
+<script>
+
+    $(document).ready(function () {
+        var table = $('#myTable').DataTable({});
+        
+        var data = table.rows().data();
+        let quotationlength = parseInt(data.length);
+   
+        $('#myTable').dataTable().fnClearTable();   
+        for (let i=0 ; i<quotationlength ; i++){
+            $('#myTable').dataTable().fnAddData(data[i]);
+        }
+    });
+</script>
+
 <script>
     const modal1 = document.getElementById('delete-confirmation-modal');
 
