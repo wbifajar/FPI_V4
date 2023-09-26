@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<!-- Icons -->
+
+
+<!-- Custom CSS -->
+
+<style>
+    div.card {
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    td, tr{
+        font-size: 15px;
+    }
+</style>
+{% endblock head %}
+
+
+{% block content %}
+<div class="container mt-3">
+   
+    <button onclick="location.href='/part/insert'" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i data-feather="plus"></i> Add Employee </button>
+
+    <table class="table table-hover table-bordered border-secondary" style="width: 90%; margin: 0 auto;">
+        <thead>
+            <tr>
+                <th scope="col">PART ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Specific Gravity</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for part in part %}
+            <tr>
+                    <td> {{ part.idPart }} </td>
+                    <td> {{ part.name }} </td>
+                    <td> {{ part.spesificGravity }} </td>
+                    <td> {{ part.price }} </td>
+
+                    <td> 
+                        <button class="btn btn-primary" ><a class="text-white text-decoration-none" href="/part/edit/{{ part.idPart }}">Edit</a></button>
+                        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete-confirmation-modal" data-employee="{{ part }}" data-employee-id="{{ part.idPart }}">Delete</button>
+                    </td>
+            </tr>
+            {% endfor %}
+
+        
+        </tbody>
+    </table>
+
+    <div class="modal fade" tabindex="-1" id="delete-confirmation-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h3 class="modal-title">DELETE ACCOUNT</h3>
+                    
+                </div>
+                <div class="modal-body fs-4">
+                    <h5 class="mb-3">Are you sure want to delete this employee?</h5>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete" >Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    const modal1 = document.getElementById('delete-confirmation-modal');
+
+    modal1.addEventListener('show.bs.modal', event => {
+        // Button that triggered the modal
+        const button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        
+        //data received as a string 
+        //ex :
+        //"{'EMPLOYEE_ID': 1, 'EMPLOYEE_NAME': 'John'}"
+        var part_detail = button.getAttribute('data-part')
+        var part_id = button.getAttribute('data-part-id')
+
+        //remove the open and close curly bracket and get the data using split by comma
+        part_detail = part_detail.replace("{", "")
+        part_detail = part_detail.replace("}", "")
+        text = part_detail.split(',')
+        
+        //loop data and append it to modal body
+        text.forEach(function(val, i) {
+            //remove the single quote and add space for readability
+            val = val.replace(/'+/g, "")
+            val = val.replace(':', " : ")
+            $(".modal-body").append( "<p class='fs-6'>" + val +"</p>" );
+        });
+        $('#confirm-delete').attr('onclick', `location.href='/part/delete/${em_id}'` )
+    }); 
+
+</script>
+{% endblock scripts %}
