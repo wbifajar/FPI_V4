@@ -25,13 +25,12 @@ def Quotation(request):
         item['TOTAL'] = int(item['QUANTITY']) * int(item['BUDGET_PER_UNIT'])   
         item['CREATED_AT'] = item['CREATED_AT'].strftime("%d-%m-%Y")
         item['QUOTATION_ID'] = item['QUOTATION_ID']
-   
         
         if(date.today() > item["EXPIRED_DATE"]):
             item['QUOTATION_STATUS'] = "Expired"
-        item['EXPIRED_DATE'] = str(item['EXPIRED_DATE'].strftime("%d-%m-%Y"))
+            item['EXPIRED_DATE'] = str(item['EXPIRED_DATE'].strftime("%d-%m-%Y"))
 
-
+        
     # Extract only the required fields for JSON serialization
     # quotation_data = [{'QUOTATION_ID': q['QUOTATION_ID'], 'QUOTATION_STATUS': q['QUOTATION_STATUS']} for q in quotation]
 
