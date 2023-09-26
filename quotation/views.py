@@ -22,6 +22,9 @@ def PDFQuotation(request):
 def QuotationMaterial(request):
   return render(request, 'quotationmaterial.html')
 
+def QuotationSetting(request):
+  return render(request, 'settingquotation.html')
+
 def SubmitTest(request):
   connection = connect()
   cursor = connection.cursor(dictionary=True)

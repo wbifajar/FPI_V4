@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/static/css/customer/addcustomer.css">
+
+{% endblock head %}
+
+{% block content %} 
+
+<div class="container mt-3 mb-3">
+    <div class="card ">
+        <div style="width: 97%; margin: auto;">
+            <div class="card-body">
+                <h5 class="card-title text-center">ADD CUSTOMER</h5>
+                <hr>
+                
+                <div class="mb-3">
+                    <label class="form-label">Status :</label>
+                    <select>
+                        <option value="0">Select status:</option>
+                        <option value="1">Aktif</option>
+                        <option value="1">Non-Aktif</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Code :</label>
+                    <input type="input" class="form-control" id="addCustomerCode">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Name :</label>
+                    <input type="input" class="form-control" id="addCustomerName">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tax ID :</label>
+                    <input type="input" class="form-control" id="addCustomerTaxID">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">PIC :</label>
+                    <input type="input" class="form-control" id="addCustomerPIC">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">No. Tlp 1 :</label>
+                    <input type="input" class="form-control" id="addCustomerTlp1">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">No. Tlp 2 :</label>
+                    <input type="input" class="form-control" id="addCustomerTlp2">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Address 1 :</label>
+                    <input type="input" class="form-control" id="addCustomerAddress1">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Address 2 :</label>
+                    <input type="input" class="form-control" id="addCustomerAddress2">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Zip Code :</label>
+                    <input type="input" class="form-control" id="addCustomerZipCode">
+                </div>
+
+                <div class="btnUpdateQuoteSet mt-4 mb-3" style="display: flex; justify-content: space-between; justify-content: right;">
+                    <button type="submit" class="btn btn-secondary" style="font-size: 14px;">Add Customer</button>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+{% endblock scripts %}
