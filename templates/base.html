@@ -90,6 +90,20 @@
                 Home
             </a>  
           </li>
+
+           <!-- customer -->
+           <li class="mb-1">
+            <div onclick="location.href='/customer'" style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont">
+                  <input class="inputsidebar" type="text" id="customer" name="customer" value="Customer" readonly ><br>
+                </a>
+              </div>
+              <div>
+                <button class="pin" name="button" type="submit" value="customer-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+          </li>
           
           <!-- work input -->
           <li class="mb-1">
@@ -300,16 +314,28 @@
                     Quotation
                   </a>
                 </li>
+
                 <div class="li-line"></div>
                 <li class="drop-down-text">
                   <a href="#" class="link-light text-decoration-none">
                     <a href="#" class="link-light text-decoration-none">Assembly Quote</a>
                   </a>
                 </li>
+
                 <div class="li-line"></div>
-                <li class="drop-down-text last-drop-down-text">
-                  <a href="#" class="link-light text-decoration-none">Quote Other Item Edit</a>
+                <li class="drop-down-text">
+                  <a href="#" class="link-light text-decoration-none">
+                    <a href="#" class="link-light text-decoration-none">Quote Other Item Edit</a>
+                  </a>
                 </li>
+                
+                <div class="li-line"></div>
+                <li class="drop-down-text">
+                  <a href="#" class="link-light text-decoration-none">
+                    <a href="{% url 'QuotationSetting' %}" class="link-light text-decoration-none">Quote Settings</a>
+                  </a>
+                </li>
+                
               </ul>
             </div>
           </li>

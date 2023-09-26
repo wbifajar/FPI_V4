@@ -24,9 +24,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
     path('Quotation/', include('quotation.urls')),
-    path('part/', include('part.urls', namespace='part')),
     path('material/', include('material.urls', namespace='material')),
     path('employee/', include('employee.urls', namespace="employee")),
+    path('customer/', include('customer.urls')),
+    path('part/', include('part.urls')),
 
     path('signin/',views.signin, name='signin'),
     path('signout/',views.signout, name='signout'),

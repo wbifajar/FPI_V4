@@ -70,4 +70,13 @@ def delete(request, idPart):
     with connection.cursor() as cursor:
         cursor.execute(query)
 
-    return redirect('/part')
+    return redirect('/part')from django.shortcuts import render, redirect
+from django.http import HttpResponse
+
+from django.db import connection
+from .databaseConnect import *
+# Create your views here.
+
+def part(request):
+
+    return render(request, 'part.html')
