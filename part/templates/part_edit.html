@@ -5,9 +5,11 @@
 {% block head %}  
 
 <!-- Icons -->
-
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <!-- Custom CSS -->
+<link rel="stylesheet" href="/static/css/part/editpart.css">
 
 <style>
     div.card {
@@ -19,13 +21,14 @@
         font-size: 15px;
     }
 </style>
+
 {% endblock head %}
 
 
 {% block content %}
 <div class="container mt-3">
    
-    <form class="w-50 mx-auto mt-5" action="{% url 'update' part.idPart %}" method="POST">
+    <form class="w-50 mx-auto mt-5" action="{% url 'part:update' part.idPart %}" method="POST">
         {% csrf_token %}
         <div class="mb-3">
             <label for="name" class="form-label fs-6">Name</label>
@@ -34,12 +37,12 @@
 
         <div class="mb-3">
             <label for="address" class="form-label fs-6">Specific Gravity</label>
-            <input type="text" class="form-control" id="address" name="address" value="{{ part.spesificGravity }}">
+            <input type="text" class="form-control" id="address" name="spesificGravity" value="{{ part.spesificGravity }}">
         </div>
 
         <div class="mb-3">
             <label for="section" class="form-label fs-6">Price</label>
-            <input type="text" class="form-control" id="section" name="section" value="{{ part.price }}">
+            <input type="text" class="form-control" id="section" name="price" value="{{ part.price }}">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

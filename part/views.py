@@ -18,17 +18,17 @@ def index(request):
         'part' : res, 
     }
 
-    return render(request, 'index.html', context)
+    return render(request, 'part_index.html', context)
     return HttpResponse(res)
 
 def insert(request):
-    return render(request, 'insert.html')
+    return render(request, 'part_insert.html')
 
 def store(request):
     PartName = request.POST.get('name', False)
     SpecificGravity = request.POST.get('spesificGravity', False)
     PartPrice = request.POST.get('price', False)
-    query = f'INSERT INTO EMPLOYEE VALUES(null, "{PartName}", "{SpecificGravity}", "{PartPrice}")'
+    query = f'INSERT INTO PART VALUES(null, "{PartName}", "{SpecificGravity}", "{PartPrice}")'
 
     with connection.cursor() as cursor:
         cursor.execute(query)
@@ -44,20 +44,20 @@ def edit(request, idPart):
     res = cursor.fetchall()
 
     context = {
-        'employee' : res[0], 
+        'part' : res[0], 
     }
 
-    return render(request, 'edit.html', context)
+    return render(request, 'part_edit.html', context)
 
 def update(request, idPart):
     PartName = request.POST.get('name', False)
     SpecificGravity = request.POST.get('spesificGravity', False)
     PartPrice = request.POST.get('price', False)
-    query = f'UPDATE EMPLOYEE \
+    query = f'UPDATE PART \
         SET \
-        NAME = "{PartName}", \
-        SPESIFICGRAVITY = "{SpecificGravity}", \
-        PRICE = "{PartPrice}", \
+        name = "{PartName}", \
+        spesificGravity = "{SpecificGravity}", \
+        price = "{PartPrice}" \
         WHERE idPart = "{idPart}"'
     print(query)
 
@@ -66,17 +66,8 @@ def update(request, idPart):
     return redirect('/part')
 
 def delete(request, idPart):
-    query = f'DELETE FROM EMPLOYEE WHERE idPart = {idPart}'
+    query = f'DELETE FROM PART WHERE idPart = {idPart}'
     with connection.cursor() as cursor:
         cursor.execute(query)
 
-    return redirect('/part')from django.shortcuts import render, redirect
-from django.http import HttpResponse
-
-from django.db import connection
-from .databaseConnect import *
-# Create your views here.
-
-def part(request):
-
-    return render(request, 'part.html')
+    return redirect('/part')
