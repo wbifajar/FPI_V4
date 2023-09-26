@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<!-- Icons -->
+
+
+<!-- Custom CSS -->
+
+<style>
+    div.card {
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    td, tr{
+        font-size: 15px;
+    }
+</style>
+{% endblock head %}
+
+
+{% block content %}
+<div class="container mt-3">
+   
+    <form class="w-50 mx-auto mt-5" action="{% url 'update' part.idPart %}" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label fs-6">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ part.name }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="address" class="form-label fs-6">Specific Gravity</label>
+            <input type="text" class="form-control" id="address" name="address" value="{{ part.spesificGravity }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="section" class="form-label fs-6">Price</label>
+            <input type="text" class="form-control" id="section" name="section" value="{{ part.price }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+</div>
+
+{% endblock content %}
