@@ -10,3 +10,9 @@
 p{
     margin-left: 1%;
 }
+
+.noInput{
+    border: none;
+    background-color: transparent;
+    width: 50%;
+}
