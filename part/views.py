@@ -19,7 +19,6 @@ def index(request):
     }
 
     return render(request, 'part_index.html', context)
-    return HttpResponse(res)
 
 def insert(request):
     return render(request, 'part_insert.html')

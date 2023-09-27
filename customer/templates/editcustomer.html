@@ -17,61 +17,62 @@
 {% block content %} 
 
 <div class="container mt-3 mb-3">
-    <div class="card ">
+    <form action="{% url 'customer:UpdateCustomer' customer.idCustomer %}" method="POST">
+        {% csrf_token %}
+        <div class="card ">
         <div style="width: 97%; margin: auto;">
             <div class="card-body">
                 <h5 class="card-title text-center">EDIT CUSTOMER</h5>
                 <hr>
                 
-                
                 <div class="mb-3" style="display: flex; justify-content: left;">
                     <label class="form-label">Status : </label>
-                    <p class="">Aktif</p>
+                    <input type="input" class="form-control" id="editCustomerStatus" value="{{customer.customerStatus}}">
                 </div>
                 
                 <div class="mb-3">
                     <label class="form-label">Code :</label>
-                    <input type="input" class="form-control" id="editCustomerCode">
+                    <input type="input" class="form-control" id="editCustomerCode" value="{{customer.idCustomer}}">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Name :</label>
-                    <input type="input" class="form-control" id="editCustomerName">
+                    <input type="input" class="form-control" id="editCustomerName" value="{{customer.customerName}}">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Tax ID :</label>
-                    <input type="input" class="form-control" id="editCustomerTaxID">
+                    <input type="input" class="form-control" id="editCustomerTaxID" value="{{customer.customerTaxID}}">
                 </div>
                 
                 <div class="mb-3">
                     <label class="form-label">PIC :</label>
-                    <input type="input" class="form-control" id="editCustomerPIC">
+                    <input type="input" class="form-control" id="editCustomerPIC" value="customer.customerPIC">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">No. Tlp 1 :</label>
-                    <input type="input" class="form-control" id="editCustomerTlp1">
+                    <input type="input" class="form-control" id="editCustomerTlp1" value="{{customer.customerTlp}}">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">No. Tlp 2 :</label>
-                    <input type="input" class="form-control" id="editCustomerTlp2">
+                    <input type="input" class="form-control" id="editCustomerTlp2" value="{{customer.customerTlp1}}">
                 </div>
                 
                 <div class="mb-3">
                     <label class="form-label">Address 1 :</label>
-                    <input type="input" class="form-control" id="editCustomerAddress1">
+                    <input type="input" class="form-control" id="editCustomerAddress1" value="{{customer.customerAddress}}">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Address 2 :</label>
-                    <input type="input" class="form-control" id="editCustomerAddress2">
+                    <input type="input" class="form-control" id="editCustomerAddress2" value="{{customer.customerAddress1}}">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Zip Code :</label>
-                    <input type="input" class="form-control" id="editCustomerZipCode">
+                    <input type="input" class="form-control" id="editCustomerZipCode" value="{{customer.customerZipCode}}">
                 </div>
 
                 <div class="btnUpdateQuoteSet mt-4 mb-3" style="display: flex; justify-content: space-between; justify-content: right;">
@@ -80,10 +81,12 @@
             </div>
         </div>
     </div>
+    </form>
 </div>
 
 {% endblock content %}
 
 {% block scripts %}
+
 
 {% endblock scripts %}

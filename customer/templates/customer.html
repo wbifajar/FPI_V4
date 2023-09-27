@@ -29,7 +29,7 @@
           <div class="card-body">
             <div style="display: flex; width: 100%;">
                 <div style="flex-basis: 80%; margin-bottom: 2%;">
-                  <a href="{% url 'AddNewCustomer' %}"><button type="button" class="btn btn-secondary" style="font-size: 14px;">Add New Customer</button></a>
+                  <a onclick="location.href='/customer/insert'"><button type="button" class="btn btn-secondary" style="font-size: 14px;">Add New Customer</button></a>
                 </div>
               </div>
 
@@ -45,30 +45,42 @@
                 </tr>
               </thead>
               <tbody>
+                {% for c in customer %}
                 <tr>
-                 <td>1</td>
-                 <td>123</td>
-                 <td>PT. MIKUNI</td>
-                 <td>123-123132</td>
+                 <td>{{forloop.counter}}</td>
+                 <td>{{c.idCustomer}}</td>
+                 <td>{{c.customerName}}</td>
+                 <td>{{c.customerAddress}}</td>
                  <td>Aktif</td> 
-                 <td>
-                    <a href="EditCustomer/" class="icon">
-                        <i data-feather="edit-2"></i>
-                    </a>
-                    <a href="#" class="icon">
-                        <i data-feather="eye"></i>
-                    </a>
-                    <a href="#" class="icon">
-                        <i data-feather="trash-2"></i>
-                    </a>
-                 </td> 
+                 <td> 
+                  <button class="btn btn-primary" ><a class="text-white text-decoration-none" href="/customer/EditCustomer/{{ c.idCustomer }}">Edit</a></button>
+                  <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete-confirmation-modal" data-customer="{{ customer }}" data-customer-id="{{ c.idCustomer }}">Delete</button>
+                </td>
                 </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
         </form>
 
     </div>
+    <div class="modal fade" tabindex="-1" id="delete-confirmation-modal">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header justify-content-center">
+                  <h3 class="modal-title">DELETE CUSTOMER</h3>
+                  
+              </div>
+              <div class="modal-body fs-4">
+                  <h5 class="mb-3">Are you sure want to delete this customer?</h5>
+              </div>  
+              <div class="modal-footer justify-content-center">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-danger" id="confirm-delete" >Delete</button>
+              </div>
+          </div>
+      </div>
+  </div>
   </div>
 
 {% endblock content %}
@@ -84,4 +96,34 @@
     } );
 </script>
 
+<script>
+  const modal1 = document.getElementById('delete-confirmation-modal');
+
+  modal1.addEventListener('show.bs.modal', event => {
+      // Button that triggered the modal
+      const button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      
+      //data received as a string 
+      //ex :
+      //"{'customer_ID': 1, 'customer_NAME': 'John'}"
+      var customer_detail = button.getAttribute('data-customer')
+      var customer_id = button.getAttribute('data-customer-id')
+
+      //remove the open and close curly bracket and get the data using split by comma
+      customer_detail = customer_detail.replace("{", "")
+      customer_detail = customer_detail.replace("}", "")
+      text = customer_detail.split(',')
+      
+      //loop data and append it to modal body
+      text.forEach(function(val, i) {
+          //remove the single quote and add space for readability
+          val = val.replace(/'+/g, "")
+          val = val.replace(':', " : ")
+          $(".modal-body").append( "<p class='fs-6'>" + val +"</p>" );
+      });
+      $('#confirm-delete').attr('onclick', `location.href='/customer/DeleteCustomer/${customer_id}'` )
+  }); 
+
+</script>
 {% endblock scripts %}
