@@ -1,0 +1,12 @@
+.card {
+    font-size: 14px;
+}
+
+.container{
+    overflow: auto;
+    max-height: 100vh;
+}
+
+select{
+    margin-left: 1%;
+}
