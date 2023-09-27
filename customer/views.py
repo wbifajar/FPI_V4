@@ -24,7 +24,7 @@ def insert(request):
   return render(request, 'customer_insert.html')
 
 def store(request):
-  CustomerStatus = request.POST.get('customerStatus', False)
+  CustomerStatus = request.POST.get('customerStatus')
   CustomerName = request.POST.get('customerName', False)
   CustomerTaxID = request.POST.get('customerTaxID', False)
   CustomerPIC = request.POST.get('customerPIC', False)
@@ -33,6 +33,7 @@ def store(request):
   CustomerAddress1 = request.POST.get('customerAddress', False)
   CustomerAddress2 = request.POST.get('customerAddress1', False)
   CustomerZipCode = request.POST.get('customerZipCode', False)
+  print(CustomerStatus)
 
   query = f'INSERT INTO customer VALUES(null, "{CustomerStatus}", "{CustomerName}", "{CustomerTaxID}", "{CustomerPIC}", "{CustomerTlp1}", "{CustomerTlp2}", "{CustomerAddress1}", "{CustomerAddress2}", "{CustomerZipCode}")'
 
@@ -68,13 +69,13 @@ def update(request, idCustomer):
       SET \
       customerStatus = "{CustomerStatus}", \
       customerName = "{CustomerName}", \
-      customerTaxID = "{CustomerTaxID}" \
+      customerTaxID = "{CustomerTaxID}", \
       customerPIC = "{CustomerPIC}", \
       customerTlp = "{CustomerTlp1}", \
-      customerTlp1 = "{CustomerTlp2}" \
+      customerTlp1 = "{CustomerTlp2}", \
       customerAddress = "{CustomerAddress1}", \
       customerAddress1 = "{CustomerAddress2}", \
-      customerZipCode = "{CustomerZipCode}" \
+      customerZipCode = "{CustomerZipCode}"\
       WHERE idCustomer = "{idCustomer}"'
   
   print(query)
