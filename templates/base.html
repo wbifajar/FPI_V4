@@ -149,6 +149,28 @@
             </div>
           </li>
 
+          <!-- others -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <a onclick="location.href='/other'" class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="others" name="others" value="Others" readonly ><br>
+                </a>
+              </div>
+              <div>
+                <button class="pin" name="button" type="submit" value="others-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="others-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New</a></li>
+                <li><a href="#" class="link-light rounded">Processed</a></li>
+                <li><a href="#" class="link-light rounded">Shipped</a></li>
+                <li><a href="#" class="link-light rounded">Returned</a></li>
+              </ul> -->
+            </div>
+          </li>
+
           <!-- inorder -->
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
