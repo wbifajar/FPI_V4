@@ -62,7 +62,6 @@
             </table>
   
           </div>
-        </form>
     </div>
 
     <div class="modal fade" tabindex="-1" id="delete-confirmation-modal">
@@ -115,6 +114,13 @@
         });
         $('#confirm-delete').attr('onclick', `location.href='/other/delete/${other_id}'` )
     }); 
+
+    modal1.addEventListener('hidden.bs.modal', event => {
+      // This event is triggered when the modal is closed
+
+      // Reload (refresh) the page
+      location.reload();
+  });
 
 </script>
 
