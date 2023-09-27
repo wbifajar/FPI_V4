@@ -3,10 +3,10 @@ from . import views
 
 app_name = "customer"
 urlpatterns = [
-    path('', views.Customer, name='Customer'),
+    path('', views.index, name='index'),
     path('insert', views.insert, name='insert'),
-    path("AddNewCustomer", views.AddNewCustomer, name="AddNewCustomer"),
-    path("EditCustomer/<int:idCustomer>", views.EditCustomer, name="EditCustomer"),
-    path("UpdateCustomer/<int:idCustomer>", views.UpdateCustomer, name="UpdateCustomer"),
-    path("DeleteCustomer/<int:idCustomer>", views.DeleteCustomer, name="DeleteCustomer"),
+    path("store", views.store, name="store"),
+    path("edit/<int:idCustomer>", views.edit, name="edit"),
+    path("update/<int:idCustomer>", views.update, name="update"),
+    path("delete/<int:idCustomer>", views.delete, name="delete"),
 ] 

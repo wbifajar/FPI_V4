@@ -20,14 +20,14 @@
     <div class="card ">
         <div style="width: 97%; margin: auto;">
             
-            <form action="/customer/AddNewCustomer" method="POST">
+            <form action="/customer/store" method="POST">
                 {% csrf_token %}
                 <div class="card-body">
                     <h5 class="card-title text-center">ADD CUSTOMER</h5>
                     <hr>
                     
                     <div class="mb-3">
-                        <label class="form-label" name="addCustomerStatus" id="addCustomerStatus">Status :</label>
+                        <label class="form-label" name="customerStatus" id="customerStatus">Status :</label>
                         <select>
                             <option value="0">Select status:</option>
                             <option value="1">Aktif</option>
@@ -37,47 +37,47 @@
 
                     <!-- <div class="mb-3">
                         <label class="form-label">Code :</label>
-                        <input type="input" class="form-control" id="addCustomerCode" name="addCustomerCode">
+                        <input type="input" class="form-control" id="CustomerCode" name="CustomerCode">
                     </div> -->
 
                     <div class="mb-3">
                         <label class="form-label">Name :</label>
-                        <input type="input" class="form-control" id="addCustomerName" name="addCustomerName">
+                        <input type="input" class="form-control" id="customerName" name="customerName">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Tax ID :</label>
-                        <input type="input" class="form-control" id="addCustomerTaxID" name="addCustomerTaxID">
+                        <input type="input" class="form-control" id="customerTaxID" name="customerTaxID">
                     </div>
                     
                     <div class="mb-3">
                         <label class="form-label">PIC :</label>
-                        <input type="input" class="form-control" id="addCustomerPIC" name="addCustomerPIC">
+                        <input type="input" class="form-control" id="customerPIC" name="customerPIC">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">No. Tlp 1 :</label>
-                        <input type="input" class="form-control" id="addCustomerTlp1" name="addCustomerTlp1">
+                        <input type="input" class="form-control" id="customerTlp" name="customerTlp">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">No. Tlp 2 :</label>
-                        <input type="input" class="form-control" id="addCustomerTlp2" name="addCustomerTlp2">
+                        <input type="input" class="form-control" id="customerTlp1" name="customerTlp1">
                     </div>
                     
                     <div class="mb-3">
                         <label class="form-label">Address 1 :</label>
-                        <input type="input" class="form-control" id="addCustomerAddress1" name="addCustomerAddress1">
+                        <input type="input" class="form-control" id="customerAddress" name="customerAddress">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Address 2 :</label>
-                        <input type="input" class="form-control" id="addCustomerAddress2" name="addCustomerAddress2">
+                        <input type="input" class="form-control" id="customerAddress1" name="customerAddress1">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Zip Code :</label>
-                        <input type="input" class="form-control" id="addCustomerZipCode" name="addCustomerZipCode">
+                        <input type="input" class="form-control" id="customerZipCode" name="customerZipCode">
                     </div>
 
                     <div class="btnUpdateQuoteSet mt-4 mb-3" style="display: flex; justify-content: space-between; justify-content: right;">

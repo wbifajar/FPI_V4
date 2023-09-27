@@ -4,40 +4,43 @@ from django.http import HttpResponse
 from django.db import connection
 from .databaseConnect import *
 
-def Customer(request):
-  connection = connect()
-  cursor = connection.cursor(dictionary=True)
+def index(request):
 
-  query = 'select * from customer'
-  cursor.execute( query )
-  customer = cursor.fetchall()
+    connection = connect()
+    cursor = connection.cursor(dictionary=True)
 
-  context = {
-      'customer' : customer, 
-  }
-  return render(request, 'customer.html', context)
+    query = 'SELECT * FROM CUSTOMER'
+    cursor.execute( query )
+    res = cursor.fetchall()
+
+    context = {
+        'customer' : res, 
+    }
+
+    return render(request, 'customer_index.html', context)
+    return HttpResponse(res)
 
 def insert(request):
-  return render(request, 'addcustomer.html')
+  return render(request, 'customer_insert.html')
 
-def AddNewCustomer(request):
-  addCustomerStatus = request.POST.get('addCustomerStatus', False)
-  addCustomerName = request.POST.get('addCustomerName', False)
-  addCustomerTaxID = request.POST.get('addCustomerTaxID', False)
-  addCustomerPIC = request.POST.get('addCustomerPIC', False)
-  addCustomerTlp1 = request.POST.get('addCustomerTlp1', False)
-  addCustomerTlp2 = request.POST.get('addCustomerTlp2', False)
-  addCustomerAddress1 = request.POST.get('addCustomerAddress1', False)
-  addCustomerAddress2 = request.POST.get('addCustomerAddress2', False)
-  addCustomerZipCode = request.POST.get('addCustomerZipCode', False)
+def store(request):
+  CustomerStatus = request.POST.get('customerStatus', False)
+  CustomerName = request.POST.get('customerName', False)
+  CustomerTaxID = request.POST.get('customerTaxID', False)
+  CustomerPIC = request.POST.get('customerPIC', False)
+  CustomerTlp1 = request.POST.get('customerTlp', False)
+  CustomerTlp2 = request.POST.get('customerTlp1', False)
+  CustomerAddress1 = request.POST.get('customerAddress', False)
+  CustomerAddress2 = request.POST.get('customerAddress1', False)
+  CustomerZipCode = request.POST.get('customerZipCode', False)
 
-  query = f'INSERT INTO customer VALUES(null, "{addCustomerStatus}", "{addCustomerName}", "{addCustomerTaxID}", "{addCustomerPIC}", "{addCustomerTlp1}", "{addCustomerTlp2}", "{addCustomerAddress1}", "{addCustomerAddress2}", "{addCustomerZipCode}")'
+  query = f'INSERT INTO customer VALUES(null, "{CustomerStatus}", "{CustomerName}", "{CustomerTaxID}", "{CustomerPIC}", "{CustomerTlp1}", "{CustomerTlp2}", "{CustomerAddress1}", "{CustomerAddress2}", "{CustomerZipCode}")'
 
   with connection.cursor() as cursor:
     cursor.execute(query)
   return redirect('/customer')
 
-def EditCustomer(request, idCustomer):
+def edit(request, idCustomer):
   connection = connect()
   cursor = connection.cursor(dictionary=True)
   query = 'SELECT * FROM customer WHERE idCustomer = ' + str(idCustomer)
@@ -49,29 +52,29 @@ def EditCustomer(request, idCustomer):
     'customer' : customer[0], 
   }
 
-  return render(request, 'editcustomer.html', context)
+  return render(request, 'customer_edit.html', context)
 
-def UpdateCustomer(request, idCustomer):
-  addCustomerStatus = request.POST.get('addCustomerStatus', False)
-  addCustomerName = request.POST.get('addCustomerName', False)
-  addCustomerTaxID = request.POST.get('addCustomerTaxID', False)
-  addCustomerPIC = request.POST.get('addCustomerPIC', False)
-  addCustomerTlp1 = request.POST.get('addCustomerTlp1', False)
-  addCustomerTlp2 = request.POST.get('addCustomerTlp2', False)
-  addCustomerAddress1 = request.POST.get('addCustomerAddress1', False)
-  addCustomerAddress2 = request.POST.get('addCustomerAddress2', False)
-  addCustomerZipCode = request.POST.get('addCustomerZipCode', False)
+def update(request, idCustomer):
+  CustomerStatus = request.POST.get('customerStatus', False)
+  CustomerName = request.POST.get('customerName', False)
+  CustomerTaxID = request.POST.get('customerTaxID', False)
+  CustomerPIC = request.POST.get('customerPIC', False)
+  CustomerTlp1 = request.POST.get('customerTlp', False)
+  CustomerTlp2 = request.POST.get('customerTlp1', False)
+  CustomerAddress1 = request.POST.get('customerAddress', False)
+  CustomerAddress2 = request.POST.get('customerAddress1', False)
+  CustomerZipCode = request.POST.get('customerZipCode', False)
   query = f'UPDATE customer \
       SET \
-      addCustomerStatus = "{addCustomerStatus}", \
-      addCustomerName = "{addCustomerName}", \
-      addCustomerTaxID = "{addCustomerTaxID}" \
-      addCustomerPIC = "{addCustomerPIC}", \
-      addCustomerTlp1 = "{addCustomerTlp1}", \
-      addCustomerTlp2 = "{addCustomerTlp2}" \
-      addCustomerAddress1 = "{addCustomerAddress1}", \
-      addCustomerAddress2 = "{addCustomerAddress2}", \
-      addCustomerZipCode = "{addCustomerZipCode}" \
+      customerStatus = "{CustomerStatus}", \
+      customerName = "{CustomerName}", \
+      customerTaxID = "{CustomerTaxID}" \
+      customerPIC = "{CustomerPIC}", \
+      customerTlp = "{CustomerTlp1}", \
+      customerTlp1 = "{CustomerTlp2}" \
+      customerAddress = "{CustomerAddress1}", \
+      customerAddress1 = "{CustomerAddress2}", \
+      customerZipCode = "{CustomerZipCode}" \
       WHERE idCustomer = "{idCustomer}"'
   
   print(query)
@@ -80,7 +83,7 @@ def UpdateCustomer(request, idCustomer):
       cursor.execute(query)
   return redirect('/customer')
 
-def DeleteCustomer(request, idCustomer):
+def delete(request, idCustomer):
     query = f'DELETE FROM customer WHERE idCustomer = {idCustomer}'
     with connection.cursor() as cursor:
         cursor.execute(query)
