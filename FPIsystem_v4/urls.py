@@ -28,8 +28,6 @@ urlpatterns = [
     path('employee/', include('employee.urls', namespace="employee")),
     path('customer/', include('customer.urls')),
     path('part/', include('part.urls')),
+    path('other/', include('other.urls')),
 
-    path('signin/',views.signin, name='signin'),
-    path('signout/',views.signout, name='signout'),
-    path('signup/', include('base.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

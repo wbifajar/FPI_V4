@@ -9,7 +9,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <!-- Custom CSS -->
-<link rel="stylesheet" href="/static/css/part/addpart.css">
+<link rel="stylesheet" href="/static/css/part/editother.css">
 
 <style>
     div.card {
@@ -21,34 +21,23 @@
         font-size: 15px;
     }
 </style>
+
 {% endblock head %}
 
 
 {% block content %}
 <div class="container mt-3">
    
-    <form class="w-50 mx-auto mt-5" action="/part/store" method="POST">
+    <form class="w-50 mx-auto mt-5" action="{% url 'other:update' other.OtherId %}" method="POST">
         {% csrf_token %}
         <div class="mb-3">
             <label for="name" class="form-label fs-6">Name</label>
-            <input type="text" class="form-control" id="name" name="name" >
+            <input type="text" class="form-control" id="name" name="name" value="{{ other.Name }}">
         </div>
-
-        <div class="mb-3">
-            <label for="spesificGravity" class="form-label fs-6">Specific Gravity</label>
-            <input type="text" class="form-control" id="spesificGravity" name="spesificGravity">
-        </div>
-
-        <div class="mb-3">
-            <label for="price" class="form-label fs-6">Price</label>
-            <input type="text" class="form-control" id="price" name="price">
-        </div>
-       
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
 
 </div>
-
 
 {% endblock content %}
