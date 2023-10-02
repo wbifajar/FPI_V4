@@ -37,10 +37,20 @@ def edit(request, process_id):
     return render(request, 'process_edit.html', context)
 
 def update(request, process_id):
-    connection = connect()
-    cursor = connection.cursor(dictionary=True)
 
-    SettingCost = request.POST.get('')
+    ProcessName = request.POST.get('name')
+    SettingCost = request.POST.get('setting_cost')
+    ProcessCost = request.POST.get('process_cost')
+    DefaultSetTime = request.POST.get('default_set_time')
+    DefaultOpeTime = request.POST.get('default_ope_time')
 
     query = f'UPDATE PROCESS SET \
-                SettingCost = null, {1})'
+                SettingCost = "{SettingCost}", \
+                ProcessCost = "{ProcessCost}", \
+                DefaultSetTime = "{DefaultSetTime}", \
+                DefaultOpeTime = "{DefaultOpeTime}" \
+                WHERE ProcessId = {process_id} '
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+    return redirect('/process')

@@ -362,7 +362,7 @@
                             <input type="input" list="process" id="processName" placeholder="Search ..." class="inputSearch">
                             <datalist id="process">
                                 {% for p in process %}
-                                    <option value="{{p.Name}}" />
+                                    <option value="{{p.Name}}">
                                 {% endfor %}
                             </datalist>
                             <button type="button" onclick="addProcess()" class="btn btn-secondary btnsearch">Add</button>
@@ -1445,14 +1445,14 @@
 
 <!-- datatable & customer function -->
 <script>
-  $(document).ready(function () {
+    $(document).ready(function () {
         $('#CustomersTable').DataTable({
             "paging": true,
             "searching": true,
             "autoWidth": true,
             "ordering": true,
+        });
     });
-  });
   
     function getCustomer(value) {
         var elements = value.split('_');

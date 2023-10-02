@@ -30,7 +30,7 @@
    
     <form 
     class="w-50 mx-auto mt-5" 
-    action="/" method="POST">
+    action="{% url 'process:update' process.ProcessId %}" method="POST">
         {% csrf_token %}
         <div class="mb-3">
             <label for="name" class="form-label fs-6">Name</label>

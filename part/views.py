@@ -61,9 +61,6 @@ def update(request, idPart):
         name = "{PartName}", \
         spesificGravity = "{SpecificGravity}", \
         price = "{PartPrice}" \
-        name = "{PartName}", \
-        spesificGravity = "{SpecificGravity}", \
-        price = "{PartPrice}" \
         WHERE idPart = "{idPart}"'
     print(query)
 

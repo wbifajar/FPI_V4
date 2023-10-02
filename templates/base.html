@@ -171,6 +171,50 @@
             </div>
           </li>
 
+          <!-- employee -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <a onclick="location.href='/employee'" class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="employee" name="employee" value="Employee" readonly ><br>
+                </a>
+              </div>
+              <div>
+                <button class="pin" name="button" type="submit" value="employee-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="employee-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New</a></li>
+                <li><a href="#" class="link-light rounded">Processed</a></li>
+                <li><a href="#" class="link-light rounded">Shipped</a></li>
+                <li><a href="#" class="link-light rounded">Returned</a></li>
+              </ul> -->
+            </div>
+          </li>
+
+          <!-- process -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <a onclick="location.href='/process'" class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="process" name="process" value="Process" readonly ><br>
+                </a>
+              </div>
+              <div>
+                <button class="pin" name="button" type="submit" value="process-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse" id="process-collapse" >
+              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-light rounded">New</a></li>
+                <li><a href="#" class="link-light rounded">Processed</a></li>
+                <li><a href="#" class="link-light rounded">Shipped</a></li>
+                <li><a href="#" class="link-light rounded">Returned</a></li>
+              </ul> -->
+            </div>
+          </li>
+
           <!-- inorder -->
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">

@@ -311,7 +311,7 @@ function calculateBySetTime(index) {
 
 function savePrevValue(i) {
 //   console.log("Saving value " + $("#opeSum-1").val());
-  $("#opeSum-"+i).data("val", $("#opeSum-"+i).val());
+	$("#opeSum-"+i).data("val", $("#opeSum-"+i).val());
 }
 
 function getTotalOpeSumFromSetTimeAndOpeTime(index) {
