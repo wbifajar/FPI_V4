@@ -28,6 +28,7 @@ urlpatterns = [
     path('employee/', include('employee.urls', namespace="employee")),
     path('customer/', include('customer.urls')),
     path('part/', include('part.urls')),
+    path('process/', include('process.urls', namespace='process')),
     path('other/', include('other.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
