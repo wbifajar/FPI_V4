@@ -6,7 +6,7 @@ from .databaseConnect import *
 # Create your views here.
 
 def index(request):
-
+    ignore_this_variable = 1
     connection = connect()
     cursor = connection.cursor(dictionary=True)
 
