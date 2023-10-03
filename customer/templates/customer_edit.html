@@ -17,7 +17,7 @@
 {% block content %} 
 
 <div class="container mt-3 mb-3">
-    <form action="{% url 'customer:UpdateCustomer' customer.idCustomer %}" method="POST">
+    <form action="{% url 'customer:update' customer.idCustomer %}" method="POST">
         {% csrf_token %}
         <div class="card ">
         <div style="width: 97%; margin: auto;">
@@ -47,7 +47,7 @@
                 
                 <div class="mb-3">
                     <label class="form-label">PIC :</label>
-                    <input type="input" class="form-control" id="editCustomerPIC" value="customer.customerPIC">
+                    <input type="input" class="form-control" id="editCustomerPIC" value="{{customer.customerPIC}}">
                 </div>
 
                 <div class="mb-3">
