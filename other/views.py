@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.template import loader
+from django.shortcuts import redirect
 
 from django.db import connection
 from .databaseConnect import *
+
 # Create your views here.
 
 def index(request):
@@ -17,9 +20,11 @@ def index(request):
     context = {
         'other' : res, 
     }
+    # template = loader.get_template('other_index.html')
+
+    # return HttpResponse(template.render(context, request))
 
     return render(request, 'other_index.html', context)
-    return HttpResponse(res)
 
 def insert(request):
     return render(request, 'other_insert.html')

@@ -18,7 +18,7 @@ def index(request):
         'employees' : res, 
     }
 
-    return render(request, 'index.html', context)
+    return render(request, 'employee_index.html', context)
     return HttpResponse(res)
 
 def insert(request):
@@ -49,7 +49,7 @@ def edit(request, employee_id):
         'employee' : res[0], 
     }
 
-    return render(request, 'edit.html', context)
+    return render(request, 'employee_edit.html', context)
 
 def update(request, employee_id):
     EmployeeName = request.POST.get('name', False)

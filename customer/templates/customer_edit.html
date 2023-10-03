@@ -25,58 +25,63 @@
                 <h5 class="card-title text-center">EDIT CUSTOMER</h5>
                 <hr>
                 
-                <div class="mb-3" style="display: flex; justify-content: left;">
-                    <label class="form-label">Status : </label>
-                    <input type="input" class="form-control" id="editCustomerStatus" value="{{customer.customerStatus}}">
+                <div class="mb-3">
+                    <label class="form-label" for="customerStatus">Status :</label>
+                    <select name="customerStatus" id="customerStatus">
+                        <option value="0">Select status:</option>
+                        <option value="Active" {% if customer.customerStatus == "Active" %}selected{% endif %}>Active</option>
+                        <option value="Non-Active" {% if customer.customerStatus == "Non-Active" %}selected{% endif %}>Non-Active</option>
+                    </select>
                 </div>
                 
-                <div class="mb-3">
+                
+                <div class="mb-3" style="display: flex; justify-content: left;">
                     <label class="form-label">Code :</label>
-                    <input type="input" class="form-control" id="editCustomerCode" value="{{customer.idCustomer}}">
+                    <input type="input" class="form-control" style="border: none; width: 50%;  margin-top: -8px;" id="editCustomerCode" value="{{customer.idCustomer}}">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Name :</label>
-                    <input type="input" class="form-control" id="editCustomerName" value="{{customer.customerName}}">
+                    <input type="input" class="form-control" id="editCustomerName" name="customerName" value="{{customer.customerName}}" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Tax ID :</label>
-                    <input type="input" class="form-control" id="editCustomerTaxID" value="{{customer.customerTaxID}}">
+                    <input type="input" class="form-control" id="editCustomerTaxID" name="customerTaxID" value="{{customer.customerTaxID}}" required>
                 </div>
                 
                 <div class="mb-3">
                     <label class="form-label">PIC :</label>
-                    <input type="input" class="form-control" id="editCustomerPIC" value="{{customer.customerPIC}}">
+                    <input type="input" class="form-control" id="editCustomerPIC" name="customerPIC" value="{{customer.customerPIC}}" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">No. Tlp 1 :</label>
-                    <input type="input" class="form-control" id="editCustomerTlp1" value="{{customer.customerTlp}}">
+                    <input type="input" class="form-control" id="editCustomerTlp1" name="customerTlp" value="{{customer.customerTlp}}" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">No. Tlp 2 :</label>
-                    <input type="input" class="form-control" id="editCustomerTlp2" value="{{customer.customerTlp1}}">
+                    <input type="input" class="form-control" id="editCustomerTlp2" name="customerTlp1" value="{{customer.customerTlp1}}">
                 </div>
                 
                 <div class="mb-3">
                     <label class="form-label">Address 1 :</label>
-                    <input type="input" class="form-control" id="editCustomerAddress1" value="{{customer.customerAddress}}">
+                    <input type="input" class="form-control" id="editCustomerAddress1" name="customerAddress" value="{{customer.customerAddress}}" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Address 2 :</label>
-                    <input type="input" class="form-control" id="editCustomerAddress2" value="{{customer.customerAddress1}}">
+                    <input type="input" class="form-control" id="editCustomerAddress2" name="customerAddress1" value="{{customer.customerAddress1}}">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Zip Code :</label>
-                    <input type="input" class="form-control" id="editCustomerZipCode" value="{{customer.customerZipCode}}">
+                    <input type="input" class="form-control" id="editCustomerZipCode" name="customerZipCode" value="{{customer.customerZipCode}}" required>
                 </div>
 
                 <div class="btnUpdateQuoteSet mt-4 mb-3" style="display: flex; justify-content: space-between; justify-content: right;">
-                    <button type="submit" class="btn btn-secondary" style="font-size: 14px;">Edit Customer</button>
+                    <button type="submit" class="btn btn-secondary" style="font-size: 14px;">UPDATE</button>
                 </div> 
             </div>
         </div>
@@ -87,6 +92,22 @@
 {% endblock content %}
 
 {% block scripts %}
+<script>
+    // Dapatkan referensi elemen input berdasarkan ID
+    var editCustomerTlp2 = document.getElementById('editCustomerTlp2');
+    var editCustomerAddress2 = document.getElementById('editCustomerAddress2');
+    
+    // Periksa apakah nilai input adalah "none" saat halaman dimuat
+    if (editCustomerAddress2.value === 'None') {
+        // Setel nilai input menjadi kosong
+        editCustomerAddress2.value = '';
+    }
+
+    if (editCustomerTlp2.value === 'None') {
+        // Setel nilai input menjadi kosong
+        editCustomerTlp2.value = '';
+    }
+</script>
 
 
 {% endblock scripts %}

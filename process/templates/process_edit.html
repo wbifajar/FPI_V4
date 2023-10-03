@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/static/css/part/editpart.css">
+
+<style>
+    div.card {
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    td, tr{
+        font-size: 15px;
+    }
+</style>
+
+{% endblock head %}
+
+
+{% block content %}
+<div class="container mt-3">
+   
+    <form 
+    class="w-50 mx-auto mt-5" 
+    action="{% url 'process:update' process.ProcessId %}" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label fs-6">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ process.Name }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="setting-cost" class="form-label fs-6">Setting Cost</label>
+            <input type="text" class="form-control" id="setting-cost" name="setting_cost" value="{{ process.SettingCost }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="process-cost" class="form-label fs-6">Process Cost</label>
+            <input type="text" class="form-control" id="process-cost" name="process_cost" value="{{ process.ProcessCost }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="default-set-time" class="form-label fs-6">Default Setting Cost</label>
+            <input type="text" class="form-control" id="default-set-time" name="default_set_time" value="{{ process.DefaultSetTime }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="default-ope-time" class="form-label fs-6">Default Ope Cost</label>
+            <input type="text" class="form-control" id="default-ope-time" name="default_ope_time" value="{{ process.DefaultOpeTime }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+</div>
+
+{% endblock content %}

@@ -22,11 +22,13 @@ def index(request):
 
 def insert(request):
     return render(request, 'part_insert.html')
+    return render(request, 'part_insert.html')
 
 def store(request):
     PartName = request.POST.get('name', False)
     SpecificGravity = request.POST.get('spesificGravity', False)
     PartPrice = request.POST.get('price', False)
+    query = f'INSERT INTO PART VALUES(null, "{PartName}", "{SpecificGravity}", "{PartPrice}")'
     query = f'INSERT INTO PART VALUES(null, "{PartName}", "{SpecificGravity}", "{PartPrice}")'
 
     with connection.cursor() as cursor:
@@ -44,8 +46,10 @@ def edit(request, idPart):
 
     context = {
         'part' : res[0], 
+        'part' : res[0], 
     }
 
+    return render(request, 'part_edit.html', context)
     return render(request, 'part_edit.html', context)
 
 def update(request, idPart):
@@ -66,7 +70,9 @@ def update(request, idPart):
 
 def delete(request, idPart):
     query = f'DELETE FROM PART WHERE idPart = {idPart}'
+    query = f'DELETE FROM PART WHERE idPart = {idPart}'
     with connection.cursor() as cursor:
         cursor.execute(query)
 
+    return redirect('/part')
     return redirect('/part')

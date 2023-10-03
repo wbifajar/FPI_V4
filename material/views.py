@@ -47,7 +47,7 @@ def edit(request, material_id):
         'material' : res, 
     }
 
-    return render(request, 'edit.html', context)
+    return render(request, 'material_edit.html', context)
 
 def update(request, material_id):
     MaterialName = request.POST.get('name', False)
