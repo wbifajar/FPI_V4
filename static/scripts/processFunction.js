@@ -159,8 +159,8 @@ function addProcess() {
 	cell5.innerHTML = `<td><input type="text" class="operationInputMd" onfocus="savePrevValue(${index})" onchange="calculateByOpeSum(${index})" name='opeSum' id='opeSum-${index}' value='0'></td>`;
 	cell6.innerHTML = `<td><input type="text" class="inputS" name='operationPerOperationBudgetRatio' onchange="calculateByOperationPerOperationBudgetRatio(${index})" id='operationPerOperationBudgetRatio-${index}'> %</td>`;
 	cell7.innerHTML = `<td><input type="text" class="inputS" name='operationPerBudgetRatio' onchange="calculateByOperationPerBudgetRatio(${index})" id='operationPerBudgetRatio-${index}'> %</td>`;
-	cell8.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateBySetTime(${index})" class="operationInputMd" name='setTime' id='setTime-${index}'></td>`;
-	cell9.innerHTML = `<td><input type="text" value="00:00:00" onchange="calculateByOpeTime(${index})" class="operationInputMd" name='opeTime' id='opeTime-${index}'></td>`;
+	cell8.innerHTML = `<td><input type="text" value="${selectedProcess.DefaultSetTime}" onchange="calculateBySetTime(${index})" class="operationInputMd" name='setTime' id='setTime-${index}'></td>`;
+	cell9.innerHTML = `<td><input type="text" value="${selectedProcess.DefaultOpeTime}" onchange="calculateByOpeTime(${index})" class="operationInputMd" name='opeTime' id='opeTime-${index}'></td>`;
 	cell10.innerHTML = `<td><input type="text" value="00:00:00" class="operationInputMd" onchange="calculateByTotalOpeTime(${index})" name='totalOpeTime' id='totalOpeTime-${index}'></td>`;
 	cell11.innerHTML = `<td><input type="text" class="inputS" onchange="calculateByQuantityPerMin(${index})" name='quantityPerMinute' id='quantityPerMinute-${index}'></td>`;
 	cell12.innerHTML = `<td><button type="button" onclick="deleteProcess(${index})" class="trash"><i id="trash-icon"></i></button></td>`;
@@ -169,6 +169,8 @@ function addProcess() {
 	callFeatherIcon();
 	updateProcessLength(index);
 	$('#processName').val('');
+
+	totalOperations();
 	return false;
 }
 
