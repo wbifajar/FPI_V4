@@ -20,6 +20,29 @@ def index(request):
 
     return render(request, 'process_index.html', context)
 
+def insert(request):
+    return render(request, 'process_insert.html')
+
+def store(request):
+    
+    ProcessName = request.POST.get('name')
+    SettingCost = request.POST.get('setting_cost')
+    ProcessCost = request.POST.get('process_cost')
+    DefaultSetTime = request.POST.get('default_set_time')
+    DefaultOpeTime = request.POST.get('default_ope_time')
+
+    query = f"INSERT INTO PROCESS VALUES(\
+                null, \
+                '{ProcessName}', \
+                '{SettingCost}', \
+                '{ProcessCost}', \
+                '{DefaultSetTime}', \
+                '{DefaultOpeTime}')"
+    
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+    return redirect('/process')
+
 def edit(request, process_id):
 
     connection = connect()
@@ -50,6 +73,13 @@ def update(request, process_id):
                 DefaultSetTime = "{DefaultSetTime}", \
                 DefaultOpeTime = "{DefaultOpeTime}" \
                 WHERE ProcessId = {process_id} '
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+    return redirect('/process')
+
+def delete(request, process_id):
+    query = f"DELETE FROM PROCESS WHERE ProcessId = {process_id}"
 
     with connection.cursor() as cursor:
         cursor.execute(query)
