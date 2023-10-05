@@ -30,5 +30,6 @@ urlpatterns = [
     path('part/', include('part.urls')),
     path('process/', include('process.urls', namespace='process')),
     path('other/', include('other.urls', namespace='other')),
-
+    path('user/', include('user.urls')),
+    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

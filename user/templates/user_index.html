@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/static/css/user/user.css">
+
+<style>
+    div.card {
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    td, tr{
+        font-size: 15px;
+    }
+</style>
+{% endblock head %}
+
+
+{% block content %}
+
+<div class="container" style="font-size: 12px;">
+    <div class="card mt-3">
+        <div class="card-header" style="text-align: center;">
+            <b style="font-size: 16px;">User Table</b>
+        </div>
+          <div class="card-body">
+            <div style="display: flex; width: 100%;">
+                <div style="display:flex; justify-content: left; margin-bottom: 2%;">
+                    <button style="align-items:start;" onclick="location.href='/user/insert'" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i data-feather="plus"></i> Add user </button>
+                </div>
+              </div>
+            <table id="userTable" class="table table-striped table-bordered" style="width:100%;">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>User ID</th>
+                  <th>Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for perm in auth_user %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td name="pl" class="id">{{ perm.id }}</td>
+                  <td name="pl" class="username">{{ perm.username }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+  
+          </div>
+        </form>
+    </div>
+
+  </div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+
+<script>
+    $(document).ready(function () {
+        $('#userTable').DataTable({});
+    })
+</script>
+
+{% endblock scripts %}
