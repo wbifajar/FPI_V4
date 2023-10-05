@@ -34,7 +34,7 @@
           <div class="card-body">
             <div style="display: flex; width: 100%;">
                 <div style="display:flex; justify-content: left; margin-bottom: 2%;">
-                    <button style="align-items:start;" onclick="location.href='/part/insert'" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i data-feather="plus"></i> Add Part </button>
+                    <button style="align-items:start;" onclick="location.href='/process/insert'" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i data-feather="plus"></i> Add Process </button>
                 </div>
               </div>
             <table id="partTable" class="table table-striped table-bordered" style="width:100%;">
@@ -62,22 +62,12 @@
                   <td name="pl" class="partPrice">{{ pr.DefaultOpeTime }}</td>
                   <td> 
                     <button class="btn btn-primary" ><a class="text-white text-decoration-none" href="{% url 'process:edit' pr.ProcessId %}">Edit</a></button>
-                    <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete-confirmation-modal" data-part="{{ part }}" data-part-id="{{ part.idPart }}">Delete</button>
+                    <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete-confirmation-modal" data-part="{{ pr }}" data-part-id="{{ pr.ProcessId }}">Delete</button>
                   </td>
                 </tr>
                 {% endfor %}
               </tbody>
             </table>
-  
-            <input type="hidden" name="action" value="createPDF">
-            <input type="hidden" name="selected_quotation" value="{{ pdf_quotation.Quotation_ID }}">
-        
-            {% if edit_quotation %}
-            <input type="hidden" name="action" value="edit">
-            <input type="hidden" name="selected_quotation" value="{{ edit_quotation.Quotation_ID }}">
-            {% else %}
-            <input type="hidden" name="action" value="delete">
-            {% endif %}
           </div>
         </form>
     </div>
@@ -130,7 +120,7 @@
             val = val.replace(':', " : ")
             $(".modal-body").append( "<p class='fs-6'>" + val +"</p>" );
         });
-        $('#confirm-delete').attr('onclick', `location.href='/part/delete/${part_id}'` )
+        $('#confirm-delete').attr('onclick', `location.href='/process/delete/${part_id}'` )
     }); 
 
 </script>

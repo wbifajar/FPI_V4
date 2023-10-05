@@ -75,7 +75,7 @@
                                     Quantity
                                 </div>
                                 <div>
-                                    <input class="" type="text" id="quantity" name="Quantity" onchange="calculateTotalBudget()">
+                                    <input class="" type="text" id="quantity" name="Quantity" onchange="calculateTotalBudget()" >
                                 </div>
                             </div>
                     
@@ -228,7 +228,7 @@
                                         <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" >
                                             Material Cost
                                         </a>
-                                        <input type="text" class="inputMd " id="materialCost" name="MaterialCostNumber" value="{{ q.MaterialCostNumber|default:0 }}" onchange="calculateTotalMaterialCost()">
+                                        <input type="text" class="inputMd " id="materialCost" name="MaterialCostNumber" value="{{ q.MaterialCostNumber|default:3124 }}" onchange="calculateTotalMaterialCost()">
                                     </div>
                             
                                     <div class="col-sm-1">
@@ -273,7 +273,7 @@
                                 <div class="row mb-2">
                                     <div class="col">
                                         Outsource Cost
-                                        <input class="inputMd " type="text" id="outsourceCost" name="OutsourceCostNumber" onchange="calculateTotalOursourceCost()">
+                                        <input class="inputMd " type="text" id="outsourceCost" name="OutsourceCostNumber" onchange="calculateTotalOursourceCost()" value="2941">
                                         <!-- <input type="text" id="quantity"> -->
                                     </div>
                             
@@ -1579,3 +1579,13 @@
 
 
 {% endblock scripts %}
+
+
+add column customerStatus varchar(255) DEFAULT NULL,
+add column customerTaxID varchar(255) DEFAULT NULL,
+add column customerPIC varchar(255) DEFAULT NULL,
+add column customerTlp varchar(255) DEFAULT NULL,
+add column customerTlp1 varchar(255) DEFAULT NULL,
+add column customerAddress varchar(255) DEFAULT NULL,
+add column customerAddress1 varchar(255) DEFAULT NULL,
+add column customerZipCode varchar(255) DEFAULT NULL,
