@@ -7,10 +7,10 @@ def connect():
   try:
       connection = mysql.connector.connect(
           host= "127.0.0.1",
-          port= "3306",
+          port= '3306',
           user= "root",
-          password= "Secretid24",
-          database= "FPISYSTEM",
+          password= "admin123",
+          database= "fpisystem",
           auth_plugin='mysql_native_password')
       if connection.is_connected():
         return connection

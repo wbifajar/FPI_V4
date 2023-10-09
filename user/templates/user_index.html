@@ -32,25 +32,28 @@
             <b style="font-size: 16px;">User Table</b>
         </div>
           <div class="card-body">
-            <div style="display: flex; width: 100%;">
-                <div style="display:flex; justify-content: left; margin-bottom: 2%;">
+            <div style="display: flex; justify-content: space-between; width: 100%; ">
+                <div style="display:flex; margin-bottom: 2%;;">
                     <button style="align-items:start;" onclick="location.href='/user/insert'" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i data-feather="plus"></i> Add user </button>
+                </div>
+                <div style="display:flex; margin-bottom: 2%;">
+                    <button style="align-items:start;" onclick="location.href='/user/insert'" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> </i> Edit Permissions </button>
                 </div>
               </div>
             <table id="userTable" class="table table-striped table-bordered" style="width:100%;">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>User ID</th>
-                  <th>Name</th>
+                  <th>Username</th>
+                  <th>Date Created</th>
                 </tr>
               </thead>
               <tbody>
-                {% for perm in auth_user %}
+                {% for user in auth_user %}
                 <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td name="pl" class="id">{{ perm.id }}</td>
-                  <td name="pl" class="username">{{ perm.username }}</td>
+                  <td name="pl" class="id" style="text-align: left;">{{ user.id }}</td>
+                  <td name="pl" class="username" style="text-align: left;">{{ user.username }}</td>
+                  <td name="pl" class="date" style="text-align: left;">{{ user.date_joined }}</td>
                 </tr>
                 {% endfor %}
               </tbody>
