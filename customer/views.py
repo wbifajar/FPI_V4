@@ -18,7 +18,7 @@ def index(request):
     }
 
     return render(request, 'customer_index.html', context)
-    return HttpResponse(res)
+    # return HttpResponse(res)
 
 def insert(request):
   return render(request, 'customer_insert.html')

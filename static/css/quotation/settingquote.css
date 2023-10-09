@@ -1,5 +1,6 @@
 input{
     height: 17px;
+    text-align: center;
 }
 
 .card {
@@ -14,11 +15,13 @@ input{
 input[type="text"].noInput:focus{
     border: none;
     outline: none;
+    text-align: center;
 }
 
 input[type="text"].noInput:hover{
     border: none;
     cursor: default;
+    text-align: center;
 }
 
 .txtimg{
@@ -93,30 +96,6 @@ input[type="text"].noInput:hover{
     top: 85%;
 }
 
-.angka7 {
-    position: absolute;
-    width: 5.3%;
-    height: 9%;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    left: 18.2%;
-    top: 54.2%;
-}
-
-.angka8 {
-    position: absolute;
-    width: 5.3%;
-    height: 7%;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    left: 29.2%;
-    top: 59.2%;
-}
-
 
 /* style css preview margin scale */
 .angka5 {
@@ -177,28 +156,4 @@ input[type="text"].noInput:hover{
     align-items: center;
     left: 44%;
     top: 63.5%;
-}
-
-.angka12 {
-    position: absolute;
-    width: 5.4%;
-    height: 7%;
-     background-color: white;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-    left: 22.3%;
-    top: 28.5%;
-}
-
-.angka13 {
-    position: absolute;
-    width: 5.4%;
-    height: 7%;
-     background-color: white;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-    left: 48%;
-    top: 45.5%;
 }
