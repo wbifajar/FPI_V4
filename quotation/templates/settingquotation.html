@@ -15,6 +15,8 @@
 {% block content %} 
 
 <div class="container mt-3">
+<form action="/Quotation/QuotationSetting/edit" method="POST">   
+    {% csrf_token %}
     <!-- RATE -->
     <div class="card text-center">
         <div style="width: 97%; margin: auto;">
@@ -27,7 +29,7 @@
                             Material Rate
                         </div>
                         <div>
-                            <input type="text" id="materialRatePercentage" name="materialRatePercentage"> %
+                            <input type="text" id="materialRatePercentage" name="materialRatePercentage" value="{{set_quotation.set_material_rate}}"> %
                         </div>
                     </div>
                     
@@ -36,7 +38,7 @@
                             Out Source Rate
                         </div>
                         <div>
-                            <input type="text" id="outSourceRatePercentage" name="outSourceRatePercentage"> %
+                            <input type="text" id="outSourceRatePercentage" name="outSourceRatePercentage" value="{{set_quotation.set_out_source_rate}}"> %
                         </div>
                     </div>
                     
@@ -45,16 +47,48 @@
                             Management Cost Rate
                         </div>
                         <div>
-                            <input type="text" id="managementCostRatePercentage" name="managementCostRatePercentage"> %
+                            <input type="text" id="managementCostRatePercentage" name="managementCostRatePercentage" value="{{set_quotation.set_management_cost_rate}}"> %
                         </div>
                     </div>
                     
                     <div class="col">
                         <div>
-                            Expired Date Default
+                            <label class="form-label" for="expiredDateDefault">Expired Date Default</label>
                         </div>
-                        <div>
-                            <input type="date" id="expiredDateDefault" name="expiredDateDefault">
+                        <div>                            
+                            <select name="expiredDateDefault" id="expiredDateDefault">
+                                <option>{{set_quotation.set_expired_date}}</option>
+                                <option value="1 Day">1 Day</option>
+                                <option value="2 Days">2 Days</option>
+                                <option value="3 Days">3 Days</option>
+                                <option value="4 Days">4 Days</option>
+                                <option value="5 Days">5 Days</option>
+                                <option value="6 Days">6 Days</option>
+                                <option value="7 Days">7 Days</option>
+                                <option value="8 Days">8 Days</option>
+                                <option value="9 Days">9 Days</option>
+                                <option value="10 Days">10 Days</option>
+                                <option value="11 Days">11 Days</option>
+                                <option value="12 Days">12 Days</option>
+                                <option value="13 Days">13 Days</option>
+                                <option value="14 Days">14 Days</option>
+                                <option value="15 Days">15 Days</option>
+                                <option value="16 Days">16 Days</option>
+                                <option value="17 Days">17 Days</option>
+                                <option value="18 Days">18 Days</option>
+                                <option value="19 Days">19 Days</option>
+                                <option value="20 Days">20 Days</option>
+                                <option value="21 Days">21 Days</option>
+                                <option value="22 Days">22 Days</option>
+                                <option value="23 Days">23 Days</option>
+                                <option value="24 Days">24 Days</option>
+                                <option value="25 Days">25 Days</option>
+                                <option value="26 Days">26 Days</option>
+                                <option value="27 Days">27 Days</option>
+                                <option value="28 Days">28 Days</option>
+                                <option value="29 Days">29 Days</option>
+                                <option value="30 Days">30 Days</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -72,13 +106,13 @@
                 <div class="row mt-2 mb-3">
                     <div class="col">
                         <h6>
-                            From Part Scale
+                            From Number Of
                         </h6>
                     </div>
                     
                     <div class="col">
                         <h6>
-                            From Number Of
+                            From Part Scale
                         </h6>
                     </div>
                 </div>
@@ -90,7 +124,7 @@
                             Exposed
                         </div>
                         <div>
-                            <input type="text" id="exposedPartScaleRate" name="exposedPartScaleRate"> mm
+                            <input type="text" id="exposedNumOfRate" name="exposedNumOfRate" value="{{set_quotation.set_exposed_number_of}}"> mm
                         </div>
                     </div>
                     
@@ -99,7 +133,7 @@
                             Margin
                         </div>
                         <div>
-                            <input type="text" id="marginPartScaleRate" name="marginPartScaleRate"> mm
+                            <input type="text" id="marginNumOfRate" name="marginNumOfRate" value="{{set_quotation.set_margin_number_of}}"> mm
                         </div>
                     </div>
                     
@@ -108,7 +142,7 @@
                             Exposed
                         </div>
                         <div>
-                            <input type="text" id="exposedNumOfRate" name="exposedNumOfRate"> mm
+                            <input type="text" id="exposedPartScaleRate" name="exposedPartScaleRate" value="{{set_quotation.set_exposed_part_scale}}"> mm
                         </div>
                     </div>
                     
@@ -117,7 +151,7 @@
                             Margin
                         </div>
                         <div>
-                            <input type="text" id="marginNumOfRate" name="marginNumOfRate"> mm
+                            <input type="text" id="marginPartScaleRate" name="marginPartScaleRate" value="{{set_quotation.set_margin_part_scale}}"> mm
                         </div>
                     </div>
                 </div>
@@ -129,14 +163,12 @@
                             MARGIN (NUMBER OF)
                         </h6>
                         <div class="txtimg">
-                            <img style="width: 80%;" src="{% static 'images/boardmarginnumberof.png' %}">
-                            <input class="angka noInput" id="FromNumPreviewMargin1" value="0" readonly></input>
-                            <input class="angka1 noInput" id="FromNumPreviewHalfMargin1" value="0" readonly></input>
-                            <input class="angka2 noInput" id="FromNumPreviewHalfMargin2" value="0" readonly></input>
-                            <input class="angka3 noInput" id="FromNumPreviewMargin2" value="0" readonly></input>
-                            <input class="angka4 noInput" id="FromNumPreviewExposed" value="0" readonly></input>
-                            <input class="angka7 noInput" id="FromNumPreviewVerScale" value="0" readonly></input>
-                            <input class="angka8 noInput" id="FromNumPreviewHorScale" value="0" readonly></input>
+                            <img style="width: 80%;" src="{% static 'images/settingquotationpreviewmarginnumberof.png' %}">
+                            <input class="angka noInput" id="FromNumPreviewMargin1" value="{{set_quotation.set_margin_number_of}}" readonly></input>
+                            <input class="angka1 noInput" id="FromNumPreviewHalfMargin1" value="{{set_quotation.half_margin_number_of}}" readonly></input>
+                            <input class="angka2 noInput" id="FromNumPreviewHalfMargin2" value="{{set_quotation.half_margin_number_of}}" readonly></input>
+                            <input class="angka3 noInput" id="FromNumPreviewMargin2" value="{{set_quotation.set_margin_number_of}}" readonly></input>
+                            <input class="angka4 noInput" id="FromNumPreviewExposed" value="{{set_quotation.set_exposed_number_of}}" readonly></input>
                         </div>
                     </div>
                     <!-- board (margin scale of preview)-->
@@ -145,19 +177,17 @@
                             MARGIN (SCALE) 
                         </h6>
                         <div class="txtimg">
-                            <img style="width: 80%;" src="{% static 'images/boardmarginscale.png' %}">
-                            <input class="angka5 noInput" id="FromPartScalePreviewMargin" value="0" readonly></input>
-                            <input class="angka6 noInput" id="FromPartScalePreviewExposed" value="0" readonly></input>
-                            <input class="angka9 noInput" id="FromPartScalePreviewMargin1" value="0" readonly></input>
-                            <input class="angka10 noInput" id="FromPartScalePreviewHalfMargin" value="0" readonly></input>
-                            <input class="angka11 noInput" id="FromPartScalePreviewHalfMargin1" value="0" readonly></input>
-                            <input class="angka12 noInput" id="FromPartPreviewVerScale" value="0" readonly></input>
-                            <input class="angka13 noInput" id="FromPartPreviewHorScale" value="0" readonly></input>
+                            <img style="width: 80%;" src="{% static 'images/settingquotationpreviewmarginscale.png' %}">
+                            <input class="angka5 noInput" id="FromPartScalePreviewMargin" value="{{set_quotation.half_margin_part_scale}}" readonly></input>
+                            <input class="angka6 noInput" id="FromPartScalePreviewExposed" value="{{set_quotation.set_exposed_part_scale}}" readonly></input>
+                            <input class="angka9 noInput" id="FromPartScalePreviewMargin1" value="{{set_quotation.half_margin_part_scale}}" readonly></input>
+                            <input class="angka10 noInput" id="FromPartScalePreviewHalfMargin" value="{{set_quotation.half_margin_part_scale}}" readonly></input>
+                            <input class="angka11 noInput" id="FromPartScalePreviewHalfMargin1" value="{{set_quotation.half_margin_part_scale}}" readonly></input>
 
                         </div>
                     </div>
                     
-                </div>
+                </div>
             </div>
         </div>
     </div>
@@ -165,10 +195,12 @@
     <div class="btnUpdateQuoteSet mt-3 mb-3" style="display: flex; justify-content: space-between; justify-content: right;">
         <button type="submit" class="btn btn-secondary" style="font-size: 14px;">Set Default</button>
     </div> 
+</form> 
 </div>
 
 {% endblock content %}
 
 {% block scripts %}
+
 
 {% endblock scripts %}

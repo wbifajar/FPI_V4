@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 
 from .pages.quotation import *
 from .pages.newQuotation import *
+from .pages.quotationSetting import *
 
 from django.db import connection
 
@@ -15,6 +16,8 @@ Quotation
 
 CreateNewQuotation
 
+QuotationSetting
+
 def PDFQuotation(request):
   return render(request, 'pdfquotation.html')
 
@@ -22,8 +25,6 @@ def PDFQuotation(request):
 def QuotationMaterial(request):
   return render(request, 'quotationmaterial.html')
 
-def QuotationSetting(request):
-  return render(request, 'settingquotation.html')
 
 def SubmitTest(request):
   connection = connect()

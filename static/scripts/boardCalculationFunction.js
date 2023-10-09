@@ -37,6 +37,11 @@ function disableButtonBoard(buttonId) {
 }
 
 function calculateFromNum(){
+    var setQuotationData = JSON.parse('{{ set_quotationjs|escapejs }}');
+    var sq = setQuotationData[0];
+    var exposedFromNumberOf = sq.set_exposed_number_of;
+    var marginFromNumberOf = sq.set_margin_number_of;
+
     var fromnum_verscale = document.getElementById("VerticalScaleFromNumber").value
     fromnum_verscale = fromnum_verscale == '' ? 0 : parseFloat(fromnum_verscale)
     var fromnum_horscale = $("#HorizontalScaleFromNumber").val()
@@ -52,9 +57,9 @@ function calculateFromNum(){
     thickness = thickness == '' ? 0 : parseFloat(thickness)
 
     var fromnum_exposed = document.getElementById("ExposedFromNumber").value
-    fromnum_exposed = fromnum_exposed == '' ? 0 : parseFloat(fromnum_exposed)
+    fromnum_exposed = fromnum_exposed == '' ? exposedFromNumberOf : parseFloat(fromnum_exposed)
     var fromnum_margin = document.getElementById("MarginFromNumber").value
-    fromnum_margin = fromnum_margin == '' ? 0 : parseFloat(fromnum_margin)
+    fromnum_margin = fromnum_margin == '' ? marginFromNumberOf : parseFloat(fromnum_margin)
 
     var fromnum_price = document.getElementById("PriceFromNumber").value
     fromnum_price = fromnum_price == '' ? 0 : parseFloat(fromnum_price)
@@ -111,6 +116,11 @@ function calculateFromNum(){
 }
 
 function calculateFromPartScale(){
+    var setQuotationData = JSON.parse('{{ set_quotationjs|escapejs }}');
+    var sq = setQuotationData[0];
+    var exposedFromPartScale = sq.set_exposed_part_scale;
+    var marginFromPartScale = sq.set_margin_part_scale;
+
     var fromnum_verscale = document.getElementById("VerticalScaleFromNumber").value
     fromnum_verscale = fromnum_verscale == '' ? 0 : parseFloat(fromnum_verscale)
     var fromnum_horscale = document.getElementById("HorizontalScaleFromNumber").value
@@ -127,9 +137,9 @@ function calculateFromPartScale(){
     thickness = thickness == '' ? 0 : parseFloat(thickness)
 
     var exposedfrompart = document.getElementById("ExposedFromPart").value
-    exposedfrompart = exposedfrompart == '' ? 10 : parseFloat(exposedfrompart)
+    exposedfrompart = exposedfrompart == '' ? exposedFromPartScale : parseFloat(exposedfrompart)
     var marginfrompart = document.getElementById("MarginFromPart").value
-    marginfrompart = marginfrompart == '' ? 20 : parseFloat(marginfrompart)
+    marginfrompart = marginfrompart == '' ? marginFromPartScale : parseFloat(marginfrompart)
 
     var price = document.getElementById("MaterialPrice").value
     price = price == '' ? 0 : parseFloat(price) 

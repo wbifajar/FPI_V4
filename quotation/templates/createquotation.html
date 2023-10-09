@@ -126,7 +126,7 @@
                             
                             <div class="col">
                                 Management Cost <br>
-                                (<input class="noInput" type="text" value="30" id="managamentCostPercentageNew" style="border: none; background: transparent; width: 30px;">% from Calculation Result)
+                                (<input class="noInput" type="text" value="{{set_quotation.set_management_cost_rate}}" id="managamentCostPercentageNew" style="border: none; background: transparent; width: 30px;">% from Calculation Result)
                                 <input disabled type="text" class="noInput " value="0" id="managementCostNew" name="ManagementCostNew">
                             </div>
                     
@@ -200,7 +200,7 @@
                                             Percentage
                                         </div>
                                         <div>
-                                            <input type="text" class="inputPercentage " id="managementCostPercentage" name="ManagementCostPercentage" value="30" onchange="calculateManagementCost()"> %
+                                            <input type="text" class="inputPercentage " id="managementCostPercentage" name="ManagementCostPercentage" value="{{set_quotation.set_management_cost_rate}}" onchange="calculateManagementCost()"> %
                                         </div>
                                         
                                     </div>
@@ -242,7 +242,7 @@
                                             Percentage
                                         </div>
                                         <div>
-                                            <input type="text" value="100" class="inputPercentage " id="materialCostPercentage" name="MaterialCostPercentage" onchange="calculateTotalMaterialCost()"> %
+                                            <input type="text" value="{{set_quotation.set_material_rate}}" class="inputPercentage " id="materialCostPercentage" name="MaterialCostPercentage" onchange="calculateTotalMaterialCost()"> %
                                         </div>
                                         
                                     </div>
@@ -286,7 +286,7 @@
                                             Percentage
                                         </div>
                                         <div>
-                                            <input class="inputPercentage " type="text" value="100" id="outsourceCostPercentage" name="OutsourceCostPercentage" onchange="calculateTotalOursourceCost()"> %
+                                            <input class="inputPercentage " type="text" value="{{set_quotation.set_out_source_rate}}" id="outsourceCostPercentage" name="OutsourceCostPercentage" onchange="calculateTotalOursourceCost()"> %
                                         </div>
                                         
                                     </div>
@@ -763,7 +763,7 @@
                                             <div style="margin-right: 13%;">Exposed</div>
                                             <div class="col">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="ExposedFromNumber">
+                                                    <input class="inputtt2" type="text" value="{{set_quotation.set_exposed_number_of}}" onchange="calculateFromNum()" id="ExposedFromNumber">
                                                     <span class="label-span-unit">mm</span>
                                                 </div>
                                             </div>
@@ -774,7 +774,7 @@
                                             <div style="margin-right: 13%;">Margin</div>
                                             <div class="col">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <input class="inputtt2 " type="text" onchange="calculateFromNum()" id="MarginFromNumber">
+                                                    <input class="inputtt2" type="text" onchange="calculateFromNum()" id="MarginFromNumber">
                                                     <span class="label-span-unit">mm</span>
                                                 </div>
                                             </div>
@@ -1380,10 +1380,6 @@
 
 
 {% block scripts %}
-<script>
-    var expiredDate = document.getElementById("#expired-date");
-    console.log("sadsad = ", expiredDate)
-</script>
 
 <!-- drop down linegraph -->
 <script>
@@ -1424,6 +1420,16 @@
 </script>
 
 <script>
+    // get set quotation data
+    var setQuotationData = JSON.parse('{{ set_quotationjs|escapejs }}');
+    var sq = setQuotationData[0];
+    var defaultExpiredDate = sq.set_expired_date;
+    
+    // get the number from the string
+    // example : defaultExpiredDate = "14 Days" -> var number = 14
+    var number = parseInt(defaultExpiredDate.match(/\d+/)[0]);
+    console.log(number); // Output: 14
+
     // Get the input element
     var expiredDateInput = document.getElementById('expired-date');
 
@@ -1431,7 +1437,7 @@
     var today = new Date();
 
     // Calculate the date two weeks from now
-    var twoWeeksLater = new Date(today.getTime() + (14 * 24 * 60 * 60 * 1000));
+    var twoWeeksLater = new Date(today.getTime() + (number * 24 * 60 * 60 * 1000));
 
     // Format the two weeks later date to YYYY-MM-DD
     var formattedDate = twoWeeksLater.toISOString().split('T')[0];
@@ -1512,9 +1518,7 @@
     }
 
     $(document).ready(function () {
-        $('#myTable').DataTable({
-        });
-
+        $('#myTable').DataTable({});
         $("#productid").val(generateRandomAlphanumericString(5))
         $("#productver").val(generateRandomNumericString(3))
 
@@ -1522,7 +1526,7 @@
 </script>
 
 
-<!-- nonInputabel input  -->
+<!-- nonInputable input  -->
 <script src="{% static 'scripts/nonInputableInput.js' %}" type=""></script>
 
 <!-- ========== BOARD AND BAR CALCULATION FUNCTION ========== -->

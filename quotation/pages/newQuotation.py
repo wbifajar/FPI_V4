@@ -33,6 +33,10 @@ def CreateNewQuotation(request):
 	part = cursor.fetchall()
 	partjs = json.dumps(part)
 
+	cursor.execute('select * from set_quotation')
+	set_quotation = cursor.fetchall()
+	set_quotationjs = json.dumps(set_quotation)
+
 	context = {
 		'process' : process,
 		'processjs' : processjs,
@@ -48,6 +52,8 @@ def CreateNewQuotation(request):
 		'partbarjs' : partjs,
 		'partreflectcost' : part,
 		'partreflectcostjs' : partjs,
+		'set_quotation' : set_quotation[0],
+		'set_quotationjs' : set_quotationjs,
 	}
 
 	if request.method == 'POST':
