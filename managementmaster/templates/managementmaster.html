@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/static/css/managementmaster/managementmaster.css">
+
+{% endblock head %}
+
+{% block content %} 
+
+<div class="container mt-3">
+<form action="/managementmaster/edit" method="POST">   
+    {% csrf_token %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title text-center">MANAGAMENT MASTER</h5>
+            <hr>
+
+            <div class="mb-3">
+                <label class="form-label">Co. Name :</label>
+                <input type="input" class="form-control" id="coName" name="coName" value="{{managementmaster.co_name}}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Bank Account Name :</label>
+                <input type="input" class="form-control" id="bankAccName" name="bankAccName" value="{{managementmaster.bankAccountName}}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Bank Name :</label>
+                <input type="input" class="form-control" id="bankName" name="bankName" value="{{managementmaster.bankName}}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Account Number :</label>
+                <input type="input" class="form-control" id="accNumber" name="accNumber" value="{{managementmaster.accountNumber}}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Bank Branch :</label>
+                <input type="input" class="form-control" id="bankBranch" name="bankBranch" value="{{managementmaster.bankBranch}}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Bank Address :</label>
+                <input type="input" class="form-control" id="bankAddress" name="bankAddress"  value="{{managementmaster.bankAddress}}" required>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; justify-content: right; margin: 1.5%;">
+            <button type="submit" class="btn btn-secondary" style="font-size: 14px;">Update</button>
+        </div> 
+      </div>
+</form> 
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+
+{% endblock scripts %}
