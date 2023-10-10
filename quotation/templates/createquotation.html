@@ -1574,6 +1574,22 @@
 <script src="{% static 'scripts/otherFunction.js' %}" type=""></script>
 <!-- ========== END OTHER FUNCTION ========== -->
 
+<!-- ========== START SET DEFAULT QUOTATION ========== -->
+<script>
+    function getSetQuotationFromDB(){
+        var setQuotationData = '{{ set_quotationjs|escapejs }}';
+        const obj = JSON.parse(setQuotationData);
+        return obj
+
+        
+    // var setQuotationData = JSON.parse('{{ set_quotationjs|escapejs }}');
+    // var sq = setQuotationData[0];
+    // var exposedFromNumberOf = sq.set_exposed_number_of;
+    // var marginFromNumberOf = sq.set_margin_number_of;
+    }
+</script>
+<!-- ========== END SET DEFAULT QUOTATION ========== -->
+
 
 <script src="{% static 'scripts/boardbarArrayFunction.js' %}" type=""></script>
 <script src="{% static 'scripts/boardbarmodal.js' %}" type=""></script>

@@ -25,6 +25,14 @@ function addMaterial() {
     // get material database from py file 
     const obj = getMaterialFromDB();
     var selectedMaterial = obj.find(element => element.name == materialName);
+
+    // get set default margin and exposed from db
+    var setQuotationData = getSetQuotationFromDB();
+    var sq = setQuotationData[0];
+    var exposedFromPartScale = sq.set_exposed_part_scale;
+    var marginFromPartScale = sq.set_margin_part_scale;
+    var exposedFromNumberOf = sq.set_exposed_number_of;
+    var marginFromNumberOf = sq.set_margin_number_of;
     
     if(selectedMaterial == undefined){
         return false;
@@ -90,8 +98,8 @@ function addMaterial() {
         selectedMaterial.price,
         0,
         0,
-        0,
-        0,
+        exposedFromNumberOf,
+        marginFromNumberOf,
         0,
         0,
         0,
@@ -102,8 +110,8 @@ function addMaterial() {
         0,
         0,
         0,
-        0,
-        0,
+        exposedFromPartScale,
+        marginFromPartScale,
         0,
         selectedMaterial.price,
         0,
@@ -112,9 +120,9 @@ function addMaterial() {
     ])
 
     barArr.push([
-        selectedMaterial.idPart, selectedMaterial.idPart, selectedMaterial.name, '', '', selectedMaterial.spesificGravity, selectedMaterial.price, '', '', '',
-        '', '', '', '', '', '', '', '', '', '',
-        '', '', '', '', '', '', '',
+        selectedMaterial.idPart, selectedMaterial.idPart, selectedMaterial.name, '', '', selectedMaterial.spesificGravity, selectedMaterial.price, '', '', exposedFromNumberOf,
+        marginFromNumberOf, '', '', '', '', '', '', '', '', '',
+        exposedFromPartScale, marginFromPartScale, '', '', '', '', '',
     ])
 
     $('#BoardArr').val(boardArr);
