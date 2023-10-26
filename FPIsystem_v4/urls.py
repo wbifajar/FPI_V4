@@ -31,5 +31,6 @@ urlpatterns = [
     path('process/', include('process.urls', namespace='process')),
     path('other/', include('other.urls', namespace='other')),
     path('managementmaster/', include('managementmaster.urls')),
+    path('group/', include('group.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
