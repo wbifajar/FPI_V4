@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
+from django.contrib import messages
 from django.db import connection
 from .databaseConnect import *
 # Create your views here.
@@ -34,6 +34,7 @@ def store(request):
     with connection.cursor() as cursor:
         cursor.execute(query)
     print("QUERY = ", query)
+
     return redirect('/part')
 
 def edit(request, idPart):
@@ -70,9 +71,9 @@ def update(request, idPart):
 
 def delete(request, idPart):
     query = f'DELETE FROM PART WHERE idPart = {idPart}'
-    query = f'DELETE FROM PART WHERE idPart = {idPart}'
     with connection.cursor() as cursor:
         cursor.execute(query)
 
+    messages.add_message(request, messages.SUCCESS, "Part Deleted Sucessfuly")
     return redirect('/part')
     return redirect('/part')

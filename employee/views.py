@@ -5,7 +5,7 @@ from django.db import connection
 from .databaseConnect import *
 # Create your views here.
 
-@permission_required('employee.can_view_employee', raise_exception=True)
+
 def index(request):
 
     connection = connect()
@@ -19,12 +19,12 @@ def index(request):
         'employees' : res, 
     }
 
-    return HttpRequest()
+    # return HttpRequest()
     return render(request, 'employee_index.html', context)
     return HttpResponse(res)
 
 def insert(request):
-    return render(request, 'insert.html')
+    return render(request, 'employee_insert.html')
 
 def store(request):
     EmployeeName = request.POST.get('name', False)

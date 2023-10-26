@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import connection
 from .databaseConnect import *
@@ -107,7 +108,11 @@ def update_group_permission(request, group_id):
         with connection.cursor() as cursor:
             cursor.execute(query)
 
-    return redirect('/group/' + str(group_id) + '/permission')
+    query = f"SELECT NAME FROM AUTH_GROUP WHERE ID = " + str(group_id)
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+    messages.add_message(request, messages.SUCCESS, "Permission Updated Sucessfully")
+    return redirect('/group')
 
 def group_user(request, group_id):
     connection = connect()
