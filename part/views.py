@@ -22,7 +22,6 @@ def index(request):
 
 def insert(request):
     return render(request, 'part_insert.html')
-    return render(request, 'part_insert.html')
 
 def store(request):
     PartName = request.POST.get('name', False)
