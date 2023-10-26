@@ -24,31 +24,30 @@
 
 
 {% block content %}
-<div class="container mt-3">
-   
-  <form method="post">
-        
-    {% csrf_token %}
-      <div class="card-body login-form-body">
-          {% csrf_token %} 
-          {% for field in form %}
-            <p>
-              {{ field.label_tag }}<br>
-              {{ field }}
-              
-              {% if error == field.errors %}
-                <p style="color: red">{{ error }}</p>
-              {% endif %}
-            </p>
-          {% endfor %}
-          <button type="submit" class="btn login-form-input-submit">SIGN UP</button>
+<div class="container mt-3 mb-3">
+  <div class="card ">
+      <div style="width: 97%; margin: auto;">
+                  <form method="post">
+                    {% csrf_token %}
+                    <div class="card-body login-form-body">
+                      <h5 class="card-title text-center">ADD USER</h5>
+                      <hr>
+                  
+                      {% for field in form %}
+                        <p>
+                          {{ field.label_tag }}<br>
+                          {{ field }}
+                          {% for error in field.errors %}
+                            <p style="color: red">{{ error }}</p>
+                          {% endfor %}
+                        </p>
+                      {% endfor %}
+                      <button type="submit" class="btn login-form-input-submit">SIGN UP</button>
+                    </div>
+                  </div>
+                </form>
       </div>
-    </div>
   </div>
-
-</form>
-
-
 </div>
 
 

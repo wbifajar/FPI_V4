@@ -46,6 +46,7 @@
                   <th>User ID</th>
                   <th>Username</th>
                   <th>Date Created</th>
+                  <th>Group</th>
                 </tr>
               </thead>
               <tbody>
@@ -54,6 +55,7 @@
                   <td name="pl" class="id" style="text-align: left;">{{ user.id }}</td>
                   <td name="pl" class="username" style="text-align: left;">{{ user.username }}</td>
                   <td name="pl" class="date" style="text-align: left;">{{ user.date_joined }}</td>
+                  <td name="pl" class="group" style="text-align: left;">{{ user.name }}</td>
                 </tr>
                 {% endfor %}
               </tbody>

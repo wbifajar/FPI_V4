@@ -12,7 +12,12 @@ def index(request):
     connection = connect()
     cursor = connection.cursor(dictionary=True)
 
-    query = 'SELECT * FROM AUTH_USER'
+    # query = 'SELECT AUTH_USER.id AS user_id, AUTH_GROUP.id AS group_id FROM AUTH_USER LEFT JOIN AUTH_USER_GROUPS ON AUTH_USER.id = AUTH_USER_GROUPS.user_id LEFT JOIN AUTH_GROUP ON AUTH_GROUP.id = AUTH_USER_GROUPS.group_id UNION SELECT * FROM AUTH_USER LEFT JOIN AUTH_USER_GROUPS ON AUTH_USER.id = AUTH_USER_GROUPS.user_id LEFT JOIN AUTH_GROUP ON AUTH_GROUP.id = AUTH_USER_GROUPS.group_id'
+    query = 'SELECT AUTH_USER.id AS id, AUTH_USER.username, AUTH_USER.date_joined, AUTH_GROUP.name \
+            from AUTH_USER \
+            LEFT JOIN AUTH_USER_GROUPS ON AUTH_USER.id = AUTH_USER_GROUPS.user_id \
+            LEFT JOIN AUTH_GROUP ON AUTH_GROUP.id = AUTH_USER_GROUPS.group_id'
+    
     cursor.execute( query )
     res = cursor.fetchall()
 

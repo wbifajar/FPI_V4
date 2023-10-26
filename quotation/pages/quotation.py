@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect
 from django.db import connection
 from ..databaseConnect import *
 from datetime import timedelta, datetime, date
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils import timezone
 from django.http import HttpResponse
 import json
 
+@permission_required('quotation.view_quuotation',raise_exception=True)
 def Quotation(request):
     connection = connect()
     cursor = connection.cursor(dictionary=True)
