@@ -24,41 +24,51 @@
 
 {% block content %}
 <div class="container mt-3">
-   
-    <button onclick="location.href='/employee/insert'" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i data-feather="plus"></i> Add Employee </button>
-    <div id="result"></div>
-    <table class="table table-hover table-bordered border-secondary" style="width: 90%; margin: 0 auto;" id="myTable">
-        <thead>
-            <tr>
-                <th scope="col">Employee ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Section</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Status</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
 
-            {% for em in employees %}
-            <tr>
-                    <td> {{ forloop.counter }} </td>
-                    <td> {{ em.EMPLOYEE_NAME }} </td>
-                    <td> {{ em.EMPLOYEE_ADDRESS }} </td>
-                    <td> {{ em.EMPLOYEE_SECTION }} </td>
-                    <td> {{ em.EMPLOYEE_PHONE }} </td>
-                    <td> {{ em.EMPLOYEE_STATUS}} </td>
-                    <td> 
-                        <button class="btn btn-primary" ><a class="text-white text-decoration-none" href="/employee/edit/{{ em.EMPLOYEE_ID}}">Edit</a></button>
-                        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete-confirmation-modal" data-employee="{{ em }}" data-employee-id="{{ em.EMPLOYEE_ID}}">Delete</button>
-                    </td>
-            </tr>
-            {% endfor %}
-
-        
-        </tbody>
-    </table>
+    <div class="card mt-3">
+        <div class="card-header" style="text-align: center;">
+          <b style="font-size: 16px;">Employee Table</b>
+        </div>
+        <div class="card-body">
+          <div style="display: flex; width: 100%;">
+            <div style="display:flex; justify-content: left; margin-bottom: 2%;">
+              <button style="align-items:start;" onclick="location.href='/employee/insert'" class="btn btn-secondary"
+                type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i data-feather="plus"></i> Add
+                Employee </button>
+            </div>
+          </div>
+          <table id="employeeTable" class="table table-striped table-bordered" style="width:100%; text-align: start;">
+            <thead>
+                <tr>
+                    <th scope="col">Employee ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for em in employees %}
+                <tr>
+                        <td> {{ forloop.counter }} </td>
+                        <td> {{ em.EMPLOYEE_NAME }} </td>
+                        <td> {{ em.EMPLOYEE_ADDRESS }} </td>
+                        <td> {{ em.EMPLOYEE_SECTION }} </td>
+                        <td> {{ em.EMPLOYEE_PHONE }} </td>
+                        <td> {{ em.EMPLOYEE_STATUS}} </td>
+                        <td> 
+                            <button class="btn btn-primary" ><a class="text-white text-decoration-none" href="/employee/edit/{{ em.EMPLOYEE_ID}}">Edit</a></button>
+                            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete-confirmation-modal" data-employee="{{ em }}" data-employee-id="{{ em.EMPLOYEE_ID}}">Delete</button>
+                        </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+    
+        </div>
+      </div>
 
     <div class="modal fade" tabindex="-1" id="delete-confirmation-modal">
         <div class="modal-dialog modal-dialog-centered">

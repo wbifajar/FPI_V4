@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.http import HttpResponse
 import json
 
-@permission_required('quotation.view_quuotation',raise_exception=True)
+
 def Quotation(request):
     connection = connect()
     cursor = connection.cursor(dictionary=True)
@@ -365,11 +365,11 @@ def insertQuotation(request):
 
 def get_next_quotation_number(today):
     # Query the database to get the latest quotation number for the current day
-    query = "SELECT MAX(CAST(SUBSTRING_INDEX(QUOTATION_NO, '-', -1) AS SIGNED)) FROM Quotation WHERE DATE(CREATED_AT) = %s"
+    query = "SELECT COUNT(QUOTATION_NO) FROM Quotation WHERE DATE(CREATED_AT) = %s"
     with connection.cursor() as cursor:
         cursor.execute(query, [today])
         result = cursor.fetchone()
-    
+    # print(f"TOTAL QUOTATION ON {today} = {result[0]}")
     if result and result[0]:
         return int(result[0]) + 1
     else:
@@ -781,6 +781,7 @@ def copyQuotation(request,  quotation_id):
     today = timezone.now().strftime('%Y%m%d')
     NumberQuotationatthatday = get_next_quotation_number(today)
     QuotationNo = f"{today}-{NumberQuotationatthatday:04}"
+    time_now = timezone.now()
     print('-- QUOTATION_NO = ', QuotationNo)
     query = f"INSERT INTO QUOTATION ( \
             SELECT  \
@@ -799,7 +800,7 @@ def copyQuotation(request,  quotation_id):
             OUTSOURCE_COST_NUMBER, \
             OUTSOURCE_COST_PERCENTAGE, \
             OPERATION_BUDGET, \
-            CREATED_AT, \
+            '{time_now}', \
             ACTIVITY_LOG, \
             QUOTATION_STATUS, \
             '{QuotationNo}', \

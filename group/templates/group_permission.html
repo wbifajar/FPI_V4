@@ -99,7 +99,7 @@
     $(function(){
         
         $('#groupPermissionTable').DataTable({
-            "paging": false
+            "paging": false,
         });
         var permissions = '{{group_permissions_js|safe}}'
         const p = JSON.parse(permissions);

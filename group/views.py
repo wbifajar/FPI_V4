@@ -108,9 +108,9 @@ def update_group_permission(request, group_id):
         with connection.cursor() as cursor:
             cursor.execute(query)
 
-    query = f"SELECT NAME FROM AUTH_GROUP WHERE ID = " + str(group_id)
-    with connection.cursor() as cursor:
-        cursor.execute(query)
+    # query = f"SELECT NAME FROM AUTH_GROUP WHERE ID = " + str(group_id)
+    # with connection.cursor() as cursor:
+    #     cursor.execute(query)
     messages.add_message(request, messages.SUCCESS, "Permission Updated Sucessfully")
     return redirect('/group')
 
@@ -118,11 +118,18 @@ def group_user(request, group_id):
     connection = connect()
     cursor = connection.cursor(dictionary=True)
 
-    query = 'SELECT * FROM auth_user_groups JOIN auth_user ON auth_user.id = auth_user_groups.user_id where group_id = 1' + str(group_id)
+    query = 'SELECT * FROM auth_user_groups JOIN auth_user ON auth_user.id = auth_user_groups.user_id where group_id = ' + str(group_id)
     cursor.execute( query )
     group_user = cursor.fetchall()
 
+    
+    query = 'SELECT * FROM auth_group where id = ' + str(group_id)
+    cursor.execute( query )
+    group_detail = cursor.fetchone()
+
+
     context = {
         'group_user' : group_user, 
+        'group_detail' : group_detail
     }
     return render(request, 'group_user.html', context)
