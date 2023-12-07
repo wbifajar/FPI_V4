@@ -5,7 +5,7 @@ from django.db import connection
 from .databaseConnect import *
 # Create your views here.
 
-
+@permission_required('employee.view_employee', raise_exception=True)
 def index(request):
 
     connection = connect()
@@ -22,6 +22,7 @@ def index(request):
     # return HttpRequest()
     return render(request, 'employee_index.html', context)
 
+@permission_required('employee.add_employee', raise_exception=True)
 def insert(request):
     return render(request, 'employee_insert.html')
 
@@ -38,6 +39,7 @@ def store(request):
     print("QUERY = ", query)
     return redirect('/employee')
 
+@permission_required('employee.change_employee', raise_exception=True)
 def edit(request, employee_id):
     connection = connect()
     cursor = connection.cursor(dictionary=True)
@@ -72,6 +74,7 @@ def update(request, employee_id):
         cursor.execute(query)
     return redirect('/employee')
 
+@permission_required('employee.delete_employee', raise_exception=True)
 def delete(request, employee_id):
     query = f'DELETE FROM EMPLOYEE WHERE EMPLOYEE_ID = {employee_id}'
     with connection.cursor() as cursor:

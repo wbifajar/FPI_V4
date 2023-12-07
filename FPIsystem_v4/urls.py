@@ -19,17 +19,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from base import views
 
-app_name = 'material'
+app_name = ''
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
     path('Quotation/', include('quotation.urls')),
-    path('material/', include('material.urls', namespace='material')),
     path('employee/', include('employee.urls', namespace="employee")),
     path('customer/', include('customer.urls')),
     path('part/', include('part.urls')),
     path('process/', include('process.urls', namespace='process')),
-    path('other/', include('other.urls', namespace='other')),
     path('user/', include('user.urls')),
     path('managementmaster/', include('managementmaster.urls')),
     path('group/', include('group.urls')),

@@ -90,34 +90,6 @@
                 Home
             </a>  
           </li>
-
-           <!-- customer -->
-           <li class="mb-1">
-            <div onclick="location.href='/customer'" style="display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont">
-                  <input class="inputsidebar" type="text" id="customer" name="customer" value="Customer" readonly ><br>
-                </a>
-              </div>
-              <div>
-                <button class="pin" name="button" type="submit" value="customer-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
-              </div>
-            </div>
-          </li>
-
-          <!-- management master -->
-          <li class="mb-1">
-            <div onclick="location.href='/managementmaster'" style="display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont">
-                  <input class="inputsidebar" type="text" id="managementmaster" name="managementmaster" value="Management Master" readonly ><br>
-                </a>
-              </div>
-              <div>
-                <button class="pin" name="button" type="submit" value="managementmaster-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
-              </div>
-            </div>
-          </li>
           
           <!-- work input -->
           <li class="mb-1">
@@ -141,116 +113,6 @@
             </div> -->
           </li>
 
-          <!-- parts -->
-          <li class="mb-1">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <a onclick="location.href='/part'" class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
-                  <input class="inputsidebar" type="text" id="parts" name="parts" value="Parts" readonly ><br>
-                </a>
-              </div>
-              <div>
-                <button class="pin" name="button" type="submit" value="parts-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
-              </div>
-            </div>
-            <div class="collapse" id="parts-collapse" >
-              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="link-light rounded">New</a></li>
-                <li><a href="#" class="link-light rounded">Processed</a></li>
-                <li><a href="#" class="link-light rounded">Shipped</a></li>
-                <li><a href="#" class="link-light rounded">Returned</a></li>
-              </ul> -->
-            </div>
-          </li>
-
-          <!-- others -->
-          <li class="mb-1">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <a onclick="location.href='/other'" class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
-                  <input class="inputsidebar" type="text" id="others" name="others" value="Others" readonly ><br>
-                </a>
-              </div>
-              <div>
-                <button class="pin" name="button" type="submit" value="others-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
-              </div>
-            </div>
-            <div class="collapse" id="others-collapse" >
-              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="link-light rounded">New</a></li>
-                <li><a href="#" class="link-light rounded">Processed</a></li>
-                <li><a href="#" class="link-light rounded">Shipped</a></li>
-                <li><a href="#" class="link-light rounded">Returned</a></li>
-              </ul> -->
-            </div>
-          </li>
-
-          <!-- employee -->
-          <li class="mb-1">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <a onclick="location.href='/employee'" class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
-                  <input class="inputsidebar" type="text" id="employee" name="employee" value="Employee" readonly ><br>
-                </a>
-              </div>
-              <div>
-                <button class="pin" name="button" type="submit" value="employee-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
-              </div>
-            </div>
-            <div class="collapse" id="employee-collapse" >
-              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="link-light rounded">New</a></li>
-                <li><a href="#" class="link-light rounded">Processed</a></li>
-                <li><a href="#" class="link-light rounded">Shipped</a></li>
-                <li><a href="#" class="link-light rounded">Returned</a></li>
-              </ul> -->
-            </div>
-          </li>
-
-          <!-- process -->
-          <li class="mb-1">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <a onclick="location.href='/process'" class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
-                  <input class="inputsidebar" type="text" id="process" name="process" value="Process" readonly ><br>
-                </a>
-              </div>
-              <div>
-                <button class="pin" name="button" type="submit" value="process-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
-              </div>
-            </div>
-            <div class="collapse" id="process-collapse" >
-              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="link-light rounded">New</a></li>
-                <li><a href="#" class="link-light rounded">Processed</a></li>
-                <li><a href="#" class="link-light rounded">Shipped</a></li>
-                <li><a href="#" class="link-light rounded">Returned</a></li>
-              </ul> -->
-            </div>
-          </li>
-
-            <!-- Groups -->
-            <li class="mb-1">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <a onclick="location.href='/group'" class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
-                  <input class="inputsidebar" type="text" id="groups" name="groups" value="Group" readonly ><br>
-                </a>
-              </div>
-              <div>
-                <button class="pin" name="button" type="submit" value="groups-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
-              </div>
-            </div>
-            <div class="collapse" id="groups-collapse" >
-              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="link-light rounded">New</a></li>
-                <li><a href="#" class="link-light rounded">Processed</a></li>
-                <li><a href="#" class="link-light rounded">Shipped</a></li>
-                <li><a href="#" class="link-light rounded">Returned</a></li>
-              </ul> -->
-            </div>
-          </li>
-
           <!-- inorder -->
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -270,20 +132,6 @@
                 <li><a href="#" class="link-light rounded">Shipped</a></li>
                 <li><a href="#" class="link-light rounded">Returned</a></li>
               </ul> -->
-            </div>
-          </li>
-
-          <!-- material -->
-          <li class="mb-1">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
-                  <input class="inputsidebar" type="text" id="material1" name="material1" value="Material" readonly ><br>
-                </a>
-              </div>
-              <div>
-                <button class="pin" name="button" type="submit" value="material1-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
-              </div>
             </div>
           </li>
 
@@ -430,40 +278,12 @@
                     <a href="#" class="link-light text-decoration-none">Quote Other Item Edit</a>
                   </a>
                 </li>
-                
                 <div class="li-line"></div>
-                <li class="drop-down-text">
-                  <a href="#" class="link-light text-decoration-none">
-                    <a href="{% url 'QuotationSetting' %}" class="link-light text-decoration-none">Quote Settings</a>
-                  </a>
-                </li>
-                
               </ul>
             </div>
           </li>
-
-          <!-- master maintenance -->
-          <li class="mb-1">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <a class="btn btn-toggle align-items-center rounded collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#parts-collapse" aria-expanded="false">
-                  <input class="inputsidebar" type="text" id="mastermaintenance" name="mastermaintenance" value="Master Maintenance" readonly ><br>
-                </a>
-              </div>
-              <div>
-                <button class="pin" name="button" type="submit" value="mastermaintenance-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
-              </div>
-            </div>
-            <div class="collapse" id="mastermaintanance-collapse" >
-              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-4 medium-text">
-                <li><a href="#" class="link-light text-decoration-none rounded">Quotation</a></li>
-                <li><a href="#" class="link-light text-decoration-none rounded">Assembly Quote</a></li>
-                <li><a href="#" class="link-light text-decoration-none rounded">Quote Other Item Edit</a></li>
-              </ul> -->
-            </div>
-          </li>
-
-          <!-- sys environment -->
+          
+          <!-- sys environment
           <li class="mb-1">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
@@ -476,13 +296,75 @@
               </div>
             </div>
             <div class="collapse" id="sysenvironment-collapse" >
-              <!-- <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-4 medium-text">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-4 medium-text">
                 <li><a href="#" class="link-light text-decoration-none rounded">Quotation</a></li>
                 <li><a href="#" class="link-light text-decoration-none rounded">Assembly Quote</a></li>
                 <li><a href="#" class="link-light text-decoration-none rounded">Quote Other Item Edit</a></li>
-              </ul> -->
+              </ul> 
+            </div>
+          </li> -->
+
+          {% if user.groups.all.0.name == 'Admin' or user.groups.all.0.name == 'Manager' or user.groups.all.0.name == 'Office User' %}
+          <!-- master maintenance -->
+          <li class="mb-1">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <a class="sidebar-dropdown-button btn btn-toggle align-items-center collapsed white-text medium-text sizefont" data-bs-toggle="collapse" data-bs-target="#maintenance-collapse" aria-expanded="false">
+                  <input class="inputsidebar" type="text" id="MasterMaintenance" name="MasterMaintenance" value="Master Maintenance" readonly ><br>
+                </a>
+              </div>
+              <div>
+                <button class="pin btnsearch2" name="button" type="submit" value="Quotation-pins"><img src="{% static 'images/pin.png' %}" width="20" height="20" alt=""></button>
+              </div>
+            </div>
+            <div class="collapse sidebar-dropdown" id="maintenance-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal small medium-text sizefont">
+                <li class="drop-down-text">
+                  <a onclick="location.href='/managementmaster'" class="link-light text-decoration-none">
+                    <input class="inputsidebar" type="text" id="managementmaster" name="managementmaster" value="Management Master" readonly ><br>
+                  </a>
+                </li>
+
+                <div class="li-line"></div>
+                <li class="drop-down-text">
+                  <a onclick="location.href='/customer'" class="link-light text-decoration-none">
+                    <input class="inputsidebar" type="text" id="customer" name="customer" value="Customer" readonly ><br>
+                  </a>
+                </li>
+
+                <div class="li-line"></div>
+                <li class="drop-down-text">
+                  <a onclick="location.href='/employee'" class="link-light text-decoration-none">
+                    <input class="inputsidebar" type="text" id="employee" name="employee" value="Employee" readonly ><br>
+                  </a>
+                </li>
+                
+                <div class="li-line"></div>
+                <li class="drop-down-text">
+                  <a onclick="location.href='/part'" class="link-light text-decoration-none">
+                    <input class="inputsidebar" type="text" id="parts" name="parts" value="Parts" readonly ><br>
+                  </a>
+                </li>
+
+                <div class="li-line"></div>
+                <li class="drop-down-text">
+                  <a onclick="location.href='/process'" class="link-light text-decoration-none">
+                    <input class="inputsidebar" type="text" id="process" name="process" value="Process" readonly ><br>
+                  </a>
+                </li>
+                
+                <div class="li-line"></div>
+                <li class="drop-down-text">
+                  <a href="#" class="link-light text-decoration-none">
+                    <a href="{% url 'QuotationSetting' %}" class="link-light text-decoration-none">Quotation Settings</a>
+                  </a>
+                </li>
+              </ul>
             </div>
           </li>
+          {% else %}
+          {% endif %}
+
 
           <li class="border-top my-3"></li>
 

@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
+from django.contrib.auth.decorators import permission_required
 from django.db import connection
 from .databaseConnect import *
 
+@permission_required('customer.view_customer', raise_exception=True)
 def index(request):
 
     connection = connect()
@@ -20,8 +21,10 @@ def index(request):
     return render(request, 'customer_index.html', context)
     # return HttpResponse(res)
 
+@permission_required('customer.add_customer')
 def insert(request):
   return render(request, 'customer_insert.html')
+
 
 def store(request):
   CustomerStatus = request.POST.get('customerStatus')
@@ -41,6 +44,7 @@ def store(request):
     cursor.execute(query)
   return redirect('/customer')
 
+@permission_required('customer.change_customer')
 def edit(request, idCustomer):
   connection = connect()
   cursor = connection.cursor(dictionary=True)
@@ -84,6 +88,7 @@ def update(request, idCustomer):
       cursor.execute(query)
   return redirect('/customer')
 
+@permission_required('customer.delete_customer')
 def delete(request, idCustomer):
     query = f'DELETE FROM customer WHERE idCustomer = {idCustomer}'
     with connection.cursor() as cursor:
