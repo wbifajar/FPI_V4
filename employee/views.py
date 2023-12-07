@@ -21,7 +21,6 @@ def index(request):
 
     # return HttpRequest()
     return render(request, 'employee_index.html', context)
-    return HttpResponse(res)
 
 def insert(request):
     return render(request, 'employee_insert.html')

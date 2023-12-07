@@ -7,10 +7,6 @@
     color: black !important;
   }
   
-  label {
-    margin-bottom: 15%;
-  }
-  
   .buttonQuotation{
     font-size: 14px;
   }
@@ -23,8 +19,4 @@
   tbody, td, tfoot, th, thead, tr {
     text-align: center !important;
     vertical-align: middle;
-  }
-  
-  .dataTables_length {
-    margin-top: 0.7vh;
   }

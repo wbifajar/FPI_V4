@@ -2,56 +2,65 @@
 
 {% load static %}
 
-{% block head %}  
+{% block head %}
 
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://unpkg.com/feather-icons"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/static/css/part/addpart.css">
-<link rel="stylesheet" href="/static/css/part/addpart.css">
 
-<style>
-    div.card {
-        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
-        text-align: center;
-    }
-
-    td, tr{
-        font-size: 15px;
-    }
-</style>
 {% endblock head %}
 
+{% block content %} 
 
-{% block content %}
-<div class="container mt-3">
-   
-    <form class="w-50 mx-auto mt-5" action="/part/store" method="POST">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="name" class="form-label fs-6">Name</label>
-            <input type="text" class="form-control" id="name" name="name" >
+<div class="container mt-3 mb-3">
+    <div class="card ">
+        <div style="width: 97%; margin: auto;">
+            
+            <form action="/part/store" method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                    <h5 class="card-title text-center">ADD MATERIAL</h5>
+                    <hr>
+                    
+                    <div class="mb-3">
+                        <label class="form-label" for="partStatus">Status :</label>
+                        <select name="partStatus" id="partStatus">
+                            <option value="0">Select status:</option>
+                            <option value="Active">Active</option>
+                            <option value="Non-Active">Non-Active</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="name" class="form-label fs-6">Name :</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="spesificGravity" class="form-label fs-6">Specific Gravity :</label>
+                        <input type="text" class="form-control" id="spesificGravity" name="spesificGravity" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="price" class="form-label fs-6">Price :</label>
+                        <input type="text" class="form-control" id="price" name="price" required>
+                    </div>
+
+                    <div class="btnUpdateQuoteSet mt-4 mb-3" style="display: flex; justify-content: space-between; justify-content: right;">
+                        <button type="submit" class="btn btn-secondary" style="font-size: 14px;">Add MATERIAL</button>
+                    </div> 
+                </div>
+            </form>
         </div>
-
-        <div class="mb-3">
-            <label for="spesificGravity" class="form-label fs-6">Specific Gravity</label>
-            <input type="text" class="form-control" id="spesificGravity" name="spesificGravity">
-        </div>
-
-        <div class="mb-3">
-            <label for="price" class="form-label fs-6">Price</label>
-            <input type="text" class="form-control" id="price" name="price">
-        </div>
-       
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
-
+    </div>
 </div>
 
-
 {% endblock content %}
+
+{% block scripts %}
+
+{% endblock scripts %}

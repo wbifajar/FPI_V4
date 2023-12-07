@@ -2,52 +2,65 @@
 
 {% load static %}
 
-{% block head %}  
+{% block head %}
 
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/static/css/part/editpart.css">
 
-<style>
-    div.card {
-        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
-        text-align: center;
-    }
-
-    td, tr{
-        font-size: 15px;
-    }
-</style>
-
 {% endblock head %}
 
+{% block content %} 
 
-{% block content %}
-<div class="container mt-3">
-   
-    <form class="w-50 mx-auto mt-5" action="{% url 'part:update' part.idPart %}" method="POST">
+<div class="container mt-3 mb-3">
+    <form action="{% url 'part:update' part.idPart %}" method="POST">
         {% csrf_token %}
-        <div class="mb-3">
-            <label for="name" class="form-label fs-6">Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ part.name }}">
-        </div>
+        <div class="card ">
+        <div style="width: 97%; margin: auto;">
+            <div class="card-body">
+                <h5 class="card-title text-center">EDIT MATERIAL</h5>
+                <hr>
+                
+                <div class="mb-3">
+                    <label class="form-label" for="partStatus">Status :</label>
+                    <select name="partStatus" id="partStatus">
+                        <option value="0">Select status:</option>
+                        <option value="Active" {% if part.statusPart == "Active" %}selected{% endif %}>Active</option>
+                        <option value="Non-Active" {% if part.statusPart == "Non-Active" %}selected{% endif %}>Non-Active</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ part.name }}">
+                </div>
 
-        <div class="mb-3">
-            <label for="spesificGravity" class="form-label fs-6">Specific Gravity</label>
-            <input type="text" class="form-control" id="spesificGravity" name="spesificGravity" value="{{ part.spesificGravity }}">
-        </div>
+                <div class="mb-3">
+                    <label for="spesificGravity" class="form-label">Specific Gravity</label>
+                    <input type="text" class="form-control" id="spesificGravity" name="spesificGravity" value="{{ part.spesificGravity }}">
+                </div>
 
-        <div class="mb-3">
-            <label for="price" class="form-label fs-6">Price</label>
-            <input type="text" class="form-control" id="price" name="price" value="{{ part.price }}">
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="price" name="price" value="{{ part.price }}">
+                </div>
+
+                <div class="btnUpdateQuoteSet mt-4 mb-3" style="display: flex; justify-content: space-between; justify-content: right;">
+                    <button type="submit" class="btn btn-secondary" style="font-size: 14px;">UPDATE</button>
+                </div> 
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
     </form>
-
-
 </div>
 
 {% endblock content %}
+
+{% block scripts %}
+
+
+{% endblock scripts %}

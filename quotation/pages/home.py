@@ -1,15 +1,14 @@
 from django.shortcuts import render
-import json
 
 import sys
 sys.path.append("..")
 
 from ..databaseConnect import *
 
-connection = connect()
-cursor = connection.cursor(dictionary=True)
 
 def home(request):
+    connection = connect()
+    cursor = connection.cursor(dictionary=True)
     cursor.execute('select * from pin')
     data = cursor.fetchall() 
     # print(data)

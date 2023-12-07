@@ -10,6 +10,7 @@
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/static/css/customer/customer.css">
+  
 
 <style>
     div.card {
@@ -38,6 +39,12 @@
             customer </button>
         </div>
       </div>
+      
+      <div>
+        <label><input type="checkbox" id="StatusActive">Active</label>
+        <label><input type="checkbox" id="StatusNonActive">Non Active</label>
+      </div>
+      
       <table id="customerTable" class="table table-striped table-bordered" style="width:100%; text-align: start;">
         <thead>
           <tr>
@@ -134,11 +141,43 @@
   });
 </script>
 
+<script>
+     $(document).ready(function () {
+        // Check if DataTable is already initialized
+        if (!$.fn.dataTable.isDataTable('#customerTable')) {
+            // If not initialized, then initialize DataTable
+            $('#customerTable').DataTable({});
+        }
+    });
+</script>
 
 <script>
-    $(document).ready(function () {
-        $('#customerTable').DataTable({});
-    })
+  const StatusActive = document.getElementById('StatusActive');
+  const StatusNonActive = document.getElementById('StatusNonActive');
+  const table = $('#customerTable').DataTable();
+  const statusColumnIndex = 4;
+
+  StatusActive.addEventListener('change', () => filterTable());
+  StatusNonActive.addEventListener('change', () => filterTable());
+
+  function filterTable() {
+      let activeChecked = StatusActive.checked;
+      let nonActiveChecked = StatusNonActive.checked;
+
+      // Reset search filter
+      table.column(statusColumnIndex).search('').draw();
+
+      // Set search filter based on checkbox status
+      if (activeChecked && !nonActiveChecked) {
+        // Display only rows with the status "Active"
+        table.column(statusColumnIndex).search('^Active$', true, false).draw();
+      } else if (!activeChecked && nonActiveChecked) {
+        // Display only rows with the status "Non-Active"
+        table.column(statusColumnIndex).search('^Non-Active$', true, false).draw();
+      }
+  }
 </script>
+
+
 
 {% endblock scripts %}

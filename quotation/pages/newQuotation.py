@@ -7,11 +7,11 @@ sys.path.append("..")
 
 from ..databaseConnect import *
 
-connection = connect()
-cursor = connection.cursor(dictionary=True)
 
 @login_required
 def CreateNewQuotation(request):
+	connection = connect()
+	cursor = connection.cursor(dictionary=True)
 
 	cursor.execute('select * from process')
 	process = cursor.fetchall()

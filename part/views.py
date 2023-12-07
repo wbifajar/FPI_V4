@@ -27,8 +27,8 @@ def store(request):
     PartName = request.POST.get('name', False)
     SpecificGravity = request.POST.get('spesificGravity', False)
     PartPrice = request.POST.get('price', False)
-    query = f'INSERT INTO PART VALUES(null, "{PartName}", "{SpecificGravity}", "{PartPrice}")'
-    query = f'INSERT INTO PART VALUES(null, "{PartName}", "{SpecificGravity}", "{PartPrice}")'
+    PartStatus = request.POST.get('partStatus', False)
+    query = f'INSERT INTO PART VALUES(null, "{PartName}", "{SpecificGravity}", "{PartPrice}", "{PartStatus}")'
 
     with connection.cursor() as cursor:
         cursor.execute(query)
@@ -46,21 +46,21 @@ def edit(request, idPart):
 
     context = {
         'part' : res[0], 
-        'part' : res[0], 
     }
 
-    return render(request, 'part_edit.html', context)
     return render(request, 'part_edit.html', context)
 
 def update(request, idPart):
     PartName = request.POST.get('name', False)
     SpecificGravity = request.POST.get('spesificGravity', False)
     PartPrice = request.POST.get('price', False)
+    PartStatus = request.POST.get('partStatus', False)
     query = f'UPDATE PART \
         SET \
         name = "{PartName}", \
         spesificGravity = "{SpecificGravity}", \
-        price = "{PartPrice}" \
+        price = "{PartPrice}", \
+        statusPart = "{PartStatus}" \
         WHERE idPart = "{idPart}"'
     print(query)
 
@@ -74,5 +74,4 @@ def delete(request, idPart):
         cursor.execute(query)
 
     messages.add_message(request, messages.SUCCESS, "Part Deleted Sucessfuly")
-    return redirect('/part')
     return redirect('/part')
