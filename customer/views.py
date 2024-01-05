@@ -81,8 +81,6 @@ def update(request, idCustomer):
       customerAddress1 = "{CustomerAddress2}", \
       customerZipCode = "{CustomerZipCode}"\
       WHERE idCustomer = "{idCustomer}"'
-  
-  print(query)
 
   with connection.cursor() as cursor:
       cursor.execute(query)

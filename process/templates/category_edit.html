@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<style>
+    div.card {
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+        font-size: 15px;
+    }
+
+</style>
+
+{% endblock head %}
+
+{% block content %} 
+
+<div class="container mt-3 mb-3">
+    <form action="{% url 'process:updateCategory' category.idCategory %}" method="POST">
+        {% csrf_token %}
+        <div class="card ">
+        <div style="width: 97%; margin: auto;">
+            <div class="card-body">
+                <h5 class="card-title text-center">EDIT CATEGORY</h5>
+                <hr>
+                
+                <div class="mb-3">
+                    <label for="categoryName" class="form-label">Name :</label>
+                    <input type="text" class="form-control" id="categoryName" name="categoryName" value="{{ category.categoryName }}">
+                </div>
+
+                <div class="btnUpdateQuoteSet mt-4 mb-3" style="display: flex; justify-content: space-between; justify-content: right;">
+                    <button type="submit" class="btn btn-secondary" style="font-size: 14px;">UPDATE</button>
+                </div> 
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+
+{% endblock scripts %}

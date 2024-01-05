@@ -11,42 +11,67 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/static/css/part/part.css">
 
-<style>
-    div.card {
-        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
-        text-align: center;
-    }
-
-    td, tr{
-        font-size: 15px;
-    }
-</style>
 {% endblock head %}
 
 
 {% block content %}
 
-<div class="container" style="font-size: 12px;">
-    <div class="card mt-3">
+<div class="container" style="font-size: 14px;">
+  <div class="row">
+    <div class="col-5">
+      <div class="card mt-3">
         <div class="card-header" style="text-align: center;">
-            <b style="font-size: 16px;">Part Table</b>
+            <b style="font-size: 16px;">Category Table</b>
         </div>
           <div class="card-body">
             <div style="display: flex; width: 100%;">
                 <div style="display:flex; justify-content: left; margin-bottom: 2%;">
-                    <button style="align-items:start;" onclick="location.href='/process/insert'" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i data-feather="plus"></i> Add Process </button>
+                    <button style="align-items:start;" onclick="location.href='/process/insertCategory'" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i data-feather="plus"></i> Add Category </button>
                 </div>
               </div>
-            <table id="partTable" class="table table-striped table-bordered" style="width:100%;">
+            <table id="categoryTable" class="table table-striped table-bordered" style="width:100%;">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Category ID</th>
+                  <th>Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for c in category %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ c.idCategory }}</td>
+                  <td>{{ c.categoryName }}</td>
+                  <td> 
+                    <button class="btn btn-primary" ><a class="text-white text-decoration-none" href="{% url 'process:editCategory' c.idCategory %}">Edit</a></button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-7">
+      <div class="card mt-3">
+        <div class="card-header" style="text-align: center;">
+            <b style="font-size: 16px;">Process Table</b>
+        </div>
+          <div class="card-body">
+            <div style="display: flex; width: 100%;">
+                <div style="display:flex; justify-content: left; margin-bottom: 2%;">
+                    <button style="align-items:start;" onclick="location.href='/process/insert'" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i data-feather="plus"></i> Add Process </button>
+                </div>
+              </div>
+            <table id="processTable" class="table table-striped table-bordered" style="width:100%;">
               <thead>
                 <tr>
                   <th>#</th>
                   <th>Process ID</th>
                   <th>Name</th>
-                  <th>Set Cost</th>
-                  <th>Process Cost</th>
-                  <th>Default Set Time</th>
-                  <th>Default Ope Time</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -56,10 +81,6 @@
                   <td>{{ forloop.counter }}</td>
                   <td name="pl" class="idPart">{{ pr.ProcessId }}</td>
                   <td name="pl" class="partName">{{ pr.Name }}</td>
-                  <td name="pl" class="spesificGravity">{{ pr.SettingCost }}</td>
-                  <td name="pl" class="partPrice">{{ pr.ProcessCost }}</td>
-                  <td name="pl" class="partPrice">{{ pr.DefaultSetTime }}</td>
-                  <td name="pl" class="partPrice">{{ pr.DefaultOpeTime }}</td>
                   <td> 
                     <button class="btn btn-primary" ><a class="text-white text-decoration-none" href="{% url 'process:edit' pr.ProcessId %}">Edit</a></button>
                     <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete-confirmation-modal" data-part="{{ pr }}" data-part-id="{{ pr.ProcessId }}">Delete</button>
@@ -69,8 +90,10 @@
               </tbody>
             </table>
           </div>
-        </form>
+      </div>
     </div>
+  </div>
+
 
     <div class="modal fade" tabindex="-1" id="delete-confirmation-modal">
         <div class="modal-dialog modal-dialog-centered">
@@ -98,9 +121,9 @@
     const modal1 = document.getElementById('delete-confirmation-modal');
 
     modal1.addEventListener('show.bs.modal', event => {
+
         // Button that triggered the modal
-        const button = event.relatedTarget
-        // Extract info from data-bs-* attributes
+        const button = event.relatedTarget;
         
         //data received as a string 
         //ex :
@@ -111,7 +134,7 @@
         //remove the open and close curly bracket and get the data using split by comma
         part_detail = part_detail.replace("{", "")
         part_detail = part_detail.replace("}", "")
-        text = part_detail.split(',')
+        var text = part_detail.split(',')
         
         //loop data and append it to modal body
         text.forEach(function(val, i) {
@@ -127,8 +150,23 @@
 
 <script>
     $(document).ready(function () {
-        $('#partTable').DataTable({});
+        $('#categoryTable').DataTable({});
     })
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('#processTable').DataTable({});
+  })
+</script>
+
+<script>
+  modal1.addEventListener('hidden.bs.modal', event => {
+      // This event is triggered when the modal is closed
+
+      // Reload (refresh) the page
+      location.reload();
+  });
 </script>
 
 {% endblock scripts %}

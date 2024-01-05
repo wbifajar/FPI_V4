@@ -44,9 +44,6 @@ def insert(request):
         form = UserCreationForm()
         return render(request, 'user_insert.html', {'form': form})
 
-
-    return render(request, 'user_insert.html')
-
 def store(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)

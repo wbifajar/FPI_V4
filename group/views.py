@@ -50,6 +50,7 @@ def group_permission(request, group_id):
     }
     return render(request, 'group_permission.html', context)
 
+
 @permission_required('group.change_group', raise_exception=True)
 def edit_group_permission(request, group_id):
     connection = connect()

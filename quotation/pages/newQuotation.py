@@ -38,6 +38,10 @@ def CreateNewQuotation(request):
 	set_quotation = cursor.fetchall()
 	set_quotationjs = json.dumps(set_quotation)
 
+	cursor.execute('SELECT process.*, category_process.categoryName FROM process LEFT JOIN category_process ON process.CategoryId = category_process.idCategory')
+	dropProcess = cursor.fetchall()
+	dropProcessjs = json.dumps(dropProcess)
+
 	context = {
 		'process' : process,
 		'processjs' : processjs,
@@ -55,6 +59,8 @@ def CreateNewQuotation(request):
 		'partreflectcostjs' : partjs,
 		'set_quotation' : set_quotation[0],
 		'set_quotationjs' : set_quotationjs,
+		'dropProcess' : dropProcess,
+		'dropProcessjs' : dropProcessjs,
 	}
 
 	if request.method == 'POST':

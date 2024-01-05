@@ -14,7 +14,6 @@
 <style>
     div.card {
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
-        text-align: center;
     }
 
     td, tr{
@@ -26,42 +25,59 @@
 
 
 {% block content %}
-<div class="container mt-3">
-   
-    <form 
-    class="w-50 mx-auto mt-5" 
-    action="{% url 'process:store'  %}" 
-    method="POST">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="name" class="form-label fs-6">Name</label>
-            <input type="text" class="form-control" id="name" name="name">
+<div class="container mt-3 mb-3">
+    <div class="card ">
+        <div style="width: 97%; margin: auto;">
+            
+            <form action="/process/store" method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                    <h5 class="card-title text-center">ADD PROCESS</h5>
+                    <hr>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="idCategory">Category :</label>
+                        <select name="idCategory" id="idCategory" required>
+                            {% for c in category %}
+                                <option value="{{ c.0 }}">
+                                    {{ c.1 }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name :</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+            
+                    <div class="mb-3">
+                        <label for="setting-cost" class="form-label">Setting Cost :</label>
+                        <input type="text" class="form-control" id="setting-cost" name="setting_cost" required>
+                    </div>
+            
+                    <div class="mb-3">
+                        <label for="process-cost" class="form-label">Process Cost :</label>
+                        <input type="text" class="form-control" id="process-cost" name="process_cost" required>
+                    </div>
+            
+                    <div class="mb-3">
+                        <label for="default-set-time" class="form-label">Default Setting Cost :</label>
+                        <input type="text" class="form-control" id="default-set-time" name="default_set_time" required>
+                    </div>
+            
+                    <div class="mb-3">
+                        <label for="default-ope-time" class="form-label">Default Ope Cost :</label>
+                        <input type="text" class="form-control" id="default-ope-time" name="default_ope_time" required>
+                    </div>
+
+                    <div class="btnUpdateQuoteSet mt-4 mb-3" style="display: flex; justify-content: space-between; justify-content: right;">
+                        <button type="submit" class="btn btn-secondary" style="font-size: 14px;">Add Process</button>
+                    </div> 
+                </div>
+            </form>
         </div>
-
-        <div class="mb-3">
-            <label for="setting-cost" class="form-label fs-6">Setting Cost</label>
-            <input type="text" class="form-control" id="setting-cost" name="setting_cost">
-        </div>
-
-        <div class="mb-3">
-            <label for="process-cost" class="form-label fs-6">Process Cost</label>
-            <input type="text" class="form-control" id="process-cost" name="process_cost">
-        </div>
-
-        <div class="mb-3">
-            <label for="default-set-time" class="form-label fs-6">Default Setting Cost</label>
-            <input type="text" class="form-control" id="default-set-time" name="default_set_time">
-        </div>
-
-        <div class="mb-3">
-            <label for="default-ope-time" class="form-label fs-6">Default Ope Cost</label>
-            <input type="text" class="form-control" id="default-ope-time" name="default_ope_time">
-        </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
-
+    </div>
 </div>
 
 {% endblock content %}

@@ -1,6 +1,7 @@
 function addOther() {
     // get others name from search input 
     var otherName = document.getElementById('otherName').value;
+    console.log(otherName)
 
     // get others database from py file 
     const obj = getOtherFromDB();
