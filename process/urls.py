@@ -10,4 +10,8 @@ urlpatterns = [
     path("edit/<int:process_id>", views.edit, name="edit"),
     path("update/<int:process_id>", views.update, name="update"),
     path("delete/<int:process_id>", views.delete, name="delete"),
+    path("insertCategory", views.insertCategory, name="insertCategory"),
+    path("storeCategory", views.storeCategory, name="storeCategory"),
+    path("editCategory/<int:category_id>", views.editCategory, name="editCategory"),
+    path("updateCategory/<int:category_id>", views.updateCategory, name="updateCategory"),
 ]
