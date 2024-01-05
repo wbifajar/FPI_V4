@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 import json
 
 import sys
@@ -9,6 +9,7 @@ from ..databaseConnect import *
 
 
 @login_required
+@permission_required('quotation.add_quotation', raise_exception=True)
 def CreateNewQuotation(request):
 	connection = connect()
 	cursor = connection.cursor(dictionary=True)

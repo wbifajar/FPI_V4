@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
+from django.contrib.auth.decorators import permission_required
 from django.db import connection
 from .databaseConnect import *
 # Create your views here.
-
+@permission_required('process.view_process', raise_exception=True)
 def index(request):
     ignore_this_variable = 1
     connection = connect()
@@ -20,6 +20,7 @@ def index(request):
 
     return render(request, 'process_index.html', context)
 
+@permission_required('process.add_process', raise_exception=True)
 def insert(request):
     return render(request, 'process_insert.html')
 
@@ -43,6 +44,7 @@ def store(request):
         cursor.execute(query)
     return redirect('/process')
 
+@permission_required('process.change_process', raise_exception=True)
 def edit(request, process_id):
 
     connection = connect()
@@ -78,6 +80,7 @@ def update(request, process_id):
         cursor.execute(query)
     return redirect('/process')
 
+@permission_required('process.delete_process', raise_exception=True)
 def delete(request, process_id):
     query = f"DELETE FROM PROCESS WHERE ProcessId = {process_id}"
 

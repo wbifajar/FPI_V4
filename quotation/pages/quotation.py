@@ -8,6 +8,7 @@ from django.http import HttpResponse
 import json
 
 
+@permission_required('quotation.view_quotation', raise_exception=True)
 def Quotation(request):
     connection = connect()
     cursor = connection.cursor(dictionary=True)
@@ -96,7 +97,7 @@ def Quotation(request):
          
     return render(request, 'quotation.html', context)
 
-
+@permission_required('quotation.view_quotation', raise_exception=True)
 def createPDFQuotation(request, quotation_id):
     if request.user.is_authenticated:
         connection = connect()
@@ -305,6 +306,7 @@ def insertQuotationOther(request):
 
 
 @login_required
+@permission_required('quotation.add_quotation', raise_exception=True)
 def insertQuotation(request):
     if request.user.is_authenticated:
         CustomerID = request.POST.get('customerid', False)
@@ -375,7 +377,7 @@ def get_next_quotation_number(today):
     else:
         return 1
 
-    
+@permission_required('quotation.change_quotation', raise_exception=True)
 def detailQuotation(request, quotation_id):
     if request.user.is_authenticated:
         connection = connect()
@@ -487,6 +489,7 @@ def detailQuotation(request, quotation_id):
         }
 
     return render(request, 'editquotation.html', context)
+
 
 def updateQuotationMaterial(request, quotation_id):
     # ========== Quotation Material ==========
@@ -720,6 +723,7 @@ def updateQuotationProcess(request, quotation_id):
         with connection.cursor() as cursor:
             cursor.execute(query)
 
+@permission_required('quotation.change_quotation', raise_exception=True)
 def updateQuotation(request, quotation_id):
     # return HttpResponse('asdasf')
     if request.user.is_authenticated:

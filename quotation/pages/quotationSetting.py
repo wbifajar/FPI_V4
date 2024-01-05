@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 import json
-
+from django.contrib.auth.decorators import permission_required
 import sys
 sys.path.append("..")
 from django.db import connection
 from ..databaseConnect import *
 
+@permission_required('quosettings.view_quosettings', raise_exception=True)
 def QuotationSetting(request):
 
     connection = connect()
@@ -24,6 +25,7 @@ def QuotationSetting(request):
 
     return render(request, 'settingquotation.html', context)
 
+@permission_required('quosettings.change_quosettings', raise_exception=True)
 def edit(request):
 
     materialRatePercentage = request.POST.get('materialRatePercentage', False)

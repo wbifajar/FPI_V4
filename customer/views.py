@@ -21,7 +21,7 @@ def index(request):
     return render(request, 'customer_index.html', context)
     # return HttpResponse(res)
 
-@permission_required('customer.add_customer')
+@permission_required('customer.add_customer', raise_exception=True)
 def insert(request):
   return render(request, 'customer_insert.html')
 
@@ -44,7 +44,7 @@ def store(request):
     cursor.execute(query)
   return redirect('/customer')
 
-@permission_required('customer.change_customer')
+@permission_required('customer.change_customer', raise_exception=True)
 def edit(request, idCustomer):
   connection = connect()
   cursor = connection.cursor(dictionary=True)
@@ -88,7 +88,7 @@ def update(request, idCustomer):
       cursor.execute(query)
   return redirect('/customer')
 
-@permission_required('customer.delete_customer')
+@permission_required('customer.delete_customer', raise_exception=True)
 def delete(request, idCustomer):
     query = f'DELETE FROM customer WHERE idCustomer = {idCustomer}'
     with connection.cursor() as cursor:

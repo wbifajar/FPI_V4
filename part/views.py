@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth.decorators import permission_required
 from django.contrib import messages
 from django.db import connection
 from .databaseConnect import *
 # Create your views here.
-
+@permission_required('material.view_material', raise_exception=True)
 def index(request):
 
     connection = connect()
@@ -23,6 +24,7 @@ def index(request):
 def insert(request):
     return render(request, 'part_insert.html')
 
+@permission_required('material.add_material', raise_exception=True)
 def store(request):
     PartName = request.POST.get('name', False)
     SpecificGravity = request.POST.get('spesificGravity', False)
@@ -36,6 +38,7 @@ def store(request):
 
     return redirect('/part')
 
+@permission_required('material.change_material', raise_exception=True)
 def edit(request, idPart):
     connection = connect()
     cursor = connection.cursor(dictionary=True)
@@ -68,6 +71,7 @@ def update(request, idPart):
         cursor.execute(query)
     return redirect('/part')
 
+@permission_required('material.delete_material', raise_exception=True)
 def delete(request, idPart):
     query = f'DELETE FROM PART WHERE idPart = {idPart}'
     with connection.cursor() as cursor:

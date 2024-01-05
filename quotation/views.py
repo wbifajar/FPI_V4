@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import redirect
-
+from django.contrib.auth.decorators import permission_required
 from .pages.quotation import *
 from .pages.newQuotation import *
 from .pages.quotationSetting import *

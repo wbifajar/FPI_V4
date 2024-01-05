@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/static/css/user/edituser.css">
+
+<style>
+    div{
+        font-size: 14px;
+    }
+</style>
+{% endblock head %}
+
+{% block content %} 
+
+<div class="container mt-3 mb-3">
+    <form action="{% url 'user:update' user.id %}" method="POST">
+        {% csrf_token %}
+        <div class="card">
+            <div style="width: 97%; margin: auto;">
+                <div class="card-body">
+                    <h5 class="card-title text-center">EDIT USER</h5>
+                    <hr>
+
+                    <div class="mb-3" style="display: flex; justify-content: left;">
+                        <label class="form-label">ID :</label>
+                        <input type="input" class="form-control" style="border: none; width: 50%;  margin-top: -8px; background-color: transparent;" id="editUserId" value="{{user.id}}" readonly disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Username :</label>
+                        <input type="input" class="form-control" id="editUserName" name="username" value="{{user.username}}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">First Name :</label>
+                        <input type="input" class="form-control" id="editFirstName" name="first_name" value="{{user.first_name}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Last Name :</label>
+                        <input type="input" class="form-control" id="editLastName" name="last_name" value="{{user.last_name}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email Address :</label>
+                        <input type="input" class="form-control" id="editEmail" name="email" value="{{user.email}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="userGroup">Group :</label>
+                        <select name="userGroup" id="userGroup">
+                            {% for group in groups %}
+                                <option value="{{ group.id }}">{{ group.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="btnUpdateQuoteSet mt-4 mb-3" style="display: flex; justify-content: space-between; justify-content: right;">
+                        <button type="submit" class="btn btn-secondary" style="font-size: 14px;">UPDATE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    // Dapatkan referensi elemen input berdasarkan ID
+    var editCustomerTlp2 = document.getElementById('editCustomerTlp2');
+    var editCustomerAddress2 = document.getElementById('editCustomerAddress2');
+    
+    // Periksa apakah nilai input adalah "none" saat halaman dimuat
+    if (editCustomerAddress2.value === 'None') {
+        // Setel nilai input menjadi kosong
+        editCustomerAddress2.value = '';
+    }
+
+    if (editCustomerTlp2.value === 'None') {
+        // Setel nilai input menjadi kosong
+        editCustomerTlp2.value = '';
+    }
+</script>
+
+
+{% endblock scripts %}

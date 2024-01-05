@@ -11,53 +11,53 @@
 
   </head>
   <body>
-    <form method="post">
-      <div class="login">
-        
-        {% csrf_token %}
-        <div class="card text-center login-form">
-          <div class="card-header login-form-header">
-            <img src="static/images/logo.png" alt="">
-            <h1>Walk Brains</h1>
-            <h3>FPISystem - Add New Admin</h3>
-          </div>
-          <div class="card-body login-form-body">
-              {% csrf_token %} 
-              {% for field in form %}
-                <p>
-                  {{ field.label_tag }}<br>
-                  {{ field }}
-                  <!-- <div class="input-group flex-nowrap login-form-input-container">
-                    <span class="input-group-text" id="addon-wrapping">
-                    <img src="static/images/logo email.png" alt="">
-                    </span>
-                    <input id="username" type="text" class="form-control" name="username" placeholder="Enter Your username" aria-describedby="addon-wrapping">
+      <form method="post">
+          <div class="login">
+              {% csrf_token %}
+              <div class="card text-center login-form">
+                  <div class="card-header login-form-header">
+                      <img src="static/images/logo.png" alt="">
+                      <h1>Walk Brains</h1>
+                      <h3>FPISystem - Add New Admin</h3>
                   </div>
-                  <div class="input-group flex-nowrap login-form-input-container">
-                    <span class="input-group-text" id="addon-wrapping">
-                    <img src="static/images/logo email.png" alt="">
-                    </span>
-                    <input id="password" type="text" class="form-control" name="password" placeholder="Enter Your password" aria-describedby="addon-wrapping">
-                  </div>
-                  <div class="input-group flex-nowrap login-form-input-container">
-                    <span class="input-group-text" id="addon-wrapping">
-                    <img src="static/images/logo email.png" alt="">
-                    </span>
-                    <input id="password1" type="text" class="form-control" name="password1" placeholder="Enter Your password1" aria-describedby="addon-wrapping">
-                  </div> -->
-                  
-                  {% if error == field.errors %}
-                    <p style="color: red">{{ error }}</p>
-                  {% endif %}
-                </p>
-              {% endfor %}
-              <button type="submit" class="btn login-form-input-submit">SIGN UP</button>
-          </div>
-        </div>
-      </div>
+                  <div class="card-body login-form-body">
+                      {% csrf_token %} 
+                      {% for field in form %}
+                          <p>
+                              {{ field.label_tag }}<br>
+                              {{ field }}
+                              {% if field.errors %}
+                                  <p style="color: red">{{ field.errors.0 }}</p>
+                              {% endif %}
+                          </p>
+                      {% endfor %}
 
-    </form>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+                      <!-- Manually add HTML input elements for additional fields -->
+                      <p>
+                          <label for="id_first_name">First Name:</label><br>
+                          <input type="text" name="first_name" required>
+                      </p>
+                      <p>
+                          <label for="id_last_name">Last Name:</label><br>
+                          <input type="text" name="last_name" required>
+                      </p>
+                      <p>
+                          <label for="id_email">Email:</label><br>
+                          <input type="email" name="email" required>
+                      </p>
+                      <p>
+                          <label for="id_is_active">Is Active:</label>
+                          <input type="checkbox" name="is_active" checked>
+                      </p>
+
+                      <button type="submit" class="btn login-form-input-submit">SIGN UP</button>
+                  </div>
+              </div>
+          </div>
+      </form>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
   </body>
+</html>
+
 </html>

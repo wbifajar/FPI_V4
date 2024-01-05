@@ -1,0 +1,3 @@
+bertrandoey = fireinthehole
+manager = M1234567r
+admin =
