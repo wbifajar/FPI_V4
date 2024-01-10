@@ -14,25 +14,33 @@
     <form method="post">
       <div class="login">
         <div class="card text-center login-form">
-          <div class="card-header login-form-header">
+          <!-- <div class="card-header login-form-header">
             <img src="static/images/logo.png" alt="">
             <h1>Walk Brains</h1>
             <h3>FPISystem - Login Admin</h3>
-          </div>
-          <div class="card-body login-form-body">
+          </div> -->
+          <div class="card-body mt-3">
               {% csrf_token %}
-              <div class="input-group flex-nowrap login-form-input-container">
+              <div class="login-form-header">
+                <img src="static/images/logo.png" alt="">
+                <h1>Walk Brains</h1>
+                <h3>FPISystem - Login Admin</h3>
+              </div>
+              <hr>
+              <div class="input-group flex-nowrap login-form-input-container mb-3">
                 <span class="input-group-text" id="addon-wrapping">
                 <img src="static/images/logo email.png" alt="">
                 </span>
                 <input id="username" type="text" class="form-control" name="username" placeholder="Enter Your username" aria-describedby="addon-wrapping">
               </div>
-              <div class="input-group flex-nowrap login-form-input-container">
+
+              <div class="input-group flex-nowrap login-form-input-container mb-3">
                 <span class="input-group-text" id="addon-wrapping">
                   <img src="static/images/logo password.png" alt="" style="height: 11.5vh !important;">
                 </span>
                 <input id="password" type="password" class="form-control" name="password" placeholder="Enter Your Password" aria-describedby="addon-wrapping">
               </div>
+
               <button type="submit" class="btn login-form-input-submit">LOGIN</button>
           </div>
         </div>

@@ -15,7 +15,7 @@
 
 .login-form {
   width: 30%;
-  height: 80%;
+  height: 65%;
   border-radius: 15px !important;
   /* font-family: 'Times New Roman', Times, serif; */
   font-family: 'Poppins';
@@ -30,7 +30,7 @@
 }
 
 .login-form-header img {
-  margin: 3%;
+  /* margin: 3%; */
   height: 45%;
 }
 
@@ -41,11 +41,11 @@
 .login-form-header h4 {
   font-weight: 300;
 }
+
 .login-form-input-container {
   width: 90%;
   margin: 0% auto 1% auto;
 }
-
 
 .login-form-input-container span{
   justify-content: center;
@@ -77,7 +77,10 @@
   background-color: #ADB5BD;
 }
 
+hr{
+  margin: 0% 0% 6% !important;
 
+}
 
 
 

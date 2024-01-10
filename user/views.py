@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import permission_required
-import bcrypt
 from django.db import connection
 from .databaseConnect import *
 # Create your views here.

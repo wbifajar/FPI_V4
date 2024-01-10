@@ -36,7 +36,9 @@
           </div>
           <div id="result">
           </div>
-      
+          {% if msg %}
+              <p style="color: red;">{{ msg }}</p>
+          {% endif %}
           <table id="myTable" class="table table-striped table-bordered" style="width:100%;">
             <thead>
               <tr>
