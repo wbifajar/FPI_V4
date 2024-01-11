@@ -375,8 +375,11 @@
             
             <div class="collapse sidebar-dropdown" id="account-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal small medium-text sizefont">
+                {% if user.groups.all.0.name == 'Admin' or user.groups.all.0.name == 'Manager' or user.groups.all.0.name == 'Office User' %}
                 <li class="drop-down-text"><a href='/user' class="link-light text-decoration-none">User List</a></li>
                 <div class="li-line"></div>
+                {% else %}
+                {% endif %}
                 <li class="drop-down-text"><a href="{% url 'signout' %}" class="link-light text-decoration-none">Sign Out</a></li>
                 <div class="li-line"></div>
               </ul>

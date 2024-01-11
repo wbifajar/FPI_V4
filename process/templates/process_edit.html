@@ -36,7 +36,6 @@
                     <select name="idCategory" id="idCategory">
                         <option value="{{ process.CategoryId }}" selected>{{ process.categoryName }}</option>
                         {% for p in procOption %}
-                            {{p.idCategory}}
                             <option value="{{ p.idCategory }}" {% if p.idCategory == process.CategoryId %}selected{% endif %}>
                                 {{ p.categoryName }}
                             </option>

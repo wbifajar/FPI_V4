@@ -35,6 +35,10 @@
               </div>
               <button type="submit" class="btn login-form-input-submit">LOGIN</button>
           </div>
+                    <!-- Add this div to display error messages -->
+          <div class="alert alert-danger {% if error %}d-block{% else %}d-none{% endif %}" role="alert">
+            {{ error }}
+          </div>
         </div>
       </div>
 

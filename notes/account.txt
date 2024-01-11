@@ -1,3 +1,5 @@
 bertrandoey = fireinthehole
 manager = M1234567r
-admin =
+admin = 
+Viewer = @Vi1234er
+viewers = qseft12345

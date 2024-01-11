@@ -45,7 +45,7 @@
                 <tr>
                   <th>User ID</th>
                   <th>Username</th>
-                  <th>Date Created</th>
+                  <th>Status</th>
                   <th>Group</th>
                   <th>Action</th>
                 </tr>
@@ -53,17 +53,25 @@
               <tbody>
                 {% for user in auth_user %}
                 <tr>
-                  <td name="pl" class="id" style="text-align: left;">{{ user.id }}</td>
-                  <td name="pl" class="username" style="text-align: left;">{{ user.username }}</td>
-                  <td name="pl" class="date" style="text-align: left;">{{ user.date_joined }}</td>
-                  <td name="pl" class="group" style="text-align: left;">{{ user.name }}</td>
-                  <td> 
-                    <button class="btn btn-primary" ><a class="text-white text-decoration-none" href="{% url 'user:edit' user.id %}">Edit</a></button>
-                    <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete-confirmation-modal" data-user="{{ user }}" data-user-id="{{ user.id }}">Delete</button>
-                  </td>
+                    <td name="pl" class="id" style="text-align: left;">{{ user.id }}</td>
+                    <td name="pl" class="username" style="text-align: left;">{{ user.username }}</td>
+                    <td name="pl" class="date" style="text-align: left;">
+                        {% if user.is_active %}
+                            Active
+                        {% else %}
+                            Inactive
+                        {% endif %}
+                    </td>
+                    <td name="pl" class="group" style="text-align: left;">{{ user.name }}</td>
+                    <td> 
+                        <button class="btn btn-primary">
+                            <a class="text-white text-decoration-none" href="{% url 'user:edit' user.id %}">Edit</a>
+                        </button>
+                        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete-confirmation-modal" data-user="{{ user }}" data-user-id="{{ user.id }}">Delete</button>
+                    </td>
                 </tr>
                 {% endfor %}
-              </tbody>
+            </tbody>
             </table>
   
           </div>

@@ -3,7 +3,7 @@ from .forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from .forms import AuthenticationForm
 from django.contrib.auth import logout
-
+from django.contrib import messages
 from quotation.pages.home import *
 
 # from ..databaseConnect import *
@@ -18,20 +18,23 @@ home
 def signin(request):
     if request.user.is_authenticated:
         return render(request, 'home.html')
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             login(request, user)
-            return redirect('/home') 
+            return redirect('/home')
         else:
-            msg = 'Error Login'
+            messages.error(request, 'Invalid username or password.')
             form = AuthenticationForm(request.POST)
-            return render(request, 'signin.html', {'form': form, 'msg': msg})
+            return render(request, 'signin.html', {'form': form})
     else:
         form = AuthenticationForm()
         return render(request, 'signin.html', {'form': form})
+
 
 def signout(request):
     logout(request)

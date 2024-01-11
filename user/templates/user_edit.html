@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block head %}
-
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons"></script>
 
@@ -13,13 +12,13 @@
 <link rel="stylesheet" href="/static/css/user/edituser.css">
 
 <style>
-    div{
+    div {
         font-size: 14px;
     }
 </style>
 {% endblock head %}
 
-{% block content %} 
+{% block content %}
 
 <div class="container mt-3 mb-3">
     <form action="{% url 'user:update' user.id %}" method="POST">
@@ -54,13 +53,25 @@
                         <label class="form-label">Email Address :</label>
                         <input type="input" class="form-control" id="editEmail" name="email" value="{{user.email}}">
                     </div>
-
+                    
                     <div class="mb-3">
                         <label class="form-label" for="userGroup">Group :</label>
                         <select name="userGroup" id="userGroup">
                             {% for group in groups %}
-                                <option value="{{ group.id }}">{{ group.name }}</option>
+                                <option value="{{ group.id }}" {% if group in selectedgroups %}selected{% endif %}>
+                                    {{ group.name }}
+                                </option>
                             {% endfor %}
+                        </select>
+                    </div>
+                    
+                                                    
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Status :</label>
+                        <select name="userStatus" id="userStatus">
+                            <option value="1" {% if user.is_active %}selected{% endif %}>Active</option>
+                            <option value="0" {% if not user.is_active %}selected{% endif %}>Inactive</option>
                         </select>
                     </div>
 
@@ -71,28 +82,10 @@
             </div>
         </div>
     </form>
-
 </div>
 
 {% endblock content %}
 
 {% block scripts %}
-<script>
-    // Dapatkan referensi elemen input berdasarkan ID
-    var editCustomerTlp2 = document.getElementById('editCustomerTlp2');
-    var editCustomerAddress2 = document.getElementById('editCustomerAddress2');
-    
-    // Periksa apakah nilai input adalah "none" saat halaman dimuat
-    if (editCustomerAddress2.value === 'None') {
-        // Setel nilai input menjadi kosong
-        editCustomerAddress2.value = '';
-    }
-
-    if (editCustomerTlp2.value === 'None') {
-        // Setel nilai input menjadi kosong
-        editCustomerTlp2.value = '';
-    }
-</script>
-
 
 {% endblock scripts %}
