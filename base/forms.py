@@ -113,7 +113,7 @@ class BaseUserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("username", "password1", "password2", "first_name", "last_name", "email", "is_active")
+        fields = ("username", "password1", "password2", "first_name", "last_name", "email")
         field_classes = {"username": UsernameField}
 
     def __init__(self, *args, **kwargs):
@@ -191,12 +191,6 @@ class UserCreationForm(BaseUserCreationForm):
         email = self.cleaned_data.get("email")
         # Add your validation logic for email if needed
         return email
-
-    def clean_is_active(self):
-        """Additional validation for is_active."""
-        is_active = self.cleaned_data.get("is_active")
-        # Add your validation logic for is_active if needed
-        return is_active
     
 
 
