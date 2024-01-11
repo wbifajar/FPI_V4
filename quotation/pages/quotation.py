@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.db import connection
 from ..databaseConnect import *
-from datetime import timedelta, datetime, date
+from datetime import date
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils import timezone
 from django.http import HttpResponse
 import json
+from django.http import JsonResponse
 
 
 @permission_required('quotation.view_quotation', raise_exception=True)
@@ -53,12 +54,11 @@ def Quotation(request):
     if request.method == 'POST':
         action = request.POST.get('action')
 
-        if action == 'delete':
+        if action == 'update':
             selected_quotation_ids = request.POST.getlist('selected_quotation')
 
             if selected_quotation_ids:
                 for i in range (0, len(selected_quotation_ids)-1):
-                  
                     query = 'UPDATE QUOTATION SET IS_ACTIVE = 0 WHERE QUOTATION_ID = ' + selected_quotation_ids[i]
                     print(query)
                     cursor.execute(query)
@@ -91,6 +91,31 @@ def Quotation(request):
                     pdf_data = cursor.fetchall()
                 
                 context['pdf_quotation'] = pdf_data
+
+        elif action == 'delete':
+            selected_quotation_ids = request.POST.getlist('selected_quotation')
+
+            if selected_quotation_ids:
+                for i in selected_quotation_ids:
+                    query_status = 'SELECT QUOTATION_STATUS FROM QUOTATION WHERE QUOTATION_ID = %s'
+                    cursor.execute(query_status, (i,))
+                    status = cursor.fetchone()  # Fetch the status
+
+                    # Debugging print statements
+                    print(f"Quotation ID: {i}")
+                    print(f"Status fetched: {status}")
+
+                    # Check if the status is "Submitted" or "Accepted"
+                    if status and status['QUOTATION_STATUS'] in ['Submitted', 'Accepted']:
+                        msg = f'Quotation has status "{status["QUOTATION_STATUS"]}". Cannot delete.'
+                        context['msg'] = msg
+                    else:
+                        query = 'DELETE FROM QUOTATION WHERE QUOTATION_ID = %s'
+                        cursor.execute(query, (i,))
+                        connection.commit()
+            print(msg)
+            return render(request, 'quotation.html', context)
+            # After processing all quotation_ids, redirect or refresh the page
 
         elif action == 'copyQuotation':
             selected_quotation_id = request.POST.getlist('selected_quotation')
@@ -154,7 +179,6 @@ def createPDFQuotation(request, quotation_id):
 
     return HttpResponse('Unauthorized', status=401)  # Return an appropriate response for unauthorized users
 
-
 def getLastCreatedQuotationID():
     connection = connect()
     cursor = connection.cursor(dictionary=True)
@@ -182,14 +206,14 @@ def insertQuotationMaterial(request):
     MaterialLength = len(MaterialList)
     if(MaterialLength == 0) : return
 
-    print(MaterialLength)
+    # print(MaterialLength)
     USED_QUANTITY = request.POST.getlist('usedQuantity')
     BoardArrView = [BoardArr[i:i+29] for i in range(0, len(BoardArr), 29)]
     BarArrView = [BarArr[i:i+27] for i in range(0, len(BarArr), 29)]
-    for item in BoardArrView:
-        print("BOARDARR = ", item )
-    for item in BarArrView:
-        print("BARARR = ", item )
+    # for item in BoardArrView:
+    #     print("BOARDARR = ", item )
+    # for item in BarArrView:
+    #     print("BARARR = ", item )
     
     for i in range(0, MaterialLength):
         MaterialID = MaterialList[i]
@@ -231,11 +255,10 @@ def insertQuotationMaterial(request):
             BarEdgeLoss,
             BarKeftLoss,
         )
-        print( "MaterialList = ", query )
+        # print( "MaterialList = ", query )
         with connection.cursor() as cursor:
             cursor.execute(query)
    
-
 def insertQuotationProcess(request):
     QUOTATION_ID = getLastCreatedQuotationID()
 
@@ -267,7 +290,7 @@ def insertQuotationProcess(request):
             TotalOpeTime[i],
             QuantityPerMin[i],
         )
-        print("QUOATION PROCESS query = ", query)
+        # print("QUOATION PROCESS query = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
 
@@ -289,7 +312,7 @@ def insertQuotationOther(request):
             perUnit_Arr.append(0)
 
         # ni print buat ngecek doang
-        print("Orderisperunit = ", perUnit_Arr, OtherIsPerUnit)
+        # print("Orderisperunit = ", perUnit_Arr, OtherIsPerUnit)
 
     # OtherIsPerUnit = [1 if value == 'on' else 0 for value in OtherIsPerUnit]
 
@@ -331,7 +354,7 @@ def insertQuotation(request):
         QuotationNo = f"{today}-{NumberQuotationatthatday:04}"
         is_active = 1
         ExpiredDate = request.POST.get('expired_date', False)
-        print("STATUS = ", Status)
+        # print("STATUS = ", Status)
 
         query = f'INSERT INTO Quotation VALUES ( null, \
                 "{CustomerID}", \
@@ -355,7 +378,7 @@ def insertQuotation(request):
                 "{is_active}", \
                 "{ExpiredDate}" )'
         # return HttpResponse(query)
-        print(query)
+        # print(query)
         with connection.cursor() as cursor:
             cursor.execute(query)
         
@@ -436,7 +459,7 @@ def detailQuotation(request, quotation_id):
         cursor.execute(query)
         quotation_material = cursor.fetchall()
         quotation_material_js = json.dumps(quotation_material)
-        print("quotation_MATERIAL ====> ", quotation_material_js)
+        # print("quotation_MATERIAL ====> ", quotation_material_js)
 
         # detail quotation process
         query = 'select * from quotation_process \
@@ -457,7 +480,7 @@ def detailQuotation(request, quotation_id):
         quotation_other_js = json.dumps(quotation_other)
         # print("quotation other = ", quotation_other)
 
-        print("quotation = ", quotation)
+        # print("quotation = ", quotation)
         # context
         context = { 
             'q' : quotation,
@@ -490,26 +513,25 @@ def detailQuotation(request, quotation_id):
 
     return render(request, 'editquotation.html', context)
 
-
 def updateQuotationMaterial(request, quotation_id):
     # ========== Quotation Material ==========
     BoardArr = request.POST['BoardArr'].split(',')
     BarArr = request.POST['BarArr'].split(',')
-    print("-- BOARDARR inside Update = ", BoardArr )
+    # print("-- BOARDARR inside Update = ", BoardArr )
     QUOTATION_ID = getLastCreatedQuotationID()
 
     MaterialList = request.POST.getlist('material_id')
     MaterialLength = len(MaterialList)
     if(MaterialLength == 0) : return
 
-    print(MaterialLength)
+    # print(MaterialLength)
     USED_QUANTITY = request.POST.getlist('usedQuantity')
     BoardArrView = [BoardArr[i:i+29] for i in range(0, len(BoardArr), 29)]
     BarArrView = [BarArr[i:i+27] for i in range(0, len(BarArr), 29)]
-    for item in BoardArrView:
-        print("BOARDARR Update = ", item )
-    for item in BarArrView:
-        print("BARARR = ", item )
+    # for item in BoardArrView:
+    #     print("BOARDARR Update = ", item )
+    # for item in BarArrView:
+    #     print("BARARR = ", item )
     
 
     # #untuk ngambil semua material id dari db buat di compare
@@ -573,12 +595,13 @@ def updateQuotationMaterial(request, quotation_id):
             BAR_KEFT_LOSS = { BarKeftLoss } \
             WHERE QUOTATION_ID = {quotation_id} AND MATERIAL_ID = {MaterialID}'
         
-        print( "-- Update Material Query = ", query )
+        # print( "-- Update Material Query = ", query )
         with connection.cursor() as cursor:
             cursor.execute(query)
    
 
     # ========== Update Quotation Other ==========
+
 def updateQuotationOther(request, quotation_id):
     OtherId = request.POST.getlist('othersId')
     OtherLength = len(OtherId)
@@ -645,7 +668,7 @@ def updateQuotationOther(request, quotation_id):
       
 
 
-        print("Update Other Query = ", query)
+        # print("Update Other Query = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
 
@@ -675,16 +698,16 @@ def updateQuotationProcess(request, quotation_id):
         process_id_list_from_db = [i[0] for i in process_id_list_from_db]
   
     for i in range(0, len(process_id_list_from_db)):
-        print("ASFASFASFSAF = ", str(process_id_list_from_db[i]), ProcessId)
+        # print("ASFASFASFSAF = ", str(process_id_list_from_db[i]), ProcessId)
         if( not(str(process_id_list_from_db[i]) in ProcessId)):
             query = f'DELETE FROM quotation_process WHERE QUOTATION_ID = "{quotation_id}" AND PROCESS_ID = "{process_id_list_from_db[i]}"'
             with connection.cursor() as cursor:
                 cursor.execute(query)
 
-    print("PROCESS ID SISA = ", ProcessId)
-    print("PROCESS OPESUM SISA = ", Opesum)
-    print("PROCESS SETTIME SISA = ", SetTime)
-    print("PROCESS OPETIME SISA = ", OpeTime)
+    # print("PROCESS ID SISA = ", ProcessId)
+    # print("PROCESS OPESUM SISA = ", Opesum)
+    # print("PROCESS SETTIME SISA = ", SetTime)
+    # print("PROCESS OPETIME SISA = ", OpeTime)
 
     for i in range(0, ProcessLength):
         #check if current index of other list is exist in the database
@@ -719,7 +742,7 @@ def updateQuotationProcess(request, quotation_id):
                 QuantityPerMin[i],
             )
         
-        print("Update Process Query = ", query)
+        # print("Update Process Query = ", query)
         with connection.cursor() as cursor:
             cursor.execute(query)
 
@@ -746,7 +769,7 @@ def updateQuotation(request, quotation_id):
         ExpiredDate = request.POST.get('expired_date', False)
         
         is_active = 1
-        print("STATUS = ", Status)
+        # print("STATUS = ", Status)
 
         query = f'UPDATE Quotation \
             SET PRODUCT_ID = "{ ProductID }", \
@@ -769,7 +792,7 @@ def updateQuotation(request, quotation_id):
                 is_active = {is_active} \
                 WHERE QUOTATION_ID = { quotation_id }'
         
-        print( "UPDATE QUERY = ", query)
+        # print( "UPDATE QUERY = ", query)
         with connection.cursor() as cursor:     
             cursor.execute(query)
             
@@ -779,14 +802,13 @@ def updateQuotation(request, quotation_id):
 
         return redirect('/Quotation/')
     
-
 def copyQuotation(request,  quotation_id):
 
     today = timezone.now().strftime('%Y%m%d')
     NumberQuotationatthatday = get_next_quotation_number(today)
     QuotationNo = f"{today}-{NumberQuotationatthatday:04}"
     time_now = timezone.now()
-    print('-- QUOTATION_NO = ', QuotationNo)
+    # print('-- QUOTATION_NO = ', QuotationNo)
     query = f"INSERT INTO QUOTATION ( \
             SELECT  \
             null, \
@@ -812,7 +834,7 @@ def copyQuotation(request,  quotation_id):
             EXPIRED_DATE \
             FROM quotation \
             WHERE QUOTATION_ID = {quotation_id});"
-    print("-- query copy quotaion = ", query)
+    # print("-- query copy quotaion = ", query)
     with connection.cursor() as cursor:
         cursor.execute(query)
         q = cursor.fetchall()
