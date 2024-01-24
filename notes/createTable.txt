@@ -1,144 +1,286 @@
-CREATE TABLE `staff` (
-  `idStaff` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`idStaff`),
-  UNIQUE KEY `idStaff_UNIQUE` (`idStaff`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `auth_group` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `auth_group_permissions` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `group_id` int NOT NULL,
+  `permission_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
+  KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `auth_permission` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `content_type_id` int NOT NULL,
+  `codename` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
+  CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `auth_user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime(6) DEFAULT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `first_name` varchar(150) NOT NULL,
+  `last_name` varchar(150) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `is_staff` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `date_joined` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `auth_user_groups` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `group_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id`,`group_id`),
+  KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`),
+  CONSTRAINT `auth_user_groups_group_id_97559544_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `auth_user_groups_user_id_6a12ed8b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `auth_user_user_permissions` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `permission_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
+  KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `category_process` (
+  `idCategory` int NOT NULL AUTO_INCREMENT,
+  `categoryName` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idCategory`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `customer` (
   `idCustomer` int NOT NULL AUTO_INCREMENT,
-  `companyName` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `attn` varchar(255) DEFAULT NULL,
+  `customerStatus` varchar(255) DEFAULT NULL,
+  `customerName` varchar(45) DEFAULT NULL,
+  `customerTaxID` varchar(255) DEFAULT NULL,
+  `customerPIC` varchar(255) DEFAULT NULL,
+  `customerTlp` varchar(255) DEFAULT NULL,
+  `customerTlp1` varchar(255) DEFAULT NULL,
+  `customerAddress` varchar(255) DEFAULT NULL,
+  `customerAddress1` varchar(255) DEFAULT NULL,
+  `customerZipCode` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idCustomer`),
-  UNIQUE KEY `idCustomers_UNIQUE` (`idCustomer`)
+  UNIQUE KEY `idCustomer_UNIQUE` (`idCustomer`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `django_admin_log` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `action_time` datetime(6) NOT NULL,
+  `object_id` longtext,
+  `object_repr` varchar(200) NOT NULL,
+  `action_flag` smallint unsigned NOT NULL,
+  `change_message` longtext NOT NULL,
+  `content_type_id` int DEFAULT NULL,
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
+  KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`),
+  CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `django_admin_log_chk_1` CHECK ((`action_flag` >= 0))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `material` (
-  `idMaterial` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `spesificGravity` float DEFAULT NULL,
-  `price` float DEFAULT NULL,
-  PRIMARY KEY (`idMaterial`),
-  UNIQUE KEY `idPart_UNIQUE` (`idMaterial`)
+CREATE TABLE `django_content_type` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `app_label` varchar(100) NOT NULL,
+  `model` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `django_migrations` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `app` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `applied` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `django_session` (
+  `session_key` varchar(40) NOT NULL,
+  `session_data` longtext NOT NULL,
+  `expire_date` datetime(6) NOT NULL,
+  PRIMARY KEY (`session_key`),
+  KEY `django_session_expire_date_a5c62663` (`expire_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `process` (
-  `idProcess` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `setCost` int DEFAULT NULL,
-  `procCost` int DEFAULT NULL,
-  PRIMARY KEY (`idProcess`),
-  UNIQUE KEY `idProcess_UNIQUE` (`idProcess`)
+CREATE TABLE `employee` (
+  `EMPLOYEE_ID` int NOT NULL AUTO_INCREMENT,
+  `EMPLOYEE_NAME` varchar(255) DEFAULT NULL,
+  `EMPLOYEE_ADDRESS` varchar(255) DEFAULT NULL,
+  `EMPLOYEE_SECTION` varchar(255) DEFAULT NULL,
+  `EMPLOYEE_PHONE` varchar(255) DEFAULT NULL,
+  `EMPLOYEE_STATUS` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`EMPLOYEE_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `quotation` (
-  `idQuotation` int NOT NULL AUTO_INCREMENT,
-  `quoteQty` int DEFAULT NULL,
-  `quotePrice` int DEFAULT NULL,
-  `quoteTot` int DEFAULT NULL,
-  `totMgmtCost` float DEFAULT NULL,
-  `mgmtFeesRate` float DEFAULT NULL,
-  `mgmtCo` float DEFAULT NULL,
-  `mgmtCoP` float DEFAULT NULL,
-  `mtrlCo` float DEFAULT NULL,
-  `mtrlCoRate` float DEFAULT NULL,
-  `mtrlCoSubmit` float DEFAULT NULL,
-  `outCo` float DEFAULT NULL,
-  `outCoRate` float DEFAULT NULL,
-  `outCoSubmit` float DEFAULT NULL,
-  `totalExcludeOpeSum` float DEFAULT NULL,
-  `pranCostWork` float DEFAULT NULL,
-  `totalOpeSum` float DEFAULT NULL,
-  `totalOpeSumP` float DEFAULT NULL,
-  `totStockCost` float DEFAULT NULL,
-  `mgmtCost` float DEFAULT NULL,
-  `stockCost` float DEFAULT NULL,
-  `update` datetime DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `finalPrice` int DEFAULT NULL,
-  `idCustomer` int NOT NULL,
-  `idStaff` int NOT NULL,
-  `idMaterial` int NOT NULL,
-  PRIMARY KEY (`idQuotation`),
-  UNIQUE KEY `idQuotation_UNIQUE` (`idQuotation`),
-  KEY `quotationCustomers_idx` (`idCustomer`),
-  KEY `quotationStaff_idx` (`idStaff`),
-  KEY `quotationPart_idx` (`idMaterial`),
-  CONSTRAINT `quotationCustomers` FOREIGN KEY (`idCustomer`) REFERENCES `customer` (`idCustomer`),
-  CONSTRAINT `quotationPart` FOREIGN KEY (`idMaterial`) REFERENCES `material` (`idMaterial`),
-  CONSTRAINT `quotationStaff` FOREIGN KEY (`idStaff`) REFERENCES `staff` (`idStaff`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `managementmaster` (
+  `id_managementMaster` int NOT NULL AUTO_INCREMENT,
+  `co_name` varchar(255) DEFAULT NULL,
+  `bankAccountName` varchar(255) DEFAULT NULL,
+  `bankName` varchar(255) DEFAULT NULL,
+  `accountNumber` varchar(255) DEFAULT NULL,
+  `bankBranch` varchar(255) DEFAULT NULL,
+  `bankAddress` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_managementMaster`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `othercontainer` (
-  `idOtherContainer` int NOT NULL AUTO_INCREMENT,
-  `idQuotation` int NOT NULL,
-  PRIMARY KEY (`idOtherContainer`),
-  UNIQUE KEY `idOtherContainer_UNIQUE` (`idOtherContainer`),
-  KEY `otherContainerQuotation_idx` (`idQuotation`),
-  CONSTRAINT `otherContainerQuotation` FOREIGN KEY (`idQuotation`) REFERENCES `quotation` (`idQuotation`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `other` (
+  `OtherId` int NOT NULL AUTO_INCREMENT,
+  `Name` varchar(256) NOT NULL,
+  PRIMARY KEY (`OtherId`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `otherdetail` (
-  `idOtherDetail` int NOT NULL AUTO_INCREMENT,
-  `other` int NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
+CREATE TABLE `part` (
+  `idPart` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `spesificGravity` float DEFAULT NULL,
   `price` float DEFAULT NULL,
-  `percent` float DEFAULT NULL,
-  `mergePrice` enum('1','0') DEFAULT NULL,
-  PRIMARY KEY (`idOtherDetail`),
-  UNIQUE KEY `idOtherDetail_UNIQUE` (`idOtherDetail`),
-  KEY `otherDetailOtherContainer_idx` (`other`),
-  CONSTRAINT `otherDetailOtherContainer` FOREIGN KEY (`other`) REFERENCES `othercontainer` (`idOtherContainer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `statusPart` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`idPart`),
+  UNIQUE KEY `idPart_UNIQUE` (`idPart`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `processcontainer` (
-  `idProcessContainer` int NOT NULL AUTO_INCREMENT,
-  `quotation` int NOT NULL,
-  `toOpeSum` float DEFAULT NULL,
-  `toPlanOpesumRatio` float DEFAULT NULL,
-  `toQuoteRate` float DEFAULT NULL,
-  `toSetTime` varchar(255) DEFAULT NULL,
-  `toOpeTime` varchar(255) DEFAULT NULL,
-  `toTotalOpeTime` varchar(255) DEFAULT NULL,
-  `resOpeSum` float DEFAULT NULL,
-  `resPlanOpeSumRatio` float DEFAULT NULL,
-  `resQuoteRate` float DEFAULT NULL,
-  PRIMARY KEY (`idProcessContainer`),
-  UNIQUE KEY `idProcessContainer_UNIQUE` (`idProcessContainer`),
-  KEY `prosesContainerQuotation_idx` (`quotation`),
-  CONSTRAINT `prosesContainerQuotation` FOREIGN KEY (`quotation`) REFERENCES `quotation` (`idQuotation`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `pin` (
+  `idPin` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idPin`)
+) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `processdetail` (
-  `idProcessDetail` int NOT NULL AUTO_INCREMENT,
-  `process` int NOT NULL,
-  `processContainer` int NOT NULL,
-  `opeSum` float DEFAULT NULL,
-  `planOpeSumRatio` float DEFAULT NULL,
-  `quoteRate` float DEFAULT NULL,
-  `setTime` varchar(255) DEFAULT NULL,
-  `opeTime` varchar(255) DEFAULT NULL,
-  `totalOpeTime` varchar(255) DEFAULT NULL,
-  `quantity` float DEFAULT NULL,
-  PRIMARY KEY (`idProcessDetail`),
-  UNIQUE KEY `idProcessDetail_UNIQUE` (`idProcessDetail`),
-  KEY `processDetailProcess_idx` (`process`),
-  KEY `processDetailProcessesContainer_idx` (`processContainer`),
-  CONSTRAINT `processDetailProcess` FOREIGN KEY (`process`) REFERENCES `process` (`idProcess`),
-  CONSTRAINT `processDetailProcessesContainer` FOREIGN KEY (`processContainer`) REFERENCES `processcontainer` (`idProcessContainer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `process` (
+  `ProcessId` int NOT NULL AUTO_INCREMENT,
+  `Name` varchar(45) NOT NULL,
+  `SettingCost` varchar(45) NOT NULL,
+  `ProcessCost` varchar(45) NOT NULL,
+  `DefaultSetTime` varchar(255) DEFAULT NULL,
+  `DefaultOpeTime` varchar(255) DEFAULT NULL,
+  `CategoryId` int DEFAULT NULL,
+  PRIMARY KEY (`ProcessId`),
+  KEY `FK_CategoryId` (`CategoryId`),
+  CONSTRAINT `FK_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `category_process` (`idCategory`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `pdfdetail` (
-  `idPDFDetail` int NOT NULL AUTO_INCREMENT,
-  `customer` int NOT NULL,
-  `paymentTerms` varchar(255) DEFAULT NULL,
-  `Tax` varchar(255) DEFAULT NULL,
-  `validityOfQuotation` varchar(255) DEFAULT NULL,
-  `adjustment` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`idPDFDetail`),
-  UNIQUE KEY `idPDFDetail_UNIQUE` (`idPDFDetail`),
-  KEY `PDFDetailCustomers_idx` (`customer`),
-  CONSTRAINT `PDFDetailCustomers` FOREIGN KEY (`customer`) REFERENCES `customer` (`idCustomer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `product` (
+  `idProduct` int NOT NULL AUTO_INCREMENT,
+  `productName` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idProduct`),
+  UNIQUE KEY `idProduct_UNIQUE` (`idProduct`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `quotation` (
+  `QUOTATION_ID` int NOT NULL AUTO_INCREMENT,
+  `CUSTOMER_ID` int NOT NULL,
+  `PRODUCT_ID` varchar(255) DEFAULT NULL,
+  `PRODUCT_NAME` varchar(255) DEFAULT NULL,
+  `PRODUCT_VERSION` varchar(255) DEFAULT NULL,
+  `QUANTITY` float DEFAULT NULL,
+  `BUDGET_PER_UNIT` float DEFAULT NULL,
+  `COST_EXCLUDE_OPERATION` float DEFAULT NULL,
+  `OPERATION_COST` float DEFAULT NULL,
+  `MANAGEMENT_COST_PERCENTAGE` float DEFAULT NULL,
+  `MATERIAL_COST_NUMBER` int DEFAULT NULL,
+  `MATERIAL_COST_PERCENTAGE` int DEFAULT NULL,
+  `OUTSOURCE_COST_NUMBER` float DEFAULT NULL,
+  `OUTSOURCE_COST_PERCENTAGE` float DEFAULT NULL,
+  `OPERATION_BUDGET` float DEFAULT NULL,
+  `CREATED_AT` datetime DEFAULT (now()),
+  `ACTIVITY_LOG` varchar(255) DEFAULT NULL,
+  `QUOTATION_STATUS` varchar(255) DEFAULT NULL,
+  `QUOTATION_NO` varchar(20) NOT NULL,
+  `IS_ACTIVE` tinyint unsigned DEFAULT NULL,
+  `EXPIRED_DATE` date DEFAULT NULL,
+  PRIMARY KEY (`QUOTATION_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `quotation_material` (
+  `QUOTATION_MATERIAL_ID` int NOT NULL AUTO_INCREMENT,
+  `QUOTATION_ID` int NOT NULL,
+  `MATERIAL_ID` int NOT NULL,
+  `USED_QUANTITY` varchar(255) NOT NULL,
+  `BOARD_VERTICAL_SCALE` varchar(255) DEFAULT NULL,
+  `BOARD_HORIZONTAL_SCALE` varchar(255) DEFAULT NULL,
+  `BOARD_THICKNESS` varchar(255) DEFAULT NULL,
+  `BOARD_VERTICAL_SCALE_FROM_NUMBER` varchar(255) DEFAULT NULL,
+  `BOARD_HORIZONTAL_SCALE_FROM_NUMBER` varchar(255) DEFAULT NULL,
+  `BOARD_EXPOSED_FROM_NUMBER` varchar(255) DEFAULT NULL,
+  `BOARD_MARGIN_FROM_NUMBER` varchar(255) DEFAULT NULL,
+  `BOARD_MATERIAL_COST_FROM_NUMBER` varchar(255) DEFAULT NULL,
+  `BOARD_EXPOSED_FROM_PART_SCALE` varchar(255) DEFAULT NULL,
+  `BOARD_MARGIN_FROM_PART_SCALE` varchar(255) DEFAULT NULL,
+  `BAR_PART_SCALP` varchar(255) DEFAULT NULL,
+  `BAR_DIAMETER` varchar(255) DEFAULT NULL,
+  `BAR_EXPOSED` varchar(255) DEFAULT NULL,
+  `BAR_LENGTH` varchar(255) DEFAULT NULL,
+  `BAR_EDGE_LOSS` varchar(255) DEFAULT NULL,
+  `BAR_KEFT_LOSS` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`QUOTATION_MATERIAL_ID`),
+  KEY `MATERIAL_ID` (`MATERIAL_ID`),
+  KEY `quotation_material_ibfk_1` (`QUOTATION_ID`),
+  CONSTRAINT `quotation_material_ibfk_1` FOREIGN KEY (`QUOTATION_ID`) REFERENCES `quotation` (`QUOTATION_ID`) ON DELETE CASCADE,
+  CONSTRAINT `quotation_material_ibfk_2` FOREIGN KEY (`MATERIAL_ID`) REFERENCES `part` (`idPart`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `quotation_other` (
+  `QUOTATION_OTHER_ID` int NOT NULL AUTO_INCREMENT,
+  `QUOTATION_ID` int DEFAULT NULL,
+  `OTHER_ID` int NOT NULL,
+  `OTHER_PRICE` varchar(255) DEFAULT NULL,
+  `OTHER_PERCENTAGE` varchar(255) DEFAULT NULL,
+  `OTHER_IS_PER_UNIT` tinyint DEFAULT NULL,
+  PRIMARY KEY (`QUOTATION_OTHER_ID`),
+  KEY `quotation_other_ibfk_1` (`QUOTATION_ID`),
+  CONSTRAINT `quotation_other_ibfk_1` FOREIGN KEY (`QUOTATION_ID`) REFERENCES `quotation` (`QUOTATION_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `quotation_process` (
+  `QUOTATION_PROCESS_ID` int NOT NULL AUTO_INCREMENT,
+  `QUOTATION_ID` int DEFAULT NULL,
+  `PROCESS_ID` int DEFAULT NULL,
+  `OPESUM` varchar(255) DEFAULT NULL,
+  `OPE_PER_OPE_BUDGET_RATIO` varchar(255) DEFAULT NULL,
+  `OPE_PER_BUDGET_RATIO` varchar(255) DEFAULT NULL,
+  `SETTIME` varchar(255) DEFAULT NULL,
+  `OPETIME` varchar(255) DEFAULT NULL,
+  `TOTAL_OPETIME` varchar(255) DEFAULT NULL,
+  `QUANTITY_PER_MIN` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`QUOTATION_PROCESS_ID`),
+  KEY `idProcess_idx` (`PROCESS_ID`),
+  KEY `quotation_process_ibfk_2` (`QUOTATION_ID`),
+  CONSTRAINT `PROCESS_ID` FOREIGN KEY (`PROCESS_ID`) REFERENCES `process` (`ProcessId`),
+  CONSTRAINT `quotation_process_ibfk_2` FOREIGN KEY (`QUOTATION_ID`) REFERENCES `quotation` (`QUOTATION_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `set_quotation` (
+  `idset_quotation` int NOT NULL AUTO_INCREMENT,
+  `set_material_rate` varchar(255) DEFAULT NULL,
+  `set_out_source_rate` varchar(255) DEFAULT NULL,
+  `set_management_cost_rate` varchar(255) DEFAULT NULL,
+  `set_expired_date` varchar(45) DEFAULT NULL,
+  `set_exposed_part_scale` varchar(255) DEFAULT NULL,
+  `set_margin_part_scale` varchar(255) DEFAULT NULL,
+  `set_exposed_number_of` varchar(255) DEFAULT NULL,
+  `set_margin_number_of` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idset_quotation`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

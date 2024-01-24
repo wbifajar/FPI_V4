@@ -3,3 +3,10 @@ manager = M1234567r
 admin = 
 Viewer = @Vi1234er
 viewers = qseft12345
+
+
+punya clara
+factoryuserclara = qwerty123_
+viewerclara = qweasd123_
+managerclara = asdzxc123_
+officeuserclara = qwezxc123_
